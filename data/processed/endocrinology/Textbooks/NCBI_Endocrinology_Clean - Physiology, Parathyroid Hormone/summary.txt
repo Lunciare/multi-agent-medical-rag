@@ -1,0 +1,4 @@
+Physiology, Parathyroid Hormone
+KEYWORDS: calcium, pth, parathyroid, gland, hypercalcemia, hyperparathyroidism, parathyroid gland, levels, serum, phosphate, hypoparathyroidism, secretion, elevated, bones, pthrp
+
+Introduction In the blood, the sensitive process of calcium and phosphate homeostasis is maintained primarily by an appropriately functioning parathyroid gland. The parathyroid gland is comprised of 4 small glands located posteriorly to the thyroid in the middle aspect of the anterior neck. The parathyroid gland secretes parathyroid hormone (PTH), a polypeptide, in response to low calcium levels detected in the blood. PTH facilitates the synthesis of active vitamin D and calcitriol (1,25-dihydroxycholecalciferol) in the kidneys. In conjunction with calcitriol, PTH regulates calcium and phosphate. PTH effects are present in the bones, kidneys, and small intestines.

@@ -1,0 +1,13 @@
+openai>=2.26
+langchain-core>=1.2
+langchain-community>=0.4
+langchain-openai>=1.1
+langchain-text-splitters>=1.1
+faiss-cpu>=1.13
+pydantic>=2.12
+python-dotenv>=1.2
+requests>=2.32
+numpy
+scikit-learn>=1.7
+pytest>=9.0
+gradio

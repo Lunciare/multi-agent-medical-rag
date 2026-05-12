@@ -1,0 +1,5 @@
+Coronary Artery Bypass Grafting (CABG)
+KEYWORDS: cabg, bypass, cpb, heart, patients, risk, complications, artery, coronary, off-pump, myocardial, coronary artery, mortality, stroke, dysfunction
+
+
+CPB. Thus, the theoretic advantages of avoiding CPB do not seem to have been fully realized. Minimally invasive CABG is usually done off-pump but may be done using CPB. In such cases, CPB is done endovascularly using special catheters inserted into the arterial and venous systems; the aorta is occluded by a balloon at the end of the aortic catheter rather than an external clamp. Although avoiding median sternotomy complications, this technique otherwise has similar rates of mortality and major perioperative complications as conventional techniques (1).

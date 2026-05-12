@@ -1,0 +1,4 @@
+Glucagonoma
+KEYWORDS: glucagon, tumor, levels, patients, glucagonomas, tumors, liver, somatostatin, glucagonoma, pancreatic, amino, metastases, therapy, nme, include
+
+Introduction Glucagonomas are rare pancreatic neuroendocrine tumors (pNETs) that originate from the alpha cells of the islets of Langerhans. While most cases are sporadic, a subset may be associated with multiple endocrine neoplasia type 1 (MEN1) syndrome. These tumors typically present during the sixth to seventh decades of life. Clinical manifestations result from the hypersecretion of glucagon and commonly include hyperglycemia, weight loss, anemia, and the characteristic skin condition known as necrolytic migratory erythema. At the time of diagnosis, the majority of glucagonomas have already metastasized, frequently to the liver. For localized disease, surgical resection remains the mainstay of treatment.

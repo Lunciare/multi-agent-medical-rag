@@ -1,0 +1,4 @@
+Hypoglycemia
+KEYWORDS: hypoglycemia, glucose, insulin, patients, diabetes, symptoms, levels, glycogenolysis, counter-regulatory, type, low, patient, blood, body, serum
+
+Introduction Hypoglycemia is often defined by a plasma glucose concentration below 70 mg/dL; however, signs and symptoms may not occur until plasma glucose concentrations drop below 55 mg/dL. The symptoms of Whipple's triad have been used to describe hypoglycemia since 1938. For Whipple's triad, the practitioner must first recognize symptoms of hypoglycemia, then obtain low blood glucose, and finally, demonstrate immediate relief of symptoms by correcting the low blood glucose with glucose treatment. Glucose is the primary metabolic fuel for the brain under physiologic conditions. Unlike other body tissues, the brain is very limited in supplying its glucose. Expectedly, the brain requires a steady supply of arterial glucose for adequate metabolic function.

@@ -1,0 +1,4 @@
+Biochemical Markers of Osteoporosis
+KEYWORDS: bone, osteoporosis, btms, levels, bone turnover, turnover, mirnas, treatment, patients, mir-, ctx-, risk, monitoring, reference, tools
+
+studies are needed to identify and validate normal reference ranges, which are crucial for standardizing the use of BTMs in osteoporosis management, from initial diagnosis through the final stages of treatment. MicroRNAs in Monitoring Pharmacotherapy Response Elevated levels of specific miRNAs, such as miR-454-3p, miR-26b-5p, and miR-584-5p, have been strongly associated with adherence to denosumab therapy. These miRNAs are also linked to improvements in BMD. As a result, miRNAs can serve as valuable biomarkers for monitoring medication adherence and assessing the effectiveness of pharmacotherapy.

@@ -1,0 +1,5 @@
+Prostate Cancer Detection
+KEYWORDS: prostate, cancer, prostate cancer, psa, men, biopsy, risk, screening, years, journal, patients, detection, antigen, study, clinical
+
+
+screening: a randomized controlled trial of decision counseling. Patient Educ Couns2011; 83:240-246 Taylor KL, Williams RM, Davis K, Luta G, Penek S, Barry S, Kelly S, Tomko C, Schwartz M, Krist AH, Woolf SH, Fishman MB, Cole C, Miller E. Decision making in prostate cancer screening using decision aids vs usual care: a randomized clinical trial. JAMA Intern Med2013; 173:1704-1712

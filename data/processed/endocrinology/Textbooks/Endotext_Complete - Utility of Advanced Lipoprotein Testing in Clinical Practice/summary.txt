@@ -1,0 +1,4 @@
+Utility of Advanced Lipoprotein Testing in Clinical Practice
+KEYWORDS: levels, pubmed, risk, ldl, lipoprotein, cholesterol, apolipoprotein, non-hdl-c, ldl-c, patients, lipid, cardiovascular, particle, number, study
+
+ABSTRACT A standard lipid panel includes total cholesterol, triglycerides, and HDL-C. LDL-C can then be calculated. While the Friedewald formula is the classical method to calculate LDL-C levels recently developed formulas such as Martin Hopkins formula or Sampson-NIH formula are more accurate when triglycerides are elevated and/or LCL-C levels are low. In some instances, a direct LDL-C assay is employed, particularly when the triglyceride levels are elevated (>400mg/dL). Non-HDL-C can also be calculated (non-HDL-C = total cholesterol – HDL-C). Increasing levels of LDL-C and non-HDL-C are associated with an increased risk of atherosclerotic cardiovascular disease (ASCVD).

@@ -1,0 +1,5 @@
+Inpatient Diabetes Management
+KEYWORDS: insulin, dose, units, patient, basal, nutritional, glucose, units units, based, correctional, aspart, lispro, total, glulisine, regular
+
+
+PubMed : 22223765 ] REFERENCES Society for Hospital Medicine Diabetes Resource Room. American Diabetes Association Diabetes Care in the Hospital: Standards of Medical Care in Diabetes—2019. Diabetes Care. 2019 Jan; 42 Supplement 1:S173–S181. http://www.hospitalmedicine.org/ResourceRoomRedesign/GlycemicControl.cfm [ PubMed : 30559241 ] Corsino L, Dhatariya K, Umpierrez G. Management of Diabetes and Hyperglycemia in Hospitalized Patients. Management of Diabetes and Hyperglycemia in Hospitalized Patients. In: De Groot LJ, Chrousos G, Dungan K, Feingold KR, Grossman A, Hershman JM, Koch C, Korbonits M, McLachlan R, New M, Purnell J, Rebar R, Singer F, Vinik A, editors. Endotext [Internet]. South Dartmouth (MA): MDText.com, Inc.; 2000-2017 Oct 1.

@@ -1,0 +1,4 @@
+Physiology, Aldosterone
+KEYWORDS: aldosterone, cells, sodium, production, adrenal, angiotensin, increase, blood, water, potassium, pressure, principal, principal cells, hormone, renin
+
+a patient has an intolerance to ACE-I. Spironolactone is an aldosterone receptor blocker, which prevents aldosterone from acting on the receptors within the principal cells of the kidney. Amiloride and triamterene are medications that block the sodium channels on the luminal side of the principal cells within the kidney. This prevents aldosterone from exerting its full effect on the kidney. Generally speaking, all of these medications block the function of aldosterone, which prevents sodium absorption and potassium excretion. Therefore, possible side effects to all of these medications are hyponatremia, hyperkalemia, and hypovolemia.

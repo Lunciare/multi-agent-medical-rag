@@ -1,0 +1,4 @@
+Physiology, Glucagon
+KEYWORDS: glucagon, glucose, levels, glycogen, insulin, secretion, hypoglycemia, cells, glucagon secretion, diabetes, pancreatic, blood, amino, proglucagon, glucose levels
+
+Introduction The recognition of glucagon as a hormone followed Unger's pioneering work, which reported its quantitation by radioimmunoassay. Unger first reported the glycogenolytic, gluconeogenic, and ketogenic effects of glucagon in dogs. Glucagon, manufactured by the alpha cells in the pancreatic islets, stimulates glucose production through glycogenolysis and gluconeogenesis. Elevated plasma concentrations of glucagon and hyperglucagonemia contribute to the hyperglycemia of diabetes. Hyperglucagonemia also occurs in other clinical conditions such as non-alcoholic fatty liver disease, glucagon-producing tumors, and after gastric bypass surgery. Issues of Concern Glucagon and insulin work together to maintain euglycemia and glucose transport to tissues.

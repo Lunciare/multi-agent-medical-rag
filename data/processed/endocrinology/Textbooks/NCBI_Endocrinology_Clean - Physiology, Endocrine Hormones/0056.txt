@@ -1,0 +1,4 @@
+Physiology, Endocrine Hormones
+KEYWORDS: levels, hormone, hormones, insulin, cells, body, pth, tsh, release, pituitary, development, increased, tissue, increase, receptors
+
+elevated, GnRH is inhibited, resulting in amenorrhea and infertility because of low FSH and LH levels. It may be tempting to focus only on the reproductive organs or their hormones for not functioning correctly when, in actuality, hyperprolactinemia is the culprit. Rarely, one has to consider hormone resistance syndromes when there is a discrepancy between elevated hormone levels and target organ function, ie, receptor defects such as nephrogenic diabetes insipidus pseudohypoparathyroidism, etc.

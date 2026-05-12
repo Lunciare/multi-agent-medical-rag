@@ -1,0 +1,4 @@
+Physiology, Thyroid Stimulating Hormone
+KEYWORDS: tsh, thyroid, levels, hormone, pituitary, hypothyroidism, anterior, anterior pituitary, cells, hyperthyroidism, thyroid hormone, tsh levels, disease, follicular cells, follicular
+
+Introduction Thyroid-stimulating hormone, also known as TSH, is a glycoprotein hormone produced by the anterior pituitary. It is the primary stimulus for thyroid hormone production by the thyroid gland. It also exerts growth effects on thyroid follicular cells, leading to enlargement of the thyroid. The hypothalamic-pituitary axis regulates TSH release. Specifically, neurons in the hypothalamus release TRH, or thyroid-releasing hormone, which stimulates thyrotrophs of the anterior pituitary to secrete TSH. TSH, in turn, stimulates thyroid follicular cells to release thyroid hormones in the form of T3 or T4.

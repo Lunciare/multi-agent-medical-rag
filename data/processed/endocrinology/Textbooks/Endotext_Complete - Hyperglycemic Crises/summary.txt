@@ -1,0 +1,4 @@
+Hyperglycemic Crises
+KEYWORDS: dka, diabetes, insulin, pubmed, ketoacidosis, hhs, mmol, diabetic, diabetic ketoacidosis, patients, glucose, free, acidosis, pmc, pmc free
+
+ABSTRACT Hyperglycemic emergencies, including diabetic ketoacidosis (DKA) and hyperosmolar hyperglycemic state (HHS), are life-threatening complications requiring urgent treatment. DKA is more common in type 1 diabetes and results from absolute insulin deficiency, leading to hyperglycemia, dehydration, ketonemia and metabolic acidosis. Symptoms include polyuria, polydipsia, nausea, vomiting, and altered mental status. HHS is typically seen in type 2 diabetes and is defined by extreme hyperglycemia, severe dehydration, and hyperosmolarity without significant ketoacidosis. It often presents with confusion and neurological symptoms. Diagnosis of these conditions relies on blood glucose and ketone levels, blood gas, and electrolyte measurements.

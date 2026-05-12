@@ -1,0 +1,4 @@
+Histology, Parathyroid Gland
+KEYWORDS: parathyroid, pth, hyperparathyroidism, cells, glands, carcinoma, parathyroid glands, primary, calcium, parathyroid carcinoma, disease, thyroid, chief, primary hyperparathyroidism, secondary
+
+Introduction The parathyroid glands are four nodular structures, typically located on the dorsum of the thyroid at each of its four poles. These glands monitor the serum calcium level and secrete parathyroid hormone (PTH) when it is low. PTH is essential for maintaining calcium homeostasis. Thus, dysregulation of this hormone can lead to various pathologies. Histological examination is an important technique used to evaluate and diagnose these pathologies, such as primary, secondary, and tertiary hyperparathyroidism and parathyroid carcinoma. Structure The parathyroid glands are nodular configurations derived from endodermal tissue on the dorsum of the thyroid gland.

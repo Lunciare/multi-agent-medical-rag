@@ -1,0 +1,4 @@
+Case Report
+KEYWORDS: nmol, pmol, patient, nmol nmol, pmol pmol, acth, glucocorticoid, grs, variant, adrenal, pathogenic, genetic, cortisol, gene, syndrome
+
+injection 11:18 Post 2-min 11:20 67.8 pg/mL (248.9 pmol/L) 1.9 pg/mL (7.0 pmol/L) 2.6 pg/mL (9.5 pmol/L) Post 5-min 11:23 421.5 pg/mL (1547.3 pmol/L) 5.8 pg/mL (21.3 pmol/L) 7.1 pg/mL (26.1 pmol/L) Post 10-min 11:28 193.3 pg/mL (709.6 pmol/L) 13.9 pg/mL (51.0 pmol/L) 14.8 pg/mL (54.3 pmol/L) Central/peripheral ACTH >23 pg/mL (84.4 pmol/L) R IPS ACTH/L IPS ACTH >1.4 pg/mL (5.1 pmol/L)

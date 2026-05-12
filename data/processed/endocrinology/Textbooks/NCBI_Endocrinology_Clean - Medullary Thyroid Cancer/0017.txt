@@ -1,0 +1,4 @@
+Medullary Thyroid Cancer
+KEYWORDS: mtc, patients, thyroid, tumor, disease, calcitonin, mutations, ret, lymph, tumors, neck, thyroidectomy, metastasis, kinase, levels
+
+diarrhea. Additionally, surgical intervention (eg, total thyroidectomy) may damage nearby structures, including the recurrent laryngeal nerve, leading to voice changes or difficulty swallowing. Patients may also experience hypoparathyroidism, requiring calcium and vitamin D supplementation. Targeted therapy with TKIs can cause adverse effects, including hypertension, diarrhea, and fatigue. Patients may also experience skin rashes and changes in liver function. RET-specific inhibitors can lead to adverse effects, including elevated liver enzymes, gastrointestinal issues, and fatigue. Pembrolizumab, an immune checkpoint inhibitor, may cause immune-related complications, eg, colitis, endocrine disorders, pneumonitis, and skin reactions.

@@ -1,0 +1,4 @@
+Metabolism of Thyroid Hormone
+KEYWORDS: thyroid, hormone, thyroid hormone, type, deiodinase, iodothyronine, human, mice, expression, levels, endocrinology, activity, endocrinol, role, serum
+
+ABSTRACT Thyroid hormone is indispensable for normal development and metabolism of most cells and tissues. Thyroid hormones are metabolized by different pathways: glucuronidation, sulfation, and deiodination, the latter being the most important. Three enzymes catalyzing deiodination have been identified, called type 1 (D1), type 2 (D2) and type 3 (D3) iodothyronine deiodinases. D1 and D2 have outer ring deiodinase activity, converting the prohormone T4 to its bioactive form T3 and degrading rT3 to 3,3’-T2. D3 has inner ring deiodinase activity and degrades T4 to rT3 and T3 to 3,3’-T2. D1 is largely expressed in liver and kidney.

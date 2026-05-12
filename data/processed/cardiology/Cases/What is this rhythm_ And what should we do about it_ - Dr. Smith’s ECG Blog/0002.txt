@@ -1,0 +1,5 @@
+Case Setup
+KEYWORDS: waves, automatic, tachycardia, avnrt, atrial, retrograde, adenosine, retrograde waves, junctional, svt, avrt, slow, mechanism, junctional tachycardia, reentry
+
+
+AV block revealing atrial activity (P waves continue), no conversion Junctional tachycardia (automatic): typically does not terminate with adenosine → if no termination, consider JT/automatic mechanism and search for underlying cause (myocarditis, infection, meds/drugs, electrolytes, etc.) Practical ED takeaway in this case: treat as SVT and try adenosine; use the response to refine diagnosis and next steps.

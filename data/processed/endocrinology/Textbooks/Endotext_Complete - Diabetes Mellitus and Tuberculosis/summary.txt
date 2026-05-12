@@ -1,0 +1,4 @@
+Diabetes Mellitus and Tuberculosis
+KEYWORDS: diabetes, tuberculosis, patients, pubmed, treatment, crossref, pubmed crossref, risk, screening, drugs, prevalence, individuals, disease, free, pmc
+
+ABSTRACT The converging epidemics of non-communicable disease like DM (DM) and an infectious disease like tuberculosis (TB) is a double burden. DM is increasing in the same population that is at high risk for developing TB. There is a two-to-four-fold higher risk of active TB in individuals with DM and up to 30% of individuals with TB are likely to have DM. Immune deficiency either in absolute or relative quantities are sufficient for re-activation of latent TB. From a 10% risk of reactivation over the whole lifetime of an immunocompetent individual, the risk of reactivation increases to 10% every year in immune-deficient individuals. DM impairs cell mediated immunity and poor glycemic control affects cytokine response and alters the defenses in the alveolar macrophages.

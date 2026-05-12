@@ -1,0 +1,4 @@
+Glucagon
+KEYWORDS: glucagon, patients, administration, minutes, administered, gastrointestinal, dose, hypoglycemia, glucose, medication, severe, use, route, reactions, adverse
+
+hypoglycemia. Toxicity Administering excessive doses of exogenous glucagon can lead to predictable adverse reactions requiring intervention, though such occurrences are rarely documented in the literature. While insulin antagonizes glucagon, it is generally not recommended for treating glucagon toxicity. The transient hyperglycemia associated with glucagon administration is rarely life-threatening, but iatrogenic rebound hypoglycemia poses a significant risk. Management of Overdose Treatment should prioritize mitigating the hypertensive response to glucagon using alpha-blocking agents and vasodilators.

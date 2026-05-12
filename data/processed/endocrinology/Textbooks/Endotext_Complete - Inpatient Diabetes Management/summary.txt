@@ -1,0 +1,4 @@
+Inpatient Diabetes Management
+KEYWORDS: insulin, dose, units, patient, basal, nutritional, glucose, units units, based, correctional, aspart, lispro, total, glulisine, regular
+
+CLINICAL RECOGNITION Background Appropriate inpatient glycemic management limits the risks of severe hypo- and hyperglycemia. Preventing and treating hyperglycemia reduces infections and minimizes fluid and electrolyte abnormalities. Specific glucose goals remain fluid. Hyperglycemia and hypoglycemia are associated with poor outcomes but the few prospective randomized studies have failed to demonstrate consistent improvements. For example, intensive glycemic control in the ICU increased mortality in one large trial. At this point, glucose goals should be thoughtful and tailored to the institution and its resources.

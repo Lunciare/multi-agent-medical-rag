@@ -1,0 +1,5 @@
+When should you get a CT scan on a STEMI patient to rule out aortic dissection?
+KEYWORDS: dissection, omi, reperfusion, delay, stemi, patient, rare, ecg, benefit, ultrasound, risk, subacute, mediastinal, chest, dissection rare
+
+
+disease Bedside ultrasound strongly suggestive of dissection Even then: risk–benefit must be explicit and conscious. Critical Learning Points OMI from dissection is rare Delaying reperfusion is common — and lethal Portable CXR is unreliable for mediastinal width (rotation matters) CT scanner is a terrible place to arrest Emergency medicine requires decisive action, not defensive overthinking Final Takeaway In STEMI/OMI, default to reperfusion. Do not let fear of a rare diagnosis delay treatment of a common, deadly one.

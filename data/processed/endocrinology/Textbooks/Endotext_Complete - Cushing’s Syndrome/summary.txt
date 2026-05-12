@@ -1,0 +1,4 @@
+Cushing’s Syndrome
+KEYWORDS: cushing, syndrome, cushing syndrome, patients, cortisol, disease, acth, cushing disease, adrenal, test, treatment, pituitary, levels, ectopic, pubmed
+
+ABSTRACT Cushing’s syndrome results from chronic exposure to excessive circulating levels of glucocorticoids. Cushing’s disease, pituitary-dependent Cushing’s syndrome, is the most common cause of endogenous hypercortisolism. The recommended screening tests include the 1mg overnight dexamethasone suppression test, late-night salivary cortisol (at least 2 samples), and 24-hour urinary free cortisol (at least two 24-hour collections). If the initial test is positive on 2 occasions the patient should be evaluated by an endocrinologist for further assessment. Plasma 09:00h ACTH measurement guides imaging and further investigations. If ACTH is elevated/inappropriately normal, MRI scanning of the pituitary should be performed, but if ACTH is suppressed imaging of the adrenals should follow.

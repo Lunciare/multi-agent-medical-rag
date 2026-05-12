@@ -1,0 +1,4 @@
+Hyperkalemia
+KEYWORDS: potassium, hyperkalemia, renal, serum, patients, serum potassium, include, cardiac, meq, risk, intracellular, disease, excretion, ecg, shifts
+
+Introduction Hyperkalemia is a condition marked by a serum or plasma potassium concentration exceeding the upper limit of normal, typically greater than 5.0 to 5.5 mEq/L. Mild elevations are often asymptomatic, whereas severe hyperkalemia can precipitate life-threatening cardiac arrhythmias, muscle weakness, or paralysis. Clinical manifestations generally appear at levels above 6.0 mEq/L. However, the rate of change exerts greater influence than absolute values. Patients with chronic hyperkalemia, such as those with renal impairment, may tolerate higher potassium concentrations without symptoms, whereas acute shifts in potassium can induce severe manifestations at lower levels. Baseline potassium concentrations are higher in infants compared with children and adults.

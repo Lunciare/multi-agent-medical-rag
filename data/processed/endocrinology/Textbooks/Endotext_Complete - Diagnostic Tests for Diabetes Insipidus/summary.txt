@@ -1,0 +1,4 @@
+Diagnostic Tests for Diabetes Insipidus
+KEYWORDS: plasma, test, copeptin, urine, avp, water, osmolality, central, polydipsia, pubmed, deprivation, water deprivation, primary, primary polydipsia, hypertonic
+
+ABSTRACT Diabetes insipidus (DI) is a disorder characterized by excretion of large volumes of hypotonic urine. The underlying cause is either a deficiency of the hormone arginine vasopressin (AVP) in the pituitary gland/hypothalamus [central DI or Arginine Vasopressin Deficiency (AVP-D )], or resistance to the actions of AVP in the kidneys [nephrogenic DI or Arginine Vasopressin Resistance (AVP-R )]. In most circumstances, DI is also characterized by excessive consumption of water (polydipsia). A third condition called primary polydipsia can clinically show overlapping features with DI. Both DI and primary polydipsia are collectively referred to as ‘polyuria-polydipsia syndromes. Like other endocrine disorders, an accurate diagnosis of DI can be challenging.

@@ -1,0 +1,5 @@
+Bundle Branch Block and Fascicular Block
+KEYWORDS: left, qrs, rbbb, second, block, bundle, lbbb, branch, bundle branch, ventricular, conduction, right, heart, myocardial, anterior
+
+
+the QRS complex is prolonged (> 0.12 second), but the QRS pattern is not typical of LBBB or RBBB (1). The conduction delay may occur 5/6 beyond the Purkinje fibers and result from slow cell-to-cell myocyte conduction. Risk of subsequent cardiac events and mortality with nonspecific intraventricular conduction defect is similar to that of a LBBB. Accordingly, evaluation for an underlying structural heart disorder is indicated. Isolated intraventricular conduction delay produces no symptoms. No specific treatment is indicated (3).

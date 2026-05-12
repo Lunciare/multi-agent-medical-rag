@@ -1,0 +1,4 @@
+Primary Hyperparathyroidism
+KEYWORDS: calcium, pth, hypercalcemia, parathyroid, hyperparathyroidism, phpt, patients, renal, disease, bone, elevated, levels, normal, surgical, vitamin
+
+is curative in more than 95% of patients, it carries inherent surgical risks. Common postoperative complications include transient hypocalcemia, which may result from hungry bone syndrome. This syndrome is characterized by profound hypocalcemia with hypophosphatemia and elevated alkaline phosphatase following rapid skeletal remineralization. Additional complications include permanent hypoparathyroidism (1%–3%), recurrent laryngeal nerve injury (1%–2%), and, rarely, neck hematoma or persistent hyperparathyroidism due to missed multigland disease. Despite these risks, the benefits of surgery in appropriate candidates, eg, normalized calcium, improved bone and renal outcomes, and reduced long-term morbidity, outweigh the potential complications.

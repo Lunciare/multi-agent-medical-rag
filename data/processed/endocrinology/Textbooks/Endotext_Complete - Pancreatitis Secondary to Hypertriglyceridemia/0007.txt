@@ -1,0 +1,5 @@
+Pancreatitis Secondary to Hypertriglyceridemia
+KEYWORDS: levels, triglyceride, pancreatitis, triglyceride levels, patients, hypertriglyceridemia, acute, acute pancreatitis, fcs, high, chylomicronemia, treatment, secondary, syndrome, lipase
+
+
+article : PMC11888829 ] [ PubMed : 40223670 ] 6. Brinton EA, Eckel RH, Gaudet D, Ballantyne CM, Baker BF, Ginsberg HN, Witztum JL. Familial chylomicronemia syndrome and treatments to target hepatic APOC3 mRNA. Atherosclerosis. 2025 Apr;403:119114. [ PubMed : 40068508 ] 7. Larouche M, Watts GF, Ballantyne C, Gaudet D. An overview of persistent chylomicronemia: much more than meets the eye. Curr Opin Endocrinol Diabetes Obes. 2025 Apr 1;32(2):75-88. [ PMC free article : PMC11872273 ] [ PubMed : 39927417 ] 8. Syed-Abdul MM, Tian L, Hegele RA, Lewis GF. Futility of plasmapheresis, insulin in normoglycaemic individuals, or heparin in the treatment of hypertriglyceridaemia-induced acute pancreatitis. Lancet Diabetes Endocrinol. 2025 Jun;13(6):528-536. [ PubMed : 40147461 ]

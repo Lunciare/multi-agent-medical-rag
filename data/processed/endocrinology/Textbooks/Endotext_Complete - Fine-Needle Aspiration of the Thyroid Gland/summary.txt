@@ -1,0 +1,4 @@
+Fine-Needle Aspiration of the Thyroid Gland
+KEYWORDS: thyroid, nodules, pubmed, fna, biopsy, needle, aspiration, nodule, american, thyroid nodules, malignancy, clinical, journal, cytology, association
+
+ABSTRACT Thyroid nodules are common in clinical practice and the majority are benign with the risk of malignancy varying from 7 to 15%. Clinical evaluation includes careful history and physical examination, laboratory tests, neck ultrasound (US), and a fine-needle aspiration (FNA). Thyroid FNA or biopsy is an accurate test for determining malignancy in a nodule and is an integral part of current thyroid nodule evaluation. Results are superior when FNA is performed with ultrasound-guidance (USFNA). Herein, we describe techniques used for US-guided FNA. FNA results are classified as diagnostic (satisfactory) or nondiagnostic (unsatisfactory).

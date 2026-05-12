@@ -1,0 +1,5 @@
+Heart sounds
+KEYWORDS: heart, valve, sound, blood, left, sounds, ventricle, aortic, ventricular, pulmonary, right, murmurs, heart sound, heard, murmur
+
+
+a port to output stethoscope sounds to an external recording device, such as a notebook computer or MP3 recorder. The same connection can then be used to listen to the recordings through the stethoscope headphones, allowing for faithful reproduction of low-frequency murmurs and other heart sounds.

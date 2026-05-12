@@ -1,0 +1,4 @@
+Hyperaldosteronism
+KEYWORDS: hyperaldosteronism, primary, aldosterone, adrenal, primary hyperaldosteronism, patients, levels, hypertension, syndrome, serum, blood, information, companion, statpearls, statpearls companion
+
+Introduction Aldosterone is a mineralocorticoid hormone that promotes sodium (salt) and water (fluid) retention, ultimately raising blood pressure. Aldosterone also increases urinary potassium excretion, which can sometimes lead to hypokalemia. Aldosterone is secreted by the zona glomerulosa, which is the outermost layer of the adrenal cortex. The production of this hormone is primarily regulated by angiotensin II, serum potassium, and adrenocorticotropic hormone (ACTH) levels. Please see StatPearls' companion resources, " Physiology, Aldosterone " and " Primary Hyperaldosteronism ," for more information. Hyperaldosteronism refers to the excess production of aldosterone.

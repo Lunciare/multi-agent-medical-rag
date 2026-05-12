@@ -1,0 +1,5 @@
+Ventricular Fibrillation (VF)
+KEYWORDS: ventricular, patients, cardiac, fibrillation, defibrillation, ventricular fibrillation, disorder, implantable cardioverter-defibrillator, cardioverter-defibrillator, implantable, testing, immediate, cardiomyopathy, treatment, cardiac arrest
+
+
+for immediate defibrillation (within seconds as can be achieved by an implantable cardioverter-defibrillator) is about 99% provided that overwhelming pump failure does not preexist. Thereafter, the first shock defibrillation success rate decreases by about 10% per minute (1). Patients who have VF without a reversible or transient cause are at high risk of future VF events and of sudden death. Most of these patients require an implantable cardioverter-defibrillator; many require concomitant antiarrhythmic medications to reduce the frequency of subsequent episodes of ventricular tachycardia and VF (2).

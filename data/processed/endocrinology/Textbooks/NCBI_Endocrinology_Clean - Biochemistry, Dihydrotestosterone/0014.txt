@@ -1,0 +1,4 @@
+Biochemistry, Dihydrotestosterone
+KEYWORDS: dht, testosterone, alpha-reductase, prostate, male, hair, activity, hormone, androgen, puberty, development, production, enzyme, levels, deficiency
+
+study comparing the gene expression profile of ovaries from PCOS patients and control groups found that genes specific to the backdoor pathway biosynthesis of DHT are enhanced in PCOS patients. DHT in PCOS also causes an increase in body weight, body fat, serum cholesterol, and adipocyte hypertrophy in experimental mice. Surprisingly, the administration of prenatal DHT in experimental female mice does not induce penile formation.

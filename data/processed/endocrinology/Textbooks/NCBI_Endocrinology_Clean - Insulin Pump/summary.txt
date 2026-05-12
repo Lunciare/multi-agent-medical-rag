@@ -1,0 +1,4 @@
+Insulin Pump
+KEYWORDS: insulin, pump, bolus, patient, insulin pump, infusion, pumps, glucose, delivery, insulin pumps, daily, blood, blood glucose, patients, basal
+
+Definition/Introduction The prevalence of diabetes has increased fourfold in the last three to four decades. It currently affects more than 500 million people in the world. Of these, 90% of this is type 2 diabetes. Although oral medications can also manage type 2 diabetes, a significant percentage of these people require insulin for proper glycemic control. Type 1 diabetes is solely insulin-dependent and involves a substantial portion of young kids < 18 years of age, posing a considerable challenge to their management. Insulin delivery has evolved remarkably over the last century.

@@ -1,0 +1,5 @@
+Case Summary
+KEYWORDS: ecg, elevation, coronary, context, trend, postoperative, findings, acute, troponin, occlusion, clinical context, immediate, post-cardiac, concave elevation, syndrome
+
+
+postoperative patient did not have acute coronary occlusion. The ECG findings, troponin trend, physical exam, and imaging were most consistent with post-cardiac injury syndrome, and immediate invasive intervention was appropriately avoided.

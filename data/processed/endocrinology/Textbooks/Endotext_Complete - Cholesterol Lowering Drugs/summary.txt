@@ -1,0 +1,4 @@
+Cholesterol Lowering Drugs
+KEYWORDS: patients, levels, statin, ldl-c, therapy, statins, acid, ezetimibe, cardiovascular, ldl-c levels, decrease, placebo, ldl, risk, statin therapy
+
+ABSTRACT There are currently several different classes of drugs available for lowering cholesterol levels. There are currently seven HMG-CoA reductase inhibitors (statins) approved for lowering cholesterol levels and they are the first line drugs for treating cholesterol disorders and can lower LDL-C levels by as much as 60%. Statins also are effective in reducing triglyceride levels in patients with hypertriglyceridemia. Statins lower LDL levels by inhibiting HMG-CoA reductase activity leading to decreases in hepatic cholesterol content resulting in an up-regulation of hepatic LDL receptors, which increases the clearance of LDL. The major side effects are muscle complications and an increased risk of diabetes. The different statins have varying drug interactions.

@@ -1,0 +1,4 @@
+Sodium-Glucose Transport 2 (SGLT2) Inhibitors
+KEYWORDS: inhibitors, patients, risk, cardiovascular, heart, therapy, failure, heart failure, canagliflozin, dapagliflozin, empagliflozin, renal, recommended, glucose, trial
+
+Indications Sodium-glucose cotransporter 2 (SGLT2) inhibitors are antihyperglycemic agents that target SGLT2 channels in the proximal convoluted tubules. These drugs lower blood glucose by preventing the reabsorption of filtered glucose from the tubular lumen. Several SGLT2 inhibitors have received approval from the U.S. Food and Drug Administration (FDA) for use in adults, including canagliflozin, dapagliflozin, empagliflozin, ertugliflozin, and bexagliflozin. Canagliflozin, dapagliflozin, and empagliflozin are also approved for pediatric patients aged 10 years and older. In contrast, ertugliflozin and bexagliflozin are restricted to adults.

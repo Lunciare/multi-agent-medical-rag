@@ -1,0 +1,4 @@
+ACTH Action on the Adrenals
+KEYWORDS: acth, adrenal, pubmed, receptor, protein, cells, mutations, gene, endocrinol, free, cell, syndrome, production, receptors, regulation
+
+ABSTRACT The adrenocorticotropin hormone (ACTH) is synthesized by the corticotroph cells of the anterior pituitary gland. ACTH, a post-translational product of the proopiomelanocortin protein (POMC), is a 39-amino acid peptide, its sequence being highly conserved in mammals. ACTH binds to the highly specific, for ACTH, melanocortin (MC) 2 receptors (MC2R) located on the surface of adrenal zona fasciculata cells producing cortisol. MC2R belongs to a superfamily of type 1 G protein-coupled receptors. The family of melanocortin receptors includes five members each having characteristic size, tissue distribution, and biological significance. Thus, the MC1R is the principal melanocortin receptor in the skin where it regulates its pigmentation.

@@ -1,0 +1,5 @@
+Arrhythmia - Cardiology Explained
+KEYWORDS: block, patient, figure, atrial, patients, pacemaker, ventricular, rate, heart, ecg, tachycardia, bradycardia, pacing, sinus, treatment
+
+
+an external defibrillator (internal 5–35 J, external 100–360 J). If an AICD delivers a shock, it is important to refer the patient to the nearest center where the unit can be interrogated. Electrophysiological studies Electrophysiology is a rapidly advancing field in which the potential indications currently outweigh the availability of facilities. The indications for electrophysiology are detailed in Table 9. Table 9 Potential indications for electrophysiology. The essence of the electrophysiological test is a measurement of the intracardiac ECG: (1) during normal SR; (2) during an induced arrhythmia; and (3) following premature extrastimuli. Measurements are usually taken from several intracardiac sites, allowing identification of sinus node function and recovery, sinoatrial conduction, AV nodal conduction, and triggered ventricular arrhythmias. Treatment is with radiofrequency stimulation, which can ablate accessory pathways or interrupt re-entry circuits.

@@ -1,0 +1,5 @@
+Percutaneous Coronary Interventions (PCI)
+KEYWORDS: pci, risk, patients, stent, coronary, restenosis, stents, cabg, thrombosis, anticoagulation, rate, artery, angioplasty, myocardial, infarction
+
+
+cause partial or, less commonly, complete vessel blockage. With balloon angioplasty alone, the risk of subacute restenosis is about 5%, and the overall restenosis rate is about 30 to 45%. With stent use, the rate of subacute restenosis is < 1%. With bare-metal stents, risk of late restenosis is 20 to 30%. Use of a drug-eluting stent lowers late restenosis risk significantly. Arterial dissection In < 1% of patients, intimal dissection causes obstruction requiring emergency CABG. Arterial dissection is usually detected immediately as various abnormal patterns of contrast filling within the coronary arteries. Insertion of another stent often reopens the dissected segment. Stroke Risk of stroke with PCI is lower than with CABG. A meta-analysis of 19 randomized trials reported a higher risk of stroke in patients undergoing CABG (1.2%) than PCI (0.34%,) at 30 days (1).

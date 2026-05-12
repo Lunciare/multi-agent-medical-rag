@@ -1,0 +1,5 @@
+Stress Testing
+KEYWORDS: stress, exercise, patients, testing, coronary, stress testing, artery, coronary artery, ecg, echocardiography, used, heart, ischemia, acute, imaging
+
+
+with exercise stress testing instead of echocardiography to assess exercise ejection fraction (EF), the best prognostic indicator in patients with coronary artery disease. Normally, EF is ≥ 5 percentage points higher during exercise than at rest. Ventricular dysfunction (eg, due to valvular heart disorders, cardiomyopathy, or CAD) can decrease exercise EF below baseline or prevent it from increasing. In patients with CAD, the 8-year survival rate is 80% with an exercise EF of 40 to 49%, 75% with an exercise EF of 30 to 39%, and 40% with an exercise EF of < 30%.

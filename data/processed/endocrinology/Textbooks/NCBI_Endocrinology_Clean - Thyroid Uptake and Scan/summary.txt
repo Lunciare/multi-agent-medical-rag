@@ -1,0 +1,4 @@
+Thyroid Uptake and Scan
+KEYWORDS: thyroid, iodine, uptake, radioactive, patient, scan, radiotracer, thyroiditis, test, gland, radioactive iodine, thyroid gland, thyroid uptake, uptake scan, used
+
+Introduction The thyroid uptake and scan is a radiologic diagnostic tool used to determine thyroid function and pathologies. This procedure works on the principle of the unstable nuclide of the atom, which tries to attain stability by releasing alpha, beta, and gamma rays. Clinicians use these rays for diagnostic and treatment purposes. The test uses a radioactive tracer, a protein, or a molecule attached to radioactive material. The radioactive tracer is administered to the patient, and a probe measures the amount of iodine uptake by the thyroid gland. The thyroid scan checks for the even spread of the tracer in the gland.

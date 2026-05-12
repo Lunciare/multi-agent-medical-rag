@@ -1,0 +1,4 @@
+Diabetes Technology: Standards
+KEYWORDS: diabetes, insulin, glucose, use, people, cgm, type, data, levels, systems, devices, pump, type diabetes, care, therapy
+
+important component in all of these sys- tems is the person with diabetes. Tech- nology selection must be appropriate for the individual. Simply having a device or application does not change outcomes unless the human being engages with it to create positive health beneﬁts. This underscores the need for the health care team to assist people with diabetes in device and program selection and to support their use through ongoing edu- cation and training. Expectations must be tempered by reality—we do not yet have technology that completely elimi- nates the self-care tasks necessary for managing diabetes, but the tools de- scribed in this section can make it easier to manage.

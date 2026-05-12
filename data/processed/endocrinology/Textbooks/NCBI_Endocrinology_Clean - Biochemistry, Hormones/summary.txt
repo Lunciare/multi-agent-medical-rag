@@ -1,0 +1,4 @@
+Biochemistry, Hormones
+KEYWORDS: hormone, hormones, receptors, domain, receptor, tyrosine, steroid, cell, residues, single, intracellular, insulin, proteins, peptide, protein
+
+Introduction The endocrine hormones are a wide array of molecules that traverse the bloodstream to act on distant tissues, leading to alterations in metabolic functions within the body. They can broadly divide into peptides, steroids, and tyrosine derivatives that may work on either cell surface or intracellular receptors. A discussion on the synthesis, structures, and mechanisms of action of these hormones will follow. Fundamentals Peptide Hormones The peptide hormones are water soluble molecules composed of amino acids (AA) linked by amide bonds. They exist as single polypeptide chains or as multimeric proteins, ranging in size from 3 to 200 AAs. They commonly derive from a single gene, with multimeric proteins being an exception.

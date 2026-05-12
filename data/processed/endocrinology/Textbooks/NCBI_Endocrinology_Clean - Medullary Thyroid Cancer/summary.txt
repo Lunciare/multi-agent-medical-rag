@@ -1,0 +1,4 @@
+Medullary Thyroid Cancer
+KEYWORDS: mtc, patients, thyroid, tumor, disease, calcitonin, mutations, ret, lymph, tumors, neck, thyroidectomy, metastasis, kinase, levels
+
+Introduction Medullary thyroid cancer (MTC) is a neuroendocrine tumor that accounts for approximately 1% and 5% of all thyroid cancer cases. These tumors originate from the parafollicular C cells of the thyroid gland, which are responsible for producing calcitonin. MTC presents in a sporadic form, comprising about 75% of cases; it can also be associated with hereditary syndromes, such as multiple endocrine neoplasia (MEN) types 2A and 2B and familial MTC (FMTC). MEN2A typically features MTC, primary hyperparathyroidism, and pheochromocytoma, representing 95% of MEN2 cases. Patients with a known genetic predisposition may benefit from early diagnosis through screening. Sporadic MTC cases often present similarly to other thyroid cancers, most commonly with a thyroid nodule.

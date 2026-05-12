@@ -1,0 +1,4 @@
+Insulinoma
+KEYWORDS: insulinomas, tumors, tumor, hypoglycemia, patients, insulin, surgical, insulinoma, metastasis, glucose, syndrome, neuroendocrine, cases, symptoms, imaging
+
+Introduction Insulinomas are functional neuroendocrine neoplasms arising from the pancreatic islet cells. Most insulinomas are sporadic, although some may be associated with multiple endocrine neoplasia type 1 (MEN1) syndrome. As these tumors secrete excess insulin, the resulting hyperinsulinemia can cause hypoglycemic episodes, which typically occur during periods of fasting. Diagnosis is established by demonstrating inappropriately elevated insulin levels concurrent with hypoglycemia. After biochemical confirmation, tumor localization is achieved through imaging studies, including computed tomography (CT), magnetic resonance imaging (MRI), and endoscopic ultrasound (EUS). Most insulinomas are benign and are managed by surgical resection.

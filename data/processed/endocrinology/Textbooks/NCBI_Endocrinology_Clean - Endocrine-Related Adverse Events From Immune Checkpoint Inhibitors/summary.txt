@@ -1,0 +1,4 @@
+Endocrine-Related Adverse Events From Immune Checkpoint Inhibitors
+KEYWORDS: adrenal, patients, insufficiency, adrenal insufficiency, symptoms, thyroid, pituitary, icis, cells, treatment, endocrinopathies, ici-induced, ici, secondary, affected
+
+Introduction Immune system modulators, or immunomodulators, are agents that affect or change a pathway controlling the activity of the immune system. These substances either activate or inhibit cells and signaling cascades to stimulate or suppress the reactivity of the immune system. Immune checkpoint inhibitors (ICIs) are a specific type of immunomodulatory antibody. ICIs have opened the door to treating aggressive malignancies previously considered untreatable. ICIs have become the standard of care for many metastatic cancers. However, the pathways targeted by immunomodulators may be found in many organ systems, and these agents are nonselective for cancer cells.

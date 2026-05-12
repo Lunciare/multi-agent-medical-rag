@@ -1,0 +1,4 @@
+Physiology, Posterior Pituitary
+KEYWORDS: pituitary, oxytocin, posterior pituitary, posterior, adh, water, hormone, hypothalamus, gland, protein, urine, treatment, pituitary gland, known, cdi
+
+Treatment depends on the status of the patient; if asymptomatic, then water restriction is sufficient. If this treatment fails to improve the sodium level, then add lithium or demeclocycline. Both agents antagonize antidiuretic hormone, which will induce diuresis and ultimately correct the sodium level. ADH receptor antagonists like tolvaptan and conivaptan are also approved for the treatment of SIADH. In symptomatic patients, first-line treatment depends on the severity of the symptoms.

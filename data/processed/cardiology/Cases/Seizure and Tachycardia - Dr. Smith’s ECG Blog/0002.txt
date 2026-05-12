@@ -1,0 +1,5 @@
+Case Summary
+KEYWORDS: sodium, channel, qrs, sodium channel, blockade, channel blockade, bicarbonate, ecg, toxicity, large, sodium bicarbonate, avr, brugada, cocaine, morphology
+
+
+Bizarre QRS morphology Important Differential Consideration Hyperkalemia can mimic sodium channel blockade When uncertain, it is reasonable to give both IV calcium and IV sodium bicarbonate until diagnosis is clarified Key Learning Points Wide QRS + large R in aVR = sodium channel blockade until proven otherwise Treat immediately with sodium bicarbonate — do not wait for labs Serial ECGs are essential to guide therapy Drug-induced Brugada phenocopy is a known manifestation of sodium channel blockade Severe acidosis worsens sodium channel toxicity and must be corrected Bottom Line This case demonstrates classic sodium channel blockade toxicity, most consistent with cocaine ingestion, diagnosed by pathognomonic ECG findings and successfully treated with aggressive sodium bicarbonate therapy.

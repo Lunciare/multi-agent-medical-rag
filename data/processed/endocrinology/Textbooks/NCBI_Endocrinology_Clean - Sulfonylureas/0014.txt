@@ -1,0 +1,4 @@
+Sulfonylureas
+KEYWORDS: sulfonylureas, patients, hypoglycemia, glucose, dose, oral, insulin, glipizide, glimepiride, glyburide, levels, available, sulfonylurea, cardiovascular, chlorpropamide
+
+recommend reserving octreotide to patients who experience recurrent hypoglycemia, while others recommend a proactive approach of initiating octreotide after the first hypoglycemic episode. Monitor all patients for 12 hours after hypoglycemia treatment to recognize and treat recurrent episodes.

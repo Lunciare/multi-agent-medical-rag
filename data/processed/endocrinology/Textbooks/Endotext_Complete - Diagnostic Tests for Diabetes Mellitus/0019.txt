@@ -1,0 +1,5 @@
+Diagnostic Tests for Diabetes Mellitus
+KEYWORDS: diabetes, type, glucose, type diabetes, diagnosis, pubmed, c-peptide, risk, mmol, screening, test, insulin, gestational, gestational diabetes, fasting
+
+
+McDonald T, Hill A et al. Development and validation of multivariable clinical diagnosis models to identify type 1 diabetes requiring rapid insulin therapy in adults aged 18-50 years. BMJ Open 2019;9:e031586. [ PMC free article : PMC6773323 ] [ PubMed : 31558459 ] 39. Riddle MC, Philipson LH, Rich SS, Carlsson A, Franks PW, Greeley SAW et al. Monogenic diabetes: from genetic insights to population-based precision in care: reflections from a Diabetes Care editors’ expert forum. Diabetes Care 2020; 43:3117-3128. [ PMC free article : PMC8162450 ] [ PubMed : 33560999 ] 40. Shields BM, Shepherd M, Hudson M, McDonald TJ, Colclough K, Peters J, Knight B, Hyde C, Ellard S, Pearson ER, Hattersley AT; UNITED study team. Population-Based Assessment of a Biomarker-Based Screening Pathway to Aid Diagnosis of Monogenic Diabetes in Young-Onset Patients. Diabetes Care. 2017 Aug;40(8):1017-1025. [ PMC free article : PMC5570522 ] [ PubMed : 28701371 ]

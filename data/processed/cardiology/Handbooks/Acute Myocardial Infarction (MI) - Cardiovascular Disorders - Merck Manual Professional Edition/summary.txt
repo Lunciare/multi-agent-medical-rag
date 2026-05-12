@@ -1,0 +1,4 @@
+Acute Myocardial Infarction (MI)
+KEYWORDS: infarction, myocardial, patients, coronary, myocardial infarction, acute, ventricular, risk, elevation, left, cardiac, stemi, hours, ecg, st-segment
+
+Acute myocardial infarction is myocardial necrosis resulting from acute obstruction of a coronary artery. Symptoms include chest discomfort with or without dyspnea, nausea, and/or diaphoresis. Diagnosis is by electrocardiography (ECG) and the presence or absence of biomarkers. Treatment is with antiplatelets, anticoagulants, nitrates, beta-blockers, statins, and reperfusion therapy. For ST-segment-elevation myocardial infarction, emergency reperfusion is via fibrinolytic drugs, percutaneous intervention, or, occasionally, coronary artery bypass graft surgery. For non–ST-segment- elevation myocardial infarction, reperfusion is via percutaneous intervention or coronary artery bypass graft surgery.

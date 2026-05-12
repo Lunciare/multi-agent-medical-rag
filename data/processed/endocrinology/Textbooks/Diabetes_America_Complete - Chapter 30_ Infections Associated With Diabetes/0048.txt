@@ -1,0 +1,5 @@
+Chapter 30: Infections Associated With Diabetes
+KEYWORDS: diabetes, infections, individuals, hospital, patients, individuals diabetes, infection, associated, national, icd-, data, tissue, codes, risk, skin
+
+
+Discharges Listing Postoperative Wound Infections, by Diabetes Status, U.S., 1999–2010 Diabetes is defined using ICD-9 codes: 250, 357.2, 362.0, 366.41, 648.0, and 775.1. The ICD-9 code used to define postoperative wound infection is 998.59. Data are age-standardized to the overall National Hospital Discharge Survey 2010 using age categories <44, 45–64, and ≥65 years. ICD-9, The International Classification of Diseases, Ninth Revision, is the official system of assigning codes to diagnoses and procedures associated with hospital utiliza­ tion in the United States. SOURCE: National Hospital Discharge Surveys 1999–2010

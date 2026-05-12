@@ -1,0 +1,4 @@
+Thyroid Hormones in Brain Development and Function
+KEYWORDS: thyroid, pubmed, brain, hormone, thyroid hormone, cells, expression, free, fetal, article, pmc, pmc free, free article, article pubmed, receptor
+
+ABSTRACT Thyroid hormones are essential for normal brain development. They influence neurogenesis, neuronal and glial cell differentiation and migration, synaptogenesis, and myelination. Thyroid hormone deficiency may severely affect the brain during fetal and postnatal development, causing retarded maturation, intellectual deficits, and neurological impairment. Neural cells express the thyroid hormone nuclear receptors THRA and THRB, which mediate most actions of T3, the active hormone. Brain T3 derives in part from the circulation, and in part from type-2 deiodinase-mediated 5’-deiodination of T4 in glial cells and some interneurons. Type 3 deiodinase inactivates T4 and T3 by 5-deiodination in neurons.

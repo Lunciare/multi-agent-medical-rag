@@ -1,0 +1,4 @@
+Diabetic Kidney Disease
+KEYWORDS: diabetes, pubmed, kidney, type, patients, diabetic, type diabetes, nephropathy, albuminuria, disease, risk, free, pmc free, pmc, renal
+
+ABSTRACT Diabetes is the most common cause of end-stage kidney disease (ESKD) in the US and other developed countries. Diabetic nephropathy is a chronic condition characterized by a gradual increase in urinary albumin excretion, blood pressure levels and cardiovascular risk, and declining glomerular filtration rate (GFR), which can progress to ESKD. Chronic kidney disease (CKD) is common among patients with diabetes, and it develops in approximately 50% of the patients with type 1 diabetes (T1D) and 30% of those with type 2 diabetes (T2D). Patients with diabetes should be screened for CKD annually. Screening should include both albuminuria measurements and estimates of GFR. The kidney structural changes of diabetic nephropathy are unique to this disease, and closely correlate with kidney function.

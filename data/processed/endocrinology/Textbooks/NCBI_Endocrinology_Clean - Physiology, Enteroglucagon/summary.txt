@@ -1,0 +1,4 @@
+Physiology, Enteroglucagon
+KEYWORDS: glp-, intestine, cells, dpp-, glicentin, glucose, intestinal, small, release, effects, endogenous, glucagon-like, pancreatic, enzyme, l-cells
+
+Introduction Enteroglucagon is a molecule discovered in the human intestine. The historical belief was that it was an extra-pancreatic isoform of glucagon. Glucagon-like substances in the intestine were first described by Sutherland and De Duve, who identified them in preparations from the intestinal mucosa. These substances became known as peptides with glucagon-like immunoreactivity (GLI) due to patterns of immunoreactivity shared with glucagon. Subsequent sequencing studies revealed that enteroglucagons consisted of several different molecules derived within the L-cells (enteroendocrine cells) of the intestine by post-translational modification of the preproglucagon polypeptide (see Image. Intestinal Epithelium With L Cells Present).

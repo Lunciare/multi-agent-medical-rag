@@ -1,0 +1,4 @@
+Hypocalcemia
+KEYWORDS: calcium, hypocalcemia, pth, vitamin, levels, serum, cause, severe, deficiency, parathyroid, patients, calcium levels, low, albumin, usually
+
+Introduction Calcium homeostasis in the body is a complex interplay between different hormones, regulatory proteins, receptors, and serum chemistries. The main factors that regulate calcium homeostasis in the body are parathyroid hormone (PTH), 1,25(OH)-vitamin D (activated vitamin D or calcitriol), fibroblast growth factor 23 (FGF23), calcitonin, calcium-sensing receptor (CaSR), serum calcium, and serum phosphorus. Serum calcium concentration is maintained within a very narrow range. Approximately 45% of the body's calcium is bound to plasma proteins, primarily albumin. Approximately 15% is bound to small anions such as phosphate and citrate. And approximately 40% is in the free or ionized state, which is the active state.

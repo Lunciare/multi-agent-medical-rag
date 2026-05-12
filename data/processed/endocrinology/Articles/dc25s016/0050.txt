@@ -1,0 +1,4 @@
+Diabetes Care in the Hospital
+KEYWORDS: insulin, diabetes, glucose, hypoglycemia, care, individuals, hospital, mmol, people, use, hyperglycemia, basal, treatment, glycemic, discharge
+
+for preventing readmission and emergency department visits. THE FUTURE Inpatient diabetes management is chal- sionals, and people with diabetes, as acute illness increases the risk of both hy- poglycemia and hyperglycemia. The use of decision support tools and best prac- tice advisories in the EHR has facilitated health care professionals following the recommendations in this standard of care. diabetes devices and dosing algorithms are changing the way we provide care. Fu- ture enhancements will likely continue to improve the quality of care we deliver in hospitals and in transitions from inpatient to outpatient.

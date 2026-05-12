@@ -1,0 +1,4 @@
+Molecular links between Obesity and Diabetes: “Diabesity”
+KEYWORDS: insulin, diabetes, obesity, fat, resistance, insulin resistance, adipose, tissue, adipose tissue, type, obese, type diabetes, glucose, mice, expression
+
+ABSTRACT Severe obesity represents a major risk factor for the development of type 2 diabetes mellitus (T2DM). Due to the strong association of obesity and diabetes, the term “diabesity” was coined, suggesting a causal pathophysiological link between both phenomena. The majority of individuals with T2DM are obese, highlighting the pivotal role of increased adiposity as a risk factor for diabetes. However, only a relatively small fraction of obese individuals will develop T2DM. On a population level, the link between obesity and its secondary complications is well described. However, the molecular mechanisms underlying these complications are still poorly understood.

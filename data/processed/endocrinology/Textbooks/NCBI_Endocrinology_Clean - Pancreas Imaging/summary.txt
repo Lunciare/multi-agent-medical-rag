@@ -1,0 +1,4 @@
+Pancreas Imaging
+KEYWORDS: pancreatic, pancreatitis, pancreas, cystic, tomography, computed tomography, computed, imaging, weighted, lesions, tumors, mri, duct, cystic lesions, images
+
+Introduction The pancreas is an abdominal organ possessing both endocrine and exocrine functions. The pancreas produces various hormones that primarily regulate blood sugar levels. As an exocrine gland, it secretes pancreatic fluid that contains bicarbonate and digestive enzymes. Commonly, a few broad categories of diseases affect the pancreas that can be characterized on imaging: pancreatitis, pancreatic insufficiency, cystic lesions of the pancreas, and pancreatic tumors. Pancreatitis is a generalized inflammation of the pancreas due to the activation of digestive enzymes produced by the pancreas while still inside the organ. Acutely, this can result from gallstones, alcohol misuse, or hypertriglyceridemia.

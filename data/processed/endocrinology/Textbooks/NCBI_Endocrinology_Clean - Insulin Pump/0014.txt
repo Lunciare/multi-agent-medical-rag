@@ -1,0 +1,4 @@
+Insulin Pump
+KEYWORDS: insulin, pump, bolus, patient, insulin pump, infusion, pumps, glucose, delivery, insulin pumps, daily, blood, blood glucose, patients, basal
+
+to handle all pump's changes for optimal blood glucose control. In all settings, the healthcare staff has the right to suspend the pump and start the patient on a conventional regimen if they consider this to be in the best interest of the patient, such as in situations of anesthesia, any critical change in patient's mental and health status and when the patient is not fully awake to be able to manage the insulin pump independently. The nursing staff must maintain a log of the blood glucose levels and basal rates on the insulin pump. That usually happens with the help of the patient reporting all glucose levels, especially if the patient is on CGM.

@@ -1,0 +1,4 @@
+Chapter 2 Thyroid Hormone Synthesis And Secretion
+KEYWORDS: thyroid, iodide, iodine, thyroglobulin, human, hormone, endocrinol, biol, membrane, protein, chem, biol chem, clin, cell, transport
+
+ABSTRACT The main function of the thyroid gland is to make hormones, T4 and T3, which are essential for the regulation of metabolic processes throughout the body. As at any factory, effective production depends on three key components - adequate raw material, efficient machinery, and appropriate controls. Iodine is the critical raw material, because 65% of T4 weight is iodine. Ingested iodine is absorbed and carried in the circulation as iodide. The thyroid actively concentrates the iodide across the basolateral plasma membrane of thyrocytes by the sodium/iodide symporter, NIS. Intracellular iodide is then transported in the lumen of thyroid follicles.
