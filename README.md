@@ -107,8 +107,8 @@ Multi-Agent-NN-Medicine/
 Requires Python 3.11+ and a [Yandex Cloud](https://console.yandex.cloud/) account with Foundation Models API access (`text-search-doc/latest`, `yandexgpt/latest`).
 
 ```bash
-git clone https://github.com/Lunciare/Multi-Agent-NN-Medicine.git
-cd Multi-Agent-NN-Medicine
+git clone https://github.com/Lunciare/multi-agent-medical-rag
+cd multi-agent-medical-rag
 
 python -m venv venv
 source venv/bin/activate
