@@ -80,16 +80,19 @@ Multi-Agent-NN-Medicine/
 │   │   ├── evaluate_routing_baseline.py
 │   │   ├── tune_retrieval.py
 │   │   ├── tune_chunk_size.py
+│   │   ├── save_test_vectors.py     # One-time: writes test_vectors.npy
 │   │   └── data/
 │   │       ├── golden_dataset.json
-│   │       └── ambiguous_cases.json
+│   │       ├── ambiguous_cases.json
+│   │       ├── test_vectors.npy        # Pre-saved query embeddings
+│   │       └── test_vector_labels.json
 │   ├── build_cardio_faiss.py      # Build cardiology FAISS index from scratch
 │   ├── build_endo_faiss.py        # Build endocrinology FAISS index from scratch
 │   ├── orchestrator.py
 │   ├── embeddings.py
 │   ├── settings.py                # Hyperparameters and API config
 │   └── main.py                    # Gradio interface
-├── tests/                         # Pytest suite (safety, error handling, integration)
+├── tests/                         # Pytest suite (safety, error handling, integration, playwright, retrieval regression)
 ├── scripts/data_processing/       # One-time corpus preparation scripts
 ├── reports/
 │   ├── report_final.md
@@ -107,8 +110,8 @@ Multi-Agent-NN-Medicine/
 Requires Python 3.11+ and a [Yandex Cloud](https://console.yandex.cloud/) account with Foundation Models API access (`text-search-doc/latest`, `yandexgpt/latest`).
 
 ```bash
-git clone https://github.com/Lunciare/multi-agent-medical-rag
-cd multi-agent-medical-rag
+git clone https://github.com/Lunciare/Multi-Agent-NN-Medicine.git
+cd Multi-Agent-NN-Medicine
 
 python -m venv venv
 source venv/bin/activate
@@ -116,6 +119,9 @@ pip install -r requirements.txt
 
 cp multi-agent_system/.env.example multi-agent_system/.env
 # edit .env: set YANDEX_API_KEY and YANDEX_PROJECT_ID
+
+# The pytest suite includes a Playwright browser test — install Chromium:
+playwright install chromium
 ```
 
 ### Building the FAISS indices
@@ -138,6 +144,30 @@ python main.py
 ```
 
 This launches a local Gradio server (typically at `http://127.0.0.1:7860`). On the first run without a cached index, it builds the FAISS index automatically; subsequent runs load it instantly.
+
+## Running the Pytest Suite
+
+The top-level `tests/` directory holds the CI test suite — fast, mocked, no API key required (with one setup step for retrieval regression):
+
+```bash
+python -m pytest tests/ -v
+```
+
+Coverage:
+- `test_safety.py` — emergency / treatment-request gating.
+- `test_error_handling.py` — input validation, OpenAI exception mapping, missing-corpus errors.
+- `test_integration.py` — orchestrator construction, routing, end-to-end answer flow (all LLM calls mocked).
+- `test_playwright.py` — headless Chromium smoke test (requires `playwright install chromium`).
+- `test_retrieval_regression.py` — offline FAISS regression. Reads `multi-agent_system/tests/data/test_vectors.npy` and asserts every pre-saved query returns ≥1 chunk within `MAX_L2_DISTANCE`. Skips cleanly if the `.npy` is missing.
+
+To (re)generate `test_vectors.npy` (one-time, requires `YANDEX_API_KEY`):
+
+```bash
+cd multi-agent_system
+python tests/save_test_vectors.py
+```
+
+The resulting `.npy` and `.json` are committed to the repo so subsequent test runs are offline.
 
 ## Running Evaluations
 

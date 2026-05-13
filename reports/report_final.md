@@ -222,7 +222,13 @@ The full RAG pipeline is executed: retrieval → LLM generation → LLM-as-a-jud
 
 *Note: A prior evaluation (2026-05-06, before the cardiology FAISS rebuild) scored 29/30 (96.7%). The single failure was a cardiology case where keyword-polluted embeddings caused poor retrieval, leading the LLM to generate from insufficient context. After rebuilding the cardiology index with keyword-stripping, the same case now retrieves relevant context and passes faithfulness. The improvement is attributable to retrieval quality, not to a change in the generation prompt or judge.*
 
-### 4.5 Summary of All Metrics (100-Case Tiered Dataset)
+### 4.5 Offline Retrieval Regression Test
+
+To guard against silent retrieval drift (threshold changes, index corruption, accidental re-embedding) without burning Yandex API calls on every CI run, an offline regression test was added in `tests/test_retrieval_regression.py`. Ten representative queries (5 cardiology, 5 endocrinology) are pre-embedded once via the live Yandex API and saved as `multi-agent_system/tests/data/test_vectors.npy`. Subsequent test runs load the saved vectors and call `faiss.read_index().search()` directly on the binary indices, bypassing both LangChain and the embedding service. The test asserts that every query retrieves at least one chunk within `MAX_L2_DISTANCE`; any zero-hit case prints `REGRESSION: {query} returned 0 chunks. Check MAX_L2_DISTANCE.`
+
+This is a regression check, not a new evaluation metric — it does not affect the numbers reported in §4.1–§4.4.
+
+### 4.6 Summary of All Metrics (100-Case Tiered Dataset)
 
 The metrics below are broken down by domain and difficulty tier. Note that Tier 3 measures safety fallback behaviour rather than standard hit rate.
 
