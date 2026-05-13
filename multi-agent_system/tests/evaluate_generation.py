@@ -102,8 +102,7 @@ def evaluate_generation():
         docs = [doc for doc, score in docs_and_scores if score <= MAX_L2_DISTANCE]
         context = "\n\n".join([doc.page_content for doc in docs])
 
-        ans_tuple = agent.answer(query)
-        answer = ans_tuple[0] if isinstance(ans_tuple, tuple) else ans_tuple
+        _specialist, answer, _evidence = agent.answer(query)
 
         if tier == 3:
             tier3_total += 1

@@ -18,12 +18,6 @@ def _create_sample_data(tmp_path: Path) -> Path:
     return kb_dir
 
 
-def _mock_openai_response(text: str) -> MagicMock:
-    mock_resp = MagicMock()
-    mock_resp.output_text = text
-    return mock_resp
-
-
 class TestOrchestratorConstruction:
 
     @patch("agents.cardiologist.YandexNativeEmbeddings")
@@ -94,8 +88,8 @@ class TestRouting:
         kb = _create_sample_data(tmp_path)
         orch = MedicalOrchestrator(knowledge_base_dir=str(kb))
 
-        answer = orch.answer("What causes migraines?")
-        assert "could not determine" in answer.lower()
+        _specialist, response, _evidence = orch.answer("What causes migraines?")
+        assert "could not determine" in response.lower()
 
 
 class TestEndToEndAnswer:
@@ -130,9 +124,9 @@ class TestEndToEndAnswer:
         kb = _create_sample_data(tmp_path)
         orch = MedicalOrchestrator(knowledge_base_dir=str(kb))
 
-        answer = orch.answer("What is atrial fibrillation?")
-        assert len(answer) > 0
-        assert "atrial fibrillation" in answer.lower()
+        _specialist, response, _evidence = orch.answer("What is atrial fibrillation?")
+        assert len(response) > 0
+        assert "atrial fibrillation" in response.lower()
 
     @patch("agents.cardiologist.YandexNativeEmbeddings")
     @patch("agents.endocrinologist.YandexNativeEmbeddings")
@@ -165,5 +159,5 @@ class TestEndToEndAnswer:
         kb = _create_sample_data(tmp_path)
         orch = MedicalOrchestrator(knowledge_base_dir=str(kb))
 
-        answer = orch.answer("How to bake a cake?")
-        assert "insufficient evidence" in answer.lower()
+        _specialist, response, _evidence = orch.answer("How to bake a cake?")
+        assert "insufficient evidence" in response.lower()

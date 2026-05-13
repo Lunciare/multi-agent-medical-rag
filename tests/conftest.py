@@ -8,10 +8,9 @@ sys.path.insert(0, str(SYSTEM_DIR))
 for mod_name in [
     "langchain_core",
     "langchain_core.documents",
+    "langchain_core.embeddings",
     "langchain_community",
     "langchain_community.vectorstores",
-    "langchain_openai",
-    "faiss",
 ]:
     if mod_name not in sys.modules:
         sys.modules[mod_name] = MagicMock()

@@ -109,10 +109,8 @@ class MedicalOrchestrator:
 
         print("specialist: ", specialist)
         if specialist == "cardiologist":
-            resp, ev = self.cardiologist.answer(question)
-            return "Cardiologist", resp, ev
+            return self.cardiologist.answer(question)
         elif specialist == "endocrinologist":
-            resp, ev = self.endocrinologist.answer(question)
-            return "Endocrinologist", resp, ev
+            return self.endocrinologist.answer(question)
         else:
             return "Error", "Could not determine the specialist.", "No evidence retrieved."

@@ -1,7 +1,20 @@
-import sys
+import contextlib
 import pytest
-from unittest.mock import patch, MagicMock
-from pathlib import Path
+from unittest.mock import patch
+
+
+@pytest.fixture(autouse=True)
+def _mock_agent_deps():
+    targets = [
+        "agents.cardiologist.YandexNativeEmbeddings",
+        "agents.cardiologist.FAISS",
+        "agents.endocrinologist.YandexNativeEmbeddings",
+        "agents.endocrinologist.FAISS",
+    ]
+    with contextlib.ExitStack() as stack:
+        for target in targets:
+            stack.enter_context(patch(target))
+        yield
 
 
 def _build_orchestrator(tmp_path):
@@ -26,19 +39,15 @@ class TestEmergencyDetection:
     ]
 
     @pytest.mark.parametrize("query", EMERGENCY_QUERIES)
-    @patch("agents.cardiologist.OpenAIEmbeddings")
-    @patch("agents.cardiologist.FAISS")
-    def test_emergency_query_is_blocked(self, mock_faiss, mock_emb, query, tmp_path):
+    def test_emergency_query_is_blocked(self, query, tmp_path):
         orch = _build_orchestrator(tmp_path)
         result = orch.safety_check(query)
         assert result is not None
         assert "emergency" in result.lower()
 
-    @patch("agents.cardiologist.OpenAIEmbeddings")
-    @patch("agents.cardiologist.FAISS")
-    def test_emergency_does_not_reach_specialist(self, mock_faiss, mock_emb, tmp_path):
+    def test_emergency_does_not_reach_specialist(self, tmp_path):
         orch = _build_orchestrator(tmp_path)
-        answer = orch.answer("I'm having a heart attack right now")
+        _specialist, answer, _evidence = orch.answer("I'm having a heart attack right now")
         assert "emergency" in answer.lower()
         assert "911" in answer
 
@@ -53,9 +62,7 @@ class TestTreatmentDetection:
     ]
 
     @pytest.mark.parametrize("query", TREATMENT_QUERIES)
-    @patch("agents.cardiologist.OpenAIEmbeddings")
-    @patch("agents.cardiologist.FAISS")
-    def test_treatment_query_is_blocked(self, mock_faiss, mock_emb, query, tmp_path):
+    def test_treatment_query_is_blocked(self, query, tmp_path):
         orch = _build_orchestrator(tmp_path)
         result = orch.safety_check(query)
         assert result is not None
@@ -72,9 +79,7 @@ class TestSafeQueryPassthrough:
     ]
 
     @pytest.mark.parametrize("query", SAFE_QUERIES)
-    @patch("agents.cardiologist.OpenAIEmbeddings")
-    @patch("agents.cardiologist.FAISS")
-    def test_safe_query_returns_none(self, mock_faiss, mock_emb, query, tmp_path):
+    def test_safe_query_returns_none(self, query, tmp_path):
         orch = _build_orchestrator(tmp_path)
         result = orch.safety_check(query)
         assert result is None

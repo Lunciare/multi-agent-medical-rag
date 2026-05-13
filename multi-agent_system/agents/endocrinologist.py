@@ -1,5 +1,6 @@
 import os
 import json
+from typing import List, Tuple
 from langchain_core.documents import Document
 from langchain_community.vectorstores import FAISS
 from agents.base import BaseMedicalAgent
@@ -14,6 +15,8 @@ from settings import (
 
 
 class EndocrinologistAgent(BaseMedicalAgent):
+
+    SPECIALIST_NAME = "Endocrinologist"
 
     def __init__(self, folder_path: str):
         self.embeddings = YandexNativeEmbeddings()
@@ -91,10 +94,15 @@ class EndocrinologistAgent(BaseMedicalAgent):
         print(f"Saving FAISS index to {faiss_save_path} for faster future startups...")
         self.vectorstore.save_local(faiss_save_path)
 
-    def answer(self, question):
-        docs_and_scores = self.vectorstore.similarity_search_with_score(question, k=SIMILARITY_TOP_K)
+    def embed_query(self, query: str) -> List[float]:
+        return self.embeddings.embed_query(query)
 
-        valid_docs_and_scores = [(doc, score) for doc, score in docs_and_scores if score <= MAX_L2_DISTANCE]
+    def retrieve(self, query: str) -> List[Tuple[Document, float]]:
+        docs_and_scores = self.vectorstore.similarity_search_with_score(query, k=SIMILARITY_TOP_K)
+        return [(doc, score) for doc, score in docs_and_scores if score <= MAX_L2_DISTANCE]
+
+    def answer(self, question: str) -> Tuple[str, str, str]:
+        valid_docs_and_scores = self.retrieve(question)
 
         print(f"\n{'='*60}")
         print(f"Retrieved {len(valid_docs_and_scores)} chunks:")
@@ -177,9 +185,13 @@ class EndocrinologistAgent(BaseMedicalAgent):
             else:
                 evidence_md = "No evidence retrieved."
 
-            return final_answer, evidence_md
+            return self.SPECIALIST_NAME, final_answer, evidence_md
         except Exception as e:
             return (
-                "The endocrinology agent encountered an error while generating "
-                f"a response. Please try again later. (Detail: {type(e).__name__}: {e})"
-            ), "Error retrieving evidence."
+                self.SPECIALIST_NAME,
+                (
+                    "The endocrinology agent encountered an error while generating "
+                    f"a response. Please try again later. (Detail: {type(e).__name__}: {e})"
+                ),
+                "Error retrieving evidence.",
+            )
