@@ -672,6 +672,14 @@
     "expected_keywords": ["primary hyperparathyroidism", "parathyroid adenoma", "parathyroidectomy", "sestamibi"]
   },
   {
+    "id": "endo_35",
+    "tier": 2,
+    "tier_label": "peripheral",
+    "query": "A 50-year-old male presents with recurrent episodes of confusion and sweating, typically occurring in the late afternoon. During an episode, his blood glucose is found to be 40 mg/dL, and his symptoms resolve promptly after drinking orange juice. What is the next step in evaluating for an endogenous hyperinsulinemic state?",
+    "expected_specialist": "endocrinologist",
+    "expected_keywords": ["insulinoma", "whipple", "72-hour fast", "c-peptide", "proinsulin"]
+  },
+  {
     "id": "endo_36",
     "tier": 2,
     "tier_label": "peripheral",

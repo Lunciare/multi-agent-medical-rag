@@ -31,7 +31,7 @@ def main():
     with open(golden_path, 'r') as f:
         golden = json.load(f)
 
-    print('=== GOLDEN DATASET (30 cases) ===')
+    print('=== GOLDEN DATASET (100 cases) ===')
     print(f'{"ID":<12} {"Expected":<18} {"Keyword Baseline":<18} {"Result"}')
     print('-' * 60)
 
@@ -52,7 +52,7 @@ def main():
     for d in ('cardiologist', 'endocrinologist'):
         s = baseline_domain[d]
         print(f'  {d}: {s["correct"]}/{s["total"]} ({s["correct"]/s["total"]*100:.1f}%)')
-    print(f'  Overall: {baseline_correct}/30 ({baseline_correct/30*100:.1f}%)')
+    print(f'  Overall: {baseline_correct}/{len(golden)} ({baseline_correct/len(golden)*100:.1f}%)')
 
     with open(ambig_path, 'r') as f:
         ambiguous = json.load(f)

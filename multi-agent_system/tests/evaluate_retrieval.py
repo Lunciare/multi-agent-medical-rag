@@ -1,12 +1,16 @@
 import sys
 import os
 import json
+import random
 from collections import defaultdict
+from datetime import datetime
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from orchestrator import MedicalOrchestrator
 from settings import DEFAULT_KNOWLEDGE_BASE_DIR, SIMILARITY_TOP_K, MAX_L2_DISTANCE
+
+RANDOM_BASELINE_SEED = 42
 
 def run_smoke_test():
     print("Running Smoke Test...")
@@ -77,6 +81,17 @@ def run_smoke_test():
     print("Smoke Test Passed! Dataset is valid and correctly formatted.")
     sys.exit(0)
 
+def _precision_at_k(docs, keywords):
+    """Fraction of retrieved chunks that contain at least one expected keyword."""
+    if not docs:
+        return 0.0
+    chunk_hits = sum(
+        1 for doc in docs
+        if any(kw.lower() in doc.page_content.lower() for kw in keywords)
+    )
+    return chunk_hits / len(docs)
+
+
 def evaluate_retrieval():
     print("Initializing components for retrieval evaluation...")
     data_path = os.path.join(os.path.dirname(__file__), "data", "golden_dataset.json")
@@ -93,14 +108,27 @@ def evaluate_retrieval():
     total_queries = len(dataset)
 
     domain_hits = {"cardiologist": 0, "endocrinologist": 0}
+    domain_precision_sum = {"cardiologist": 0.0, "endocrinologist": 0.0}
     domain_total = {"cardiologist": 0, "endocrinologist": 0}
+    domain_hits_rand = {"cardiologist": 0, "endocrinologist": 0}
+    domain_precision_rand_sum = {"cardiologist": 0.0, "endocrinologist": 0.0}
 
     tier_hits = defaultdict(int)
+    tier_precision_sum = defaultdict(float)
+    tier_hits_rand = defaultdict(int)
+    tier_precision_rand_sum = defaultdict(float)
     tier_totals = defaultdict(int)
     tier_labels = {}
     tier3_results = []
 
-    print(f"\nRunning retrieval evaluation on {total_queries} queries...\n")
+    domain_pool = {
+        "cardiologist": list(orchestrator.cardiologist.vectorstore.docstore._dict.values()),
+        "endocrinologist": list(orchestrator.endocrinologist.vectorstore.docstore._dict.values()),
+    }
+    rng = random.Random(RANDOM_BASELINE_SEED)
+
+    print(f"\nRunning retrieval evaluation on {total_queries} queries"
+          f" (random baseline seed={RANDOM_BASELINE_SEED})...\n")
 
     for case in dataset:
         query = case["query"]
@@ -130,14 +158,14 @@ def evaluate_retrieval():
             continue
 
         docs_and_scores = agent.vectorstore.similarity_search_with_score(query, k=SIMILARITY_TOP_K)
-        docs = [doc for doc, score in docs_and_scores if score <= MAX_L2_DISTANCE]
+        retrieved_docs = [doc for doc, score in docs_and_scores if score <= MAX_L2_DISTANCE]
 
         if tier == 3:
-            chunk_count = len(docs)
-            flag = "⚠️ ADJACENT CONTENT" if chunk_count > 0 else "(expected)"
+            chunk_count = len(retrieved_docs)
+            flag = "! ADJACENT CONTENT" if chunk_count > 0 else "(expected)"
             tier3_results.append((case["id"], chunk_count, flag))
 
-        retrieved_text = " ".join([doc.page_content.lower() for doc in docs])
+        retrieved_text = " ".join(doc.page_content.lower() for doc in retrieved_docs)
 
         hit_found = False
         matched_words = []
@@ -146,46 +174,82 @@ def evaluate_retrieval():
                 hit_found = True
                 matched_words.append(kw)
 
+        chunk_hits = sum(
+            1 for doc in retrieved_docs
+            if any(kw.lower() in doc.page_content.lower() for kw in keywords)
+        )
+        precision_at_k = chunk_hits / len(retrieved_docs) if retrieved_docs else 0.0
+
         if hit_found:
-            print(f"HIT (Matched keywords: {', '.join(matched_words)})")
+            print(f"V  HIT (Matched keywords: {', '.join(matched_words)})"
+                  f"  | P@{SIMILARITY_TOP_K}={precision_at_k:.2f}")
             domain_hits[expected_agent] += 1
             tier_hits[(expected_agent, tier)] += 1
         else:
-            print("MISS (None of the expected keywords found in retrieved context)")
+            print(f"X MISS  | P@{SIMILARITY_TOP_K}={precision_at_k:.2f}")
+
+        domain_precision_sum[expected_agent] += precision_at_k
+        tier_precision_sum[(expected_agent, tier)] += precision_at_k
+
+        pool = domain_pool[expected_agent]
+        k = min(SIMILARITY_TOP_K, len(pool))
+        random_docs = rng.sample(pool, k) if k > 0 else []
+        random_text = " ".join(d.page_content.lower() for d in random_docs)
+        random_hit = any(kw.lower() in random_text for kw in keywords)
+        random_precision = _precision_at_k(random_docs, keywords)
+
+        if random_hit:
+            domain_hits_rand[expected_agent] += 1
+            tier_hits_rand[(expected_agent, tier)] += 1
+        domain_precision_rand_sum[expected_agent] += random_precision
+        tier_precision_rand_sum[(expected_agent, tier)] += random_precision
 
     total_hits = sum(domain_hits.values())
+    total_hits_rand = sum(domain_hits_rand.values())
+    total_precision = sum(domain_precision_sum.values())
+    total_precision_rand = sum(domain_precision_rand_sum.values())
     overall_rate = total_hits / total_queries if total_queries > 0 else 0
+    overall_rate_rand = total_hits_rand / total_queries if total_queries > 0 else 0
+    overall_precision = total_precision / total_queries if total_queries > 0 else 0
+    overall_precision_rand = total_precision_rand / total_queries if total_queries > 0 else 0
 
-    print(f"\n{'=' * 60}")
-    print(f"  Retrieval Evaluation Results")
-    print(f"{'=' * 60}")
-    print(f"  {'Domain':<20} {'Hits':>6} {'Total':>6} {'Hit Rate':>10}")
-    print(f"  {'-'*20} {'-'*6} {'-'*6} {'-'*10}")
+    print(f"\n{'=' * 80}")
+    print(f"  Retrieval Evaluation Results (FAISS vs. Random Baseline, K={SIMILARITY_TOP_K})")
+    print(f"{'=' * 80}")
+    print(f"  {'Domain':<18} {'FAISS Hit':>11} {'FAISS P@K':>11} {'Rand Hit':>11} {'Rand P@K':>11}")
+    print(f"  {'-'*18} {'-'*11} {'-'*11} {'-'*11} {'-'*11}")
 
     for domain in ("cardiologist", "endocrinologist"):
-        h = domain_hits[domain]
         t = domain_total[domain]
-        rate = h / t if t > 0 else 0
-        print(f"  {domain:<20} {h:>6} {t:>6} {rate:>9.1%}")
+        hit_rate = domain_hits[domain] / t if t > 0 else 0
+        p_at_k = domain_precision_sum[domain] / t if t > 0 else 0
+        hit_rate_rand = domain_hits_rand[domain] / t if t > 0 else 0
+        p_at_k_rand = domain_precision_rand_sum[domain] / t if t > 0 else 0
+        print(f"  {domain:<18} {hit_rate:>10.1%} {p_at_k:>10.1%} {hit_rate_rand:>10.1%} {p_at_k_rand:>10.1%}")
 
-    print(f"  {'-'*20} {'-'*6} {'-'*6} {'-'*10}")
-    print(f"  {'OVERALL':<20} {total_hits:>6} {total_queries:>6} {overall_rate:>9.1%}")
-    print(f"{'=' * 60}")
+    print(f"  {'-'*18} {'-'*11} {'-'*11} {'-'*11} {'-'*11}")
+    print(f"  {'OVERALL':<18} {overall_rate:>10.1%} {overall_precision:>10.1%} "
+          f"{overall_rate_rand:>10.1%} {overall_precision_rand:>10.1%}")
+    print(f"{'=' * 80}")
 
-    print(f"\n{'=' * 60}")
-    print(f"  Retrieval Hit Rate — By Tier")
-    print(f"{'=' * 60}")
-    print(f"  {'Domain':<20} {'Tier':<6} {'Label':<13} {'Hits':>6} {'Total':>6}  {'Hit Rate':>10}")
-    print(f"  {'-'*20} {'-'*6} {'-'*13} {'-'*6} {'-'*6}  {'-'*10}")
+    print(f"\n{'=' * 95}")
+    print(f"  Retrieval Metrics — By Tier (FAISS vs. Random)")
+    print(f"{'=' * 95}")
+    print(f"  {'Domain':<18} {'Tier':<5} {'Label':<13} "
+          f"{'FAISS Hit':>11} {'FAISS P@K':>11} {'Rand Hit':>11} {'Rand P@K':>11}")
+    print(f"  {'-'*18} {'-'*5} {'-'*13} {'-'*11} {'-'*11} {'-'*11} {'-'*11}")
 
     for domain in ("cardiologist", "endocrinologist"):
         for t in [1, 2, 3]:
-            if tier_totals[(domain, t)] > 0:
-                h = tier_hits[(domain, t)]
-                tot = tier_totals[(domain, t)]
-                rate = h / tot
-                print(f"  {domain:<20} {t:<6} {tier_labels.get(t, 'unknown'):<13} {h:>6} {tot:>6}  {rate:>9.1%}")
-    print(f"{'=' * 60}")
+            tot = tier_totals[(domain, t)]
+            if tot > 0:
+                hr = tier_hits[(domain, t)] / tot
+                pk = tier_precision_sum[(domain, t)] / tot
+                hr_r = tier_hits_rand[(domain, t)] / tot
+                pk_r = tier_precision_rand_sum[(domain, t)] / tot
+                print(f"  {domain:<18} {t:<5} {tier_labels.get(t, 'unknown'):<13} "
+                      f"{hr:>10.1%} {pk:>10.1%} {hr_r:>10.1%} {pk_r:>10.1%}")
+    print(f"{'=' * 95}")
 
     if tier3_results:
         print(f"\n{'=' * 60}")
@@ -194,6 +258,78 @@ def evaluate_retrieval():
         for case_id, count, flag in tier3_results:
             print(f"  {case_id:<15} Chunks retrieved: {count:<2} {flag}")
         print(f"{'=' * 60}")
+
+# REMOVE AFTER TESTING
+    report_dir = os.path.join(
+        os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
+        "reports",
+    )
+    os.makedirs(report_dir, exist_ok=True)
+    timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    report_path = os.path.join(report_dir, f"retrieval_evaluation_{timestamp}.md")
+
+    lines = [
+        "# Retrieval Evaluation Report",
+        "",
+        f"**Date:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
+        f"**K (SIMILARITY_TOP_K):** {SIMILARITY_TOP_K}",
+        f"**Random baseline seed:** {RANDOM_BASELINE_SEED}",
+        "",
+        "## Per-Domain Metrics (FAISS vs. Random Baseline)",
+        "",
+        "| Domain | FAISS Hit Rate | FAISS Precision@K | Random Hit Rate | Random Precision@K |",
+        "|---|---|---|---|---|",
+    ]
+    for domain in ("cardiologist", "endocrinologist"):
+        t = domain_total[domain]
+        hit_rate = domain_hits[domain] / t if t > 0 else 0
+        p_at_k = domain_precision_sum[domain] / t if t > 0 else 0
+        hit_rate_rand = domain_hits_rand[domain] / t if t > 0 else 0
+        p_at_k_rand = domain_precision_rand_sum[domain] / t if t > 0 else 0
+        lines.append(
+            f"| {domain} | {hit_rate:.1%} | {p_at_k:.1%} | "
+            f"{hit_rate_rand:.1%} | {p_at_k_rand:.1%} |"
+        )
+    lines.append(
+        f"| **OVERALL** | **{overall_rate:.1%}** | **{overall_precision:.1%}** | "
+        f"**{overall_rate_rand:.1%}** | **{overall_precision_rand:.1%}** |"
+    )
+
+    lines += [
+        "",
+        "## By Tier",
+        "",
+        "| Domain | Tier | Label | FAISS Hit Rate | FAISS Precision@K | Random Hit Rate | Random Precision@K |",
+        "|---|---|---|---|---|---|---|",
+    ]
+    for domain in ("cardiologist", "endocrinologist"):
+        for t in [1, 2, 3]:
+            tot = tier_totals[(domain, t)]
+            if tot > 0:
+                hr = tier_hits[(domain, t)] / tot
+                pk = tier_precision_sum[(domain, t)] / tot
+                hr_r = tier_hits_rand[(domain, t)] / tot
+                pk_r = tier_precision_rand_sum[(domain, t)] / tot
+                lines.append(
+                    f"| {domain} | {t} | {tier_labels.get(t, 'unknown')} | "
+                    f"{hr:.1%} | {pk:.1%} | {hr_r:.1%} | {pk_r:.1%} |"
+                )
+
+    if tier3_results:
+        lines += [
+            "",
+            "## Tier 3 (Out-of-Scope) — Fallback Behaviour",
+            "",
+            "| Case ID | Chunks Retrieved | Flag |",
+            "|---|---|---|",
+        ]
+        for case_id, count, flag in tier3_results:
+            lines.append(f"| {case_id} | {count} | {flag} |")
+
+    with open(report_path, "w", encoding="utf-8") as f:
+        f.write("\n".join(lines) + "\n")
+
+    print(f"\n Report saved to {report_path}")
 
 if __name__ == "__main__":
     if len(sys.argv) > 1 and sys.argv[1] == "--smoke-test":

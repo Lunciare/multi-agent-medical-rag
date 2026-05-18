@@ -40,8 +40,11 @@ class YandexNativeEmbeddings(Embeddings):
                 )
                 if res.status_code == 200:
                     return res.json().get("embedding", [])
-                elif res.status_code == 429:
+                elif res.status_code == 429 or res.status_code >= 500:
                     time.sleep(min(2 ** attempt, 30))
+                elif res.status_code == 400 and "tokens must be no more than" in res.text:
+                    text = text[: int(len(text) * 0.85)]
+                    time.sleep(1)
                 else:
                     raise ValueError(f"API error {res.status_code}: {res.text}")
             except (
