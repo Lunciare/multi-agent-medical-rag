@@ -259,6 +259,9 @@ def evaluate_retrieval(split="test"):
     # Tier 3 refusal — fraction of T3 cases where zero chunks were retrieved.
     tier3_refusals = defaultdict(int)
     tier3_count    = defaultdict(int)
+    # RefusalGate (Stage 7) — gate's refusal verdict counted per-tier/per-domain.
+    gate_refusals = defaultdict(int)
+    gate_totals   = defaultdict(int)
 
     domain_pool = {
         "cardiologist": list(orchestrator.cardiologist.vectorstore.docstore._dict.values()),
@@ -306,6 +309,10 @@ def evaluate_retrieval(split="test"):
             tier3_count[expected_agent] += 1
             if chunk_count == 0:
                 tier3_refusals[expected_agent] += 1
+
+        gate_totals[(expected_agent, tier)] += 1
+        if agent.refuse(query):
+            gate_refusals[(expected_agent, tier)] += 1
 
         gold_sources = case.get("gold_sources")
         if tier in (1, 2):
@@ -468,8 +475,45 @@ def evaluate_retrieval(split="test"):
                   f"{recall:>9.1%} {mrr:>10.3f} {n:>6} {tier_legacy:>17.1%}")
     print(f"{'=' * 95}")
 
+    # RefusalGate (Stage 7) — separate from the legacy zero-chunk metric.
+    print(f"\n{'=' * 80}")
+    print(f"  RefusalGate Verdicts  (Stage 7 numeric gate, signal=A, L2_REJECT_MIN tuned)")
+    print(f"  Positive class = Tier 3 (target ≥80% recall on test).")
+    print(f"  Negative class = Tier 1/2 (target ≤5% false-positive rate on test).")
+    print(f"{'=' * 80}")
+    print(f"  {'Domain':<18} {'Tier':<5} {'Label':<13} {'Refused':>8} {'Total':>6} "
+          f"{'Refusal Rate':>13}")
+    print(f"  {'-'*18} {'-'*5} {'-'*13} {'-'*8} {'-'*6} {'-'*13}")
+    gate_t3_refused = 0
+    gate_t3_total  = 0
+    gate_t12_refused = 0
+    gate_t12_total  = 0
+    for domain in ("cardiologist", "endocrinologist"):
+        for t in [1, 2, 3]:
+            tot = gate_totals[(domain, t)]
+            if tot == 0:
+                continue
+            ref = gate_refusals[(domain, t)]
+            rate = ref / tot
+            label = tier_labels.get(t, "?")
+            print(f"  {domain:<18} {t:<5} {label:<13} {ref:>8} {tot:>6} {rate:>12.1%}")
+            if t == 3:
+                gate_t3_refused += ref
+                gate_t3_total  += tot
+            else:
+                gate_t12_refused += ref
+                gate_t12_total  += tot
+    print(f"  {'-'*18} {'-'*5} {'-'*13} {'-'*8} {'-'*6} {'-'*13}")
+    rec = gate_t3_refused / gate_t3_total if gate_t3_total else 0
+    fpr = gate_t12_refused / gate_t12_total if gate_t12_total else 0
+    print(f"  {'TIER 3 RECALL':<18} {'':<5} {'':<13} "
+          f"{gate_t3_refused:>8} {gate_t3_total:>6} {rec:>12.1%}")
+    print(f"  {'TIER 1/2 FP RATE':<18} {'':<5} {'':<13} "
+          f"{gate_t12_refused:>8} {gate_t12_total:>6} {fpr:>12.1%}")
+    print(f"{'=' * 80}")
+
     print(f"\n{'=' * 60}")
-    print(f"  Tier 3 Refusal Rate  (zero-chunk retrieval fraction)")
+    print(f"  Tier 3 Refusal Rate  (legacy: zero-chunk retrieval fraction)")
     print(f"{'=' * 60}")
     print(f"  {'Domain':<18} {'Refusals':>10} {'T3 Total':>10} {'Refusal Rate':>14}")
     print(f"  {'-'*18} {'-'*10} {'-'*10} {'-'*14}")

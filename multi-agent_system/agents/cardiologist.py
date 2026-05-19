@@ -5,13 +5,20 @@ from langchain_core.documents import Document
 from langchain_community.vectorstores import FAISS
 from agents.base import BaseMedicalAgent
 from embeddings import YandexNativeEmbeddings
+from refusal_gate import RefusalGate
 from settings import (
     client,
     AGENT_MODEL,
     SIMILARITY_TOP_K,
     YANDEX_PROJECT_ID,
     MAX_L2_DISTANCE,
+    REFUSAL_GATE_SIGNAL,
+    L2_REJECT_MIN,
+    CORPUS_DIST_K,
 )
+
+REFUSAL_RESPONSE = "Insufficient evidence in the current knowledge base to address this specific query."
+NO_EVIDENCE = "No evidence retrieved."
 
 
 class CardiologistAgent(BaseMedicalAgent):
@@ -19,7 +26,9 @@ class CardiologistAgent(BaseMedicalAgent):
     SPECIALIST_NAME = "Cardiologist"
 
     def __init__(self, folder_path: str):
+        self.folder_path = folder_path
         self.embeddings = YandexNativeEmbeddings()
+        self._refusal_gate = None
 
         faiss_save_path = os.path.join(folder_path, "faiss_index")
 
@@ -104,6 +113,20 @@ class CardiologistAgent(BaseMedicalAgent):
         print(f"Saving FAISS index to {faiss_save_path} for faster future startups...")
         self.vectorstore.save_local(faiss_save_path)
 
+    @property
+    def refusal_gate(self):
+        if self._refusal_gate is None:
+            self._refusal_gate = RefusalGate.from_vectorstore(
+                self.vectorstore,
+                specialty="cardiology",
+                processed_dir=self.folder_path,
+                l2_reject_min=L2_REJECT_MIN,
+                corpus_dist_k=CORPUS_DIST_K,
+                signal=REFUSAL_GATE_SIGNAL,
+                top_k=SIMILARITY_TOP_K,
+            )
+        return self._refusal_gate
+
     def embed_query(self, query: str) -> List[float]:
         return self.embeddings.embed_query(query)
 
@@ -112,6 +135,10 @@ class CardiologistAgent(BaseMedicalAgent):
         return [(doc, score) for doc, score in docs_and_scores if score <= MAX_L2_DISTANCE]
 
     def answer(self, question: str) -> Tuple[str, str, str]:
+        if self.refuse(question):
+            print(f"[RefusalGate] cardiologist refusing query (out-of-scope)")
+            return self.SPECIALIST_NAME, REFUSAL_RESPONSE, NO_EVIDENCE
+
         valid_docs_and_scores = self.retrieve(question)
 
         print(f"\n{'='*60}")
