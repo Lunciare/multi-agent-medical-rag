@@ -5,7 +5,26 @@
     "tier_label": "core",
     "query": "A 58-year-old female presents with episodic palpitations and shortness of breath on exertion that have worsened over the past three weeks. She has no prior cardiac history. What are the potential cardiac causes, and what initial workup is recommended?",
     "expected_specialist": "cardiologist",
-    "expected_keywords": ["arrhythmia", "atrial fibrillation", "ecg", "holter"]
+    "expected_keywords": [
+      "arrhythmia",
+      "atrial fibrillation",
+      "ecg",
+      "holter"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0004.txt",
+        "doc_name": "Palpitations - Cardiovascular Disorders - Merck Manual Professional Edition"
+      },
+      {
+        "source_file": "0054.txt",
+        "doc_name": "8205Oxford Handbook of Clinical Medicine 10th 2017 Edition_SamanSarKo - Copy"
+      },
+      {
+        "source_file": "0001.txt",
+        "doc_name": "COPD exacerbation, followed by cardiac arrest. - Dr. Smith’s ECG Blog"
+      }
+    ]
   },
   {
     "id": "cardio_2",
@@ -13,7 +32,26 @@
     "tier_label": "core",
     "query": "A 65-year-old male with a 20-year history of poorly controlled hypertension reports substernal chest pressure radiating to the left arm during physical activity, relieved by rest. How do these chest pain patterns correlate with his hypertension as a risk factor, and what differential diagnoses should be considered?",
     "expected_specialist": "cardiologist",
-    "expected_keywords": ["angina", "ischemia", "coronary artery disease", "hypertension"]
+    "expected_keywords": [
+      "angina",
+      "ischemia",
+      "coronary artery disease",
+      "hypertension"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0026.txt",
+        "doc_name": "cardiology-explained"
+      },
+      {
+        "source_file": "0008.txt",
+        "doc_name": "recentonset-chest-pain-of-suspected-cardiac-origin-assessment-and-diagnosis-pdf-975751034821"
+      },
+      {
+        "source_file": "0005.txt",
+        "doc_name": "Chest Pain - Cardiovascular Disorders - Merck Manual Professional Edition"
+      }
+    ]
   },
   {
     "id": "cardio_3",
@@ -21,7 +59,26 @@
     "tier_label": "core",
     "query": "A 45-year-old patient shares data from a consumer wearable showing intermittent irregular R-R intervals and reduced heart rate variability over the past month. What cardiac conditions could explain these findings, and when should a formal 12-lead ECG or Holter monitor be ordered?",
     "expected_specialist": "cardiologist",
-    "expected_keywords": ["arrhythmia", "holter", "wearable", "fibrillation"]
+    "expected_keywords": [
+      "arrhythmia",
+      "holter",
+      "wearable",
+      "fibrillation"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0251.txt",
+        "doc_name": "1669720301Guyton and Hall 2021 Textbook of Medical Physiology 14th Ed"
+      },
+      {
+        "source_file": "0009.txt",
+        "doc_name": "carnation-ambulatory-monitor-for-ambulatory-detection-of-cardiac-arrythmias-pdf-2285965817704645"
+      },
+      {
+        "source_file": "0003.txt",
+        "doc_name": "remote-ecg-interpretation-consultancy-services-for-cardiovascular-disease-pdf-2285963513271493"
+      }
+    ]
   },
   {
     "id": "cardio_4",
@@ -29,7 +86,26 @@
     "tier_label": "core",
     "query": "A 52-year-old male experiences recurrent episodes of dizziness and a sensation of a racing heartbeat lasting 10-15 minutes. An initial resting ECG was normal. What diagnostic procedures are indicated for suspected paroxysmal arrhythmia, and in what order should they be pursued?",
     "expected_specialist": "cardiologist",
-    "expected_keywords": ["paroxysmal", "arrhythmia", "monitor", "ecg"]
+    "expected_keywords": [
+      "paroxysmal",
+      "arrhythmia",
+      "monitor",
+      "ecg"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0004.txt",
+        "doc_name": "Palpitations - Cardiovascular Disorders - Merck Manual Professional Edition"
+      },
+      {
+        "source_file": "0153.txt",
+        "doc_name": "8205Oxford Handbook of Clinical Medicine 10th 2017 Edition_SamanSarKo - Copy"
+      },
+      {
+        "source_file": "0086.txt",
+        "doc_name": "cardiology-explained"
+      }
+    ]
   },
   {
     "id": "cardio_5",
@@ -37,7 +113,26 @@
     "tier_label": "core",
     "query": "A 60-year-old patient with a BMI of 32, moderate alcohol intake, and untreated sleep apnea has been found to have occasional atrial fibrillation on a recent Holter recording. What are the key modifiable risk factors contributing to atrial fibrillation in this patient, and what lifestyle interventions does the evidence support?",
     "expected_specialist": "cardiologist",
-    "expected_keywords": ["atrial fibrillation", "sleep apnea", "alcohol", "weight"]
+    "expected_keywords": [
+      "atrial fibrillation",
+      "sleep apnea",
+      "alcohol",
+      "weight"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0002.txt",
+        "doc_name": "ESC-Patient-Guidelines-Atrial-Fibrillation"
+      },
+      {
+        "source_file": "0001.txt",
+        "doc_name": "Atrial Fibrillation - Cardiovascular Disorders - Merck Manual Professional Edition"
+      },
+      {
+        "source_file": "0026.txt",
+        "doc_name": "atrial-fibrillation-diagnosis-and-management-pdf-66142085507269"
+      }
+    ]
   },
   {
     "id": "cardio_6",
@@ -45,7 +140,26 @@
     "tier_label": "core",
     "query": "A 72-year-old male with a history of hypertension presents with exertional dyspnea and bilateral lower extremity edema. Echocardiogram shows an ejection fraction of 55% but impaired diastolic relaxation. What is the diagnosis?",
     "expected_specialist": "cardiologist",
-    "expected_keywords": ["hfpef", "heart failure", "diastolic", "edema"]
+    "expected_keywords": [
+      "hfpef",
+      "heart failure",
+      "diastolic",
+      "edema"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0058.txt",
+        "doc_name": "8205Oxford Handbook of Clinical Medicine 10th 2017 Edition_SamanSarKo - Copy"
+      },
+      {
+        "source_file": "0128.txt",
+        "doc_name": "cardiology-explained"
+      },
+      {
+        "source_file": "0002.txt",
+        "doc_name": "Pulmonary Edema - Cardiovascular Disorders - Merck Manual Professional Edition"
+      }
+    ]
   },
   {
     "id": "cardio_7",
@@ -53,7 +167,26 @@
     "tier_label": "core",
     "query": "A 28-year-old male athlete collapses during a marathon. On evaluation, an echocardiogram demonstrates asymmetric septal hypertrophy and systolic anterior motion of the mitral valve. What is the most likely diagnosis?",
     "expected_specialist": "cardiologist",
-    "expected_keywords": ["hypertrophic cardiomyopathy", "hcm", "septal", "sam"]
+    "expected_keywords": [
+      "hypertrophic cardiomyopathy",
+      "hcm",
+      "septal",
+      "sam"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0001.txt",
+        "doc_name": "Hypertrophic Cardiomyopathy - Cardiovascular Disorders - Merck Manual Professional Edition"
+      },
+      {
+        "source_file": "0003.txt",
+        "doc_name": "Athlete’s Heart - Cardiovascular Disorders - Merck Manual Professional Edition"
+      },
+      {
+        "source_file": "0127.txt",
+        "doc_name": "cardiology-explained"
+      }
+    ]
   },
   {
     "id": "cardio_8",
@@ -61,7 +194,26 @@
     "tier_label": "core",
     "query": "A 35-year-old female presents with sharp, pleuritic chest pain that improves when she leans forward. She reports a recent viral illness. ECG shows diffuse ST elevation with PR depression. What is the diagnosis?",
     "expected_specialist": "cardiologist",
-    "expected_keywords": ["pericarditis", "chest pain", "st elevation", "pr depression"]
+    "expected_keywords": [
+      "pericarditis",
+      "chest pain",
+      "st elevation",
+      "pr depression"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0001.txt",
+        "doc_name": "A woman in her 50s with acute chest pain - Dr. Smith’s ECG Blog"
+      },
+      {
+        "source_file": "0001.txt",
+        "doc_name": "Acute Chest pain, 2 years in a row. - Dr. Smith’s ECG Blog"
+      },
+      {
+        "source_file": "0001.txt",
+        "doc_name": "A 24 year old with chest pain — What happened_ - Dr. Smith’s ECG Blog"
+      }
+    ]
   },
   {
     "id": "cardio_9",
@@ -69,7 +221,26 @@
     "tier_label": "core",
     "query": "A 68-year-old male with a history of intravenous drug use presents with high fever, new-onset holosystolic murmur radiating to the axilla, and painful nodules on his fingertips. Blood cultures are pending. What is the recommended empirical treatment?",
     "expected_specialist": "cardiologist",
-    "expected_keywords": ["endocarditis", "murmur", "osler", "antibiotics"]
+    "expected_keywords": [
+      "endocarditis",
+      "murmur",
+      "osler",
+      "antibiotics"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0006.txt",
+        "doc_name": "Infective endocarditis - Cardiology Explained - NCBI Bookshelf"
+      },
+      {
+        "source_file": "0121.txt",
+        "doc_name": "cardiology-explained"
+      },
+      {
+        "source_file": "0651.txt",
+        "doc_name": "8205Oxford Handbook of Clinical Medicine 10th 2017 Edition_SamanSarKo - Copy"
+      }
+    ]
   },
   {
     "id": "cardio_10",
@@ -77,7 +248,13 @@
     "tier_label": "out_of_scope",
     "query": "A 55-year-old male presents to the ED with severe, tearing chest pain radiating to his back. His blood pressure is 190/110 mmHg. A widened mediastinum is seen on chest X-ray. What is the immediate next step in management?",
     "expected_specialist": "cardiologist",
-    "expected_keywords": ["aortic dissection", "tearing", "mediastinum", "ct angiography"]
+    "expected_keywords": [
+      "aortic dissection",
+      "tearing",
+      "mediastinum",
+      "ct angiography"
+    ],
+    "gold_sources": []
   },
   {
     "id": "cardio_11",
@@ -85,7 +262,26 @@
     "tier_label": "core",
     "query": "A 60-year-old female presents with crushing midsternal chest pain. Her ECG demonstrates ST elevation in leads II, III, and aVF. What coronary artery is most likely occluded?",
     "expected_specialist": "cardiologist",
-    "expected_keywords": ["stemi", "inferior", "right coronary artery", "rca"]
+    "expected_keywords": [
+      "stemi",
+      "inferior",
+      "right coronary artery",
+      "rca"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0001.txt",
+        "doc_name": "Baseline wander. But what else do you see_ - Dr. Smith’s ECG Blog"
+      },
+      {
+        "source_file": "0001.txt",
+        "doc_name": "A woman in her 50s with acute chest pain - Dr. Smith’s ECG Blog"
+      },
+      {
+        "source_file": "0005.txt",
+        "doc_name": "Overview of Acute Coronary Syndromes (ACS) - Cardiovascular Disorders - Merck Manual Professional Edition"
+      }
+    ]
   },
   {
     "id": "cardio_12",
@@ -93,7 +289,26 @@
     "tier_label": "core",
     "query": "A 40-year-old male with a history of alcohol abuse presents with severe dyspnea, orthopnea, and an S3 gallop. Echocardiogram reveals an ejection fraction of 25% with global hypokinesis. What is the suspected pathology?",
     "expected_specialist": "cardiologist",
-    "expected_keywords": ["dilated cardiomyopathy", "heart failure", "ejection fraction", "alcohol"]
+    "expected_keywords": [
+      "dilated cardiomyopathy",
+      "heart failure",
+      "ejection fraction",
+      "alcohol"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0001.txt",
+        "doc_name": "Alcoholic cardiomyopathy overview - wikidoc"
+      },
+      {
+        "source_file": "0067.txt",
+        "doc_name": "8205Oxford Handbook of Clinical Medicine 10th 2017 Edition_SamanSarKo - Copy"
+      },
+      {
+        "source_file": "0002.txt",
+        "doc_name": "A man in his 50s with altered mental status and abdominal pain. What treatment must be given immediately, and how much_ "
+      }
+    ]
   },
   {
     "id": "cardio_13",
@@ -101,7 +316,27 @@
     "tier_label": "core",
     "query": "A 75-year-old male presents with exertional syncope and a crescendo-decrescendo systolic murmur at the right upper sternal border. An echocardiogram shows a narrowed valve area. What are the indications for replacement?",
     "expected_specialist": "cardiologist",
-    "expected_keywords": ["aortic stenosis", "murmur", "syncope", "replacement", "tavr"]
+    "expected_keywords": [
+      "aortic stenosis",
+      "murmur",
+      "syncope",
+      "replacement",
+      "tavr"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0127.txt",
+        "doc_name": "cardiology-explained"
+      },
+      {
+        "source_file": "0003.txt",
+        "doc_name": "Aortic Stenosis - Cardiovascular Disorders - Merck Manual Professional Edition"
+      },
+      {
+        "source_file": "0064.txt",
+        "doc_name": "8205Oxford Handbook of Clinical Medicine 10th 2017 Edition_SamanSarKo - Copy"
+      }
+    ]
   },
   {
     "id": "cardio_14",
@@ -109,7 +344,26 @@
     "tier_label": "core",
     "query": "A patient arrives at the clinic with severe leg pain when walking that immediately stops upon resting. Her ankle-brachial index is 0.7. What is the corresponding cardiovascular disease?",
     "expected_specialist": "cardiologist",
-    "expected_keywords": ["claudication", "peripheral artery disease", "pad", "abi"]
+    "expected_keywords": [
+      "claudication",
+      "peripheral artery disease",
+      "pad",
+      "abi"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0003.txt",
+        "doc_name": "Peripheral Artery Disease - Cardiovascular Disorders - Merck Manual Professional Edition"
+      },
+      {
+        "source_file": "0003.txt",
+        "doc_name": "peripheral-arterial-disease-pdf-2098723816645"
+      },
+      {
+        "source_file": "0055.txt",
+        "doc_name": "8205Oxford Handbook of Clinical Medicine 10th 2017 Edition_SamanSarKo - Copy"
+      }
+    ]
   },
   {
     "id": "cardio_15",
@@ -117,7 +371,26 @@
     "tier_label": "core",
     "query": "A trauma patient presents with muffled heart sounds, jugular venous distention, and hypotension (Beck's triad). An urgent bedside ultrasound shows fluid in the pericardial space. What acute intervention is required?",
     "expected_specialist": "cardiologist",
-    "expected_keywords": ["tamponade", "pericardiocentesis", "hypotension", "fluid"]
+    "expected_keywords": [
+      "tamponade",
+      "pericardiocentesis",
+      "hypotension",
+      "fluid"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0001.txt",
+        "doc_name": "Cardiac tamponade overview - wikidoc"
+      },
+      {
+        "source_file": "0002.txt",
+        "doc_name": "An elderly patient with shortness of breath and near syncope - Dr. Smith’s ECG Blog"
+      },
+      {
+        "source_file": "0010.txt",
+        "doc_name": "Pericarditis - Cardiovascular Disorders - Merck Manual Professional Edition"
+      }
+    ]
   },
   {
     "id": "cardio_16",
@@ -125,7 +398,26 @@
     "tier_label": "core",
     "query": "A 70-year-old male with chronic heart failure and an ejection fraction of 30% develops a wide-complex tachycardia at 180 bpm. He is hemodynamically unstable. What is the immediate management?",
     "expected_specialist": "cardiologist",
-    "expected_keywords": ["ventricular tachycardia", "cardioversion", "amiodarone", "icd"]
+    "expected_keywords": [
+      "ventricular tachycardia",
+      "cardioversion",
+      "amiodarone",
+      "icd"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0001.txt",
+        "doc_name": "Electrophysiology_ Wide Complex Tachycardia in a 70-something - Dr. Smith’s ECG Blog"
+      },
+      {
+        "source_file": "0086.txt",
+        "doc_name": "cardiology-explained"
+      },
+      {
+        "source_file": "0019.txt",
+        "doc_name": "Arrhythmia - Cardiology Explained - NCBI Bookshelf"
+      }
+    ]
   },
   {
     "id": "cardio_17",
@@ -133,7 +425,26 @@
     "tier_label": "core",
     "query": "A 48-year-old female with no known cardiac history is found to have a resting heart rate of 38 bpm and episodes of near-syncope. A 12-lead ECG shows progressive prolongation of the PR interval until a beat is dropped. What is the rhythm and what management is required?",
     "expected_specialist": "cardiologist",
-    "expected_keywords": ["mobitz", "av block", "bradycardia", "pacemaker"]
+    "expected_keywords": [
+      "mobitz",
+      "av block",
+      "bradycardia",
+      "pacemaker"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0153.txt",
+        "doc_name": "8205Oxford Handbook of Clinical Medicine 10th 2017 Edition_SamanSarKo - Copy"
+      },
+      {
+        "source_file": "0012.txt",
+        "doc_name": "Arrhythmia - Cardiology Explained - NCBI Bookshelf"
+      },
+      {
+        "source_file": "0001.txt",
+        "doc_name": "How comfortable are you with transcutaneous pacing_ - Dr. Smith’s ECG Blog"
+      }
+    ]
   },
   {
     "id": "cardio_18",
@@ -141,7 +452,28 @@
     "tier_label": "core",
     "query": "A 55-year-old male with known coronary artery disease presents with new anterior ST elevation. He receives primary PCI within 90 minutes. Post-procedure, his EF is 38%. What secondary prevention medications are indicated?",
     "expected_specialist": "cardiologist",
-    "expected_keywords": ["stemi", "pci", "aspirin", "beta blocker", "ace inhibitor", "statin"]
+    "expected_keywords": [
+      "stemi",
+      "pci",
+      "aspirin",
+      "beta blocker",
+      "ace inhibitor",
+      "statin"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0020.txt",
+        "doc_name": "acute-coronary-syndromes-pdf-66142023361477"
+      },
+      {
+        "source_file": "0001.txt",
+        "doc_name": "drugeluting-stents-for-the-treatment-of-coronary-artery-disease-pdf-82598311384261"
+      },
+      {
+        "source_file": "0005.txt",
+        "doc_name": "Overview of Coronary Artery Disease - Cardiovascular Disorders - Merck Manual Professional Edition"
+      }
+    ]
   },
   {
     "id": "cardio_19",
@@ -149,7 +481,26 @@
     "tier_label": "core",
     "query": "A 66-year-old female with a history of rheumatic fever presents with progressive exertional dyspnea and a low-pitched diastolic rumble best heard at the apex. Echocardiography confirms a valve area of 0.9 cm². What are the treatment options?",
     "expected_specialist": "cardiologist",
-    "expected_keywords": ["mitral stenosis", "rheumatic", "commissurotomy", "valve area"]
+    "expected_keywords": [
+      "mitral stenosis",
+      "rheumatic",
+      "commissurotomy",
+      "valve area"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0001.txt",
+        "doc_name": "Mitral Stenosis - Cardiovascular Disorders - Merck Manual Professional Edition"
+      },
+      {
+        "source_file": "0004.txt",
+        "doc_name": "Rheumatic Fever - Pediatrics - Merck Manual Professional Edition"
+      },
+      {
+        "source_file": "0134.txt",
+        "doc_name": "cardiology-explained"
+      }
+    ]
   },
   {
     "id": "cardio_20",
@@ -157,7 +508,26 @@
     "tier_label": "core",
     "query": "A 50-year-old male presents with sudden-onset severe headache, nausea, and a blood pressure of 230/130 mmHg. Fundoscopy reveals papilledema and flame haemorrhages. What is this hypertensive emergency and what is the target blood pressure reduction timeline?",
     "expected_specialist": "cardiologist",
-    "expected_keywords": ["hypertensive emergency", "encephalopathy", "papilledema", "labetalol"]
+    "expected_keywords": [
+      "hypertensive emergency",
+      "encephalopathy",
+      "papilledema",
+      "labetalol"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0001.txt",
+        "doc_name": "Hypertensive Emergencies - Cardiovascular Disorders - Merck Manual Professional Edition"
+      },
+      {
+        "source_file": "0008.txt",
+        "doc_name": "Hypertension - Cardiovascular Disorders - Merck Manual Professional Edition"
+      },
+      {
+        "source_file": "0001.txt",
+        "doc_name": "Hypertension - Cardiology Explained - NCBI Bookshelf"
+      }
+    ]
   },
   {
     "id": "cardio_21",
@@ -165,7 +535,26 @@
     "tier_label": "core",
     "query": "A 32-year-old male competitive swimmer presents with palpitations. ECG shows a delta wave, short PR interval, and wide QRS. He has a history of episodes of rapid, regular palpitations. What is the diagnosis and what should be avoided?",
     "expected_specialist": "cardiologist",
-    "expected_keywords": ["wolff-parkinson-white", "wpw", "accessory pathway", "adenosine"]
+    "expected_keywords": [
+      "wolff-parkinson-white",
+      "wpw",
+      "accessory pathway",
+      "adenosine"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0076.txt",
+        "doc_name": "cardiology-explained"
+      },
+      {
+        "source_file": "0946.txt",
+        "doc_name": "8205Oxford Handbook of Clinical Medicine 10th 2017 Edition_SamanSarKo - Copy"
+      },
+      {
+        "source_file": "0004.txt",
+        "doc_name": "Palpitations - Cardiovascular Disorders - Merck Manual Professional Edition"
+      }
+    ]
   },
   {
     "id": "cardio_22",
@@ -173,7 +562,26 @@
     "tier_label": "peripheral",
     "query": "A 44-year-old female presents with progressive dyspnea on exertion, fatigue, and near-syncope. Right heart catheterization reveals a mean pulmonary artery pressure of 38 mmHg with a normal pulmonary capillary wedge pressure. What is the diagnosis and initial treatment approach?",
     "expected_specialist": "cardiologist",
-    "expected_keywords": ["pulmonary hypertension", "pulmonary arterial hypertension", "endothelin", "vasodilator"]
+    "expected_keywords": [
+      "pulmonary hypertension",
+      "pulmonary arterial hypertension",
+      "endothelin",
+      "vasodilator"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0004.txt",
+        "doc_name": "Right Heart Failure and Cor Pulmonale - Cardiovascular Disorders - Merck Manual Professional Edition"
+      },
+      {
+        "source_file": "0003.txt",
+        "doc_name": "Pulmonary Regurgitation - Cardiovascular Disorders - Merck Manual Professional Edition"
+      },
+      {
+        "source_file": "0140.txt",
+        "doc_name": "cardiology-explained"
+      }
+    ]
   },
   {
     "id": "cardio_23",
@@ -181,7 +589,26 @@
     "tier_label": "peripheral",
     "query": "A 60-year-old male with longstanding hypertension and diabetes is found on echocardiography to have a pericardial effusion of 2.5 cm with early right ventricular diastolic collapse. He is haemodynamically stable. How should he be managed?",
     "expected_specialist": "cardiologist",
-    "expected_keywords": ["pericardial effusion", "tamponade", "pericardiocentesis", "drainage"]
+    "expected_keywords": [
+      "pericardial effusion",
+      "tamponade",
+      "pericardiocentesis",
+      "drainage"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0002.txt",
+        "doc_name": "An elderly patient with shortness of breath and near syncope - Dr. Smith’s ECG Blog"
+      },
+      {
+        "source_file": "0003.txt",
+        "doc_name": "Pericardial disease - Cardiology Explained - NCBI Bookshelf"
+      },
+      {
+        "source_file": "0004.txt",
+        "doc_name": "Aortic Regurgitation - Cardiovascular Disorders - Merck Manual Professional Edition"
+      }
+    ]
   },
   {
     "id": "cardio_24",
@@ -189,7 +616,26 @@
     "tier_label": "peripheral",
     "query": "A 25-year-old female presents with progressive fatigue, exertional dyspnea, and a fixed split S2. Echocardiography reveals a significant left-to-right shunt at the atrial level. What are the criteria for closure?",
     "expected_specialist": "cardiologist",
-    "expected_keywords": ["atrial septal defect", "asd", "shunt", "closure"]
+    "expected_keywords": [
+      "atrial septal defect",
+      "asd",
+      "shunt",
+      "closure"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0006.txt",
+        "doc_name": "cardiology-explained"
+      },
+      {
+        "source_file": "0006.txt",
+        "doc_name": "Cardiac Auscultation - Cardiovascular Disorders - Merck Manual Professional Edition"
+      },
+      {
+        "source_file": "0177.txt",
+        "doc_name": "8205Oxford Handbook of Clinical Medicine 10th 2017 Edition_SamanSarKo - Copy"
+      }
+    ]
   },
   {
     "id": "cardio_25",
@@ -197,7 +643,18 @@
     "tier_label": "peripheral",
     "query": "A 58-year-old male post-CABG presents to clinic with a new pericardial friction rub, fever, and pleuritic chest pain beginning three weeks after surgery. ESR and CRP are elevated. What syndrome is this and what is the treatment?",
     "expected_specialist": "cardiologist",
-    "expected_keywords": ["dressler syndrome", "post-pericardiotomy", "nsaids", "colchicine"]
+    "expected_keywords": [
+      "dressler syndrome",
+      "post-pericardiotomy",
+      "nsaids",
+      "colchicine"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0189.txt",
+        "doc_name": "8205Oxford Handbook of Clinical Medicine 10th 2017 Edition_SamanSarKo - Copy"
+      }
+    ]
   },
   {
     "id": "cardio_26",
@@ -205,7 +662,26 @@
     "tier_label": "peripheral",
     "query": "A 55-year-old female with hypertension is found to have an asymptomatic abdominal aortic aneurysm measuring 4.8 cm on screening ultrasound. She is a current smoker. What is the recommended surveillance interval and at what size is intervention indicated?",
     "expected_specialist": "cardiologist",
-    "expected_keywords": ["aortic aneurysm", "surveillance", "endovascular", "rupture"]
+    "expected_keywords": [
+      "aortic aneurysm",
+      "surveillance",
+      "endovascular",
+      "rupture"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0004.txt",
+        "doc_name": "abdominal-aortic-aneurysm-diagnosis-and-management-pdf-66141843642565"
+      },
+      {
+        "source_file": "0003.txt",
+        "doc_name": "Abdominal Aortic Aneurysms (AAA) - Cardiovascular Disorders - Merck Manual Professional Edition"
+      },
+      {
+        "source_file": "0004.txt",
+        "doc_name": "hypertension-in-adults-diagnosis-and-management-pdf-66141722710213"
+      }
+    ]
   },
   {
     "id": "cardio_27",
@@ -213,7 +689,26 @@
     "tier_label": "peripheral",
     "query": "A 38-year-old male presents with chest pain and shortness of breath 48 hours after a transatlantic flight. D-dimer is elevated. CT pulmonary angiography confirms bilateral subsegmental pulmonary emboli. He is haemodynamically stable. What anticoagulation strategy is preferred?",
     "expected_specialist": "cardiologist",
-    "expected_keywords": ["pulmonary embolism", "anticoagulation", "doac", "heparin"]
+    "expected_keywords": [
+      "pulmonary embolism",
+      "anticoagulation",
+      "doac",
+      "heparin"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0693.txt",
+        "doc_name": "8205Oxford Handbook of Clinical Medicine 10th 2017 Edition_SamanSarKo - Copy"
+      },
+      {
+        "source_file": "0001.txt",
+        "doc_name": "Can you guess the diagnosis_ - Dr. Smith’s ECG Blog"
+      },
+      {
+        "source_file": "0033.txt",
+        "doc_name": "venous-thromboembolic-diseases-diagnosis-management-and-thrombophilia-testing-pdf-66141847001797"
+      }
+    ]
   },
   {
     "id": "cardio_28",
@@ -221,7 +716,13 @@
     "tier_label": "out_of_scope",
     "query": "A 45-year-old male with no prior cardiac history presents with bilateral leg swelling, ascites, and raised JVP. Echocardiography shows a thickened, non-dilated pericardium with respiratory variation on doppler. What is the underlying mechanism and how is it confirmed?",
     "expected_specialist": "cardiologist",
-    "expected_keywords": ["constrictive pericarditis", "pericardial calcification", "cardiac catheterization", "equalization"]
+    "expected_keywords": [
+      "constrictive pericarditis",
+      "pericardial calcification",
+      "cardiac catheterization",
+      "equalization"
+    ],
+    "gold_sources": []
   },
   {
     "id": "cardio_29",
@@ -229,7 +730,13 @@
     "tier_label": "out_of_scope",
     "query": "A 30-year-old female presents with a three-month history of episodic limb claudication, absent radial pulses bilaterally, and a blood pressure differential of 30 mmHg between arms. ESR is 75 mm/hr. What is the most likely diagnosis?",
     "expected_specialist": "cardiologist",
-    "expected_keywords": ["takayasu arteritis", "large vessel vasculitis", "aorta", "stenosis"]
+    "expected_keywords": [
+      "takayasu arteritis",
+      "large vessel vasculitis",
+      "aorta",
+      "stenosis"
+    ],
+    "gold_sources": []
   },
   {
     "id": "cardio_30",
@@ -237,7 +744,13 @@
     "tier_label": "out_of_scope",
     "query": "A 50-year-old male presenting for routine screening is found on ECG to have a right bundle branch block and persistent ST elevation in V1–V3. He has a family history of sudden cardiac death. Sodium channel blocker provocation testing is positive. What is the syndrome?",
     "expected_specialist": "cardiologist",
-    "expected_keywords": ["brugada syndrome", "sudden cardiac death", "icd", "sodium channel"]
+    "expected_keywords": [
+      "brugada syndrome",
+      "sudden cardiac death",
+      "icd",
+      "sodium channel"
+    ],
+    "gold_sources": []
   },
   {
     "id": "cardio_31",
@@ -245,7 +758,13 @@
     "tier_label": "out_of_scope",
     "query": "A 20-year-old male presents with progressive dyspnea and lower extremity edema over six months. Cardiac MRI shows myocardial fibrosis in a non-ischemic distribution. Serum ferritin is 3,200 ng/mL. ECG shows first-degree AV block. What infiltrative disorder should be suspected?",
     "expected_specialist": "cardiologist",
-    "expected_keywords": ["cardiac sarcoidosis", "infiltrative cardiomyopathy", "ferritin", "hemochromatosis"]
+    "expected_keywords": [
+      "cardiac sarcoidosis",
+      "infiltrative cardiomyopathy",
+      "ferritin",
+      "hemochromatosis"
+    ],
+    "gold_sources": []
   },
   {
     "id": "cardio_32",
@@ -253,7 +772,13 @@
     "tier_label": "out_of_scope",
     "query": "A 65-year-old male with a prior history of anterior STEMI presents with a new pansystolic murmur and haemodynamic deterioration five days post-infarction. Echocardiography reveals a defect between the ventricles with left-to-right shunting. What is the diagnosis and management?",
     "expected_specialist": "cardiologist",
-    "expected_keywords": ["ventricular septal defect", "post-infarct", "vsd", "mechanical complication"]
+    "expected_keywords": [
+      "ventricular septal defect",
+      "post-infarct",
+      "vsd",
+      "mechanical complication"
+    ],
+    "gold_sources": []
   },
   {
     "id": "cardio_33",
@@ -261,7 +786,27 @@
     "tier_label": "core",
     "query": "A 70-year-old female with chronic atrial fibrillation and a CHA2DS2-VASc score of 4 is being considered for anticoagulation. She has a history of peptic ulcer disease. What is the preferred anticoagulant and what monitoring is required?",
     "expected_specialist": "cardiologist",
-    "expected_keywords": ["atrial fibrillation", "anticoagulation", "doac", "cha2ds2-vasc", "stroke risk"]
+    "expected_keywords": [
+      "atrial fibrillation",
+      "anticoagulation",
+      "doac",
+      "cha2ds2-vasc",
+      "stroke risk"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0002.txt",
+        "doc_name": "atrial-fibrillation-pdf-2098967360965"
+      },
+      {
+        "source_file": "0019.txt",
+        "doc_name": "atrial-fibrillation-diagnosis-and-management-pdf-66142085507269"
+      },
+      {
+        "source_file": "0008.txt",
+        "doc_name": "ESC-Patient-Guidelines-Atrial-Fibrillation"
+      }
+    ]
   },
   {
     "id": "cardio_34",
@@ -269,7 +814,26 @@
     "tier_label": "core",
     "query": "A 62-year-old male with a known dilated cardiomyopathy and ejection fraction of 25% despite optimal medical therapy is being evaluated for device therapy. What are the indications for implantable cardioverter-defibrillator placement?",
     "expected_specialist": "cardiologist",
-    "expected_keywords": ["icd", "sudden death prevention", "ejection fraction", "heart failure"]
+    "expected_keywords": [
+      "icd",
+      "sudden death prevention",
+      "ejection fraction",
+      "heart failure"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0003.txt",
+        "doc_name": "Implantable Cardioverter-Defibrillators (ICD) - Cardiovascular Disorders - Merck Manual Professional Edition"
+      },
+      {
+        "source_file": "0004.txt",
+        "doc_name": "Cardiac Pacemakers - Cardiovascular Disorders - Merck Manual Professional Edition"
+      },
+      {
+        "source_file": "0004.txt",
+        "doc_name": "Ventricular Tachycardia (VT) - Cardiovascular Disorders - Merck Manual Professional Edition"
+      }
+    ]
   },
   {
     "id": "cardio_35",
@@ -277,7 +841,13 @@
     "tier_label": "peripheral",
     "query": "A 55-year-old male presents with an acute inferior STEMI complicated by complete heart block and haemodynamic compromise. Despite revascularisation, the heart block persists at 48 hours. What is the next step?",
     "expected_specialist": "cardiologist",
-    "expected_keywords": ["complete heart block", "pacemaker", "temporary pacing", "stemi complication"]
+    "expected_keywords": [
+      "complete heart block",
+      "pacemaker",
+      "temporary pacing",
+      "stemi complication"
+    ],
+    "gold_sources": []
   },
   {
     "id": "cardio_36",
@@ -285,7 +855,27 @@
     "tier_label": "peripheral",
     "query": "A 48-year-old female with a recently implanted mechanical aortic valve presents to the anticoagulation clinic. Her INR is 1.6 against a target of 2.5–3.5. She has no bleeding symptoms. How should her warfarin be adjusted?",
     "expected_specialist": "cardiologist",
-    "expected_keywords": ["mechanical valve", "warfarin", "inr", "anticoagulation", "thromboembolism"]
+    "expected_keywords": [
+      "mechanical valve",
+      "warfarin",
+      "inr",
+      "anticoagulation",
+      "thromboembolism"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0003.txt",
+        "doc_name": "Overview of Cardiac Valvular Disorders - Cardiovascular Disorders - Merck Manual Professional Edition"
+      },
+      {
+        "source_file": "0420.txt",
+        "doc_name": "8205Oxford Handbook of Clinical Medicine 10th 2017 Edition_SamanSarKo - Copy"
+      },
+      {
+        "source_file": "0008.txt",
+        "doc_name": "Atrial Fibrillation - Cardiovascular Disorders - Merck Manual Professional Edition"
+      }
+    ]
   },
   {
     "id": "cardio_37",
@@ -293,7 +883,27 @@
     "tier_label": "core",
     "query": "A 55-year-old male smoker with hypertension and hyperlipidaemia presents with a ten-year cardiovascular risk of 18% calculated by SCORE2. He has no prior events. What primary prevention interventions are evidence-based for this risk level?",
     "expected_specialist": "cardiologist",
-    "expected_keywords": ["primary prevention", "statin", "cardiovascular risk", "lifestyle", "score2"]
+    "expected_keywords": [
+      "primary prevention",
+      "statin",
+      "cardiovascular risk",
+      "lifestyle",
+      "score2"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0006.txt",
+        "doc_name": "cardiovascular-risk-assessment-and-lipid-modification-pdf-75545230925509"
+      },
+      {
+        "source_file": "0004.txt",
+        "doc_name": "266313938"
+      },
+      {
+        "source_file": "0005.txt",
+        "doc_name": "cardiovascular-disease-risk-assessment-and-reduction-including-lipid-modification-pdf-66143902851781"
+      }
+    ]
   },
   {
     "id": "cardio_38",
@@ -301,7 +911,27 @@
     "tier_label": "core",
     "query": "A 67-year-old male with heart failure with reduced ejection fraction (HFrEF, EF 32%) is already on an ACE inhibitor, beta blocker, and MRA. His BNP remains elevated and he is still symptomatic at NYHA class II. What additional pharmacological therapy is indicated?",
     "expected_specialist": "cardiologist",
-    "expected_keywords": ["heart failure", "arni", "sacubitril", "sglt2", "entresto"]
+    "expected_keywords": [
+      "heart failure",
+      "arni",
+      "sacubitril",
+      "sglt2",
+      "entresto"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0008.txt",
+        "doc_name": "chronic-heart-failure-in-adults-pdf-58304464837"
+      },
+      {
+        "source_file": "0002.txt",
+        "doc_name": "Medications for Heart Failure - Cardiovascular Disorders - Merck Manual Professional Edition"
+      },
+      {
+        "source_file": "0003.txt",
+        "doc_name": "Chronic Heart Failure - Cardiovascular Disorders - Merck Manual Professional Edition"
+      }
+    ]
   },
   {
     "id": "cardio_39",
@@ -309,7 +939,26 @@
     "tier_label": "peripheral",
     "query": "A 42-year-old female with systemic lupus erythematosus presents with pleuritic chest pain and a new pericardial effusion. Her ANA and anti-dsDNA titres are elevated. Echo shows no haemodynamic compromise. What is the preferred management of lupus pericarditis?",
     "expected_specialist": "cardiologist",
-    "expected_keywords": ["lupus pericarditis", "nsaids", "colchicine", "hydroxychloroquine"]
+    "expected_keywords": [
+      "lupus pericarditis",
+      "nsaids",
+      "colchicine",
+      "hydroxychloroquine"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0013.txt",
+        "doc_name": "Pericarditis - Cardiovascular Disorders - Merck Manual Professional Edition"
+      },
+      {
+        "source_file": "0008.txt",
+        "doc_name": "Rheumatic Fever - Pediatrics - Merck Manual Professional Edition"
+      },
+      {
+        "source_file": "0175.txt",
+        "doc_name": "8205Oxford Handbook of Clinical Medicine 10th 2017 Edition_SamanSarKo - Copy"
+      }
+    ]
   },
   {
     "id": "cardio_40",
@@ -317,7 +966,27 @@
     "tier_label": "peripheral",
     "query": "A 30-year-old male presents following resuscitation from an out-of-hospital cardiac arrest with no identifiable structural cause. His resting ECG shows a prolonged QTc of 510 ms. His sister had a similar event at age 25. What is the likely diagnosis?",
     "expected_specialist": "cardiologist",
-    "expected_keywords": ["long qt syndrome", "lqts", "sudden cardiac death", "icd", "genetic"]
+    "expected_keywords": [
+      "long qt syndrome",
+      "lqts",
+      "sudden cardiac death",
+      "icd",
+      "genetic"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0001.txt",
+        "doc_name": "Seizure in a 30 something - Dr. Smith’s ECG Blog"
+      },
+      {
+        "source_file": "0002.txt",
+        "doc_name": "cardiology-explained"
+      },
+      {
+        "source_file": "0001.txt",
+        "doc_name": "Electrophysiology_ Wide Complex Tachycardia in a 70-something - Dr. Smith’s ECG Blog"
+      }
+    ]
   },
   {
     "id": "cardio_41",
@@ -325,7 +994,27 @@
     "tier_label": "core",
     "query": "A 78-year-old male with severe symptomatic aortic stenosis (valve area 0.7 cm²) is deemed high surgical risk due to COPD and prior sternotomy. What transcatheter option exists and what are the contraindications?",
     "expected_specialist": "cardiologist",
-    "expected_keywords": ["tavr", "tavi", "aortic stenosis", "transcatheter", "high risk"]
+    "expected_keywords": [
+      "tavr",
+      "tavi",
+      "aortic stenosis",
+      "transcatheter",
+      "high risk"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0010.txt",
+        "doc_name": "Aortic Stenosis - Cardiovascular Disorders - Merck Manual Professional Edition"
+      },
+      {
+        "source_file": "0006.txt",
+        "doc_name": "heart-valve-disease-presenting-in-adults-investigation-and-management-pdf-66143721453253"
+      },
+      {
+        "source_file": "0005.txt",
+        "doc_name": "Aortic Regurgitation - Cardiovascular Disorders - Merck Manual Professional Edition"
+      }
+    ]
   },
   {
     "id": "cardio_42",
@@ -333,7 +1022,27 @@
     "tier_label": "core",
     "query": "A 50-year-old female presents with exertional dyspnea and a holosystolic murmur at the apex radiating to the axilla. Echocardiography reveals severe mitral regurgitation with a flail posterior leaflet. EF is 62%. What are the indications for surgical repair?",
     "expected_specialist": "cardiologist",
-    "expected_keywords": ["mitral regurgitation", "flail leaflet", "repair", "indications", "ejection fraction"]
+    "expected_keywords": [
+      "mitral regurgitation",
+      "flail leaflet",
+      "repair",
+      "indications",
+      "ejection fraction"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0006.txt",
+        "doc_name": "Mitral Regurgitation - Cardiovascular Disorders - Merck Manual Professional Edition"
+      },
+      {
+        "source_file": "0180.txt",
+        "doc_name": "8205Oxford Handbook of Clinical Medicine 10th 2017 Edition_SamanSarKo - Copy"
+      },
+      {
+        "source_file": "0007.txt",
+        "doc_name": "heart-valve-disease-presenting-in-adults-investigation-and-management-pdf-66143721453253"
+      }
+    ]
   },
   {
     "id": "cardio_43",
@@ -341,7 +1050,26 @@
     "tier_label": "peripheral",
     "query": "A 35-year-old female presents with episodic chest pain and ST changes on ECG during pain, which resolve completely at rest. Coronary angiography shows no obstructive lesions. Acetylcholine provocation induces focal coronary spasm. What is the diagnosis and treatment?",
     "expected_specialist": "cardiologist",
-    "expected_keywords": ["vasospastic angina", "prinzmetal", "calcium channel blocker", "nitrates"]
+    "expected_keywords": [
+      "vasospastic angina",
+      "prinzmetal",
+      "calcium channel blocker",
+      "nitrates"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0841.txt",
+        "doc_name": "8205Oxford Handbook of Clinical Medicine 10th 2017 Edition_SamanSarKo - Copy"
+      },
+      {
+        "source_file": "0027.txt",
+        "doc_name": "cardiology-explained"
+      },
+      {
+        "source_file": "0003.txt",
+        "doc_name": "Coronary artery disease - Cardiology Explained - NCBI Bookshelf"
+      }
+    ]
   },
   {
     "id": "cardio_44",
@@ -349,7 +1077,26 @@
     "tier_label": "peripheral",
     "query": "A 58-year-old male with ischaemic heart disease and paroxysmal atrial fibrillation undergoes catheter ablation with pulmonary vein isolation. Three months post-procedure he has recurrent palpitations. What are the common reasons for AF recurrence after ablation?",
     "expected_specialist": "cardiologist",
-    "expected_keywords": ["pulmonary vein isolation", "ablation", "atrial fibrillation", "reconnection"]
+    "expected_keywords": [
+      "pulmonary vein isolation",
+      "ablation",
+      "atrial fibrillation",
+      "reconnection"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0006.txt",
+        "doc_name": "Atrial Fibrillation - Cardiovascular Disorders - Merck Manual Professional Edition"
+      },
+      {
+        "source_file": "0015.txt",
+        "doc_name": "Arrhythmia - Cardiology Explained - NCBI Bookshelf"
+      },
+      {
+        "source_file": "0010.txt",
+        "doc_name": "atrial-fibrillation-diagnosis-and-management-pdf-66142085507269"
+      }
+    ]
   },
   {
     "id": "cardio_45",
@@ -357,7 +1104,27 @@
     "tier_label": "core",
     "query": "A 61-year-old male presents with crescendo angina occurring at rest for the past 48 hours. Troponin I is mildly elevated at 0.06 ng/mL (upper limit of normal 0.04). ECG shows T-wave inversions in V4–V6. What is the diagnosis and what risk stratification tool applies?",
     "expected_specialist": "cardiologist",
-    "expected_keywords": ["nstemi", "acute coronary syndrome", "grace score", "troponin", "t-wave"]
+    "expected_keywords": [
+      "nstemi",
+      "acute coronary syndrome",
+      "grace score",
+      "troponin",
+      "t-wave"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0022.txt",
+        "doc_name": "Cardiac-Learning-Guide"
+      },
+      {
+        "source_file": "0006.txt",
+        "doc_name": "recentonset-chest-pain-of-suspected-cardiac-origin-assessment-and-diagnosis-pdf-975751034821"
+      },
+      {
+        "source_file": "0001.txt",
+        "doc_name": "Is it possible that this patient with acute chest pain and this ECG does not need emergent intervention_ - Dr. Smith’s E"
+      }
+    ]
   },
   {
     "id": "cardio_46",
@@ -365,7 +1132,13 @@
     "tier_label": "out_of_scope",
     "query": "A 26-year-old male with no prior history collapses during a football game. He is resuscitated. Cardiac MRI shows late gadolinium enhancement in a non-ischaemic, subepicardial distribution. Troponin is elevated. Viral serology is positive for recent parvovirus B19 infection. What is the diagnosis?",
     "expected_specialist": "cardiologist",
-    "expected_keywords": ["myocarditis", "viral myocarditis", "cardiac mri", "late gadolinium enhancement"]
+    "expected_keywords": [
+      "myocarditis",
+      "viral myocarditis",
+      "cardiac mri",
+      "late gadolinium enhancement"
+    ],
+    "gold_sources": []
   },
   {
     "id": "cardio_47",
@@ -373,7 +1146,13 @@
     "tier_label": "out_of_scope",
     "query": "A 55-year-old female with amyloid light-chain (AL) amyloidosis presents with progressive heart failure. Cardiac MRI shows diffuse subendocardial late gadolinium enhancement and increased T1 mapping values. What specific cardiac manifestation is present and how does it affect prognosis?",
     "expected_specialist": "cardiologist",
-    "expected_keywords": ["cardiac amyloidosis", "restrictive cardiomyopathy", "amyloid", "late gadolinium"]
+    "expected_keywords": [
+      "cardiac amyloidosis",
+      "restrictive cardiomyopathy",
+      "amyloid",
+      "late gadolinium"
+    ],
+    "gold_sources": []
   },
   {
     "id": "cardio_48",
@@ -381,7 +1160,13 @@
     "tier_label": "out_of_scope",
     "query": "A 45-year-old female presents with heart failure symptoms three weeks post-partum. Her echocardiography shows new-onset LV dysfunction with EF of 35%. She had an uncomplicated pregnancy. What is the diagnosis and how does subsequent pregnancy affect prognosis?",
     "expected_specialist": "cardiologist",
-    "expected_keywords": ["peripartum cardiomyopathy", "post-partum", "bromocriptine", "recovery"]
+    "expected_keywords": [
+      "peripartum cardiomyopathy",
+      "post-partum",
+      "bromocriptine",
+      "recovery"
+    ],
+    "gold_sources": []
   },
   {
     "id": "cardio_49",
@@ -389,7 +1174,27 @@
     "tier_label": "peripheral",
     "query": "A 63-year-old male with hypertension and type 2 diabetes undergoes carotid ultrasound that shows 75% stenosis of the left internal carotid artery. He is asymptomatic. What are the criteria for carotid endarterectomy versus medical management?",
     "expected_specialist": "cardiologist",
-    "expected_keywords": ["carotid stenosis", "endarterectomy", "asymptomatic", "stenting", "stroke prevention"]
+    "expected_keywords": [
+      "carotid stenosis",
+      "endarterectomy",
+      "asymptomatic",
+      "stenting",
+      "stroke prevention"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0023.txt",
+        "doc_name": "Atherosclerosis - Cardiovascular Disorders - Merck Manual Professional Edition"
+      },
+      {
+        "source_file": "0003.txt",
+        "doc_name": "peripheral-arterial-disease-diagnosis-and-management-pdf-35109575873989"
+      },
+      {
+        "source_file": "0570.txt",
+        "doc_name": "8205Oxford Handbook of Clinical Medicine 10th 2017 Edition_SamanSarKo - Copy"
+      }
+    ]
   },
   {
     "id": "cardio_50",
@@ -397,7 +1202,27 @@
     "tier_label": "peripheral",
     "query": "A 70-year-old male is admitted with acutely decompensated heart failure and a BP of 90/60 mmHg despite IV furosemide. BNP is 4,200 pg/mL. He has cool peripheries and elevated JVP. What haemodynamic profile does this represent and what inotropic therapy is indicated?",
     "expected_specialist": "cardiologist",
-    "expected_keywords": ["cardiogenic shock", "dobutamine", "cold and wet", "inotrope", "haemodynamic profile"]
+    "expected_keywords": [
+      "cardiogenic shock",
+      "dobutamine",
+      "cold and wet",
+      "inotrope",
+      "haemodynamic profile"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0009.txt",
+        "doc_name": "Medications for Heart Failure - Cardiovascular Disorders - Merck Manual Professional Edition"
+      },
+      {
+        "source_file": "0169.txt",
+        "doc_name": "8205Oxford Handbook of Clinical Medicine 10th 2017 Edition_SamanSarKo - Copy"
+      },
+      {
+        "source_file": "0002.txt",
+        "doc_name": "Heart failure - Cardiology Explained - NCBI Bookshelf"
+      }
+    ]
   },
   {
     "id": "endo_1",
@@ -405,7 +1230,26 @@
     "tier_label": "core",
     "query": "A 42-year-old female presents with progressive fatigue, unexplained weight gain of 8 kg over 6 months, cold intolerance, and dry skin. TSH is 12.4 mIU/L and free T4 is 0.6 ng/dL. What is the likely diagnosis?",
     "expected_specialist": "endocrinologist",
-    "expected_keywords": ["hypothyroidism", "hashimoto", "levothyroxine", "tsh"]
+    "expected_keywords": [
+      "hypothyroidism",
+      "hashimoto",
+      "levothyroxine",
+      "tsh"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0087.txt",
+        "doc_name": "Endotext_Complete - Adult Hypothyroidism"
+      },
+      {
+        "source_file": "0005.txt",
+        "doc_name": "luag034"
+      },
+      {
+        "source_file": "0038.txt",
+        "doc_name": "Endotext_Complete - Hypothyroidism in Older Adults"
+      }
+    ]
   },
   {
     "id": "endo_2",
@@ -413,7 +1257,26 @@
     "tier_label": "core",
     "query": "A 55-year-old male with BMI 34, waist circumference 110 cm, fasting glucose 148 mg/dL, and HbA1c 7.8% is diagnosed with type 2 diabetes. He also has hypertension and dyslipidemia. What are the key components of initial assessment?",
     "expected_specialist": "endocrinologist",
-    "expected_keywords": ["diabetes", "metabolic syndrome", "metformin", "glycemic"]
+    "expected_keywords": [
+      "diabetes",
+      "metabolic syndrome",
+      "metformin",
+      "glycemic"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0014.txt",
+        "doc_name": "dc25s002"
+      },
+      {
+        "source_file": "0051.txt",
+        "doc_name": "dc24s002"
+      },
+      {
+        "source_file": "0018.txt",
+        "doc_name": "dc26s002"
+      }
+    ]
   },
   {
     "id": "endo_3",
@@ -421,7 +1284,26 @@
     "tier_label": "core",
     "query": "A 50-year-old female undergoes a CT scan for abdominal pain, which incidentally reveals a 2.5 cm left adrenal mass with Hounsfield units of 8. She has no symptoms of hormone excess. What is the recommended workup for an adrenal incidentaloma?",
     "expected_specialist": "endocrinologist",
-    "expected_keywords": ["incidentaloma", "adrenal", "cortisol", "metanephrines"]
+    "expected_keywords": [
+      "incidentaloma",
+      "adrenal",
+      "cortisol",
+      "metanephrines"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0011.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Anatomy, Abdomen and Pelvis_ Adrenal Glands (Suprarenal Glands)"
+      },
+      {
+        "source_file": "0009.txt",
+        "doc_name": "Endotext_Complete - Physiology and Diseases of the Adrenal Glands in Older Adults"
+      },
+      {
+        "source_file": "0007.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Adrenal Adenoma"
+      }
+    ]
   },
   {
     "id": "endo_4",
@@ -429,7 +1311,26 @@
     "tier_label": "core",
     "query": "A 62-year-old postmenopausal female is found to have a serum calcium of 11.2 mg/dL and an intact PTH of 98 pg/mL. She reports fatigue, polyuria, and mild constipation. What is the differential diagnosis?",
     "expected_specialist": "endocrinologist",
-    "expected_keywords": ["hypercalcemia", "hyperparathyroidism", "adenoma", "pth"]
+    "expected_keywords": [
+      "hypercalcemia",
+      "hyperparathyroidism",
+      "adenoma",
+      "pth"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0004.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Parathyroid Carcinoma"
+      },
+      {
+        "source_file": "0013.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Histology, Parathyroid Gland"
+      },
+      {
+        "source_file": "0017.txt",
+        "doc_name": "Endotext_Complete - Osteoporosis_ Clinical Evaluation"
+      }
+    ]
   },
   {
     "id": "endo_5",
@@ -437,7 +1338,26 @@
     "tier_label": "core",
     "query": "A 38-year-old male undergoes an MRI for chronic headaches, which reveals a 12 mm pituitary macroadenoma. He reports no visual disturbances. What hormonal evaluation should be performed to assess for hypersecretion and hypopituitarism?",
     "expected_specialist": "endocrinologist",
-    "expected_keywords": ["pituitary", "macroadenoma", "prolactin", "igf-1"]
+    "expected_keywords": [
+      "pituitary",
+      "macroadenoma",
+      "prolactin",
+      "igf-1"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0007.txt",
+        "doc_name": "Endotext_Complete - Surgical Treatment of Pituitary Adenomas"
+      },
+      {
+        "source_file": "0016.txt",
+        "doc_name": "Endotext_Complete - Pituitary-Hypothalamic Tumor Syndromes_ Adults"
+      },
+      {
+        "source_file": "0012.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Pituitary Adenoma"
+      }
+    ]
   },
   {
     "id": "endo_6",
@@ -445,7 +1365,26 @@
     "tier_label": "core",
     "query": "A 30-year-old female presents with episodic headaches, sweating, and tachycardia. Her blood pressure during an episode was 180/110 mmHg. What is the most appropriate initial biochemical test?",
     "expected_specialist": "endocrinologist",
-    "expected_keywords": ["pheochromocytoma", "metanephrines", "catecholamines", "plasma"]
+    "expected_keywords": [
+      "pheochromocytoma",
+      "metanephrines",
+      "catecholamines",
+      "plasma"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0038.txt",
+        "doc_name": "Endotext_Complete - Testing for Endocrine Hypertension"
+      },
+      {
+        "source_file": "0011.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Pheochromocytoma"
+      },
+      {
+        "source_file": "0054.txt",
+        "doc_name": "Endotext_Complete - Diabetic Neuropathies"
+      }
+    ]
   },
   {
     "id": "endo_7",
@@ -453,7 +1392,26 @@
     "tier_label": "core",
     "query": "A 45-year-old female presents with central obesity, proximal muscle weakness, and purple abdominal striae. Her 24-hour urine free cortisol is highly elevated. How do you distinguish Cushing's disease from Cushing's syndrome?",
     "expected_specialist": "endocrinologist",
-    "expected_keywords": ["cushing", "dexamethasone", "acth", "cortisol"]
+    "expected_keywords": [
+      "cushing",
+      "dexamethasone",
+      "acth",
+      "cortisol"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0001.txt",
+        "doc_name": "Endotext_Complete - Florid Cushing’s Syndrome"
+      },
+      {
+        "source_file": "0009.txt",
+        "doc_name": "Endotext_Complete - Cushing’s Syndrome"
+      },
+      {
+        "source_file": "0004.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Cushing Disease"
+      }
+    ]
   },
   {
     "id": "endo_8",
@@ -461,7 +1419,26 @@
     "tier_label": "core",
     "query": "A 50-year-old male notices increased shoe and ring size over the last 3 years, along with worsening snoring and prominent jaw growth. Screening reveals elevated IGF-1 levels. What is the next diagnostic step?",
     "expected_specialist": "endocrinologist",
-    "expected_keywords": ["acromegaly", "growth hormone", "glucose tolerance", "igf-1"]
+    "expected_keywords": [
+      "acromegaly",
+      "growth hormone",
+      "glucose tolerance",
+      "igf-1"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0009.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Pituitary Adenoma"
+      },
+      {
+        "source_file": "0009.txt",
+        "doc_name": "Endotext_Complete - Idiopathic Short Stature and Growth Failure of Unknown Etiology"
+      },
+      {
+        "source_file": "0021.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Acromegaly"
+      }
+    ]
   },
   {
     "id": "endo_9",
@@ -469,7 +1446,26 @@
     "tier_label": "core",
     "query": "A 35-year-old female presents with amenorrhea, galactorrhea, and bilateral temporal hemianopsia. Serum prolactin is elevated at 150 ng/mL. A pituitary adenoma is found on MRI. What is the first-line treatment?",
     "expected_specialist": "endocrinologist",
-    "expected_keywords": ["prolactinoma", "cabergoline", "dopamine agonist", "prolactin"]
+    "expected_keywords": [
+      "prolactinoma",
+      "cabergoline",
+      "dopamine agonist",
+      "prolactin"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0006.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Galactorrhea"
+      },
+      {
+        "source_file": "0007.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Prolactinoma"
+      },
+      {
+        "source_file": "0002.txt",
+        "doc_name": "Endotext_Complete - Prolactinoma Management"
+      }
+    ]
   },
   {
     "id": "endo_10",
@@ -477,7 +1473,26 @@
     "tier_label": "core",
     "query": "A 28-year-old female presents with weight loss, heat intolerance, tremor, and exophthalmos. Lab results show TSH < 0.01 and elevated Free T4. TSH receptor antibodies are positive. Discuss the therapeutic options.",
     "expected_specialist": "endocrinologist",
-    "expected_keywords": ["graves", "hyperthyroidism", "methimazole", "radioactive iodine"]
+    "expected_keywords": [
+      "graves",
+      "hyperthyroidism",
+      "methimazole",
+      "radioactive iodine"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0012.txt",
+        "doc_name": "luag034"
+      },
+      {
+        "source_file": "0009.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Hyperthyroidism"
+      },
+      {
+        "source_file": "0089.txt",
+        "doc_name": "Endotext_Complete - Adult Hypothyroidism"
+      }
+    ]
   },
   {
     "id": "endo_11",
@@ -485,7 +1500,26 @@
     "tier_label": "core",
     "query": "A 34-year-old male presents with severe weakness, fatigue, hyperpigmentation of the palmar creases, hypotension (90/60 mmHg), hyponatremia and hyperkalemia. What life-threatening condition must be ruled out instantly?",
     "expected_specialist": "endocrinologist",
-    "expected_keywords": ["addison", "adrenal insufficiency", "crisis", "hydrocortisone"]
+    "expected_keywords": [
+      "addison",
+      "adrenal insufficiency",
+      "crisis",
+      "hydrocortisone"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0006.txt",
+        "doc_name": "Endotext_Complete - Physiology and Diseases of the Adrenal Glands in Older Adults"
+      },
+      {
+        "source_file": "0006.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Addison Disease"
+      },
+      {
+        "source_file": "0015.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Adrenal Crisis"
+      }
+    ]
   },
   {
     "id": "endo_12",
@@ -493,7 +1527,26 @@
     "tier_label": "core",
     "query": "A 45-year-old male presents with therapy-resistant hypertension and hypokalemia. Plasma renin activity is suppressed while serum aldosterone is significantly elevated. What is the diagnosis?",
     "expected_specialist": "endocrinologist",
-    "expected_keywords": ["primary aldosteronism", "conn", "hyperaldosteronism", "renin"]
+    "expected_keywords": [
+      "primary aldosteronism",
+      "conn",
+      "hyperaldosteronism",
+      "renin"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0008.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Hyperaldosteronism"
+      },
+      {
+        "source_file": "0017.txt",
+        "doc_name": "Endotext_Complete - Hyperaldosteronism"
+      },
+      {
+        "source_file": "0017.txt",
+        "doc_name": "Endotext_Complete - Physiology and Diseases of the Adrenal Glands in Older Adults"
+      }
+    ]
   },
   {
     "id": "endo_13",
@@ -501,7 +1554,26 @@
     "tier_label": "core",
     "query": "A patient undergoes a total thyroidectomy for thyroid cancer. Post-operatively, she experiences muscle cramps, tingling around her mouth, and a positive Chvostek sign. Her calcium is 7.2 mg/dL. What happened?",
     "expected_specialist": "endocrinologist",
-    "expected_keywords": ["hypocalcemia", "hypoparathyroidism", "calcitriol", "parathyroid"]
+    "expected_keywords": [
+      "hypocalcemia",
+      "hypoparathyroidism",
+      "calcitriol",
+      "parathyroid"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0039.txt",
+        "doc_name": "Endotext_Complete - Chapter 21 SURGERY OF THE THYROID"
+      },
+      {
+        "source_file": "0027.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Thyroidectomy"
+      },
+      {
+        "source_file": "0010.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Physiology, Parathyroid"
+      }
+    ]
   },
   {
     "id": "endo_14",
@@ -509,7 +1581,26 @@
     "tier_label": "core",
     "query": "A 65-year-old female undergoes a DEXA scan displaying a T-score of -2.8 at the femoral neck. She has no history of fragility fractures. What is the classification of her bone density and standard treatment?",
     "expected_specialist": "endocrinologist",
-    "expected_keywords": ["osteoporosis", "bisphosphonates", "alendronate", "t-score"]
+    "expected_keywords": [
+      "osteoporosis",
+      "bisphosphonates",
+      "alendronate",
+      "t-score"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0034.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Osteoporosis in Females"
+      },
+      {
+        "source_file": "0012.txt",
+        "doc_name": "Endotext_Complete - The Postmenopausal Women"
+      },
+      {
+        "source_file": "0020.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Secondary Osteoporosis"
+      }
+    ]
   },
   {
     "id": "endo_15",
@@ -517,7 +1608,27 @@
     "tier_label": "core",
     "query": "A 19-year-old male with type 1 diabetes presents to the ER with nausea, vomiting, abdominal pain, and Kussmaul respirations. His blood glucose is 450 mg/dL, and urine is positive for ketones. What is the treatment protocol?",
     "expected_specialist": "endocrinologist",
-    "expected_keywords": ["dka", "ketoacidosis", "insulin", "fluids", "potassium"]
+    "expected_keywords": [
+      "dka",
+      "ketoacidosis",
+      "insulin",
+      "fluids",
+      "potassium"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0007.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Euglycemic Diabetic Ketoacidosis"
+      },
+      {
+        "source_file": "0006.txt",
+        "doc_name": "luaf028"
+      },
+      {
+        "source_file": "0001.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Adult Diabetic Ketoacidosis"
+      }
+    ]
   },
   {
     "id": "endo_16",
@@ -525,7 +1636,27 @@
     "tier_label": "core",
     "query": "A 70-year-old male with type 2 diabetes on sulfonylurea is brought in unresponsive with a blood glucose of 28 mg/dL. He lives alone. What is the acute treatment and what long-term medication adjustment is required?",
     "expected_specialist": "endocrinologist",
-    "expected_keywords": ["hypoglycemia", "glucagon", "dextrose", "sulfonylurea", "adjustment"]
+    "expected_keywords": [
+      "hypoglycemia",
+      "glucagon",
+      "dextrose",
+      "sulfonylurea",
+      "adjustment"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0005.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Factitious Hypoglycemia"
+      },
+      {
+        "source_file": "0002.txt",
+        "doc_name": "luaf034"
+      },
+      {
+        "source_file": "0012.txt",
+        "doc_name": "Endotext_Complete - Oral and Injectable (Non-Insulin) Pharmacological Agents for the Treatment of Type 2 Diabetes"
+      }
+    ]
   },
   {
     "id": "endo_17",
@@ -533,7 +1664,27 @@
     "tier_label": "core",
     "query": "A 22-year-old female with type 1 diabetes has been using an insulin pump for two years. Her TIR (time-in-range 70–180 mg/dL) is 52% and her HbA1c is 8.4%. She has frequent nocturnal hypoglycaemia. What technology upgrade should be discussed?",
     "expected_specialist": "endocrinologist",
-    "expected_keywords": ["insulin pump", "continuous glucose monitoring", "closed loop", "hybrid closed loop", "time in range"]
+    "expected_keywords": [
+      "insulin pump",
+      "continuous glucose monitoring",
+      "closed loop",
+      "hybrid closed loop",
+      "time in range"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0029.txt",
+        "doc_name": "type-1-diabetes-in-adults-diagnosis-and-management-pdf-1837276469701"
+      },
+      {
+        "source_file": "0015.txt",
+        "doc_name": "dc25s013"
+      },
+      {
+        "source_file": "0048.txt",
+        "doc_name": "dc25s007"
+      }
+    ]
   },
   {
     "id": "endo_18",
@@ -541,7 +1692,27 @@
     "tier_label": "core",
     "query": "A 60-year-old male with type 2 diabetes and established atherosclerotic cardiovascular disease has an HbA1c of 8.1% on metformin alone. He has no renal impairment. What additional glucose-lowering agent has proven cardiovascular mortality benefit?",
     "expected_specialist": "endocrinologist",
-    "expected_keywords": ["sglt2 inhibitor", "empagliflozin", "glp-1", "cardiovascular benefit", "liraglutide"]
+    "expected_keywords": [
+      "sglt2 inhibitor",
+      "empagliflozin",
+      "glp-1",
+      "cardiovascular benefit",
+      "liraglutide"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0012.txt",
+        "doc_name": "Endotext_Complete - Outpatient Management of Diabetes Mellitus in Elderly Patients"
+      },
+      {
+        "source_file": "0079.txt",
+        "doc_name": "type-2-diabetes-in-adults-management-pdf-1837338615493"
+      },
+      {
+        "source_file": "0009.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Management of Cardiovascular and Diabetes Risks Based on National Guidelines"
+      }
+    ]
   },
   {
     "id": "endo_19",
@@ -549,7 +1720,27 @@
     "tier_label": "core",
     "query": "A 48-year-old female with obesity (BMI 39) and type 2 diabetes has failed multiple oral agents. HbA1c is 9.2%. She is interested in weight loss in addition to glycaemic control. What injectable options combine both outcomes?",
     "expected_specialist": "endocrinologist",
-    "expected_keywords": ["glp-1 agonist", "semaglutide", "tirzepatide", "weight loss", "insulin"]
+    "expected_keywords": [
+      "glp-1 agonist",
+      "semaglutide",
+      "tirzepatide",
+      "weight loss",
+      "insulin"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0013.txt",
+        "doc_name": "Endotext_Complete - Management of Type 2 Diabetes_ Selecting Amongst Available Pharmacological Agents"
+      },
+      {
+        "source_file": "0010.txt",
+        "doc_name": "type-2-diabetes-in-adults-management-pdf-1837338615493"
+      },
+      {
+        "source_file": "0020.txt",
+        "doc_name": "Endotext_Complete - Type 2 Diabetes in Children and Adolescents- A Focus on Diagnosis and Treatment"
+      }
+    ]
   },
   {
     "id": "endo_20",
@@ -557,7 +1748,27 @@
     "tier_label": "core",
     "query": "A 55-year-old male with known type 2 diabetes presents for his annual review. His eGFR has declined from 72 to 48 mL/min/1.73m² over two years and his urine ACR is 85 mg/mmol. What intervention is most strongly evidenced to slow nephropathy progression?",
     "expected_specialist": "endocrinologist",
-    "expected_keywords": ["diabetic nephropathy", "sglt2 inhibitor", "finerenone", "ace inhibitor", "proteinuria"]
+    "expected_keywords": [
+      "diabetic nephropathy",
+      "sglt2 inhibitor",
+      "finerenone",
+      "ace inhibitor",
+      "proteinuria"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0028.txt",
+        "doc_name": "chronic-kidney-disease-assessment-and-management-pdf-66143713055173"
+      },
+      {
+        "source_file": "0018.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Diabetic Nephropathy"
+      },
+      {
+        "source_file": "0004.txt",
+        "doc_name": "finerenone-for-treating-chronic-kidney-disease-in-type-2-diabetes-pdf-82613678191045"
+      }
+    ]
   },
   {
     "id": "endo_21",
@@ -565,7 +1776,27 @@
     "tier_label": "core",
     "query": "A 40-year-old female is found to have a 1.8 cm solitary thyroid nodule on ultrasound. It is hypoechoic with irregular margins and microcalcifications. FNA cytology shows follicular cells with nuclear grooves. What is the Bethesda classification and management?",
     "expected_specialist": "endocrinologist",
-    "expected_keywords": ["thyroid nodule", "papillary thyroid cancer", "bethesda", "thyroidectomy", "fna"]
+    "expected_keywords": [
+      "thyroid nodule",
+      "papillary thyroid cancer",
+      "bethesda",
+      "thyroidectomy",
+      "fna"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0005.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Thyroid Nodule"
+      },
+      {
+        "source_file": "0028.txt",
+        "doc_name": "etj-ETJ-23-0067"
+      },
+      {
+        "source_file": "0002.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Thyroid Nodule Biopsy"
+      }
+    ]
   },
   {
     "id": "endo_22",
@@ -573,7 +1804,27 @@
     "tier_label": "core",
     "query": "A 68-year-old female with differentiated thyroid cancer post-thyroidectomy is receiving levothyroxine suppression therapy. Her TSH is 0.05 mIU/L. She complains of palpitations and her bone density has declined. What is the optimal TSH target and what risks must be balanced?",
     "expected_specialist": "endocrinologist",
-    "expected_keywords": ["thyroid cancer", "tsh suppression", "recurrence risk", "osteoporosis", "atrial fibrillation"]
+    "expected_keywords": [
+      "thyroid cancer",
+      "tsh suppression",
+      "recurrence risk",
+      "osteoporosis",
+      "atrial fibrillation"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0017.txt",
+        "doc_name": "Endotext_Complete - Thyroid Nodules and Cancer in the Elderly"
+      },
+      {
+        "source_file": "0016.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Thyroid Cancer"
+      },
+      {
+        "source_file": "0047.txt",
+        "doc_name": "Endotext_Complete - Clinical Strategies in the Testing of Thyroid Function"
+      }
+    ]
   },
   {
     "id": "endo_23",
@@ -581,7 +1832,27 @@
     "tier_label": "core",
     "query": "A 32-year-old female with type 1 diabetes is planning a pregnancy. Her current HbA1c is 7.9%. What pre-conception targets are recommended, what medications require adjustment, and what additional monitoring is needed during pregnancy?",
     "expected_specialist": "endocrinologist",
-    "expected_keywords": ["preconception", "diabetes pregnancy", "hba1c target", "folic acid", "insulin adjustment"]
+    "expected_keywords": [
+      "preconception",
+      "diabetes pregnancy",
+      "hba1c target",
+      "folic acid",
+      "insulin adjustment"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0024.txt",
+        "doc_name": "diabetes-in-pregnancy-management-from-preconception-to-the-postnatal-period-pdf-51038446021"
+      },
+      {
+        "source_file": "0002.txt",
+        "doc_name": "diabetes-in-pregnancy-pdf-75545246042053"
+      },
+      {
+        "source_file": "0014.txt",
+        "doc_name": "dc25s015"
+      }
+    ]
   },
   {
     "id": "endo_24",
@@ -589,7 +1860,27 @@
     "tier_label": "core",
     "query": "A 28-year-old female is diagnosed with gestational diabetes at 26 weeks gestation. Her fasting glucose is 5.8 mmol/L and 1-hour post-load is 10.2 mmol/L. Her BMI is 31. What is the initial management and when is insulin indicated?",
     "expected_specialist": "endocrinologist",
-    "expected_keywords": ["gestational diabetes", "metformin", "insulin", "glucose targets", "fasting"]
+    "expected_keywords": [
+      "gestational diabetes",
+      "metformin",
+      "insulin",
+      "glucose targets",
+      "fasting"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0031.txt",
+        "doc_name": "diabetes-in-pregnancy-management-from-preconception-to-the-postnatal-period-pdf-51038446021"
+      },
+      {
+        "source_file": "0017.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Gestational Diabetes"
+      },
+      {
+        "source_file": "0051.txt",
+        "doc_name": "dc25s015"
+      }
+    ]
   },
   {
     "id": "endo_25",
@@ -597,7 +1888,27 @@
     "tier_label": "peripheral",
     "query": "A 58-year-old male with hypertension has a 1 cm right adrenal adenoma with Hounsfield units of 14. Overnight dexamethasone suppression test shows cortisol of 2.8 mcg/dL (normal suppression < 1.8 mcg/dL). He has no overt Cushing's features. What is the diagnosis and management?",
     "expected_specialist": "endocrinologist",
-    "expected_keywords": ["mild autonomous cortisol secretion", "subclinical cushing", "adrenalectomy", "cortisol", "macs"]
+    "expected_keywords": [
+      "mild autonomous cortisol secretion",
+      "subclinical cushing",
+      "adrenalectomy",
+      "cortisol",
+      "macs"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0017.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Adrenal Adenoma"
+      },
+      {
+        "source_file": "0016.txt",
+        "doc_name": "Endotext_Complete - Adrenal Incidentaloma"
+      },
+      {
+        "source_file": "0008.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Physiology, Adrenocorticotropic Hormone (ACTH)"
+      }
+    ]
   },
   {
     "id": "endo_26",
@@ -605,7 +1916,26 @@
     "tier_label": "peripheral",
     "query": "A 16-year-old female presents with primary amenorrhea, absent breast development, and blind-ending vagina. Karyotype is 46,XY. Testosterone levels are in the normal male range. What is the diagnosis?",
     "expected_specialist": "endocrinologist",
-    "expected_keywords": ["androgen insensitivity syndrome", "complete ais", "gonadectomy", "testosterone receptor"]
+    "expected_keywords": [
+      "androgen insensitivity syndrome",
+      "complete ais",
+      "gonadectomy",
+      "testosterone receptor"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0021.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Primary Amenorrhea"
+      },
+      {
+        "source_file": "0015.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Ambiguous Genitalia and Disorders of Sexual Differentiation"
+      },
+      {
+        "source_file": "0029.txt",
+        "doc_name": "Endotext_Complete - Ambiguous Genitalia in the Newborn"
+      }
+    ]
   },
   {
     "id": "endo_27",
@@ -613,7 +1943,27 @@
     "tier_label": "peripheral",
     "query": "A 35-year-old female presents with oligomenorrhea, acne, hirsutism, and a fasting insulin of 28 mIU/L. Pelvic ultrasound reveals bilateral polycystic ovaries. She is trying to conceive. What are the first-line treatments for ovulation induction?",
     "expected_specialist": "endocrinologist",
-    "expected_keywords": ["pcos", "clomiphene", "letrozole", "insulin resistance", "metformin"]
+    "expected_keywords": [
+      "pcos",
+      "clomiphene",
+      "letrozole",
+      "insulin resistance",
+      "metformin"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0012.txt",
+        "doc_name": "Endotext_Complete - Evaluation of Infertility, Ovulation Induction and Assisted Reproduction"
+      },
+      {
+        "source_file": "0033.txt",
+        "doc_name": "Endotext_Complete - Evaluation of Amenorrhea, Anovulation, and Abnormal Bleeding"
+      },
+      {
+        "source_file": "0024.txt",
+        "doc_name": "Endotext_Complete - Evaluation and Treatment of Polycystic Ovary Syndrome"
+      }
+    ]
   },
   {
     "id": "endo_28",
@@ -621,7 +1971,26 @@
     "tier_label": "peripheral",
     "query": "A 70-year-old male presents with fatigue, reduced libido, and erectile dysfunction. Total testosterone is 7.2 nmol/L on two morning samples. LH and FSH are both low. Pituitary MRI reveals a 6 mm microadenoma. What is the hormonal diagnosis and management sequence?",
     "expected_specialist": "endocrinologist",
-    "expected_keywords": ["hypogonadotropic hypogonadism", "secondary hypogonadism", "testosterone replacement", "pituitary"]
+    "expected_keywords": [
+      "hypogonadotropic hypogonadism",
+      "secondary hypogonadism",
+      "testosterone replacement",
+      "pituitary"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0018.txt",
+        "doc_name": "Endotext_Complete - Laboratory Assessment of Testicular Function"
+      },
+      {
+        "source_file": "0007.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Male Hypogonadism"
+      },
+      {
+        "source_file": "0009.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Luteinizing Hormone Deficiency"
+      }
+    ]
   },
   {
     "id": "endo_29",
@@ -629,7 +1998,27 @@
     "tier_label": "peripheral",
     "query": "A 45-year-old female presents with fatigue, galactorrhea, and oligomenorrhea. Prolactin is 85 ng/mL. She takes metoclopramide for gastroparesis. How do you determine if hyperprolactinaemia is drug-induced or due to a pituitary lesion?",
     "expected_specialist": "endocrinologist",
-    "expected_keywords": ["hyperprolactinaemia", "drug-induced", "metoclopramide", "prolactin", "mri pituitary"]
+    "expected_keywords": [
+      "hyperprolactinaemia",
+      "drug-induced",
+      "metoclopramide",
+      "prolactin",
+      "mri pituitary"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0004.txt",
+        "doc_name": "Endotext_Complete - Prolactinoma Management"
+      },
+      {
+        "source_file": "0011.txt",
+        "doc_name": "Endotext_Complete - Pharmacological Causes of Hyperprolactinemia"
+      },
+      {
+        "source_file": "0004.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Galactorrhea"
+      }
+    ]
   },
   {
     "id": "endo_30",
@@ -637,7 +2026,27 @@
     "tier_label": "peripheral",
     "query": "A 30-year-old male presents with polyuria (8 L/day), polydipsia, and nocturia. Urine osmolality is persistently low at 80 mOsm/kg despite overnight fluid restriction. Plasma osmolality is 305 mOsm/kg. What is the diagnosis and how is central distinguished from nephrogenic DI?",
     "expected_specialist": "endocrinologist",
-    "expected_keywords": ["diabetes insipidus", "desmopressin test", "avp", "central di", "nephrogenic"]
+    "expected_keywords": [
+      "diabetes insipidus",
+      "desmopressin test",
+      "avp",
+      "central di",
+      "nephrogenic"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0012.txt",
+        "doc_name": "Endotext_Complete - Diagnostic Tests for Diabetes Insipidus"
+      },
+      {
+        "source_file": "0008.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Anatomy, Abdomen and Pelvis_ Kidney Collecting Ducts"
+      },
+      {
+        "source_file": "0022.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Arginine Vasopressin Disorder (Diabetes Insipidus)"
+      }
+    ]
   },
   {
     "id": "endo_31",
@@ -645,7 +2054,27 @@
     "tier_label": "peripheral",
     "query": "A 68-year-old female with a three-year history of type 2 diabetes and eGFR of 35 mL/min presents for review. Her current metformin dose is 1000 mg twice daily. What medication adjustments are required and what agents are preferred for glycaemic control at this renal function?",
     "expected_specialist": "endocrinologist",
-    "expected_keywords": ["ckd diabetes", "metformin adjustment", "linagliptin", "insulin", "renal dosing"]
+    "expected_keywords": [
+      "ckd diabetes",
+      "metformin adjustment",
+      "linagliptin",
+      "insulin",
+      "renal dosing"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0008.txt",
+        "doc_name": "Endotext_Complete - Outpatient Management of Diabetes Mellitus in Elderly Patients"
+      },
+      {
+        "source_file": "0058.txt",
+        "doc_name": "dc25s009"
+      },
+      {
+        "source_file": "0029.txt",
+        "doc_name": "type-2-diabetes-in-adults-management-pdf-1837338615493"
+      }
+    ]
   },
   {
     "id": "endo_32",
@@ -653,7 +2082,27 @@
     "tier_label": "peripheral",
     "query": "A 55-year-old male with type 1 diabetes develops progressive visual loss. Fundoscopy reveals neovascularization at the disc and pre-retinal haemorrhage. His diabetes has been poorly controlled for 15 years. What stage of retinopathy is this and what treatment is indicated?",
     "expected_specialist": "endocrinologist",
-    "expected_keywords": ["proliferative diabetic retinopathy", "laser photocoagulation", "anti-vegf", "vitrectomy", "neovascularization"]
+    "expected_keywords": [
+      "proliferative diabetic retinopathy",
+      "laser photocoagulation",
+      "anti-vegf",
+      "vitrectomy",
+      "neovascularization"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0025.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Diabetic Retinopathy"
+      },
+      {
+        "source_file": "0085.txt",
+        "doc_name": "diabetic-retinopathy-management-and-monitoring-pdf-66143953240261"
+      },
+      {
+        "source_file": "0022.txt",
+        "doc_name": "Endotext_Complete - Diabetic Retinopathy"
+      }
+    ]
   },
   {
     "id": "endo_33",
@@ -661,7 +2110,27 @@
     "tier_label": "peripheral",
     "query": "A 60-year-old female with osteoporosis and a vertebral fragility fracture at L2 has been on alendronate for 7 years. She develops new atypical femoral pain. What complication should be considered and how should therapy be managed?",
     "expected_specialist": "endocrinologist",
-    "expected_keywords": ["atypical femoral fracture", "bisphosphonate holiday", "denosumab", "anabolic therapy", "teriparatide"]
+    "expected_keywords": [
+      "atypical femoral fracture",
+      "bisphosphonate holiday",
+      "denosumab",
+      "anabolic therapy",
+      "teriparatide"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0024.txt",
+        "doc_name": "Endotext_Complete - Osteoporosis_ Prevention and Treatment"
+      },
+      {
+        "source_file": "0015.txt",
+        "doc_name": "Endotext_Complete - The Postmenopausal Women"
+      },
+      {
+        "source_file": "0069.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Osteoporosis in Females"
+      }
+    ]
   },
   {
     "id": "endo_34",
@@ -669,7 +2138,26 @@
     "tier_label": "core",
     "query": "A 52-year-old female presents with fatigue, myalgia, and constipation. Serum calcium is 11.8 mg/dL and PTH is 110 pg/mL. A sestamibi scan reveals a hot spot posterior to the inferior right thyroid pole. What is the diagnosis and when is surgery indicated?",
     "expected_specialist": "endocrinologist",
-    "expected_keywords": ["primary hyperparathyroidism", "parathyroid adenoma", "parathyroidectomy", "sestamibi"]
+    "expected_keywords": [
+      "primary hyperparathyroidism",
+      "parathyroid adenoma",
+      "parathyroidectomy",
+      "sestamibi"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0012.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Parathyroid Carcinoma"
+      },
+      {
+        "source_file": "0019.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Primary Hyperparathyroidism"
+      },
+      {
+        "source_file": "0024.txt",
+        "doc_name": "Endotext_Complete - Approach to Hypercalcemia"
+      }
+    ]
   },
   {
     "id": "endo_35",
@@ -677,7 +2165,27 @@
     "tier_label": "peripheral",
     "query": "A 50-year-old male presents with recurrent episodes of confusion and sweating, typically occurring in the late afternoon. During an episode, his blood glucose is found to be 40 mg/dL, and his symptoms resolve promptly after drinking orange juice. What is the next step in evaluating for an endogenous hyperinsulinemic state?",
     "expected_specialist": "endocrinologist",
-    "expected_keywords": ["insulinoma", "whipple", "72-hour fast", "c-peptide", "proinsulin"]
+    "expected_keywords": [
+      "insulinoma",
+      "whipple",
+      "72-hour fast",
+      "c-peptide",
+      "proinsulin"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0003.txt",
+        "doc_name": "Endotext_Complete - Hypoglycemia"
+      },
+      {
+        "source_file": "0005.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Insulinoma"
+      },
+      {
+        "source_file": "0004.txt",
+        "doc_name": "Endotext_Complete - Insulinoma"
+      }
+    ]
   },
   {
     "id": "endo_36",
@@ -685,7 +2193,27 @@
     "tier_label": "peripheral",
     "query": "A 44-year-old female with MEN1 syndrome presents for surveillance. She has a known 0.8 cm pancreatic NET found on MRI. She has no symptoms of hormone excess. How should non-functioning pancreatic NETs be managed in MEN1?",
     "expected_specialist": "endocrinologist",
-    "expected_keywords": ["men1", "pancreatic net", "neuroendocrine tumor", "surveillance", "somatostatin"]
+    "expected_keywords": [
+      "men1",
+      "pancreatic net",
+      "neuroendocrine tumor",
+      "surveillance",
+      "somatostatin"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0037.txt",
+        "doc_name": "Endotext_Complete - Multiple Endocrine Neoplasia Type 1"
+      },
+      {
+        "source_file": "0006.txt",
+        "doc_name": "luaf003"
+      },
+      {
+        "source_file": "0008.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Multiple Endocrine Neoplasia Type 1"
+      }
+    ]
   },
   {
     "id": "endo_37",
@@ -693,7 +2221,27 @@
     "tier_label": "peripheral",
     "query": "A 50-year-old female presents with hypercalcaemia (calcium 12.4 mg/dL) and suppressed PTH of 4 pg/mL. She has a history of breast cancer treated five years ago. What is the likely cause and how does management differ from PTH-dependent hypercalcaemia?",
     "expected_specialist": "endocrinologist",
-    "expected_keywords": ["malignancy hypercalcemia", "pth-rp", "bisphosphonate", "zoledronic acid", "denosumab"]
+    "expected_keywords": [
+      "malignancy hypercalcemia",
+      "pth-rp",
+      "bisphosphonate",
+      "zoledronic acid",
+      "denosumab"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0042.txt",
+        "doc_name": "Endotext_Complete - Primary Hyperparathyroidism"
+      },
+      {
+        "source_file": "0031.txt",
+        "doc_name": "Endotext_Complete - Approach to Hypercalcemia"
+      },
+      {
+        "source_file": "0019.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Primary Hyperparathyroidism"
+      }
+    ]
   },
   {
     "id": "endo_38",
@@ -701,7 +2249,27 @@
     "tier_label": "peripheral",
     "query": "A 15-year-old male presents with delayed puberty, anosmia, and absent secondary sexual characteristics. LH and FSH are both undetectable. Testosterone is 1.2 nmol/L. Pituitary MRI is normal. What is the diagnosis?",
     "expected_specialist": "endocrinologist",
-    "expected_keywords": ["kallmann syndrome", "hypogonadotropic hypogonadism", "gnrh deficiency", "anosmia", "testosterone"]
+    "expected_keywords": [
+      "kallmann syndrome",
+      "hypogonadotropic hypogonadism",
+      "gnrh deficiency",
+      "anosmia",
+      "testosterone"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0006.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Luteinizing Hormone Deficiency"
+      },
+      {
+        "source_file": "0017.txt",
+        "doc_name": "Endotext_Complete - Laboratory Assessment of Testicular Function"
+      },
+      {
+        "source_file": "0007.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Male Hypogonadism"
+      }
+    ]
   },
   {
     "id": "endo_39",
@@ -709,7 +2277,14 @@
     "tier_label": "out_of_scope",
     "query": "A 40-year-old male with a known SDHB mutation presents for annual surveillance. A right adrenal mass of 3 cm is identified. Biochemistry is negative for catecholamine excess. Imaging features are indeterminate. What syndrome does this suggest and what are the malignancy risks?",
     "expected_specialist": "endocrinologist",
-    "expected_keywords": ["paraganglioma", "sdhb mutation", "hereditary phaeochromocytoma", "malignant risk", "surveillance"]
+    "expected_keywords": [
+      "paraganglioma",
+      "sdhb mutation",
+      "hereditary phaeochromocytoma",
+      "malignant risk",
+      "surveillance"
+    ],
+    "gold_sources": []
   },
   {
     "id": "endo_40",
@@ -717,7 +2292,14 @@
     "tier_label": "out_of_scope",
     "query": "A 35-year-old female with autoimmune polyglandular syndrome type 2 presents with fatigue, hypoglycaemia, and worsening glycaemic control in her previously stable type 1 diabetes. TSH is undetectable, free T4 is high. What is occurring and how are the two conditions interacting?",
     "expected_specialist": "endocrinologist",
-    "expected_keywords": ["polyglandular syndrome", "graves disease", "type 1 diabetes", "hypoglycemia", "autoimmune"]
+    "expected_keywords": [
+      "polyglandular syndrome",
+      "graves disease",
+      "type 1 diabetes",
+      "hypoglycemia",
+      "autoimmune"
+    ],
+    "gold_sources": []
   },
   {
     "id": "endo_41",
@@ -725,7 +2307,14 @@
     "tier_label": "out_of_scope",
     "query": "A 60-year-old male on long-term lithium therapy for bipolar disorder is found to have TSH 8.2 mIU/L with free T4 in the low-normal range and a diffusely enlarged thyroid. Anti-TPO antibodies are weakly positive. How does lithium cause thyroid dysfunction and how should it be managed?",
     "expected_specialist": "endocrinologist",
-    "expected_keywords": ["lithium thyroid", "hypothyroidism", "levothyroxine", "anti-tpo", "goitre"]
+    "expected_keywords": [
+      "lithium thyroid",
+      "hypothyroidism",
+      "levothyroxine",
+      "anti-tpo",
+      "goitre"
+    ],
+    "gold_sources": []
   },
   {
     "id": "endo_42",
@@ -733,7 +2322,14 @@
     "tier_label": "out_of_scope",
     "query": "A 48-year-old female on immune checkpoint inhibitor therapy (pembrolizumab) for melanoma develops fatigue, hyponatraemia, and eosinophilia. Short synacthen test shows cortisol of 90 nmol/L at 30 minutes (normal > 500 nmol/L). What endocrine complication has occurred?",
     "expected_specialist": "endocrinologist",
-    "expected_keywords": ["checkpoint inhibitor", "immune-related adrenal insufficiency", "pembrolizumab", "hydrocortisone", "irAE"]
+    "expected_keywords": [
+      "checkpoint inhibitor",
+      "immune-related adrenal insufficiency",
+      "pembrolizumab",
+      "hydrocortisone",
+      "irAE"
+    ],
+    "gold_sources": []
   },
   {
     "id": "endo_43",
@@ -741,7 +2337,14 @@
     "tier_label": "out_of_scope",
     "query": "A 22-year-old male develops nephrogenic diabetes insipidus while on lithium for bipolar disorder. Plasma sodium is 152 mmol/L. He is passing 12 litres of urine per day. Desmopressin does not reduce urine output. What is the pathophysiology and what therapeutic alternatives exist?",
     "expected_specialist": "endocrinologist",
-    "expected_keywords": ["nephrogenic di", "aquaporin-2", "amiloride", "thiazide", "lithium"]
+    "expected_keywords": [
+      "nephrogenic di",
+      "aquaporin-2",
+      "amiloride",
+      "thiazide",
+      "lithium"
+    ],
+    "gold_sources": []
   },
   {
     "id": "endo_44",
@@ -749,7 +2352,14 @@
     "tier_label": "out_of_scope",
     "query": "A 55-year-old female with metastatic medullary thyroid carcinoma and a RET proto-oncogene mutation presents with progressive disease despite surgery. Calcitonin is 18,000 pg/mL. What systemic therapy is indicated and how does RET mutation status guide treatment?",
     "expected_specialist": "endocrinologist",
-    "expected_keywords": ["medullary thyroid carcinoma", "ret mutation", "vandetanib", "cabozantinib", "calcitonin"]
+    "expected_keywords": [
+      "medullary thyroid carcinoma",
+      "ret mutation",
+      "vandetanib",
+      "cabozantinib",
+      "calcitonin"
+    ],
+    "gold_sources": []
   },
   {
     "id": "endo_45",
@@ -757,7 +2367,27 @@
     "tier_label": "core",
     "query": "A 38-year-old female presents with a 6-month history of weight gain, easy bruising, and proximal muscle weakness. Her 24-hour urine free cortisol is 3.5 times the upper limit of normal. Low-dose dexamethasone suppression fails to suppress cortisol, but high-dose suppression achieves > 50% reduction. What is the most likely source?",
     "expected_specialist": "endocrinologist",
-    "expected_keywords": ["cushing disease", "pituitary acth", "bilateral inferior petrosal sinus sampling", "adenoma", "transsphenoidal"]
+    "expected_keywords": [
+      "cushing disease",
+      "pituitary acth",
+      "bilateral inferior petrosal sinus sampling",
+      "adenoma",
+      "transsphenoidal"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0050.txt",
+        "doc_name": "Endotext_Complete - Cushing’s Syndrome"
+      },
+      {
+        "source_file": "0001.txt",
+        "doc_name": "Endotext_Complete - Florid Cushing’s Syndrome"
+      },
+      {
+        "source_file": "0008.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Adrenal Adenoma"
+      }
+    ]
   },
   {
     "id": "endo_46",
@@ -765,7 +2395,14 @@
     "tier_label": "core",
     "query": "A 25-year-old male with known type 1 diabetes presents with repeated severe hypoglycaemia at night and is unaware of low glucose until he is found confused by family. His total daily insulin dose is 0.6 units/kg. What is the diagnosis and what management strategy addresses this specifically?",
     "expected_specialist": "endocrinologist",
-    "expected_keywords": ["hypoglycaemia unawareness", "impaired awareness", "relaxed glycaemic targets", "rtcgm", "closed loop"]
+    "expected_keywords": [
+      "hypoglycaemia unawareness",
+      "impaired awareness",
+      "relaxed glycaemic targets",
+      "rtcgm",
+      "closed loop"
+    ],
+    "gold_sources": []
   },
   {
     "id": "endo_47",
@@ -773,7 +2410,27 @@
     "tier_label": "peripheral",
     "query": "A 30-year-old male presents with bilateral gynaecomastia, small firm testes, and infertility. Karyotype is 47,XXY. FSH and LH are elevated and testosterone is low. What is the diagnosis and what are the reproductive options?",
     "expected_specialist": "endocrinologist",
-    "expected_keywords": ["klinefelter syndrome", "hypogonadism", "azoospermia", "testosterone replacement", "testicular sperm extraction"]
+    "expected_keywords": [
+      "klinefelter syndrome",
+      "hypogonadism",
+      "azoospermia",
+      "testosterone replacement",
+      "testicular sperm extraction"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0017.txt",
+        "doc_name": "Endotext_Complete - Primary Testicular Failure"
+      },
+      {
+        "source_file": "0004.txt",
+        "doc_name": "Endotext_Complete - Clinical Management of Male Infertility"
+      },
+      {
+        "source_file": "0015.txt",
+        "doc_name": "Endotext_Complete - Evaluation of Infertility, Ovulation Induction and Assisted Reproduction"
+      }
+    ]
   },
   {
     "id": "endo_48",
@@ -781,7 +2438,19 @@
     "tier_label": "peripheral",
     "query": "A 58-year-old male with type 2 diabetes is commenced on canagliflozin. One week later he presents with perineal pain, swelling, and fever. Examination reveals crepitus and necrotic skin in the perineal area. What complication has occurred and how is it managed?",
     "expected_specialist": "endocrinologist",
-    "expected_keywords": ["fournier gangrene", "sglt2 inhibitor", "necrotising fasciitis", "debridement", "sglt2 complication"]
+    "expected_keywords": [
+      "fournier gangrene",
+      "sglt2 inhibitor",
+      "necrotising fasciitis",
+      "debridement",
+      "sglt2 complication"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0006.txt",
+        "doc_name": "luaf028"
+      }
+    ]
   },
   {
     "id": "endo_49",
@@ -789,7 +2458,19 @@
     "tier_label": "peripheral",
     "query": "A 52-year-old female three months post-bariatric surgery (Roux-en-Y gastric bypass) presents with tingling, muscle cramps, and fatigue. Lab results show calcium 7.8 mg/dL, vitamin D 12 nmol/L, and PTH 140 pg/mL. What nutritional complication has developed and what supplementation protocol is recommended?",
     "expected_specialist": "endocrinologist",
-    "expected_keywords": ["post-bariatric hypocalcaemia", "vitamin d deficiency", "secondary hyperparathyroidism", "calcium supplementation", "malabsorption"]
+    "expected_keywords": [
+      "post-bariatric hypocalcaemia",
+      "vitamin d deficiency",
+      "secondary hyperparathyroidism",
+      "calcium supplementation",
+      "malabsorption"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0010.txt",
+        "doc_name": "Endotext_Complete - Medical Management of the Post Operative Bariatric Surgery Patient"
+      }
+    ]
   },
   {
     "id": "endo_50",
@@ -797,6 +2478,13 @@
     "tier_label": "out_of_scope",
     "query": "A 45-year-old male with no known endocrine history presents with spontaneous hypoglycaemia, plasma glucose of 1.8 mmol/L, insulin of 28 mIU/L, and C-peptide of 5.2 nmol/L during a symptomatic episode. CT pancreas is normal. What is the next diagnostic step to localise the lesion?",
     "expected_specialist": "endocrinologist",
-    "expected_keywords": ["insulinoma", "endogenous hyperinsulinism", "selective arterial calcium stimulation", "68-ga pet", "c-peptide"]
+    "expected_keywords": [
+      "insulinoma",
+      "endogenous hyperinsulinism",
+      "selective arterial calcium stimulation",
+      "68-ga pet",
+      "c-peptide"
+    ],
+    "gold_sources": []
   }
 ]

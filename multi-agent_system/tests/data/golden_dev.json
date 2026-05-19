@@ -10,6 +10,20 @@
       "atrial fibrillation",
       "ecg",
       "holter"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0004.txt",
+        "doc_name": "Palpitations - Cardiovascular Disorders - Merck Manual Professional Edition"
+      },
+      {
+        "source_file": "0054.txt",
+        "doc_name": "8205Oxford Handbook of Clinical Medicine 10th 2017 Edition_SamanSarKo - Copy"
+      },
+      {
+        "source_file": "0001.txt",
+        "doc_name": "COPD exacerbation, followed by cardiac arrest. - Dr. Smith’s ECG Blog"
+      }
     ]
   },
   {
@@ -23,6 +37,20 @@
       "ischemia",
       "coronary artery disease",
       "hypertension"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0026.txt",
+        "doc_name": "cardiology-explained"
+      },
+      {
+        "source_file": "0008.txt",
+        "doc_name": "recentonset-chest-pain-of-suspected-cardiac-origin-assessment-and-diagnosis-pdf-975751034821"
+      },
+      {
+        "source_file": "0005.txt",
+        "doc_name": "Chest Pain - Cardiovascular Disorders - Merck Manual Professional Edition"
+      }
     ]
   },
   {
@@ -36,6 +64,20 @@
       "holter",
       "wearable",
       "fibrillation"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0251.txt",
+        "doc_name": "1669720301Guyton and Hall 2021 Textbook of Medical Physiology 14th Ed"
+      },
+      {
+        "source_file": "0009.txt",
+        "doc_name": "carnation-ambulatory-monitor-for-ambulatory-detection-of-cardiac-arrythmias-pdf-2285965817704645"
+      },
+      {
+        "source_file": "0003.txt",
+        "doc_name": "remote-ecg-interpretation-consultancy-services-for-cardiovascular-disease-pdf-2285963513271493"
+      }
     ]
   },
   {
@@ -49,6 +91,20 @@
       "arrhythmia",
       "monitor",
       "ecg"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0004.txt",
+        "doc_name": "Palpitations - Cardiovascular Disorders - Merck Manual Professional Edition"
+      },
+      {
+        "source_file": "0153.txt",
+        "doc_name": "8205Oxford Handbook of Clinical Medicine 10th 2017 Edition_SamanSarKo - Copy"
+      },
+      {
+        "source_file": "0086.txt",
+        "doc_name": "cardiology-explained"
+      }
     ]
   },
   {
@@ -62,6 +118,20 @@
       "sleep apnea",
       "alcohol",
       "weight"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0002.txt",
+        "doc_name": "ESC-Patient-Guidelines-Atrial-Fibrillation"
+      },
+      {
+        "source_file": "0001.txt",
+        "doc_name": "Atrial Fibrillation - Cardiovascular Disorders - Merck Manual Professional Edition"
+      },
+      {
+        "source_file": "0026.txt",
+        "doc_name": "atrial-fibrillation-diagnosis-and-management-pdf-66142085507269"
+      }
     ]
   },
   {
@@ -75,6 +145,20 @@
       "heart failure",
       "diastolic",
       "edema"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0058.txt",
+        "doc_name": "8205Oxford Handbook of Clinical Medicine 10th 2017 Edition_SamanSarKo - Copy"
+      },
+      {
+        "source_file": "0128.txt",
+        "doc_name": "cardiology-explained"
+      },
+      {
+        "source_file": "0002.txt",
+        "doc_name": "Pulmonary Edema - Cardiovascular Disorders - Merck Manual Professional Edition"
+      }
     ]
   },
   {
@@ -88,6 +172,20 @@
       "hcm",
       "septal",
       "sam"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0001.txt",
+        "doc_name": "Hypertrophic Cardiomyopathy - Cardiovascular Disorders - Merck Manual Professional Edition"
+      },
+      {
+        "source_file": "0003.txt",
+        "doc_name": "Athlete’s Heart - Cardiovascular Disorders - Merck Manual Professional Edition"
+      },
+      {
+        "source_file": "0127.txt",
+        "doc_name": "cardiology-explained"
+      }
     ]
   },
   {
@@ -101,6 +199,20 @@
       "chest pain",
       "st elevation",
       "pr depression"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0001.txt",
+        "doc_name": "A woman in her 50s with acute chest pain - Dr. Smith’s ECG Blog"
+      },
+      {
+        "source_file": "0001.txt",
+        "doc_name": "Acute Chest pain, 2 years in a row. - Dr. Smith’s ECG Blog"
+      },
+      {
+        "source_file": "0001.txt",
+        "doc_name": "A 24 year old with chest pain — What happened_ - Dr. Smith’s ECG Blog"
+      }
     ]
   },
   {
@@ -114,6 +226,20 @@
       "murmur",
       "osler",
       "antibiotics"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0006.txt",
+        "doc_name": "Infective endocarditis - Cardiology Explained - NCBI Bookshelf"
+      },
+      {
+        "source_file": "0121.txt",
+        "doc_name": "cardiology-explained"
+      },
+      {
+        "source_file": "0651.txt",
+        "doc_name": "8205Oxford Handbook of Clinical Medicine 10th 2017 Edition_SamanSarKo - Copy"
+      }
     ]
   },
   {
@@ -127,7 +253,8 @@
       "tearing",
       "mediastinum",
       "ct angiography"
-    ]
+    ],
+    "gold_sources": []
   },
   {
     "id": "cardio_11",
@@ -140,6 +267,20 @@
       "inferior",
       "right coronary artery",
       "rca"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0001.txt",
+        "doc_name": "Baseline wander. But what else do you see_ - Dr. Smith’s ECG Blog"
+      },
+      {
+        "source_file": "0001.txt",
+        "doc_name": "A woman in her 50s with acute chest pain - Dr. Smith’s ECG Blog"
+      },
+      {
+        "source_file": "0005.txt",
+        "doc_name": "Overview of Acute Coronary Syndromes (ACS) - Cardiovascular Disorders - Merck Manual Professional Edition"
+      }
     ]
   },
   {
@@ -153,6 +294,20 @@
       "heart failure",
       "ejection fraction",
       "alcohol"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0001.txt",
+        "doc_name": "Alcoholic cardiomyopathy overview - wikidoc"
+      },
+      {
+        "source_file": "0067.txt",
+        "doc_name": "8205Oxford Handbook of Clinical Medicine 10th 2017 Edition_SamanSarKo - Copy"
+      },
+      {
+        "source_file": "0002.txt",
+        "doc_name": "A man in his 50s with altered mental status and abdominal pain. What treatment must be given immediately, and how much_ "
+      }
     ]
   },
   {
@@ -167,6 +322,20 @@
       "syncope",
       "replacement",
       "tavr"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0127.txt",
+        "doc_name": "cardiology-explained"
+      },
+      {
+        "source_file": "0003.txt",
+        "doc_name": "Aortic Stenosis - Cardiovascular Disorders - Merck Manual Professional Edition"
+      },
+      {
+        "source_file": "0064.txt",
+        "doc_name": "8205Oxford Handbook of Clinical Medicine 10th 2017 Edition_SamanSarKo - Copy"
+      }
     ]
   },
   {
@@ -180,6 +349,20 @@
       "peripheral artery disease",
       "pad",
       "abi"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0003.txt",
+        "doc_name": "Peripheral Artery Disease - Cardiovascular Disorders - Merck Manual Professional Edition"
+      },
+      {
+        "source_file": "0003.txt",
+        "doc_name": "peripheral-arterial-disease-pdf-2098723816645"
+      },
+      {
+        "source_file": "0055.txt",
+        "doc_name": "8205Oxford Handbook of Clinical Medicine 10th 2017 Edition_SamanSarKo - Copy"
+      }
     ]
   },
   {
@@ -193,6 +376,20 @@
       "pericardiocentesis",
       "hypotension",
       "fluid"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0001.txt",
+        "doc_name": "Cardiac tamponade overview - wikidoc"
+      },
+      {
+        "source_file": "0002.txt",
+        "doc_name": "An elderly patient with shortness of breath and near syncope - Dr. Smith’s ECG Blog"
+      },
+      {
+        "source_file": "0010.txt",
+        "doc_name": "Pericarditis - Cardiovascular Disorders - Merck Manual Professional Edition"
+      }
     ]
   },
   {
@@ -206,6 +403,20 @@
       "hashimoto",
       "levothyroxine",
       "tsh"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0087.txt",
+        "doc_name": "Endotext_Complete - Adult Hypothyroidism"
+      },
+      {
+        "source_file": "0005.txt",
+        "doc_name": "luag034"
+      },
+      {
+        "source_file": "0038.txt",
+        "doc_name": "Endotext_Complete - Hypothyroidism in Older Adults"
+      }
     ]
   },
   {
@@ -219,6 +430,20 @@
       "metabolic syndrome",
       "metformin",
       "glycemic"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0014.txt",
+        "doc_name": "dc25s002"
+      },
+      {
+        "source_file": "0051.txt",
+        "doc_name": "dc24s002"
+      },
+      {
+        "source_file": "0018.txt",
+        "doc_name": "dc26s002"
+      }
     ]
   },
   {
@@ -232,6 +457,20 @@
       "adrenal",
       "cortisol",
       "metanephrines"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0011.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Anatomy, Abdomen and Pelvis_ Adrenal Glands (Suprarenal Glands)"
+      },
+      {
+        "source_file": "0009.txt",
+        "doc_name": "Endotext_Complete - Physiology and Diseases of the Adrenal Glands in Older Adults"
+      },
+      {
+        "source_file": "0007.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Adrenal Adenoma"
+      }
     ]
   },
   {
@@ -245,6 +484,20 @@
       "hyperparathyroidism",
       "adenoma",
       "pth"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0004.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Parathyroid Carcinoma"
+      },
+      {
+        "source_file": "0013.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Histology, Parathyroid Gland"
+      },
+      {
+        "source_file": "0017.txt",
+        "doc_name": "Endotext_Complete - Osteoporosis_ Clinical Evaluation"
+      }
     ]
   },
   {
@@ -258,6 +511,20 @@
       "macroadenoma",
       "prolactin",
       "igf-1"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0007.txt",
+        "doc_name": "Endotext_Complete - Surgical Treatment of Pituitary Adenomas"
+      },
+      {
+        "source_file": "0016.txt",
+        "doc_name": "Endotext_Complete - Pituitary-Hypothalamic Tumor Syndromes_ Adults"
+      },
+      {
+        "source_file": "0012.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Pituitary Adenoma"
+      }
     ]
   },
   {
@@ -271,6 +538,20 @@
       "metanephrines",
       "catecholamines",
       "plasma"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0038.txt",
+        "doc_name": "Endotext_Complete - Testing for Endocrine Hypertension"
+      },
+      {
+        "source_file": "0011.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Pheochromocytoma"
+      },
+      {
+        "source_file": "0054.txt",
+        "doc_name": "Endotext_Complete - Diabetic Neuropathies"
+      }
     ]
   },
   {
@@ -284,6 +565,20 @@
       "dexamethasone",
       "acth",
       "cortisol"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0001.txt",
+        "doc_name": "Endotext_Complete - Florid Cushing’s Syndrome"
+      },
+      {
+        "source_file": "0009.txt",
+        "doc_name": "Endotext_Complete - Cushing’s Syndrome"
+      },
+      {
+        "source_file": "0004.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Cushing Disease"
+      }
     ]
   },
   {
@@ -297,6 +592,20 @@
       "growth hormone",
       "glucose tolerance",
       "igf-1"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0009.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Pituitary Adenoma"
+      },
+      {
+        "source_file": "0009.txt",
+        "doc_name": "Endotext_Complete - Idiopathic Short Stature and Growth Failure of Unknown Etiology"
+      },
+      {
+        "source_file": "0021.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Acromegaly"
+      }
     ]
   },
   {
@@ -310,6 +619,20 @@
       "cabergoline",
       "dopamine agonist",
       "prolactin"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0006.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Galactorrhea"
+      },
+      {
+        "source_file": "0007.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Prolactinoma"
+      },
+      {
+        "source_file": "0002.txt",
+        "doc_name": "Endotext_Complete - Prolactinoma Management"
+      }
     ]
   },
   {
@@ -323,6 +646,20 @@
       "hyperthyroidism",
       "methimazole",
       "radioactive iodine"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0012.txt",
+        "doc_name": "luag034"
+      },
+      {
+        "source_file": "0009.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Hyperthyroidism"
+      },
+      {
+        "source_file": "0089.txt",
+        "doc_name": "Endotext_Complete - Adult Hypothyroidism"
+      }
     ]
   },
   {
@@ -336,6 +673,20 @@
       "adrenal insufficiency",
       "crisis",
       "hydrocortisone"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0006.txt",
+        "doc_name": "Endotext_Complete - Physiology and Diseases of the Adrenal Glands in Older Adults"
+      },
+      {
+        "source_file": "0006.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Addison Disease"
+      },
+      {
+        "source_file": "0015.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Adrenal Crisis"
+      }
     ]
   },
   {
@@ -349,6 +700,20 @@
       "conn",
       "hyperaldosteronism",
       "renin"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0008.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Hyperaldosteronism"
+      },
+      {
+        "source_file": "0017.txt",
+        "doc_name": "Endotext_Complete - Hyperaldosteronism"
+      },
+      {
+        "source_file": "0017.txt",
+        "doc_name": "Endotext_Complete - Physiology and Diseases of the Adrenal Glands in Older Adults"
+      }
     ]
   },
   {
@@ -362,6 +727,20 @@
       "hypoparathyroidism",
       "calcitriol",
       "parathyroid"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0039.txt",
+        "doc_name": "Endotext_Complete - Chapter 21 SURGERY OF THE THYROID"
+      },
+      {
+        "source_file": "0027.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Thyroidectomy"
+      },
+      {
+        "source_file": "0010.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Physiology, Parathyroid"
+      }
     ]
   },
   {
@@ -375,6 +754,20 @@
       "bisphosphonates",
       "alendronate",
       "t-score"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0034.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Osteoporosis in Females"
+      },
+      {
+        "source_file": "0012.txt",
+        "doc_name": "Endotext_Complete - The Postmenopausal Women"
+      },
+      {
+        "source_file": "0020.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Secondary Osteoporosis"
+      }
     ]
   },
   {
@@ -389,6 +782,20 @@
       "insulin",
       "fluids",
       "potassium"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0007.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Euglycemic Diabetic Ketoacidosis"
+      },
+      {
+        "source_file": "0006.txt",
+        "doc_name": "luaf028"
+      },
+      {
+        "source_file": "0001.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Adult Diabetic Ketoacidosis"
+      }
     ]
   }
 ]

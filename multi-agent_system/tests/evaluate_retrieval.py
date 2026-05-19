@@ -106,6 +106,121 @@ def _precision_at_k(docs, keywords):
     return chunk_hits / len(docs)
 
 
+def _doc_keys_from_gold(gold_sources):
+    """Convert a list of gold source dicts to a set of doc identifiers.
+
+    Matching is on doc_name when present (which is unique across the corpus);
+    otherwise on source_file as a fallback. Returns a frozenset of strings.
+    """
+    keys = set()
+    for g in gold_sources or []:
+        if isinstance(g, dict):
+            key = g.get("doc_name") or g.get("source_file")
+            if key:
+                keys.add(key)
+        elif isinstance(g, str):
+            keys.add(g)
+    return keys
+
+
+def _doc_key_of(doc):
+    """Doc-level identity for a retrieved chunk. Matches the gold annotation key."""
+    md = getattr(doc, "metadata", {}) or {}
+    return md.get("doc_name") or md.get("source_file")
+
+
+def _recall_at_k(retrieved_docs, gold_sources):
+    """Fraction of gold sources that appear at least once in retrieved_docs.
+
+    Returns None if gold_sources is empty (e.g., Tier 3 with no correct chunk,
+    or an unannotated Tier 1/2 case).
+    """
+    gold_keys = _doc_keys_from_gold(gold_sources)
+    if not gold_keys:
+        return None
+    retrieved_keys = {_doc_key_of(d) for d in retrieved_docs if _doc_key_of(d)}
+    return len(gold_keys & retrieved_keys) / len(gold_keys)
+
+
+def _mrr_at_k(retrieved_docs, gold_sources):
+    """Reciprocal rank of the first retrieved gold source. 0 if none of the gold
+    documents appear in the top-K. Returns None if gold_sources is empty."""
+    gold_keys = _doc_keys_from_gold(gold_sources)
+    if not gold_keys:
+        return None
+    for rank, doc in enumerate(retrieved_docs, start=1):
+        if _doc_key_of(doc) in gold_keys:
+            return 1.0 / rank
+    return 0.0
+
+
+def _wilson_ci(successes, total):
+    if total == 0:
+        return 0.0, 0.0, 0.0
+    from statsmodels.stats.proportion import proportion_confint
+    rate = successes / total
+    lo, hi = proportion_confint(successes, total, alpha=0.05, method="wilson")
+    return rate, lo, hi
+
+
+def _load_case_by_id(case_id):
+    """Find a case across any of the dev/test/all splits."""
+    for split in ("all", "test", "dev"):
+        for case in _load_split(split):
+            if case["id"] == case_id:
+                return case
+    raise SystemExit(f"Case id {case_id!r} not found in any split.")
+
+
+def print_sources(case_id, top_k=20):
+    """Debug helper for the annotation workflow.
+
+    Retrieves the top-K chunks for the given case, ignores MAX_L2_DISTANCE
+    (so even barely-retrieved chunks are shown for context), and prints each
+    chunk's metadata + first 200 chars + keyword match count, so a human
+    annotator can decide which documents actually contain the answer.
+    """
+    case = _load_case_by_id(case_id)
+    orchestrator = MedicalOrchestrator(DEFAULT_KNOWLEDGE_BASE_DIR)
+    agent = (orchestrator.cardiologist if case["expected_specialist"] == "cardiologist"
+             else orchestrator.endocrinologist)
+    print(f"\n=== {case_id}  tier={case['tier']}/{case['tier_label']}  domain={case['expected_specialist']} ===")
+    print(f"Query: {case['query']}")
+    print(f"Expected keywords: {', '.join(case['expected_keywords'])}")
+    print(f"Existing gold_sources: {case.get('gold_sources', '(not annotated)')}")
+    print()
+
+    docs_and_scores = agent.vectorstore.similarity_search_with_score(case["query"], k=top_k)
+    keywords_lower = [k.lower() for k in case["expected_keywords"]]
+    seen_docs = {}
+    for rank, (doc, score) in enumerate(docs_and_scores, start=1):
+        md = doc.metadata or {}
+        sf = md.get("source_file", "?")
+        dn = md.get("doc_name", "?")
+        cat = md.get("category", "?")
+        within_threshold = score <= MAX_L2_DISTANCE
+        flag = "" if within_threshold else "  (BEYOND L2_THRESHOLD)"
+        text_lower = doc.page_content.lower()
+        kw_hits = [kw for kw in keywords_lower if kw in text_lower]
+        preview = doc.page_content[:200].replace("\n", " ")
+        print(f"[{rank:>2}] L2={score:.3f}  cat={cat:<10}  source_file={sf}{flag}")
+        print(f"     doc_name : {dn}")
+        print(f"     kw hits  : {len(kw_hits)} of {len(keywords_lower)}  "
+              f"({', '.join(kw_hits) if kw_hits else 'none'})")
+        print(f"     preview  : {preview}")
+        print()
+        seen_docs.setdefault(dn, {"first_rank": rank, "chunks": 0, "kw_hits": set(),
+                                  "source_file": sf})
+        seen_docs[dn]["chunks"] += 1
+        seen_docs[dn]["kw_hits"].update(kw_hits)
+
+    print(f"=== Unique documents seen in top-{top_k} ===")
+    print(f"{'doc_name':<60} {'first_rank':>10} {'chunks':>8} {'kw hits':>10}")
+    for dn, info in sorted(seen_docs.items(), key=lambda x: x[1]["first_rank"]):
+        print(f"{dn[:58]:<60} {info['first_rank']:>10} {info['chunks']:>8} "
+              f"{len(info['kw_hits']):>10}")
+
+
 def evaluate_retrieval(split="test"):
     print(f"Initializing components for retrieval evaluation (split={split})...")
     dataset = _load_split(split)
@@ -131,6 +246,19 @@ def evaluate_retrieval(split="test"):
     tier_totals = defaultdict(int)
     tier_labels = {}
     tier3_results = []
+
+    # New grounded metrics — gold_sources-based.
+    # domain-level
+    domain_recall_sum = {"cardiologist": 0.0, "endocrinologist": 0.0}
+    domain_mrr_sum    = {"cardiologist": 0.0, "endocrinologist": 0.0}
+    domain_recall_n   = {"cardiologist": 0,   "endocrinologist": 0}
+    # tier-level (only T1/T2 contribute)
+    tier_recall_sum = defaultdict(float)
+    tier_mrr_sum    = defaultdict(float)
+    tier_recall_n   = defaultdict(int)
+    # Tier 3 refusal — fraction of T3 cases where zero chunks were retrieved.
+    tier3_refusals = defaultdict(int)
+    tier3_count    = defaultdict(int)
 
     domain_pool = {
         "cardiologist": list(orchestrator.cardiologist.vectorstore.docstore._dict.values()),
@@ -175,6 +303,21 @@ def evaluate_retrieval(split="test"):
             chunk_count = len(retrieved_docs)
             flag = "! ADJACENT CONTENT" if chunk_count > 0 else "(expected)"
             tier3_results.append((case["id"], chunk_count, flag))
+            tier3_count[expected_agent] += 1
+            if chunk_count == 0:
+                tier3_refusals[expected_agent] += 1
+
+        gold_sources = case.get("gold_sources")
+        if tier in (1, 2):
+            recall = _recall_at_k(retrieved_docs, gold_sources)
+            mrr    = _mrr_at_k(retrieved_docs, gold_sources)
+            if recall is not None:
+                domain_recall_sum[expected_agent] += recall
+                domain_mrr_sum[expected_agent]    += mrr
+                domain_recall_n[expected_agent]   += 1
+                tier_recall_sum[(expected_agent, tier)] += recall
+                tier_mrr_sum[(expected_agent, tier)]    += mrr
+                tier_recall_n[(expected_agent, tier)]   += 1
 
         retrieved_text = " ".join(doc.page_content.lower() for doc in retrieved_docs)
 
@@ -270,12 +413,94 @@ def evaluate_retrieval(split="test"):
             print(f"  {case_id:<15} Chunks retrieved: {count:<2} {flag}")
         print(f"{'=' * 60}")
 
+    # === New grounded metrics (Recall@K, MRR@K) ===
+    print(f"\n{'=' * 95}")
+    print(f"  Grounded Retrieval Metrics  (K={SIMILARITY_TOP_K}, against gold_sources)")
+    print(f"  Recall@K — fraction of gold documents that appear in the retrieved set.")
+    print(f"  MRR@K    — reciprocal rank of the first retrieved gold document.")
+    print(f"  KeywordHitRate (legacy) — kept for cross-stage comparison; "
+          f"see report §4.3 note.")
+    print(f"{'=' * 95}")
+    print(f"  {'Domain':<18} {'Recall@K':>10} {'MRR@K':>10} {'n':>6} "
+          f"{'KW Hit (legacy)':>18}")
+    print(f"  {'-'*18} {'-'*10} {'-'*10} {'-'*6} {'-'*18}")
+    overall_recall_num = 0.0
+    overall_mrr_num    = 0.0
+    overall_recall_n   = 0
+    for domain in ("cardiologist", "endocrinologist"):
+        n = domain_recall_n[domain]
+        recall = domain_recall_sum[domain] / n if n > 0 else 0
+        mrr    = domain_mrr_sum[domain]    / n if n > 0 else 0
+        legacy_hit = (domain_hits[domain] / domain_total[domain]
+                      if domain_total[domain] > 0 else 0)
+        print(f"  {domain:<18} {recall:>9.1%} {mrr:>10.3f} {n:>6} {legacy_hit:>17.1%}")
+        overall_recall_num += domain_recall_sum[domain]
+        overall_mrr_num    += domain_mrr_sum[domain]
+        overall_recall_n   += n
+    if overall_recall_n > 0:
+        overall_recall = overall_recall_num / overall_recall_n
+        overall_mrr    = overall_mrr_num    / overall_recall_n
+    else:
+        overall_recall = 0
+        overall_mrr    = 0
+    overall_legacy_hit = total_hits / total_queries if total_queries else 0
+    print(f"  {'-'*18} {'-'*10} {'-'*10} {'-'*6} {'-'*18}")
+    print(f"  {'OVERALL (T1+T2)':<18} {overall_recall:>9.1%} {overall_mrr:>10.3f} "
+          f"{overall_recall_n:>6} {overall_legacy_hit:>17.1%}")
+    print(f"{'=' * 95}")
+
+    print(f"\n{'=' * 95}")
+    print(f"  Grounded Retrieval Metrics — By Tier  (T1+T2 only; T3 reports refusal rate)")
+    print(f"{'=' * 95}")
+    print(f"  {'Domain':<18} {'Tier':<5} {'Label':<13} "
+          f"{'Recall@K':>10} {'MRR@K':>10} {'n':>6} {'KW Hit (legacy)':>18}")
+    print(f"  {'-'*18} {'-'*5} {'-'*13} {'-'*10} {'-'*10} {'-'*6} {'-'*18}")
+    for domain in ("cardiologist", "endocrinologist"):
+        for t in [1, 2]:
+            n = tier_recall_n[(domain, t)]
+            if n == 0:
+                continue
+            recall = tier_recall_sum[(domain, t)] / n
+            mrr    = tier_mrr_sum[(domain, t)]    / n
+            tier_legacy = (tier_hits[(domain, t)] / tier_totals[(domain, t)]
+                           if tier_totals[(domain, t)] else 0)
+            print(f"  {domain:<18} {t:<5} {tier_labels.get(t, '?'):<13} "
+                  f"{recall:>9.1%} {mrr:>10.3f} {n:>6} {tier_legacy:>17.1%}")
+    print(f"{'=' * 95}")
+
+    print(f"\n{'=' * 60}")
+    print(f"  Tier 3 Refusal Rate  (zero-chunk retrieval fraction)")
+    print(f"{'=' * 60}")
+    print(f"  {'Domain':<18} {'Refusals':>10} {'T3 Total':>10} {'Refusal Rate':>14}")
+    print(f"  {'-'*18} {'-'*10} {'-'*10} {'-'*14}")
+    refusals_total = 0
+    t3_total = 0
+    for domain in ("cardiologist", "endocrinologist"):
+        r = tier3_refusals[domain]
+        tot = tier3_count[domain]
+        refusals_total += r
+        t3_total       += tot
+        rate = r / tot if tot > 0 else 0
+        print(f"  {domain:<18} {r:>10} {tot:>10} {rate:>13.1%}")
+    overall_refusal_rate = (refusals_total / t3_total) if t3_total else 0
+    print(f"  {'-'*18} {'-'*10} {'-'*10} {'-'*14}")
+    print(f"  {'OVERALL':<18} {refusals_total:>10} {t3_total:>10} {overall_refusal_rate:>13.1%}")
+    print(f"{'=' * 60}")
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--smoke-test", action="store_true")
     parser.add_argument("--split", choices=["dev", "test", "all"], default="test")
+    parser.add_argument("--case-id", default=None,
+                        help="Show top-K retrieval for a single case (annotation workflow).")
+    parser.add_argument("--print-sources", action="store_true",
+                        help="With --case-id, dump retrieved sources (source_file, doc_name, kw hits).")
+    parser.add_argument("--top-k", type=int, default=20,
+                        help="Top-K to retrieve when --print-sources is set (default 20).")
     args = parser.parse_args()
     if args.smoke_test:
         run_smoke_test()
+    elif args.case_id and args.print_sources:
+        print_sources(args.case_id, top_k=args.top_k)
     else:
         evaluate_retrieval(split=args.split)

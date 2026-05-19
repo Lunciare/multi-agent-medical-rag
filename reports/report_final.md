@@ -205,15 +205,21 @@ Sections 4.1–4.6 report metrics computed on the full 100-case golden set. The 
 
 ### 4.3 Retrieval Hit Rate
 
-Each query is sent to the correct specialist agent (bypassing the router). The agent retrieves K=5 chunks with L2 ≤ 1.2. A **hit** is recorded if any expected keyword appears in the concatenated retrieved text. Precision@K measures the fraction of the K=5 retrieved chunks that contain an expected keyword (not just whether any single chunk does); the random baseline samples K=5 chunks uniformly at random from the full index (seed=42).
+Each query is sent to the correct specialist agent (bypassing the router). The agent retrieves K=5 chunks with L2 ≤ 1.2. **Recall@K** is the primary grounded metric: every Tier 1/2 case carries a `gold_sources` annotation listing 1–3 source documents that contain the correct answer (see §3.6); Recall@K is the fraction of those gold documents that appear among the K=5 retrieved chunks (pooled across cases — every gold-doc slot is one Bernoulli trial). **MRR@K** is the reciprocal rank of the first retrieved gold document, averaged across annotated cases. **Refusal Rate (T3)** is the fraction of Tier 3 cases where the retrieval pipeline returned zero chunks — making the safety-fallback failure (currently 0/16) numerically explicit. **KeywordHitRate** is the original keyword-co-occurrence metric kept here as a loose secondary signal for cross-stage comparison.
 
-| Domain | FAISS Hit Rate | FAISS Precision@K | Random Hit Rate | Random Precision@K |
+| Domain | Recall@K | MRR@K | KeywordHitRate (legacy) | Refusal Rate (T3) |
 |---|---|---|---|---|
-| Cardiology | 86.0% | 56.4% | 36.0% | 10.4% |
-| Endocrinology | 96.0% | 73.6% | 24.0% | 8.0% |
-| **Overall** | **91.0%** | **65.0%** | **30.0%** | **9.2%** |
+| Cardiology | 61.0% (72/118) [52.0%–69.3%] | 0.730 | 86.0% (43/50) | 0.0% (0/9) |
+| Endocrinology | 57.4% (70/122) [48.5%–65.8%] | 0.757 | 96.0% (48/50) | 0.0% (0/7) |
+| **Overall** | **59.2% (142/240) [52.9%–65.2%]** | **0.744** | **91.0% (91/100)** | **0.0% (0/16)** |
 
-> **Important Note on Tier 3 Metrics:** Reviewers may notice a seeming contradiction where Tier 3 (Out-of-Scope) cases show a non-zero Hit Rate (e.g., Cardiology Tier 3 has 5 hits), yet all of these cases retrieved exactly 5 chunks according to the fallback evaluation. This is because **Hit Rate and Fallback Detection measure different things**. Hit Rate relies on *keyword matching* (did the expected keywords appear in the retrieved text?), whereas Fallback measures *raw chunk count* (did the L2 threshold reject chunks?). For Tier 3 cases, the FAISS threshold frequently retrieves adjacent, irrelevant content. If this adjacent content happens to contain a common expected keyword, it registers as a "Hit" even if the retrieved text isn't directly useful for generating an answer.
+*(Wilson 95% CIs on the pooled gold-doc Bernoulli. MRR@K is reported without a strict CI — it is a mean of [0, 1] reciprocal-rank values per case, not a Bernoulli proportion; see Stage 6 report for bootstrap-style sanity checks. `# Legacy: registers hits on keyword co-occurrence; see Recall@K for grounded metric`.)*
+
+> **Note on Recall@K denominators:** 82 of the 84 Tier 1/2 cases were annotated by the auto-annotator (`tests/annotate_gold_sources.py --auto`), which scans the top-20 retrieved chunks and picks up to 3 documents per case with ≥1 expected-keyword hit. The two unannotated cases — `cardio_35` (STEMI with complete heart block) and `endo_46` (hypoglycaemia unawareness) — are the same two cases where the top-20 retrieval registered zero keyword matches and are therefore the legitimate retrieval misses already discussed in §4.3.1; they do not contribute to Recall@K. The 16 Tier 3 cases have `gold_sources: []` by design and contribute only to the Refusal Rate column.
+
+> **Why Recall@K (59.2%) is far below KeywordHitRate (91.0%):** the two metrics measure different things. KeywordHitRate counts a case as a hit if any of the 5 retrieved chunks contains any expected keyword anywhere — including adjacent, off-topic content that happens to share a common word. Recall@K is far stricter: it requires the *specific documents* containing the answer (annotated via top-20 keyword coverage, then capped at 3) to land in the *top-5* retrieval window. The 32-point gap is the part of the corpus that ranks 6–20 in retrieval order — relevant, but not surfaced at K=5.
+
+> **Important Note on Tier 3 Metrics:** Tier 3 cases produce a Refusal Rate of 0% (0/16): every out-of-scope query retrieves the full K=5 chunks of adjacent content rather than triggering the "Insufficient evidence" fallback. This is the same architectural limitation discussed in §5.2 and §6 Limitation 8, surfaced numerically by the new Refusal Rate column. The legacy KeywordHitRate column is also non-zero on some Tier 3 cases because adjacent chunks sometimes share a common keyword with the query (this is the well-known keyword-vs-relevance gap from prior stages, not a system improvement).
 
 #### 4.3.1 Tier 2 Corpus Coverage Audit
 
@@ -246,17 +252,18 @@ This is a regression check, not a new evaluation metric — it does not affect t
 
 ### 4.6 Summary of All Metrics (100-Case Tiered Dataset)
 
-The metrics below are broken down by domain and difficulty tier. Note that Tier 3 measures safety fallback behaviour rather than standard hit rate.
+The metrics below are broken down by domain and difficulty tier. The Retrieval row now reports **Recall@K** (the primary grounded metric introduced in Stage 6) with the legacy KeywordHitRate next to it for cross-stage comparison; Tier 3 measures safety fallback behaviour rather than retrieval Hit Rate.
 
 | Metric | T1 Cardiology (Core) | T1 Endocrinology (Core) | T2 Cardiology (Peripheral) | T2 Endocrinology (Peripheral) | T3 Overall (Out-of-Scope) |
 |---|---|---|---|---|---|
 | Routing Accuracy | 100.0% [87.5–100%] | 100.0% [87.5–100%] | 100.0% [78.5–100%] | 100.0% [79.6–100%] | 100.0% [79.4–100%] |
-| Retrieval Hit Rate | 100.0% [87.5–100%] | 96.3% [81.7–99.3%] | 78.6% [52.4–92.4%] | 93.3% [70.2–98.8%] | *See Limitations* |
+| Retrieval Recall@K | 64.2% (52/81) [53.3–73.8%] | 60.3% (47/78) [49.2–70.4%] | 54.1% (20/37) [38.4–69.0%] | 52.3% (23/44) [37.9–66.2%] | *Refusal Rate 0% (0/16) — see §4.3* |
+| Retrieval KeywordHitRate (legacy) | 100.0% [87.5–100%] | 96.3% [81.7–99.3%] | 78.6% [52.4–92.4%] | 93.3% [70.2–98.8%] | *See §4.3 note on adjacent content* |
 | Faithfulness | 100.0% [87.5–100%] | 96.3% [81.7–99.3%] | 100.0% [78.5–100%] | 100.0% [79.6–100%] | 100.0% [79.4–100%] |
 
-*(Confidence intervals are 95% Wilson score intervals, generated via `statsmodels`.)*
+*(Confidence intervals are 95% Wilson score intervals, generated via `statsmodels`. Retrieval Recall@K denominators are gold-doc-level — each Tier 1/2 case contributes 1–3 gold-doc Bernoulli trials — so the n column above shows total gold-doc slots, not cases.)*
 
-The tier-based results confirm that while the system excels on core clinical scenarios (Tier 1), performance predictably drops on peripheral, poorly covered entities (Tier 2). The system's routing and generation logic is robust across all tiers.
+The tier-based results confirm that while the system excels on core clinical scenarios under the legacy keyword-co-occurrence signal (T1 cardiology 100% KeywordHitRate), the grounded Recall@K reveals that even on T1 cardiology only 64.2% of the gold documents actually land in the top-5 retrieval window. Performance predictably drops further on peripheral (T2) entities under both metrics. The system's routing and generation logic remain robust across all tiers.
 
 ### 4.7 Held-Out Test Set Results (n=70)
 
@@ -326,7 +333,7 @@ This is exactly the pattern the multi-judge design aimed to surface: the flagshi
 Headline metrics are reported on the 70-case held-out test split (§4.7), which excludes the 30 development cases used to tune K, L2 threshold, and chunk size. Faithfulness is now reported under the minimum-judge rule (a case counts FAITHFUL only if every configured judge agrees), not the single-judge rate. The multi-agent medical RAG system demonstrates strong performance across all three evaluation axes:
 
 - **Routing** achieves 100.0% accuracy (70/70) across all tiers on the held-out test split (§4.7), matching the full-set figure. The router demonstrates triage-like behaviour on cross-domain queries, consistently prioritising the presenting clinical urgency.
-- **Retrieval** achieves 88.6% Hit Rate (62/70) overall on the test split, with Cardiology at 82.9% (29/35) and Endocrinology at 94.3% (33/35). Recall is perfect on Tier 1 cardiology (100.0%, 13/13) and very high on Tier 1 endocrinology (91.7%, 11/12); performance drops on Tier 2 cardiology (78.6%, 11/14) and Tier 3 (out-of-scope, fallback-only behaviour), cleanly surfacing content gaps in the cardiology corpus that are independent of the tuning split.
+- **Retrieval** is now reported primarily as **Recall@K against the per-case `gold_sources` annotation** (Stage 6). On the held-out test split, Recall@K is **56.2% (86/153) [Wilson 95% CI 48.3%–63.8%]** — Cardiology 56.6% (43/76), Endocrinology 55.8% (43/77); the legacy KeywordHitRate is 88.6% (62/70) and is now treated as a loose secondary signal because it registers hits on adjacent-content keyword co-occurrence rather than the actual source documents (see §4.3 for the side-by-side and the explanation of the 32-point gap). Refusal Rate on Tier 3 is 0% (0/15) — every out-of-scope query still surfaces adjacent chunks rather than triggering the "Insufficient evidence" fallback. Across both metrics the Tier 1 cardiology / Tier 2 cardiology gap persists (Recall@K 59.0% vs 54.1%; KeywordHitRate 100% vs 78.6%), confirming that the cardiology corpus gaps surfaced in §4.3.1 are not artefacts of the tuning split.
 - **Faithfulness** reaches **98.6% (69/70) under the minimum-judge rule** on the held-out test split, with a **Wilson 95% CI lower bound of 92.3%** (§4.4). The primary YandexGPT judge marked every case FAITHFUL (100.0%); the secondary YandexGPT-Lite judge — given the identical strict prompt — disagreed on `cardio_40` (Tier 2 cardiology, congenital LQTS), applying a stricter token-grounding standard. The conservative 92.3% lower bound is the right number to quote when comparing this system to LLM-as-a-judge faithfulness results elsewhere; see §5.3 for the disagreement analysis and §6 Limitation 6 for the remaining same-vendor caveat.
 
 The hyperparameter grid search (K × L2 threshold, 30 combinations) was performed on the 30-case development split (§3.4) and confirmed K=5, L2 ≤ 1.2 as the optimal operating point, balancing retrieval completeness against context compactness for faithful generation. The chunk size optimization (400 words) and keyword-stripping strategy were both empirically validated and contributed measurably to system quality. The architecture is modular and ready for extension to additional medical specialties.

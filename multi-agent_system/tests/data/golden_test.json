@@ -10,6 +10,20 @@
       "cardioversion",
       "amiodarone",
       "icd"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0001.txt",
+        "doc_name": "Electrophysiology_ Wide Complex Tachycardia in a 70-something - Dr. Smith’s ECG Blog"
+      },
+      {
+        "source_file": "0086.txt",
+        "doc_name": "cardiology-explained"
+      },
+      {
+        "source_file": "0019.txt",
+        "doc_name": "Arrhythmia - Cardiology Explained - NCBI Bookshelf"
+      }
     ]
   },
   {
@@ -23,6 +37,20 @@
       "av block",
       "bradycardia",
       "pacemaker"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0153.txt",
+        "doc_name": "8205Oxford Handbook of Clinical Medicine 10th 2017 Edition_SamanSarKo - Copy"
+      },
+      {
+        "source_file": "0012.txt",
+        "doc_name": "Arrhythmia - Cardiology Explained - NCBI Bookshelf"
+      },
+      {
+        "source_file": "0001.txt",
+        "doc_name": "How comfortable are you with transcutaneous pacing_ - Dr. Smith’s ECG Blog"
+      }
     ]
   },
   {
@@ -38,6 +66,20 @@
       "beta blocker",
       "ace inhibitor",
       "statin"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0020.txt",
+        "doc_name": "acute-coronary-syndromes-pdf-66142023361477"
+      },
+      {
+        "source_file": "0001.txt",
+        "doc_name": "drugeluting-stents-for-the-treatment-of-coronary-artery-disease-pdf-82598311384261"
+      },
+      {
+        "source_file": "0005.txt",
+        "doc_name": "Overview of Coronary Artery Disease - Cardiovascular Disorders - Merck Manual Professional Edition"
+      }
     ]
   },
   {
@@ -51,6 +93,20 @@
       "rheumatic",
       "commissurotomy",
       "valve area"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0001.txt",
+        "doc_name": "Mitral Stenosis - Cardiovascular Disorders - Merck Manual Professional Edition"
+      },
+      {
+        "source_file": "0004.txt",
+        "doc_name": "Rheumatic Fever - Pediatrics - Merck Manual Professional Edition"
+      },
+      {
+        "source_file": "0134.txt",
+        "doc_name": "cardiology-explained"
+      }
     ]
   },
   {
@@ -64,6 +120,20 @@
       "encephalopathy",
       "papilledema",
       "labetalol"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0001.txt",
+        "doc_name": "Hypertensive Emergencies - Cardiovascular Disorders - Merck Manual Professional Edition"
+      },
+      {
+        "source_file": "0008.txt",
+        "doc_name": "Hypertension - Cardiovascular Disorders - Merck Manual Professional Edition"
+      },
+      {
+        "source_file": "0001.txt",
+        "doc_name": "Hypertension - Cardiology Explained - NCBI Bookshelf"
+      }
     ]
   },
   {
@@ -77,6 +147,20 @@
       "wpw",
       "accessory pathway",
       "adenosine"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0076.txt",
+        "doc_name": "cardiology-explained"
+      },
+      {
+        "source_file": "0946.txt",
+        "doc_name": "8205Oxford Handbook of Clinical Medicine 10th 2017 Edition_SamanSarKo - Copy"
+      },
+      {
+        "source_file": "0004.txt",
+        "doc_name": "Palpitations - Cardiovascular Disorders - Merck Manual Professional Edition"
+      }
     ]
   },
   {
@@ -90,6 +174,20 @@
       "pulmonary arterial hypertension",
       "endothelin",
       "vasodilator"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0004.txt",
+        "doc_name": "Right Heart Failure and Cor Pulmonale - Cardiovascular Disorders - Merck Manual Professional Edition"
+      },
+      {
+        "source_file": "0003.txt",
+        "doc_name": "Pulmonary Regurgitation - Cardiovascular Disorders - Merck Manual Professional Edition"
+      },
+      {
+        "source_file": "0140.txt",
+        "doc_name": "cardiology-explained"
+      }
     ]
   },
   {
@@ -103,6 +201,20 @@
       "tamponade",
       "pericardiocentesis",
       "drainage"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0002.txt",
+        "doc_name": "An elderly patient with shortness of breath and near syncope - Dr. Smith’s ECG Blog"
+      },
+      {
+        "source_file": "0003.txt",
+        "doc_name": "Pericardial disease - Cardiology Explained - NCBI Bookshelf"
+      },
+      {
+        "source_file": "0004.txt",
+        "doc_name": "Aortic Regurgitation - Cardiovascular Disorders - Merck Manual Professional Edition"
+      }
     ]
   },
   {
@@ -116,6 +228,20 @@
       "asd",
       "shunt",
       "closure"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0006.txt",
+        "doc_name": "cardiology-explained"
+      },
+      {
+        "source_file": "0006.txt",
+        "doc_name": "Cardiac Auscultation - Cardiovascular Disorders - Merck Manual Professional Edition"
+      },
+      {
+        "source_file": "0177.txt",
+        "doc_name": "8205Oxford Handbook of Clinical Medicine 10th 2017 Edition_SamanSarKo - Copy"
+      }
     ]
   },
   {
@@ -129,6 +255,12 @@
       "post-pericardiotomy",
       "nsaids",
       "colchicine"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0189.txt",
+        "doc_name": "8205Oxford Handbook of Clinical Medicine 10th 2017 Edition_SamanSarKo - Copy"
+      }
     ]
   },
   {
@@ -142,6 +274,20 @@
       "surveillance",
       "endovascular",
       "rupture"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0004.txt",
+        "doc_name": "abdominal-aortic-aneurysm-diagnosis-and-management-pdf-66141843642565"
+      },
+      {
+        "source_file": "0003.txt",
+        "doc_name": "Abdominal Aortic Aneurysms (AAA) - Cardiovascular Disorders - Merck Manual Professional Edition"
+      },
+      {
+        "source_file": "0004.txt",
+        "doc_name": "hypertension-in-adults-diagnosis-and-management-pdf-66141722710213"
+      }
     ]
   },
   {
@@ -155,6 +301,20 @@
       "anticoagulation",
       "doac",
       "heparin"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0693.txt",
+        "doc_name": "8205Oxford Handbook of Clinical Medicine 10th 2017 Edition_SamanSarKo - Copy"
+      },
+      {
+        "source_file": "0001.txt",
+        "doc_name": "Can you guess the diagnosis_ - Dr. Smith’s ECG Blog"
+      },
+      {
+        "source_file": "0033.txt",
+        "doc_name": "venous-thromboembolic-diseases-diagnosis-management-and-thrombophilia-testing-pdf-66141847001797"
+      }
     ]
   },
   {
@@ -168,7 +328,8 @@
       "pericardial calcification",
       "cardiac catheterization",
       "equalization"
-    ]
+    ],
+    "gold_sources": []
   },
   {
     "id": "cardio_29",
@@ -181,7 +342,8 @@
       "large vessel vasculitis",
       "aorta",
       "stenosis"
-    ]
+    ],
+    "gold_sources": []
   },
   {
     "id": "cardio_30",
@@ -194,7 +356,8 @@
       "sudden cardiac death",
       "icd",
       "sodium channel"
-    ]
+    ],
+    "gold_sources": []
   },
   {
     "id": "cardio_31",
@@ -207,7 +370,8 @@
       "infiltrative cardiomyopathy",
       "ferritin",
       "hemochromatosis"
-    ]
+    ],
+    "gold_sources": []
   },
   {
     "id": "cardio_32",
@@ -220,7 +384,8 @@
       "post-infarct",
       "vsd",
       "mechanical complication"
-    ]
+    ],
+    "gold_sources": []
   },
   {
     "id": "cardio_33",
@@ -234,6 +399,20 @@
       "doac",
       "cha2ds2-vasc",
       "stroke risk"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0002.txt",
+        "doc_name": "atrial-fibrillation-pdf-2098967360965"
+      },
+      {
+        "source_file": "0019.txt",
+        "doc_name": "atrial-fibrillation-diagnosis-and-management-pdf-66142085507269"
+      },
+      {
+        "source_file": "0008.txt",
+        "doc_name": "ESC-Patient-Guidelines-Atrial-Fibrillation"
+      }
     ]
   },
   {
@@ -247,6 +426,20 @@
       "sudden death prevention",
       "ejection fraction",
       "heart failure"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0003.txt",
+        "doc_name": "Implantable Cardioverter-Defibrillators (ICD) - Cardiovascular Disorders - Merck Manual Professional Edition"
+      },
+      {
+        "source_file": "0004.txt",
+        "doc_name": "Cardiac Pacemakers - Cardiovascular Disorders - Merck Manual Professional Edition"
+      },
+      {
+        "source_file": "0004.txt",
+        "doc_name": "Ventricular Tachycardia (VT) - Cardiovascular Disorders - Merck Manual Professional Edition"
+      }
     ]
   },
   {
@@ -260,7 +453,8 @@
       "pacemaker",
       "temporary pacing",
       "stemi complication"
-    ]
+    ],
+    "gold_sources": []
   },
   {
     "id": "cardio_36",
@@ -274,6 +468,20 @@
       "inr",
       "anticoagulation",
       "thromboembolism"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0003.txt",
+        "doc_name": "Overview of Cardiac Valvular Disorders - Cardiovascular Disorders - Merck Manual Professional Edition"
+      },
+      {
+        "source_file": "0420.txt",
+        "doc_name": "8205Oxford Handbook of Clinical Medicine 10th 2017 Edition_SamanSarKo - Copy"
+      },
+      {
+        "source_file": "0008.txt",
+        "doc_name": "Atrial Fibrillation - Cardiovascular Disorders - Merck Manual Professional Edition"
+      }
     ]
   },
   {
@@ -288,6 +496,20 @@
       "cardiovascular risk",
       "lifestyle",
       "score2"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0006.txt",
+        "doc_name": "cardiovascular-risk-assessment-and-lipid-modification-pdf-75545230925509"
+      },
+      {
+        "source_file": "0004.txt",
+        "doc_name": "266313938"
+      },
+      {
+        "source_file": "0005.txt",
+        "doc_name": "cardiovascular-disease-risk-assessment-and-reduction-including-lipid-modification-pdf-66143902851781"
+      }
     ]
   },
   {
@@ -302,6 +524,20 @@
       "sacubitril",
       "sglt2",
       "entresto"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0008.txt",
+        "doc_name": "chronic-heart-failure-in-adults-pdf-58304464837"
+      },
+      {
+        "source_file": "0002.txt",
+        "doc_name": "Medications for Heart Failure - Cardiovascular Disorders - Merck Manual Professional Edition"
+      },
+      {
+        "source_file": "0003.txt",
+        "doc_name": "Chronic Heart Failure - Cardiovascular Disorders - Merck Manual Professional Edition"
+      }
     ]
   },
   {
@@ -315,6 +551,20 @@
       "nsaids",
       "colchicine",
       "hydroxychloroquine"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0013.txt",
+        "doc_name": "Pericarditis - Cardiovascular Disorders - Merck Manual Professional Edition"
+      },
+      {
+        "source_file": "0008.txt",
+        "doc_name": "Rheumatic Fever - Pediatrics - Merck Manual Professional Edition"
+      },
+      {
+        "source_file": "0175.txt",
+        "doc_name": "8205Oxford Handbook of Clinical Medicine 10th 2017 Edition_SamanSarKo - Copy"
+      }
     ]
   },
   {
@@ -329,6 +579,20 @@
       "sudden cardiac death",
       "icd",
       "genetic"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0001.txt",
+        "doc_name": "Seizure in a 30 something - Dr. Smith’s ECG Blog"
+      },
+      {
+        "source_file": "0002.txt",
+        "doc_name": "cardiology-explained"
+      },
+      {
+        "source_file": "0001.txt",
+        "doc_name": "Electrophysiology_ Wide Complex Tachycardia in a 70-something - Dr. Smith’s ECG Blog"
+      }
     ]
   },
   {
@@ -343,6 +607,20 @@
       "aortic stenosis",
       "transcatheter",
       "high risk"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0010.txt",
+        "doc_name": "Aortic Stenosis - Cardiovascular Disorders - Merck Manual Professional Edition"
+      },
+      {
+        "source_file": "0006.txt",
+        "doc_name": "heart-valve-disease-presenting-in-adults-investigation-and-management-pdf-66143721453253"
+      },
+      {
+        "source_file": "0005.txt",
+        "doc_name": "Aortic Regurgitation - Cardiovascular Disorders - Merck Manual Professional Edition"
+      }
     ]
   },
   {
@@ -357,6 +635,20 @@
       "repair",
       "indications",
       "ejection fraction"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0006.txt",
+        "doc_name": "Mitral Regurgitation - Cardiovascular Disorders - Merck Manual Professional Edition"
+      },
+      {
+        "source_file": "0180.txt",
+        "doc_name": "8205Oxford Handbook of Clinical Medicine 10th 2017 Edition_SamanSarKo - Copy"
+      },
+      {
+        "source_file": "0007.txt",
+        "doc_name": "heart-valve-disease-presenting-in-adults-investigation-and-management-pdf-66143721453253"
+      }
     ]
   },
   {
@@ -370,6 +662,20 @@
       "prinzmetal",
       "calcium channel blocker",
       "nitrates"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0841.txt",
+        "doc_name": "8205Oxford Handbook of Clinical Medicine 10th 2017 Edition_SamanSarKo - Copy"
+      },
+      {
+        "source_file": "0027.txt",
+        "doc_name": "cardiology-explained"
+      },
+      {
+        "source_file": "0003.txt",
+        "doc_name": "Coronary artery disease - Cardiology Explained - NCBI Bookshelf"
+      }
     ]
   },
   {
@@ -383,6 +689,20 @@
       "ablation",
       "atrial fibrillation",
       "reconnection"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0006.txt",
+        "doc_name": "Atrial Fibrillation - Cardiovascular Disorders - Merck Manual Professional Edition"
+      },
+      {
+        "source_file": "0015.txt",
+        "doc_name": "Arrhythmia - Cardiology Explained - NCBI Bookshelf"
+      },
+      {
+        "source_file": "0010.txt",
+        "doc_name": "atrial-fibrillation-diagnosis-and-management-pdf-66142085507269"
+      }
     ]
   },
   {
@@ -397,6 +717,20 @@
       "grace score",
       "troponin",
       "t-wave"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0022.txt",
+        "doc_name": "Cardiac-Learning-Guide"
+      },
+      {
+        "source_file": "0006.txt",
+        "doc_name": "recentonset-chest-pain-of-suspected-cardiac-origin-assessment-and-diagnosis-pdf-975751034821"
+      },
+      {
+        "source_file": "0001.txt",
+        "doc_name": "Is it possible that this patient with acute chest pain and this ECG does not need emergent intervention_ - Dr. Smith’s E"
+      }
     ]
   },
   {
@@ -410,7 +744,8 @@
       "viral myocarditis",
       "cardiac mri",
       "late gadolinium enhancement"
-    ]
+    ],
+    "gold_sources": []
   },
   {
     "id": "cardio_47",
@@ -423,7 +758,8 @@
       "restrictive cardiomyopathy",
       "amyloid",
       "late gadolinium"
-    ]
+    ],
+    "gold_sources": []
   },
   {
     "id": "cardio_48",
@@ -436,7 +772,8 @@
       "post-partum",
       "bromocriptine",
       "recovery"
-    ]
+    ],
+    "gold_sources": []
   },
   {
     "id": "cardio_49",
@@ -450,6 +787,20 @@
       "asymptomatic",
       "stenting",
       "stroke prevention"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0023.txt",
+        "doc_name": "Atherosclerosis - Cardiovascular Disorders - Merck Manual Professional Edition"
+      },
+      {
+        "source_file": "0003.txt",
+        "doc_name": "peripheral-arterial-disease-diagnosis-and-management-pdf-35109575873989"
+      },
+      {
+        "source_file": "0570.txt",
+        "doc_name": "8205Oxford Handbook of Clinical Medicine 10th 2017 Edition_SamanSarKo - Copy"
+      }
     ]
   },
   {
@@ -464,6 +815,20 @@
       "cold and wet",
       "inotrope",
       "haemodynamic profile"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0009.txt",
+        "doc_name": "Medications for Heart Failure - Cardiovascular Disorders - Merck Manual Professional Edition"
+      },
+      {
+        "source_file": "0169.txt",
+        "doc_name": "8205Oxford Handbook of Clinical Medicine 10th 2017 Edition_SamanSarKo - Copy"
+      },
+      {
+        "source_file": "0002.txt",
+        "doc_name": "Heart failure - Cardiology Explained - NCBI Bookshelf"
+      }
     ]
   },
   {
@@ -478,6 +843,20 @@
       "dextrose",
       "sulfonylurea",
       "adjustment"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0005.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Factitious Hypoglycemia"
+      },
+      {
+        "source_file": "0002.txt",
+        "doc_name": "luaf034"
+      },
+      {
+        "source_file": "0012.txt",
+        "doc_name": "Endotext_Complete - Oral and Injectable (Non-Insulin) Pharmacological Agents for the Treatment of Type 2 Diabetes"
+      }
     ]
   },
   {
@@ -492,6 +871,20 @@
       "closed loop",
       "hybrid closed loop",
       "time in range"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0029.txt",
+        "doc_name": "type-1-diabetes-in-adults-diagnosis-and-management-pdf-1837276469701"
+      },
+      {
+        "source_file": "0015.txt",
+        "doc_name": "dc25s013"
+      },
+      {
+        "source_file": "0048.txt",
+        "doc_name": "dc25s007"
+      }
     ]
   },
   {
@@ -506,6 +899,20 @@
       "glp-1",
       "cardiovascular benefit",
       "liraglutide"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0012.txt",
+        "doc_name": "Endotext_Complete - Outpatient Management of Diabetes Mellitus in Elderly Patients"
+      },
+      {
+        "source_file": "0079.txt",
+        "doc_name": "type-2-diabetes-in-adults-management-pdf-1837338615493"
+      },
+      {
+        "source_file": "0009.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Management of Cardiovascular and Diabetes Risks Based on National Guidelines"
+      }
     ]
   },
   {
@@ -520,6 +927,20 @@
       "tirzepatide",
       "weight loss",
       "insulin"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0013.txt",
+        "doc_name": "Endotext_Complete - Management of Type 2 Diabetes_ Selecting Amongst Available Pharmacological Agents"
+      },
+      {
+        "source_file": "0010.txt",
+        "doc_name": "type-2-diabetes-in-adults-management-pdf-1837338615493"
+      },
+      {
+        "source_file": "0020.txt",
+        "doc_name": "Endotext_Complete - Type 2 Diabetes in Children and Adolescents- A Focus on Diagnosis and Treatment"
+      }
     ]
   },
   {
@@ -534,6 +955,20 @@
       "finerenone",
       "ace inhibitor",
       "proteinuria"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0028.txt",
+        "doc_name": "chronic-kidney-disease-assessment-and-management-pdf-66143713055173"
+      },
+      {
+        "source_file": "0018.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Diabetic Nephropathy"
+      },
+      {
+        "source_file": "0004.txt",
+        "doc_name": "finerenone-for-treating-chronic-kidney-disease-in-type-2-diabetes-pdf-82613678191045"
+      }
     ]
   },
   {
@@ -548,6 +983,20 @@
       "bethesda",
       "thyroidectomy",
       "fna"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0005.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Thyroid Nodule"
+      },
+      {
+        "source_file": "0028.txt",
+        "doc_name": "etj-ETJ-23-0067"
+      },
+      {
+        "source_file": "0002.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Thyroid Nodule Biopsy"
+      }
     ]
   },
   {
@@ -562,6 +1011,20 @@
       "recurrence risk",
       "osteoporosis",
       "atrial fibrillation"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0017.txt",
+        "doc_name": "Endotext_Complete - Thyroid Nodules and Cancer in the Elderly"
+      },
+      {
+        "source_file": "0016.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Thyroid Cancer"
+      },
+      {
+        "source_file": "0047.txt",
+        "doc_name": "Endotext_Complete - Clinical Strategies in the Testing of Thyroid Function"
+      }
     ]
   },
   {
@@ -576,6 +1039,20 @@
       "hba1c target",
       "folic acid",
       "insulin adjustment"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0024.txt",
+        "doc_name": "diabetes-in-pregnancy-management-from-preconception-to-the-postnatal-period-pdf-51038446021"
+      },
+      {
+        "source_file": "0002.txt",
+        "doc_name": "diabetes-in-pregnancy-pdf-75545246042053"
+      },
+      {
+        "source_file": "0014.txt",
+        "doc_name": "dc25s015"
+      }
     ]
   },
   {
@@ -590,6 +1067,20 @@
       "insulin",
       "glucose targets",
       "fasting"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0031.txt",
+        "doc_name": "diabetes-in-pregnancy-management-from-preconception-to-the-postnatal-period-pdf-51038446021"
+      },
+      {
+        "source_file": "0017.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Gestational Diabetes"
+      },
+      {
+        "source_file": "0051.txt",
+        "doc_name": "dc25s015"
+      }
     ]
   },
   {
@@ -604,6 +1095,20 @@
       "adrenalectomy",
       "cortisol",
       "macs"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0017.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Adrenal Adenoma"
+      },
+      {
+        "source_file": "0016.txt",
+        "doc_name": "Endotext_Complete - Adrenal Incidentaloma"
+      },
+      {
+        "source_file": "0008.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Physiology, Adrenocorticotropic Hormone (ACTH)"
+      }
     ]
   },
   {
@@ -617,6 +1122,20 @@
       "complete ais",
       "gonadectomy",
       "testosterone receptor"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0021.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Primary Amenorrhea"
+      },
+      {
+        "source_file": "0015.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Ambiguous Genitalia and Disorders of Sexual Differentiation"
+      },
+      {
+        "source_file": "0029.txt",
+        "doc_name": "Endotext_Complete - Ambiguous Genitalia in the Newborn"
+      }
     ]
   },
   {
@@ -631,6 +1150,20 @@
       "letrozole",
       "insulin resistance",
       "metformin"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0012.txt",
+        "doc_name": "Endotext_Complete - Evaluation of Infertility, Ovulation Induction and Assisted Reproduction"
+      },
+      {
+        "source_file": "0033.txt",
+        "doc_name": "Endotext_Complete - Evaluation of Amenorrhea, Anovulation, and Abnormal Bleeding"
+      },
+      {
+        "source_file": "0024.txt",
+        "doc_name": "Endotext_Complete - Evaluation and Treatment of Polycystic Ovary Syndrome"
+      }
     ]
   },
   {
@@ -644,6 +1177,20 @@
       "secondary hypogonadism",
       "testosterone replacement",
       "pituitary"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0018.txt",
+        "doc_name": "Endotext_Complete - Laboratory Assessment of Testicular Function"
+      },
+      {
+        "source_file": "0007.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Male Hypogonadism"
+      },
+      {
+        "source_file": "0009.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Luteinizing Hormone Deficiency"
+      }
     ]
   },
   {
@@ -658,6 +1205,20 @@
       "metoclopramide",
       "prolactin",
       "mri pituitary"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0004.txt",
+        "doc_name": "Endotext_Complete - Prolactinoma Management"
+      },
+      {
+        "source_file": "0011.txt",
+        "doc_name": "Endotext_Complete - Pharmacological Causes of Hyperprolactinemia"
+      },
+      {
+        "source_file": "0004.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Galactorrhea"
+      }
     ]
   },
   {
@@ -672,6 +1233,20 @@
       "avp",
       "central di",
       "nephrogenic"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0012.txt",
+        "doc_name": "Endotext_Complete - Diagnostic Tests for Diabetes Insipidus"
+      },
+      {
+        "source_file": "0008.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Anatomy, Abdomen and Pelvis_ Kidney Collecting Ducts"
+      },
+      {
+        "source_file": "0022.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Arginine Vasopressin Disorder (Diabetes Insipidus)"
+      }
     ]
   },
   {
@@ -686,6 +1261,20 @@
       "linagliptin",
       "insulin",
       "renal dosing"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0008.txt",
+        "doc_name": "Endotext_Complete - Outpatient Management of Diabetes Mellitus in Elderly Patients"
+      },
+      {
+        "source_file": "0058.txt",
+        "doc_name": "dc25s009"
+      },
+      {
+        "source_file": "0029.txt",
+        "doc_name": "type-2-diabetes-in-adults-management-pdf-1837338615493"
+      }
     ]
   },
   {
@@ -700,6 +1289,20 @@
       "anti-vegf",
       "vitrectomy",
       "neovascularization"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0025.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Diabetic Retinopathy"
+      },
+      {
+        "source_file": "0085.txt",
+        "doc_name": "diabetic-retinopathy-management-and-monitoring-pdf-66143953240261"
+      },
+      {
+        "source_file": "0022.txt",
+        "doc_name": "Endotext_Complete - Diabetic Retinopathy"
+      }
     ]
   },
   {
@@ -714,6 +1317,20 @@
       "denosumab",
       "anabolic therapy",
       "teriparatide"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0024.txt",
+        "doc_name": "Endotext_Complete - Osteoporosis_ Prevention and Treatment"
+      },
+      {
+        "source_file": "0015.txt",
+        "doc_name": "Endotext_Complete - The Postmenopausal Women"
+      },
+      {
+        "source_file": "0069.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Osteoporosis in Females"
+      }
     ]
   },
   {
@@ -727,6 +1344,20 @@
       "parathyroid adenoma",
       "parathyroidectomy",
       "sestamibi"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0012.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Parathyroid Carcinoma"
+      },
+      {
+        "source_file": "0019.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Primary Hyperparathyroidism"
+      },
+      {
+        "source_file": "0024.txt",
+        "doc_name": "Endotext_Complete - Approach to Hypercalcemia"
+      }
     ]
   },
   {
@@ -741,6 +1372,20 @@
       "72-hour fast",
       "c-peptide",
       "proinsulin"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0003.txt",
+        "doc_name": "Endotext_Complete - Hypoglycemia"
+      },
+      {
+        "source_file": "0005.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Insulinoma"
+      },
+      {
+        "source_file": "0004.txt",
+        "doc_name": "Endotext_Complete - Insulinoma"
+      }
     ]
   },
   {
@@ -755,6 +1400,20 @@
       "neuroendocrine tumor",
       "surveillance",
       "somatostatin"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0037.txt",
+        "doc_name": "Endotext_Complete - Multiple Endocrine Neoplasia Type 1"
+      },
+      {
+        "source_file": "0006.txt",
+        "doc_name": "luaf003"
+      },
+      {
+        "source_file": "0008.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Multiple Endocrine Neoplasia Type 1"
+      }
     ]
   },
   {
@@ -769,6 +1428,20 @@
       "bisphosphonate",
       "zoledronic acid",
       "denosumab"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0042.txt",
+        "doc_name": "Endotext_Complete - Primary Hyperparathyroidism"
+      },
+      {
+        "source_file": "0031.txt",
+        "doc_name": "Endotext_Complete - Approach to Hypercalcemia"
+      },
+      {
+        "source_file": "0019.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Primary Hyperparathyroidism"
+      }
     ]
   },
   {
@@ -783,6 +1456,20 @@
       "gnrh deficiency",
       "anosmia",
       "testosterone"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0006.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Luteinizing Hormone Deficiency"
+      },
+      {
+        "source_file": "0017.txt",
+        "doc_name": "Endotext_Complete - Laboratory Assessment of Testicular Function"
+      },
+      {
+        "source_file": "0007.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Male Hypogonadism"
+      }
     ]
   },
   {
@@ -797,7 +1484,8 @@
       "hereditary phaeochromocytoma",
       "malignant risk",
       "surveillance"
-    ]
+    ],
+    "gold_sources": []
   },
   {
     "id": "endo_40",
@@ -811,7 +1499,8 @@
       "type 1 diabetes",
       "hypoglycemia",
       "autoimmune"
-    ]
+    ],
+    "gold_sources": []
   },
   {
     "id": "endo_41",
@@ -825,7 +1514,8 @@
       "levothyroxine",
       "anti-tpo",
       "goitre"
-    ]
+    ],
+    "gold_sources": []
   },
   {
     "id": "endo_42",
@@ -839,7 +1529,8 @@
       "pembrolizumab",
       "hydrocortisone",
       "irAE"
-    ]
+    ],
+    "gold_sources": []
   },
   {
     "id": "endo_43",
@@ -853,7 +1544,8 @@
       "amiloride",
       "thiazide",
       "lithium"
-    ]
+    ],
+    "gold_sources": []
   },
   {
     "id": "endo_44",
@@ -867,7 +1559,8 @@
       "vandetanib",
       "cabozantinib",
       "calcitonin"
-    ]
+    ],
+    "gold_sources": []
   },
   {
     "id": "endo_45",
@@ -881,6 +1574,20 @@
       "bilateral inferior petrosal sinus sampling",
       "adenoma",
       "transsphenoidal"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0050.txt",
+        "doc_name": "Endotext_Complete - Cushing’s Syndrome"
+      },
+      {
+        "source_file": "0001.txt",
+        "doc_name": "Endotext_Complete - Florid Cushing’s Syndrome"
+      },
+      {
+        "source_file": "0008.txt",
+        "doc_name": "NCBI_Endocrinology_Clean - Adrenal Adenoma"
+      }
     ]
   },
   {
@@ -895,7 +1602,8 @@
       "relaxed glycaemic targets",
       "rtcgm",
       "closed loop"
-    ]
+    ],
+    "gold_sources": []
   },
   {
     "id": "endo_47",
@@ -909,6 +1617,20 @@
       "azoospermia",
       "testosterone replacement",
       "testicular sperm extraction"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0017.txt",
+        "doc_name": "Endotext_Complete - Primary Testicular Failure"
+      },
+      {
+        "source_file": "0004.txt",
+        "doc_name": "Endotext_Complete - Clinical Management of Male Infertility"
+      },
+      {
+        "source_file": "0015.txt",
+        "doc_name": "Endotext_Complete - Evaluation of Infertility, Ovulation Induction and Assisted Reproduction"
+      }
     ]
   },
   {
@@ -923,6 +1645,12 @@
       "necrotising fasciitis",
       "debridement",
       "sglt2 complication"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0006.txt",
+        "doc_name": "luaf028"
+      }
     ]
   },
   {
@@ -937,6 +1665,12 @@
       "secondary hyperparathyroidism",
       "calcium supplementation",
       "malabsorption"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0010.txt",
+        "doc_name": "Endotext_Complete - Medical Management of the Post Operative Bariatric Surgery Patient"
+      }
     ]
   },
   {
@@ -951,6 +1685,7 @@
       "selective arterial calcium stimulation",
       "68-ga pet",
       "c-peptide"
-    ]
+    ],
+    "gold_sources": []
   }
 ]
