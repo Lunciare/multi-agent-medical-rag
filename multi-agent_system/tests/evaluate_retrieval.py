@@ -1,3 +1,4 @@
+import argparse
 import sys
 import os
 import json
@@ -11,6 +12,19 @@ from orchestrator import MedicalOrchestrator
 from settings import DEFAULT_KNOWLEDGE_BASE_DIR, SIMILARITY_TOP_K, MAX_L2_DISTANCE
 
 RANDOM_BASELINE_SEED = 42
+
+SPLIT_TO_FILENAME = {
+    "dev": "golden_dev.json",
+    "test": "golden_test.json",
+    "all": "golden_dataset.json",
+}
+
+
+def _load_split(split):
+    filename = SPLIT_TO_FILENAME[split]
+    data_path = os.path.join(os.path.dirname(__file__), "data", filename)
+    with open(data_path, "r", encoding="utf-8") as f:
+        return json.load(f)
 
 def run_smoke_test():
     print("Running Smoke Test...")
@@ -92,12 +106,9 @@ def _precision_at_k(docs, keywords):
     return chunk_hits / len(docs)
 
 
-def evaluate_retrieval():
-    print("Initializing components for retrieval evaluation...")
-    data_path = os.path.join(os.path.dirname(__file__), "data", "golden_dataset.json")
-
-    with open(data_path, "r", encoding="utf-8") as f:
-        dataset = json.load(f)
+def evaluate_retrieval(split="test"):
+    print(f"Initializing components for retrieval evaluation (split={split})...")
+    dataset = _load_split(split)
 
     try:
         orchestrator = MedicalOrchestrator(DEFAULT_KNOWLEDGE_BASE_DIR)
@@ -260,7 +271,11 @@ def evaluate_retrieval():
         print(f"{'=' * 60}")
 
 if __name__ == "__main__":
-    if len(sys.argv) > 1 and sys.argv[1] == "--smoke-test":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--smoke-test", action="store_true")
+    parser.add_argument("--split", choices=["dev", "test", "all"], default="test")
+    args = parser.parse_args()
+    if args.smoke_test:
         run_smoke_test()
     else:
-        evaluate_retrieval()
+        evaluate_retrieval(split=args.split)

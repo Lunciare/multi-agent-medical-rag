@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import argparse
 import sys
 import os
 import json
@@ -9,6 +10,12 @@ from collections import defaultdict
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from settings import client, ROUTING_MODEL, YANDEX_PROJECT_ID
+
+SPLIT_TO_FILENAME = {
+    "dev": "golden_dev.json",
+    "test": "golden_test.json",
+    "all": "golden_dataset.json",
+}
 
 
 ROUTING_SYSTEM_PROMPT = (
@@ -54,10 +61,10 @@ def normalise(raw: str) -> str:
     return raw_clean
 
 
-def evaluate_routing():
+def evaluate_routing(split="test"):
     data_dir = os.path.join(os.path.dirname(__file__), "data")
 
-    golden_path = os.path.join(data_dir, "golden_dataset.json")
+    golden_path = os.path.join(data_dir, SPLIT_TO_FILENAME[split])
     with open(golden_path, "r", encoding="utf-8") as f:
         dataset = json.load(f)
 
@@ -68,7 +75,7 @@ def evaluate_routing():
             ambiguous_cases = json.load(f)
 
     total = len(dataset)
-    print(f"Running routing evaluation on {total} golden queries…\n")
+    print(f"Running routing evaluation on {total} golden queries (split={split})…\n")
 
     domain_stats = defaultdict(lambda: {"correct": 0, "total": 0, "details": []})
     tier_stats = defaultdict(lambda: {"correct": 0, "total": 0})
@@ -247,4 +254,7 @@ def evaluate_routing():
 
 
 if __name__ == "__main__":
-    evaluate_routing()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--split", choices=["dev", "test", "all"], default="test")
+    args = parser.parse_args()
+    evaluate_routing(split=args.split)

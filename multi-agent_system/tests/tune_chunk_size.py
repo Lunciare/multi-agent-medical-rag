@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import argparse
 import os
 import sys
 import json
@@ -21,7 +22,7 @@ from settings import (
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 CARDIO_DIR  = os.path.join(BASE_DIR, "data", "processed", "cardiology")
 ENDO_DIR    = os.path.join(BASE_DIR, "data", "processed", "endocrinology")
-GOLDEN_PATH = os.path.join(os.path.dirname(__file__), "data", "golden_dataset.json")
+GOLDEN_PATH = os.path.join(os.path.dirname(__file__), "data", "golden_dev.json")
 
 CHUNK_SIZES_TO_TEST = [100, 200, 400, 500, 600]
 CHUNK_OVERLAP_WORDS = 30
@@ -183,4 +184,19 @@ def main():
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--split",
+        default="dev",
+        help="Tuning is locked to the dev split (golden_dev.json). "
+             "Any value other than 'dev' is rejected.",
+    )
+    args = parser.parse_args()
+    if args.split != "dev":
+        sys.stderr.write(
+            f"tune_chunk_size.py is locked to --split dev "
+            f"(got --split {args.split}). Hyperparameters must be tuned on the "
+            f"dev split only; evaluate on test via evaluate_*.py --split test.\n"
+        )
+        sys.exit(2)
     main()

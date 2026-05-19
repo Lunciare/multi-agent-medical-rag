@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import argparse
 import os
 import sys
 import json
@@ -11,7 +12,7 @@ from settings import DEFAULT_KNOWLEDGE_BASE_DIR
 
 
 def tune_retrieval():
-    data_path = os.path.join(os.path.dirname(__file__), "data", "golden_dataset.json")
+    data_path = os.path.join(os.path.dirname(__file__), "data", "golden_dev.json")
     with open(data_path, "r", encoding="utf-8") as f:
         dataset = json.load(f)
 
@@ -107,4 +108,19 @@ def tune_retrieval():
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--split",
+        default="dev",
+        help="Tuning is locked to the dev split (golden_dev.json). "
+             "Any value other than 'dev' is rejected.",
+    )
+    args = parser.parse_args()
+    if args.split != "dev":
+        sys.stderr.write(
+            f"tune_retrieval.py is locked to --split dev "
+            f"(got --split {args.split}). Hyperparameters must be tuned on the "
+            f"dev split only; evaluate on test via evaluate_*.py --split test.\n"
+        )
+        sys.exit(2)
     tune_retrieval()

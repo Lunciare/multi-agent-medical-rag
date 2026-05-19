@@ -201,6 +201,8 @@ In contrast, the **LLM Router** consistently prioritises the **presenting clinic
 
 This head-to-head comparison answers our core question explicitly: while a deterministic baseline is almost as good for clear-domain queries, the LLM demonstrates a sophisticated triage heuristic for ambiguous queries that no static keyword list can replicate. It does not just route by word frequency; it routes by clinical priority.
 
+Sections 4.1–4.6 report metrics computed on the full 100-case golden set. The 30-case development split (`golden_dev.json`) was used for hyperparameter tuning (K, L2 threshold, chunk size). Results restricted to the 70-case held-out test split are reported in §4.7.
+
 ### 4.3 Retrieval Hit Rate
 
 Each query is sent to the correct specialist agent (bypassing the router). The agent retrieves K=5 chunks with L2 ≤ 1.2. A **hit** is recorded if any expected keyword appears in the concatenated retrieved text. Precision@K measures the fraction of the K=5 retrieved chunks that contain an expected keyword (not just whether any single chunk does); the random baseline samples K=5 chunks uniformly at random from the full index (seed=42).
@@ -254,6 +256,30 @@ The metrics below are broken down by domain and difficulty tier. Note that Tier 
 
 The tier-based results confirm that while the system excels on core clinical scenarios (Tier 1), performance predictably drops on peripheral, poorly covered entities (Tier 2). The system's routing and generation logic is robust across all tiers.
 
+### 4.7 Held-Out Test Set Results (n=70)
+
+To provide an unbiased measurement of generalisation, all evaluations were re-run on the 70-case held-out test split (`golden_test.json`), which contains every case in the golden dataset except the 30 development cases (`cardio_1..15`, `endo_1..15`) used for hyperparameter tuning. Raw stdout from this run is captured in [`reports/test_set_results_2026-05-19.log`](test_set_results_2026-05-19.log).
+
+#### Retrieval Hit Rate (Test Split)
+
+| Domain | FAISS Hit Rate | FAISS Precision@K | Random Hit Rate | Random Precision@K |
+|---|---|---|---|---|
+| Cardiology | 82.9% (29/35) | 49.7% | 25.7% | 6.3% |
+| Endocrinology | 94.3% (33/35) | 69.7% | 20.0% | 4.6% |
+| **Overall** | **88.6% (62/70)** | **59.7%** | **22.9%** | **5.4%** |
+
+#### Summary of All Metrics (Test Split, n=70)
+
+| Metric | T1 Cardiology (Core) | T1 Endocrinology (Core) | T2 Cardiology (Peripheral) | T2 Endocrinology (Peripheral) | T3 Overall (Out-of-Scope) |
+|---|---|---|---|---|---|
+| Routing Accuracy | 100.0% [77.2–100%] | 100.0% [75.8–100%] | 100.0% [78.5–100%] | 100.0% [80.6–100%] | 100.0% [79.6–100%] |
+| Retrieval Hit Rate | 100.0% [77.2–100%] | 91.7% [64.6–98.5%] | 78.6% [52.4–92.4%] | 93.8% [71.7–98.9%] | *See Limitations* |
+| Faithfulness | 100.0% [77.2–100%] | 100.0% [75.8–100%] | 100.0% [78.5–100%] | 100.0% [80.6–100%] | 100.0% [79.6–100%] |
+
+*(Confidence intervals are 95% Wilson score intervals, generated via `statsmodels`. Tier composition of the test split: T1 = 25 (13 cardio + 12 endo), T2 = 30 (14 cardio + 16 endo), T3 = 15 (8 cardio + 7 endo).)*
+
+The test-split numbers preserve the headline conclusions from the full-set evaluation: routing reaches the same 100% ceiling, faithfulness remains at 100% on every tier of the held-out set, and the retrieval Hit Rate gap between Tier 1 and Tier 2 cardiology persists (100% vs 78.6%), confirming that the Tier 2 cardiology coverage gap surfaced in §4.3.1 is not an artefact of the tuning split. Overall retrieval Hit Rate on the test split (88.6%) is slightly below the full-set figure (91.0%), as expected when the dev cases (selected from the more textbook-aligned core conditions cardio_1..15 / endo_1..15) are removed and the remaining peripheral/out-of-scope cases carry more weight. As in §4.4, Tier 3 retrieval is reported as fallback-behaviour rather than Hit Rate, since FAISS continues to return adjacent content for all 15 out-of-scope cases (`! ADJACENT CONTENT` for every Tier 3 ID, 0/15 triggering the "Insufficient evidence" fallback).
+
 ---
 
 ## 5. Discussion
@@ -293,10 +319,10 @@ While the system achieved 99.0% faithfulness in the final run, this metric is ev
 
 ## 7. Conclusion
 
-The multi-agent medical RAG system demonstrates strong performance across all three evaluation axes:
+Headline metrics are reported on the 70-case held-out test split (§4.7), which excludes the 30 development cases used to tune K, L2 threshold, and chunk size. The multi-agent medical RAG system demonstrates strong performance across all three evaluation axes:
 
-- **Routing** achieves 100.0% accuracy (100/100) across all tiers in the final validation run (2026-05-18). The router demonstrates triage-like behaviour on cross-domain queries, consistently prioritising the presenting clinical urgency.
-- **Retrieval** achieves 90.9% Hit Rate overall across all tiers. While it achieves perfect or near-perfect recall on core conditions, performance drops on peripheral (Tier 2) and out-of-scope (Tier 3) cases, cleanly surfacing content gaps in the cardiology and endocrinology corpora.
-- **Faithfulness** reaches 99.0% (99/100) in the final validation run (2026-05-18). One endocrinologist Tier 1 case failed, consistent with the known ceiling effect of same-family judge evaluation (§6 Limitation 6). The 99.0% figure should be interpreted as a lower bound on faithfulness given this constraint.
+- **Routing** achieves 100.0% accuracy (70/70) across all tiers on the held-out test split (§4.7), matching the full-set figure. The router demonstrates triage-like behaviour on cross-domain queries, consistently prioritising the presenting clinical urgency.
+- **Retrieval** achieves 88.6% Hit Rate (62/70) overall on the test split, with Cardiology at 82.9% (29/35) and Endocrinology at 94.3% (33/35). Recall is perfect on Tier 1 cardiology (100.0%, 13/13) and very high on Tier 1 endocrinology (91.7%, 11/12); performance drops on Tier 2 cardiology (78.6%, 11/14) and Tier 3 (out-of-scope, fallback-only behaviour), cleanly surfacing content gaps in the cardiology corpus that are independent of the tuning split.
+- **Faithfulness** reaches 100.0% (70/70) on the held-out test split (§4.7), with every tier scoring 100%. As discussed in §5.3 and §6 Limitation 6, this figure is evaluated by a same-family LLM-as-a-judge (YandexGPT) and should be read as an epistemic upper bound; cross-model evaluation would provide a more conservative estimate.
 
-The hyperparameter grid search (K × L2 threshold, 30 combinations) confirmed K=5, L2 ≤ 1.2 as the optimal operating point, balancing retrieval completeness against context compactness for faithful generation. The chunk size optimization (400 words) and keyword-stripping strategy were both empirically validated and contributed measurably to system quality. The architecture is modular and ready for extension to additional medical specialties.
+The hyperparameter grid search (K × L2 threshold, 30 combinations) was performed on the 30-case development split (§3.4) and confirmed K=5, L2 ≤ 1.2 as the optimal operating point, balancing retrieval completeness against context compactness for faithful generation. The chunk size optimization (400 words) and keyword-stripping strategy were both empirically validated and contributed measurably to system quality. The architecture is modular and ready for extension to additional medical specialties.

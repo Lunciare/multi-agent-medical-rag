@@ -1,0 +1,394 @@
+[
+  {
+    "id": "cardio_1",
+    "tier": 1,
+    "tier_label": "core",
+    "query": "A 58-year-old female presents with episodic palpitations and shortness of breath on exertion that have worsened over the past three weeks. She has no prior cardiac history. What are the potential cardiac causes, and what initial workup is recommended?",
+    "expected_specialist": "cardiologist",
+    "expected_keywords": [
+      "arrhythmia",
+      "atrial fibrillation",
+      "ecg",
+      "holter"
+    ]
+  },
+  {
+    "id": "cardio_2",
+    "tier": 1,
+    "tier_label": "core",
+    "query": "A 65-year-old male with a 20-year history of poorly controlled hypertension reports substernal chest pressure radiating to the left arm during physical activity, relieved by rest. How do these chest pain patterns correlate with his hypertension as a risk factor, and what differential diagnoses should be considered?",
+    "expected_specialist": "cardiologist",
+    "expected_keywords": [
+      "angina",
+      "ischemia",
+      "coronary artery disease",
+      "hypertension"
+    ]
+  },
+  {
+    "id": "cardio_3",
+    "tier": 1,
+    "tier_label": "core",
+    "query": "A 45-year-old patient shares data from a consumer wearable showing intermittent irregular R-R intervals and reduced heart rate variability over the past month. What cardiac conditions could explain these findings, and when should a formal 12-lead ECG or Holter monitor be ordered?",
+    "expected_specialist": "cardiologist",
+    "expected_keywords": [
+      "arrhythmia",
+      "holter",
+      "wearable",
+      "fibrillation"
+    ]
+  },
+  {
+    "id": "cardio_4",
+    "tier": 1,
+    "tier_label": "core",
+    "query": "A 52-year-old male experiences recurrent episodes of dizziness and a sensation of a racing heartbeat lasting 10-15 minutes. An initial resting ECG was normal. What diagnostic procedures are indicated for suspected paroxysmal arrhythmia, and in what order should they be pursued?",
+    "expected_specialist": "cardiologist",
+    "expected_keywords": [
+      "paroxysmal",
+      "arrhythmia",
+      "monitor",
+      "ecg"
+    ]
+  },
+  {
+    "id": "cardio_5",
+    "tier": 1,
+    "tier_label": "core",
+    "query": "A 60-year-old patient with a BMI of 32, moderate alcohol intake, and untreated sleep apnea has been found to have occasional atrial fibrillation on a recent Holter recording. What are the key modifiable risk factors contributing to atrial fibrillation in this patient, and what lifestyle interventions does the evidence support?",
+    "expected_specialist": "cardiologist",
+    "expected_keywords": [
+      "atrial fibrillation",
+      "sleep apnea",
+      "alcohol",
+      "weight"
+    ]
+  },
+  {
+    "id": "cardio_6",
+    "tier": 1,
+    "tier_label": "core",
+    "query": "A 72-year-old male with a history of hypertension presents with exertional dyspnea and bilateral lower extremity edema. Echocardiogram shows an ejection fraction of 55% but impaired diastolic relaxation. What is the diagnosis?",
+    "expected_specialist": "cardiologist",
+    "expected_keywords": [
+      "hfpef",
+      "heart failure",
+      "diastolic",
+      "edema"
+    ]
+  },
+  {
+    "id": "cardio_7",
+    "tier": 1,
+    "tier_label": "core",
+    "query": "A 28-year-old male athlete collapses during a marathon. On evaluation, an echocardiogram demonstrates asymmetric septal hypertrophy and systolic anterior motion of the mitral valve. What is the most likely diagnosis?",
+    "expected_specialist": "cardiologist",
+    "expected_keywords": [
+      "hypertrophic cardiomyopathy",
+      "hcm",
+      "septal",
+      "sam"
+    ]
+  },
+  {
+    "id": "cardio_8",
+    "tier": 1,
+    "tier_label": "core",
+    "query": "A 35-year-old female presents with sharp, pleuritic chest pain that improves when she leans forward. She reports a recent viral illness. ECG shows diffuse ST elevation with PR depression. What is the diagnosis?",
+    "expected_specialist": "cardiologist",
+    "expected_keywords": [
+      "pericarditis",
+      "chest pain",
+      "st elevation",
+      "pr depression"
+    ]
+  },
+  {
+    "id": "cardio_9",
+    "tier": 1,
+    "tier_label": "core",
+    "query": "A 68-year-old male with a history of intravenous drug use presents with high fever, new-onset holosystolic murmur radiating to the axilla, and painful nodules on his fingertips. Blood cultures are pending. What is the recommended empirical treatment?",
+    "expected_specialist": "cardiologist",
+    "expected_keywords": [
+      "endocarditis",
+      "murmur",
+      "osler",
+      "antibiotics"
+    ]
+  },
+  {
+    "id": "cardio_10",
+    "tier": 3,
+    "tier_label": "out_of_scope",
+    "query": "A 55-year-old male presents to the ED with severe, tearing chest pain radiating to his back. His blood pressure is 190/110 mmHg. A widened mediastinum is seen on chest X-ray. What is the immediate next step in management?",
+    "expected_specialist": "cardiologist",
+    "expected_keywords": [
+      "aortic dissection",
+      "tearing",
+      "mediastinum",
+      "ct angiography"
+    ]
+  },
+  {
+    "id": "cardio_11",
+    "tier": 1,
+    "tier_label": "core",
+    "query": "A 60-year-old female presents with crushing midsternal chest pain. Her ECG demonstrates ST elevation in leads II, III, and aVF. What coronary artery is most likely occluded?",
+    "expected_specialist": "cardiologist",
+    "expected_keywords": [
+      "stemi",
+      "inferior",
+      "right coronary artery",
+      "rca"
+    ]
+  },
+  {
+    "id": "cardio_12",
+    "tier": 1,
+    "tier_label": "core",
+    "query": "A 40-year-old male with a history of alcohol abuse presents with severe dyspnea, orthopnea, and an S3 gallop. Echocardiogram reveals an ejection fraction of 25% with global hypokinesis. What is the suspected pathology?",
+    "expected_specialist": "cardiologist",
+    "expected_keywords": [
+      "dilated cardiomyopathy",
+      "heart failure",
+      "ejection fraction",
+      "alcohol"
+    ]
+  },
+  {
+    "id": "cardio_13",
+    "tier": 1,
+    "tier_label": "core",
+    "query": "A 75-year-old male presents with exertional syncope and a crescendo-decrescendo systolic murmur at the right upper sternal border. An echocardiogram shows a narrowed valve area. What are the indications for replacement?",
+    "expected_specialist": "cardiologist",
+    "expected_keywords": [
+      "aortic stenosis",
+      "murmur",
+      "syncope",
+      "replacement",
+      "tavr"
+    ]
+  },
+  {
+    "id": "cardio_14",
+    "tier": 1,
+    "tier_label": "core",
+    "query": "A patient arrives at the clinic with severe leg pain when walking that immediately stops upon resting. Her ankle-brachial index is 0.7. What is the corresponding cardiovascular disease?",
+    "expected_specialist": "cardiologist",
+    "expected_keywords": [
+      "claudication",
+      "peripheral artery disease",
+      "pad",
+      "abi"
+    ]
+  },
+  {
+    "id": "cardio_15",
+    "tier": 1,
+    "tier_label": "core",
+    "query": "A trauma patient presents with muffled heart sounds, jugular venous distention, and hypotension (Beck's triad). An urgent bedside ultrasound shows fluid in the pericardial space. What acute intervention is required?",
+    "expected_specialist": "cardiologist",
+    "expected_keywords": [
+      "tamponade",
+      "pericardiocentesis",
+      "hypotension",
+      "fluid"
+    ]
+  },
+  {
+    "id": "endo_1",
+    "tier": 1,
+    "tier_label": "core",
+    "query": "A 42-year-old female presents with progressive fatigue, unexplained weight gain of 8 kg over 6 months, cold intolerance, and dry skin. TSH is 12.4 mIU/L and free T4 is 0.6 ng/dL. What is the likely diagnosis?",
+    "expected_specialist": "endocrinologist",
+    "expected_keywords": [
+      "hypothyroidism",
+      "hashimoto",
+      "levothyroxine",
+      "tsh"
+    ]
+  },
+  {
+    "id": "endo_2",
+    "tier": 1,
+    "tier_label": "core",
+    "query": "A 55-year-old male with BMI 34, waist circumference 110 cm, fasting glucose 148 mg/dL, and HbA1c 7.8% is diagnosed with type 2 diabetes. He also has hypertension and dyslipidemia. What are the key components of initial assessment?",
+    "expected_specialist": "endocrinologist",
+    "expected_keywords": [
+      "diabetes",
+      "metabolic syndrome",
+      "metformin",
+      "glycemic"
+    ]
+  },
+  {
+    "id": "endo_3",
+    "tier": 1,
+    "tier_label": "core",
+    "query": "A 50-year-old female undergoes a CT scan for abdominal pain, which incidentally reveals a 2.5 cm left adrenal mass with Hounsfield units of 8. She has no symptoms of hormone excess. What is the recommended workup for an adrenal incidentaloma?",
+    "expected_specialist": "endocrinologist",
+    "expected_keywords": [
+      "incidentaloma",
+      "adrenal",
+      "cortisol",
+      "metanephrines"
+    ]
+  },
+  {
+    "id": "endo_4",
+    "tier": 1,
+    "tier_label": "core",
+    "query": "A 62-year-old postmenopausal female is found to have a serum calcium of 11.2 mg/dL and an intact PTH of 98 pg/mL. She reports fatigue, polyuria, and mild constipation. What is the differential diagnosis?",
+    "expected_specialist": "endocrinologist",
+    "expected_keywords": [
+      "hypercalcemia",
+      "hyperparathyroidism",
+      "adenoma",
+      "pth"
+    ]
+  },
+  {
+    "id": "endo_5",
+    "tier": 1,
+    "tier_label": "core",
+    "query": "A 38-year-old male undergoes an MRI for chronic headaches, which reveals a 12 mm pituitary macroadenoma. He reports no visual disturbances. What hormonal evaluation should be performed to assess for hypersecretion and hypopituitarism?",
+    "expected_specialist": "endocrinologist",
+    "expected_keywords": [
+      "pituitary",
+      "macroadenoma",
+      "prolactin",
+      "igf-1"
+    ]
+  },
+  {
+    "id": "endo_6",
+    "tier": 1,
+    "tier_label": "core",
+    "query": "A 30-year-old female presents with episodic headaches, sweating, and tachycardia. Her blood pressure during an episode was 180/110 mmHg. What is the most appropriate initial biochemical test?",
+    "expected_specialist": "endocrinologist",
+    "expected_keywords": [
+      "pheochromocytoma",
+      "metanephrines",
+      "catecholamines",
+      "plasma"
+    ]
+  },
+  {
+    "id": "endo_7",
+    "tier": 1,
+    "tier_label": "core",
+    "query": "A 45-year-old female presents with central obesity, proximal muscle weakness, and purple abdominal striae. Her 24-hour urine free cortisol is highly elevated. How do you distinguish Cushing's disease from Cushing's syndrome?",
+    "expected_specialist": "endocrinologist",
+    "expected_keywords": [
+      "cushing",
+      "dexamethasone",
+      "acth",
+      "cortisol"
+    ]
+  },
+  {
+    "id": "endo_8",
+    "tier": 1,
+    "tier_label": "core",
+    "query": "A 50-year-old male notices increased shoe and ring size over the last 3 years, along with worsening snoring and prominent jaw growth. Screening reveals elevated IGF-1 levels. What is the next diagnostic step?",
+    "expected_specialist": "endocrinologist",
+    "expected_keywords": [
+      "acromegaly",
+      "growth hormone",
+      "glucose tolerance",
+      "igf-1"
+    ]
+  },
+  {
+    "id": "endo_9",
+    "tier": 1,
+    "tier_label": "core",
+    "query": "A 35-year-old female presents with amenorrhea, galactorrhea, and bilateral temporal hemianopsia. Serum prolactin is elevated at 150 ng/mL. A pituitary adenoma is found on MRI. What is the first-line treatment?",
+    "expected_specialist": "endocrinologist",
+    "expected_keywords": [
+      "prolactinoma",
+      "cabergoline",
+      "dopamine agonist",
+      "prolactin"
+    ]
+  },
+  {
+    "id": "endo_10",
+    "tier": 1,
+    "tier_label": "core",
+    "query": "A 28-year-old female presents with weight loss, heat intolerance, tremor, and exophthalmos. Lab results show TSH < 0.01 and elevated Free T4. TSH receptor antibodies are positive. Discuss the therapeutic options.",
+    "expected_specialist": "endocrinologist",
+    "expected_keywords": [
+      "graves",
+      "hyperthyroidism",
+      "methimazole",
+      "radioactive iodine"
+    ]
+  },
+  {
+    "id": "endo_11",
+    "tier": 1,
+    "tier_label": "core",
+    "query": "A 34-year-old male presents with severe weakness, fatigue, hyperpigmentation of the palmar creases, hypotension (90/60 mmHg), hyponatremia and hyperkalemia. What life-threatening condition must be ruled out instantly?",
+    "expected_specialist": "endocrinologist",
+    "expected_keywords": [
+      "addison",
+      "adrenal insufficiency",
+      "crisis",
+      "hydrocortisone"
+    ]
+  },
+  {
+    "id": "endo_12",
+    "tier": 1,
+    "tier_label": "core",
+    "query": "A 45-year-old male presents with therapy-resistant hypertension and hypokalemia. Plasma renin activity is suppressed while serum aldosterone is significantly elevated. What is the diagnosis?",
+    "expected_specialist": "endocrinologist",
+    "expected_keywords": [
+      "primary aldosteronism",
+      "conn",
+      "hyperaldosteronism",
+      "renin"
+    ]
+  },
+  {
+    "id": "endo_13",
+    "tier": 1,
+    "tier_label": "core",
+    "query": "A patient undergoes a total thyroidectomy for thyroid cancer. Post-operatively, she experiences muscle cramps, tingling around her mouth, and a positive Chvostek sign. Her calcium is 7.2 mg/dL. What happened?",
+    "expected_specialist": "endocrinologist",
+    "expected_keywords": [
+      "hypocalcemia",
+      "hypoparathyroidism",
+      "calcitriol",
+      "parathyroid"
+    ]
+  },
+  {
+    "id": "endo_14",
+    "tier": 1,
+    "tier_label": "core",
+    "query": "A 65-year-old female undergoes a DEXA scan displaying a T-score of -2.8 at the femoral neck. She has no history of fragility fractures. What is the classification of her bone density and standard treatment?",
+    "expected_specialist": "endocrinologist",
+    "expected_keywords": [
+      "osteoporosis",
+      "bisphosphonates",
+      "alendronate",
+      "t-score"
+    ]
+  },
+  {
+    "id": "endo_15",
+    "tier": 1,
+    "tier_label": "core",
+    "query": "A 19-year-old male with type 1 diabetes presents to the ER with nausea, vomiting, abdominal pain, and Kussmaul respirations. His blood glucose is 450 mg/dL, and urine is positive for ketones. What is the treatment protocol?",
+    "expected_specialist": "endocrinologist",
+    "expected_keywords": [
+      "dka",
+      "ketoacidosis",
+      "insulin",
+      "fluids",
+      "potassium"
+    ]
+  }
+]

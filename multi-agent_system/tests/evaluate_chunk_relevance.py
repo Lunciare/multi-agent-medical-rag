@@ -1,3 +1,4 @@
+import argparse
 import sys
 import os
 import json
@@ -6,6 +7,12 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from orchestrator import MedicalOrchestrator
 from settings import DEFAULT_KNOWLEDGE_BASE_DIR, client, AGENT_MODEL, YANDEX_PROJECT_ID, SIMILARITY_TOP_K, MAX_L2_DISTANCE
+
+SPLIT_TO_FILENAME = {
+    "dev": "golden_dev.json",
+    "test": "golden_test.json",
+    "all": "golden_dataset.json",
+}
 
 def judge_context_relevance(query, context):
     judge_system_prompt = (
@@ -40,9 +47,9 @@ def judge_context_relevance(query, context):
         print(f"Judge API error: {e}")
         return False
 
-def evaluate_relevance():
-    print("Initializing components for chunk Context Relevancy evaluation...")
-    data_path = os.path.join(os.path.dirname(__file__), "data", "golden_dataset.json")
+def evaluate_relevance(split="test"):
+    print(f"Initializing components for chunk Context Relevancy evaluation (split={split})...")
+    data_path = os.path.join(os.path.dirname(__file__), "data", SPLIT_TO_FILENAME[split])
 
     with open(data_path, "r", encoding="utf-8") as f:
         dataset = json.load(f)
@@ -134,4 +141,7 @@ def evaluate_relevance():
     print(f"{'=' * 60}")
 
 if __name__ == "__main__":
-    evaluate_relevance()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--split", choices=["dev", "test", "all"], default="test")
+    args = parser.parse_args()
+    evaluate_relevance(split=args.split)
