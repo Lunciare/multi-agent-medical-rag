@@ -177,23 +177,51 @@ cd multi-agent_system
 # Smoke test — dataset integrity (no API calls, <30s)
 python tests/evaluate_retrieval.py --smoke-test
 
-# Routing Accuracy (~30 LLM calls)
-python tests/evaluate_routing.py
+# Routing Accuracy on held-out test split (~70 LLM calls)
+python tests/evaluate_routing.py --split test
 
-# Retrieval Hit Rate (no LLM calls)
-python tests/evaluate_retrieval.py
+# Retrieval Hit Rate on held-out test split (no LLM calls)
+python tests/evaluate_retrieval.py --split test
 
-# Chunk Relevancy (LLM judge, ~30 calls)
-python tests/evaluate_chunk_relevance.py
+# Chunk Relevancy on held-out test split (LLM judge, ~70 calls)
+python tests/evaluate_chunk_relevance.py --split test
 
-# Faithfulness (LLM judge, ~60 calls)
-python tests/evaluate_generation.py
+# Faithfulness — multi-judge mode is now the default (~140–210 LLM calls)
+# Requires SECONDARY_JUDGE_PROVIDER in .env; TERTIARY_JUDGE_PROVIDER is optional.
+# Writes reports/faithfulness_multijudge_raw_$(date).csv and ..._$(date).md.
+python tests/evaluate_generation.py --split test --mode multi_judge
 
-# Hyperparameter tuning — K and L2 threshold (no LLM calls)
+# Faithfulness — single-judge legacy mode for backward compatibility
+python tests/evaluate_generation.py --split test --mode yandex_only
+
+# Inspect judge disagreements after a multi-judge run
+python tests/inspect_judge_disagreements.py \
+    ../reports/faithfulness_multijudge_raw_YYYY-MM-DD.csv
+
+# Hyperparameter tuning — K and L2 threshold (dev split only; no LLM calls)
 python tests/tune_retrieval.py
 
-# Hyperparameter tuning — chunk size grid (embedding API only)
+# Hyperparameter tuning — chunk size grid (dev split only; embedding API only)
 python tests/tune_chunk_size.py
+```
+
+### Configuring the multi-judge faithfulness evaluator
+
+`evaluate_generation.py` defaults to a multi-judge run that requires at least one
+second judge to break the same-model circularity discussed in `report_final.md`
+§5.3. Configure judges via environment variables (one per line in `.env`):
+
+```bash
+# Same vendor, different family — guaranteed to work with the existing Yandex API key
+SECONDARY_JUDGE_PROVIDER=yandex:gpt://${YANDEX_PROJECT_ID}/yandexgpt-lite/latest
+
+# Optional third judge (cross-vendor; signs up to whichever free-tier you can access)
+# TERTIARY_JUDGE_PROVIDER=openrouter:meta-llama/llama-3.1-8b-instruct:free
+# OPENROUTER_API_KEY=sk-or-v1-...
+
+# Or, generic OpenAI-compatible endpoint
+# TERTIARY_JUDGE_PROVIDER=http:https://api.example.com/v1/chat/completions
+# SECONDARY_JUDGE_API_KEY=...
 ```
 
 ## Key Design Decisions

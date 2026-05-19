@@ -40,3 +40,12 @@ SIMILARITY_TOP_K = 5
 MAX_L2_DISTANCE = 1.2
 CHUNK_SIZE_WORDS = 400
 CHUNK_OVERLAP_WORDS = 30
+
+PRIMARY_JUDGE_PROVIDER: str = f"yandex:gpt://{YANDEX_PROJECT_ID}/yandexgpt/latest"
+
+SECONDARY_JUDGE_PROVIDER: str | None = os.getenv("SECONDARY_JUDGE_PROVIDER") or None
+TERTIARY_JUDGE_PROVIDER: str | None = os.getenv("TERTIARY_JUDGE_PROVIDER") or None
+
+OPENROUTER_API_KEY: str | None = os.getenv("OPENROUTER_API_KEY")
+OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1/chat/completions"
+SECONDARY_JUDGE_API_KEY: str | None = os.getenv("SECONDARY_JUDGE_API_KEY")
