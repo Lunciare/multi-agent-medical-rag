@@ -30,3 +30,9 @@ data/raw/
 data/processed/**/faiss_index/
 *.pkl
 *.faiss
+
+# HuggingFace datasets / hub local caches
+.cache/huggingface/
+huggingface/
+.huggingface/
+hf_cache/
