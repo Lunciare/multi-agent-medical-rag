@@ -161,9 +161,11 @@ The winning chunk size (400 words) was then validated by building the full produ
 | 500 | ~73% | Token limit truncation begins affecting some chunks |
 | 600 | ~67% | >2,048 tokens for many chunks; forced truncation degrades quality |
 
+Note: the chunk-size grid was also run on the 30-case dev split using a ~20-document proxy subset (cost-saving). The selected chunk size (400 words) was applied to the full corpus before the §4.8 held-out evaluation.
+
 ### 3.4 Retrieval Hyperparameter Grid Search
 
-A full grid search over K × L2 threshold was previously performed on the initial 30 golden-dataset queries. The complete results are saved in [`reports/hyperparameter_grid.csv`](hyperparameter_grid.csv).
+A grid search over K ∈ {3,5,7,10,15} × L2 ∈ {0.8,1.0,1.2,1.4,1.6,2.0} was performed on the 30-case development split (`golden_dev.json` after Fix 1; previously the initial 30-case version of `golden_dataset.json`). The complete dev-set results are in [`reports/hyperparameter_grid.csv`](hyperparameter_grid.csv). Hyperparameter selection was therefore performed on a strict subset of the cases reported in §4; the §4.8 held-out test split (n=70) reports performance on cases never seen during tuning.
 
 | K | L2 ≤ 0.8 | L2 ≤ 1.0 | L2 ≤ 1.2 | L2 ≤ 1.4 | L2 ≤ 1.6 | L2 ≤ 2.0 |
 |---|---|---|---|---|---|---|
@@ -188,6 +190,8 @@ Key observations from the grid:
 **Hypothesis:** Raw chunk files contain a `KEYWORDS:` header line (produced by TF-IDF extraction). We hypothesized that including these dense, non-natural language keyword lists directly within the text chunk distorts the semantic vector produced by the embedding model, thereby degrading retrieval performance. The hypothesis follows from how dense retrievers like DPR \cite{karpukhin2020dpr} are trained — on natural-language passage / question pairs — so non-natural tokens occupy unusual regions of the embedding space and pull the chunk's vector toward those regions.
 **Experiment:** We evaluated retrieval performance on the cardiology index before and after implementing a strict keyword-stripping pre-processing step (removing the `KEYWORDS:` line from `page_content` before embedding, while preserving it in document metadata). 
 **Result:** Removing metadata pollution produced a measurable and significant improvement in retrieval quality, increasing the Hit Rate on the cardiology index from 93.3% to 96.7%. This empirical finding demonstrates that embedding models trained on natural language are highly sensitive to dense, non-semantic token lists, and strict separation of raw text from metadata is critical for optimal vector representation.
+
+**Confounding caveat.** The reported 93.3% → 96.7% Hit Rate improvement was observed when keyword stripping was applied simultaneously with the chunk-size change from 200 to 400 words. No experiment isolates the two factors on the full corpus. The +3.4 pp effect cannot be cleanly attributed to keyword stripping alone.
 
 ---
 
@@ -409,7 +413,7 @@ This is exactly the pattern the multi-judge design aimed to surface: the flagshi
 
 ## 7. Conclusion
 
-Headline metrics are reported on the 70-case held-out test split (§4.8), which excludes the 30 development cases used to tune K, L2 threshold, and chunk size. Faithfulness is now reported under the minimum-judge rule (a case counts FAITHFUL only if every configured judge agrees), not the single-judge rate. The numeric refusal gate added in Stage 7 (§4.5) replaces the prompt-only fallback that previously failed on every Tier 3 case. The multi-agent medical RAG system shows the following performance:
+Headline metrics are reported on the 70-case held-out test split (§4.8), which excludes the 30 development cases used to tune K, L2 threshold, and chunk size. Faithfulness is now reported under the minimum-judge rule (a case counts FAITHFUL only if every configured judge agrees), not the single-judge rate. The numeric refusal gate added in Stage 7 (§4.5) replaces the prompt-only fallback that previously failed on every Tier 3 case. **All headline numbers in this Conclusion are computed on the held-out test split (n=70); the full-set numbers (n=100, which include the 30 development cases used during hyperparameter tuning) are presented separately in §4.3, §4.4, and §4.7 for completeness.** The multi-agent medical RAG system shows the following performance:
 
 - **Routing** achieves 100.0% accuracy (70/70) across all tiers on the held-out test split (§4.8), matching the full-set figure. The router demonstrates triage-like behaviour on cross-domain queries, consistently prioritising the presenting clinical urgency.
 - **Retrieval** is reported primarily as **Recall@K against the per-case `gold_sources` annotation** (Stage 6). On the held-out test split, Recall@K is **56.2% (86/153) [Wilson 95% CI 48.3%–63.8%]** — Cardiology 56.6% (43/76), Endocrinology 55.8% (43/77); the legacy KeywordHitRate is 88.6% (62/70) and is now treated as a loose secondary signal because it registers hits on adjacent-content keyword co-occurrence rather than the actual source documents (see §4.3 for the side-by-side). Across both metrics the Tier 1 cardiology / Tier 2 cardiology gap persists (Recall@K 59.0% vs 54.1%; KeywordHitRate 100% vs 78.6%), confirming that the cardiology corpus gaps surfaced in §4.3.1 are not artefacts of the tuning split.
