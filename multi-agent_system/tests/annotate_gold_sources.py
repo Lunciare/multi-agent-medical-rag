@@ -49,8 +49,8 @@ def _save(path, dataset):
 
 
 def _retrieve_top_k(orchestrator, case, top_k):
-    agent = (orchestrator.cardiologist if case["expected_specialist"] == "cardiologist"
-             else orchestrator.endocrinologist)
+    agent = (orchestrator.agents["cardiologist"] if case["expected_specialist"] == "cardiologist"
+             else orchestrator.agents["endocrinologist"])
     return agent.vectorstore.similarity_search_with_score(case["query"], k=top_k)
 
 

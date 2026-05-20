@@ -67,9 +67,9 @@ def _collect_min_dists(dataset, orchestrator) -> List[dict]:
     rows = []
     for case in dataset:
         if case["expected_specialist"] == "cardiologist":
-            agent = orchestrator.cardiologist
+            agent = orchestrator.agents["cardiologist"]
         elif case["expected_specialist"] == "endocrinologist":
-            agent = orchestrator.endocrinologist
+            agent = orchestrator.agents["endocrinologist"]
         else:
             continue
         ds = agent.vectorstore.similarity_search_with_score(case["query"], k=SIMILARITY_TOP_K)
@@ -135,13 +135,13 @@ def main():
 
     print("\nLoading corpus distance stats (per specialty)...")
     cardio_stats = load_or_compute_corpus_dist_stats(
-        orchestrator.cardiologist.vectorstore,
+        orchestrator.agents["cardiologist"].vectorstore,
         cache_path=os.path.join(os.path.dirname(DEFAULT_KNOWLEDGE_BASE_DIR), "cardiology",
                                 "corpus_dist_stats.json"),
         specialty="cardiology",
     )
     endo_stats = load_or_compute_corpus_dist_stats(
-        orchestrator.endocrinologist.vectorstore,
+        orchestrator.agents["endocrinologist"].vectorstore,
         cache_path=os.path.join(ENDO_KNOWLEDGE_BASE_DIR, "corpus_dist_stats.json"),
         specialty="endocrinology",
     )

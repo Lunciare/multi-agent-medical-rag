@@ -83,9 +83,9 @@ def evaluate_relevance(split="test"):
 
         agent = None
         if expected_agent == "cardiologist":
-            agent = orchestrator.cardiologist
+            agent = orchestrator.agents["cardiologist"]
         elif expected_agent == "endocrinologist":
-            agent = orchestrator.endocrinologist
+            agent = orchestrator.agents["endocrinologist"]
         else:
             continue
 

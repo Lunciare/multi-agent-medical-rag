@@ -243,8 +243,8 @@ def print_sources(case_id, top_k=20):
     """
     case = _load_case_by_id(case_id)
     orchestrator = MedicalOrchestrator(DEFAULT_KNOWLEDGE_BASE_DIR)
-    agent = (orchestrator.cardiologist if case["expected_specialist"] == "cardiologist"
-             else orchestrator.endocrinologist)
+    agent = (orchestrator.agents["cardiologist"] if case["expected_specialist"] == "cardiologist"
+             else orchestrator.agents["endocrinologist"])
     print(f"\n=== {case_id}  tier={case['tier']}/{case['tier_label']}  domain={case['expected_specialist']} ===")
     print(f"Query: {case['query']}")
     print(f"Expected keywords: {', '.join(case['expected_keywords'])}")
@@ -379,10 +379,10 @@ def evaluate_retrieval(split="test", kb: str | None = None):
     bm25_indices = _load_bm25_indices()
 
     domain_pool = {
-        "cardiologist": list(orchestrator.cardiologist.vectorstore.docstore._dict.values())
-                        if orchestrator.cardiologist else [],
-        "endocrinologist": list(orchestrator.endocrinologist.vectorstore.docstore._dict.values())
-                           if orchestrator.endocrinologist else [],
+        "cardiologist": list(orchestrator.agents["cardiologist"].vectorstore.docstore._dict.values())
+                        if orchestrator.agents.get("cardiologist") else [],
+        "endocrinologist": list(orchestrator.agents["endocrinologist"].vectorstore.docstore._dict.values())
+                           if orchestrator.agents.get("endocrinologist") else [],
     }
     rng = random.Random(RANDOM_BASELINE_SEED)
 
@@ -400,9 +400,9 @@ def evaluate_retrieval(split="test", kb: str | None = None):
 
         agent = None
         if expected_agent == "cardiologist":
-            agent = orchestrator.cardiologist
+            agent = orchestrator.agents["cardiologist"]
         elif expected_agent == "endocrinologist":
-            agent = orchestrator.endocrinologist
+            agent = orchestrator.agents["endocrinologist"]
         else:
             print(f"  [SKIP] Unknown expected agent: {expected_agent}")
             continue

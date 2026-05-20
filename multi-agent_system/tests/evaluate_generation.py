@@ -135,9 +135,9 @@ def _evaluate_multi_judge(split: str):
         tier = case.get("tier", 1)
 
         if expected_agent == "cardiologist":
-            agent = orchestrator.cardiologist
+            agent = orchestrator.agents["cardiologist"]
         elif expected_agent == "endocrinologist":
-            agent = orchestrator.endocrinologist
+            agent = orchestrator.agents["endocrinologist"]
         else:
             continue
 
@@ -432,9 +432,9 @@ def _evaluate_yandex_only(split: str):
 
         agent = None
         if expected_agent == "cardiologist":
-            agent = orchestrator.cardiologist
+            agent = orchestrator.agents["cardiologist"]
         elif expected_agent == "endocrinologist":
-            agent = orchestrator.endocrinologist
+            agent = orchestrator.agents["endocrinologist"]
         else:
             continue
 

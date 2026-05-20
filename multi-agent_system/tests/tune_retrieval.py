@@ -47,8 +47,8 @@ def tune_retrieval():
                 agent_type = case["expected_specialist"]
                 keywords = case["expected_keywords"]
 
-                agent = (orchestrator.cardiologist if agent_type == "cardiologist"
-                         else orchestrator.endocrinologist)
+                agent = (orchestrator.agents["cardiologist"] if agent_type == "cardiologist"
+                         else orchestrator.agents["endocrinologist"])
 
                 docs_and_scores = agent.vectorstore.similarity_search_with_score(query, k=k)
                 valid_docs = [doc for doc, score in docs_and_scores if score <= l2_max]

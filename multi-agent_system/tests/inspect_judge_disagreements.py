@@ -101,8 +101,8 @@ def main(csv_path: str, out_path: str | None = None) -> None:
             continue
 
         expected_agent = case["expected_specialist"]
-        agent = (orchestrator.cardiologist if expected_agent == "cardiologist"
-                 else orchestrator.endocrinologist)
+        agent = (orchestrator.agents["cardiologist"] if expected_agent == "cardiologist"
+                 else orchestrator.agents["endocrinologist"])
         docs_and_scores = agent.vectorstore.similarity_search_with_score(
             case["query"], k=SIMILARITY_TOP_K
         )

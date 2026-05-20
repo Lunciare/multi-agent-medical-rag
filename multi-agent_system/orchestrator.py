@@ -51,21 +51,6 @@ class MedicalOrchestrator:
         # only if it canonicalises to one of these. No alias coercion.
         self.allowed_specialists = list(self.agents.keys())
 
-    # ----- backward-compat aliases -----
-    # Many evaluation / annotation scripts written before Stage 8 read
-    # `orchestrator.cardiologist` / `orchestrator.endocrinologist` directly.
-    # These properties forward to `self.agents[...]` so those callers keep
-    # working unchanged; new code should use `self.agents[key]`.
-    @property
-    def cardiologist(self):
-        return self.agents.get("cardiologist")
-
-    @property
-    def endocrinologist(self):
-        return self.agents.get("endocrinologist")
-
-    # ----- safety + routing -----
-
     def safety_check(self, question: str) -> str | None:
         if EMERGENCY_PATTERNS.search(question):
             return EMERGENCY_MESSAGE
