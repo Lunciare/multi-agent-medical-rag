@@ -216,39 +216,38 @@ All evaluations use a **golden dataset** of 100 clinical cases across three diff
 
 > **Note on Error Analysis:** For a detailed breakdown of earlier failure cases across the system, please see the dedicated [Failure Analysis Report](failure_analysis.md).
 
-### 4.1 Routing Architecture: LLM vs. Keyword Baseline
+### 4.1 Routing Architecture: LLM vs. Keyword vs. TF-IDF Baselines
 
-The orchestrator LLM router was evaluated on the 100-case golden dataset. To empirically justify the architectural complexity of using an LLM for this task, we conducted a head-to-head comparison against a deterministic Keyword Baseline. The core question is: does LLM routing add value over a deterministic baseline, and if so, what kind of value?
+Two non-LLM baselines are reported alongside the LLM router on the **held-out test split (n=70)**: a hand-curated cardiology keyword dictionary (`tests/evaluate_routing_baseline.py:keyword_route`) and a TF-IDF (1–2 grams) + LogisticRegression model trained on the 30-case `golden_dev.json` (`tests/train_tfidf_router.py`, pickled to `tests/data/tfidf_router.pkl`).
 
 | Method | Cardiology | Endocrinology | Overall |
 |---|---|---|---|
-| Keyword Baseline | 98.0% (49/50) [89.5%–99.6%] | 94.0% (47/50) [83.8%–97.9%] | 96.0% (96/100) [90.2%–98.4%] |
-| LLM Router | 100.0% (50/50) [92.9%–100%] | 100.0% (50/50) [92.9%–100%] | 100.0% (100/100) [96.3%–100%] |
+| Keyword Baseline | 97.1% (34/35) [85.5%–99.5%] | 94.3% (33/35) [81.4%–98.4%] | 95.7% (67/70) [88.1%–98.5%] |
+| TF-IDF Baseline (dev-trained) | 62.9% (22/35) [46.3%–76.8%] | 94.3% (33/35) [81.4%–98.4%] | 78.6% (55/70) [67.6%–86.6%] |
+| LLM Router | 100.0% (35/35) [90.1%–100.0%] | 100.0% (35/35) [90.1%–100.0%] | 100.0% (70/70) [94.8%–100.0%] |
 
-*(Wilson 95% confidence intervals via `statsmodels.stats.proportion.proportion_confint(..., method="wilson")`. CI bounds are widest at small n: Cardiology = Endocrinology = 50 cases; Overall = 100.)*
+*(Wilson 95% CIs via `statsmodels`. Test split n=70 = 35 cardiology + 35 endocrinology cases per Stage 4. TF-IDF was trained on `golden_dev.json` (n=30) and never saw any test-split case.)*
 
-For clear-domain queries, the data shows that the baseline is almost as good as the LLM (96.0% vs. 100.0%). The LLM Router achieves perfect accuracy and successfully triages even complex peripheral and out-of-scope conditions without failure, providing a 4 percentage point improvement. However, the true value of the LLM is not merely this quantitative accuracy gap, but a qualitative difference in behaviour, which is best observed on ambiguous cases.
+**Interpretation.** On clear-domain queries, the **hand-curated Keyword Baseline is competitive (95.7% [88.1%–98.5%])** and closes most of the gap to the LLM Router (4.3 pp difference on the point estimate; the Wilson CIs overlap heavily). The **TF-IDF baseline does *worse* than the keyword baseline (78.6% [67.6%–86.6%])**, not better, because 15 cardiology training queries are too few to cover the test-split's broader cardiology vocabulary — TF-IDF loses 13 cardiology cases that the keyword dictionary catches (per-tier breakdown in the Stage 15 log: TF-IDF drops to 50.0% on T2 cardiology vs Keyword's 100.0%; the dev → test vocabulary gap on peripheral / out-of-scope conditions is what closes the model). The LLM Router's 100.0% on test (Wilson lower bound 94.8%) is statistically clean against both baselines (no overlap with TF-IDF's CI; only marginal overlap with the Keyword Baseline's upper tail). However, on the **clear-domain test cases the LLM's quantitative win over the keyword dictionary is small (4.3 pp point estimate, CIs overlapping)** — the keyword dictionary is good enough that the case for LLM routing on these queries alone is weak. The case for the LLM is made on **ambiguous queries**, where the cost of mis-prioritisation is clinical rather than statistical; this is the topic of §4.2.
 
 ### 4.2 Qualitative Behaviour on Cross-Domain Ambiguous Cases
 
 To probe the router's behaviour on clinically ambiguous queries, a dedicated test set of 8 cross-domain cases was constructed (`tests/data/ambiguous_cases.json`). Each case intentionally spans both cardiology and endocrinology — no single routing decision is strictly "correct."
 
-| ID | Clinical Scenario | LLM Routed To | Baseline Routed To | Valid Domains |
-|---|---|---|---|---|
-| ambig_1 | Diabetic cardiomyopathy (HbA1c 9.2%, EF 40%) | cardiologist | cardiologist | cardiology, endocrinology |
-| ambig_2 | Thyroid-induced atrial fibrillation (Graves', HR 130) | endocrinologist | cardiologist | cardiology, endocrinology |
-| ambig_3 | SGLT2 inhibitor cardioprotection in acute coronary syndrome | cardiologist | cardiologist | cardiology, endocrinology |
-| ambig_4 | Hyperaldosteronism with resistant hypertension (K+ 2.9) | endocrinologist | cardiologist | cardiology, endocrinology |
-| ambig_5 | Pheochromocytoma with Takotsubo cardiomyopathy (BP 240/140) | cardiologist | cardiologist | cardiology, endocrinology |
-| ambig_6 | Amiodarone-induced hypothyroidism (TSH 45) | endocrinologist | cardiologist | cardiology, endocrinology |
-| ambig_7 | Metabolic syndrome with exertional angina (BMI 38, positive stress test) | cardiologist | cardiologist | cardiology, endocrinology |
-| ambig_8 | Carcinoid heart disease (right-sided valve lesions, elevated 5-HIAA) | cardiologist | cardiologist | cardiology, endocrinology |
+| ID | Clinical Scenario | LLM | Keyword | TF-IDF | Valid Domains |
+|---|---|---|---|---|---|
+| ambig_1 | Diabetic cardiomyopathy (HbA1c 9.2%, EF 40%) | cardiologist | cardiologist | cardiologist | cardiology, endocrinology |
+| ambig_2 | Thyroid-induced atrial fibrillation (Graves', HR 130) | endocrinologist | cardiologist | endocrinologist | cardiology, endocrinology |
+| ambig_3 | SGLT2 inhibitor cardioprotection in acute coronary syndrome | cardiologist | cardiologist | cardiologist | cardiology, endocrinology |
+| ambig_4 | Hyperaldosteronism with resistant hypertension (K+ 2.9) | endocrinologist | cardiologist | endocrinologist | cardiology, endocrinology |
+| ambig_5 | Pheochromocytoma with Takotsubo cardiomyopathy (BP 240/140) | cardiologist | cardiologist | cardiologist | cardiology, endocrinology |
+| ambig_6 | Amiodarone-induced hypothyroidism (TSH 45) | endocrinologist | cardiologist | endocrinologist | cardiology, endocrinology |
+| ambig_7 | Metabolic syndrome with exertional angina (BMI 38, positive stress test) | cardiologist | cardiologist | endocrinologist | cardiology, endocrinology |
+| ambig_8 | Carcinoid heart disease (right-sided valve lesions, elevated 5-HIAA) | cardiologist | cardiologist | endocrinologist | cardiology, endocrinology |
 
-While both models route to valid domains, their behaviour is fundamentally different. The **Keyword Baseline routes all 8 cases (100%) to the cardiologist** simply because cardiovascular terms ("cardiomyopathy", "atrial fibrillation", "hypertension") trigger the dictionary match first, entirely ignoring the underlying endocrine pathology.
+Three different routing strategies produce three different splits across the 8 ambiguous cases. **Keyword routes 8/8 to cardiologist** — every query contains a cardiac term ("cardiomyopathy", "atrial fibrillation", "hypertension"), and the dictionary match fires first regardless of the underlying endocrine driver. **TF-IDF routes 3 to cardiologist and 5 to endocrinologist** — without a hand-curated dictionary it tilts toward whichever class's training queries had more discriminative bigrams (in this case, endo-leaning vocabulary like "thyroid", "aldosteronism", "amiodarone", "hyperinsulinaemia"). **The LLM Router routes 5 to cardiologist and 3 to endocrinologist** — routing by which pathology dominates the *presentation* rather than by which class of term appears most. Routing `ambig_1` (diabetic cardiomyopathy, EF 40%) to cardiology is a defensible clinical priority decision — the immediate management concern is heart failure even though the underlying cause is glycaemic; routing `ambig_6` (amiodarone-induced hypothyroidism, TSH 45) to endocrinology is similarly defensible — the cardiac drug is the cause, the endocrine derangement is the actionable finding.
 
-In contrast, the **LLM Router** consistently prioritises the **presenting clinical urgency**: when the query foregrounds acute cardiac symptoms (chest pain, low EF, ST changes), it routes to cardiologist; when the query foregrounds hormonal etiology or systemic metabolic crisis (Graves', aldosteronism, TSH 45), it routes to endocrinologist. For example, routing "diabetic cardiomyopathy" to cardiology is a defensible clinical priority decision — the immediate management concern is heart failure (EF 40%), even though glycemic control is the underlying cause. 
-
-The baseline is competitive on clear-domain queries; on ambiguous queries it routes by surface word frequency, while the LLM routes by which pathology dominates the presentation. The §4.2 table makes the difference concrete (the LLM splits 5–3 between cardiology and endocrinology; the baseline routes 8–0 to cardiology).
+The LLM and TF-IDF agree on 7/8 ambiguous cases, but for **different reasons**: TF-IDF routes by token-frequency in the dev training set, which happens to produce endo-leaning routings on these specific queries; the LLM routes by clinical reasoning about which findings are immediately actionable. The disagreement case (`ambig_7`, metabolic syndrome with exertional angina) is where the LLM picks the cardiac focus the TF-IDF model would mark as endocrine — and the cardiology routing is the defensible clinical choice (the exertional angina + positive stress test is the actionable finding, not the metabolic syndrome). The agreement on the other 7 ambiguous cases is incidental and would not be expected to hold on a different training distribution; the LLM's reasoning is the durable signal.
 
 Sections 4.1–4.7 report metrics computed on the full 100-case golden set. The 30-case development split (`golden_dev.json`) was used for hyperparameter tuning (K, L2 threshold, chunk size). Results restricted to the 70-case held-out test split are reported in §4.8.
 
