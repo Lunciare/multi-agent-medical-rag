@@ -15,4 +15,4 @@ for mod_name in [
     if mod_name not in sys.modules:
         sys.modules[mod_name] = MagicMock()
 
-import agents.cardiologist  # noqa: E402, F401
+import agents.specialist  # noqa: E402, F401

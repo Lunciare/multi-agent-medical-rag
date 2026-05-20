@@ -1,9 +1,11 @@
 import re
+
 import openai
 from pydantic import BaseModel
-from agents.cardiologist import CardiologistAgent
-from agents.endocrinologist import EndocrinologistAgent
-from settings import client, ROUTING_MODEL, YANDEX_PROJECT_ID, ENDO_KNOWLEDGE_BASE_DIR
+
+from agents import SpecialistAgent
+from agents.registry import AGENT_REGISTRY
+from settings import ROUTING_MODEL, YANDEX_PROJECT_ID, client
 
 
 EMERGENCY_PATTERNS = re.compile(
@@ -42,11 +44,28 @@ TREATMENT_MESSAGE = (
 class RouteDecision(BaseModel):
     specialist: str
 
+
 class MedicalOrchestrator:
     def __init__(self, knowledge_base_dir: str):
         self.knowledge_base_dir = knowledge_base_dir
-        self.cardiologist = CardiologistAgent(folder_path=knowledge_base_dir)
-        self.endocrinologist = EndocrinologistAgent(folder_path=ENDO_KNOWLEDGE_BASE_DIR)
+        # `knowledge_base_dir` is kept for backward compatibility with the prior
+        # constructor signature; the per-specialty paths come from the registry.
+        self.agents = {key: SpecialistAgent(**cfg) for key, cfg in AGENT_REGISTRY.items()}
+
+    # ----- backward-compat aliases -----
+    # Many evaluation / annotation scripts written before Stage 8 read
+    # `orchestrator.cardiologist` / `orchestrator.endocrinologist` directly.
+    # These properties forward to `self.agents[...]` so those callers keep
+    # working unchanged; new code should use `self.agents[key]`.
+    @property
+    def cardiologist(self):
+        return self.agents.get("cardiologist")
+
+    @property
+    def endocrinologist(self):
+        return self.agents.get("endocrinologist")
+
+    # ----- safety + routing -----
 
     def safety_check(self, question: str) -> str | None:
         if EMERGENCY_PATTERNS.search(question):
@@ -55,23 +74,39 @@ class MedicalOrchestrator:
             return TREATMENT_MESSAGE
         return None
 
+    def _routing_system_prompt(self) -> str:
+        """Build the router's system prompt from the registry.
+
+        Important: the prompt text must remain textually identical to the
+        pre-refactor wording so that `evaluate_routing.py --split dev` produces
+        the same routing decisions. With the current 2-specialist registry,
+        joining `self.agents.keys()` with " or " reproduces the original
+        "cardiologist or endocrinologist" verbatim. The `domain_scope` field
+        is exported by the registry for future use (e.g. when a third
+        specialist is added and the routing instructions need to expand);
+        it is intentionally NOT inlined here so the LLM's routing behaviour
+        on the current 2-specialist set stays byte-identical to Stage 7.
+        """
+        specialist_list = " or ".join(self.agents.keys())
+        return (
+            "You are a medical orchestrator. "
+            "Determine which specialist should handle the request: "
+            f"{specialist_list}. "
+            "Respond strictly in one word."
+        )
+
     def route(self, question):
         try:
             response = client.chat.completions.create(
-                  model=ROUTING_MODEL,
-                  messages=[
-                      {"role": "system", "content": (
-                          "You are a medical orchestrator. "
-                          "Determine which specialist should handle the request: "
-                          "cardiologist or endocrinologist. "
-                          "Respond strictly in one word."
-                      )},
-                      {"role": "user", "content": question},
-                  ],
-                  temperature=0.0,
-                  max_tokens=10,
-                  extra_headers={"x-folder-id": YANDEX_PROJECT_ID},
-              )
+                model=ROUTING_MODEL,
+                messages=[
+                    {"role": "system", "content": self._routing_system_prompt()},
+                    {"role": "user", "content": question},
+                ],
+                temperature=0.0,
+                max_tokens=10,
+                extra_headers={"x-folder-id": YANDEX_PROJECT_ID},
+            )
             specialist = response.choices[0].message.content.strip().lower()
             return specialist
         except openai.AuthenticationError:
@@ -82,7 +117,6 @@ class MedicalOrchestrator:
             return "__error__:connection"
         except Exception as e:
             return f"__error__:unknown:{e}"
-
 
     def answer(self, question):
         if not question or not question.strip():
@@ -108,9 +142,7 @@ class MedicalOrchestrator:
                 return "Error", "An unexpected error occurred while routing your query.", "No evidence retrieved."
 
         print("specialist: ", specialist)
-        if specialist == "cardiologist":
-            return self.cardiologist.answer(question)
-        elif specialist == "endocrinologist":
-            return self.endocrinologist.answer(question)
-        else:
+        agent = self.agents.get(specialist)
+        if agent is None:
             return "Error", "Could not determine the specialist.", "No evidence retrieved."
+        return agent.answer(question)

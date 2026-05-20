@@ -20,29 +20,25 @@ def _create_sample_data(tmp_path: Path) -> Path:
 
 class TestOrchestratorConstruction:
 
-    @patch("agents.cardiologist.YandexNativeEmbeddings")
-    @patch("agents.endocrinologist.YandexNativeEmbeddings")
-    @patch("agents.cardiologist.FAISS")
-    @patch("agents.endocrinologist.FAISS")
-    def test_constructor_accepts_path(self, mock_endo_faiss, mock_cardio_faiss, mock_endo_emb, mock_cardio_emb, tmp_path):
+    @patch("agents.specialist.YandexNativeEmbeddings")
+    @patch("agents.specialist.FAISS")
+    def test_constructor_accepts_path(self, mock_faiss, mock_emb, tmp_path):
         from orchestrator import MedicalOrchestrator
 
         kb = _create_sample_data(tmp_path)
         orch = MedicalOrchestrator(knowledge_base_dir=str(kb))
 
         assert orch.knowledge_base_dir == str(kb)
-        assert orch.cardiologist is not None
-        assert orch.endocrinologist is not None
+        assert orch.agents["cardiologist"] is not None
+        assert orch.agents["endocrinologist"] is not None
 
 
 class TestRouting:
 
-    @patch("agents.cardiologist.YandexNativeEmbeddings")
-    @patch("agents.endocrinologist.YandexNativeEmbeddings")
-    @patch("agents.cardiologist.FAISS")
-    @patch("agents.endocrinologist.FAISS")
+    @patch("agents.specialist.YandexNativeEmbeddings")
+    @patch("agents.specialist.FAISS")
     @patch("orchestrator.client")
-    def test_route_returns_cardiologist(self, mock_client, mock_endo_faiss, mock_cardio_faiss, mock_endo_emb, mock_cardio_emb, tmp_path):
+    def test_route_returns_cardiologist(self, mock_client, mock_faiss, mock_emb, tmp_path):
         from orchestrator import MedicalOrchestrator
 
         mock_client.chat.completions.create.return_value = MagicMock(
@@ -55,12 +51,10 @@ class TestRouting:
         result = orch.route("What is atrial fibrillation?")
         assert result == "cardiologist"
 
-    @patch("agents.cardiologist.YandexNativeEmbeddings")
-    @patch("agents.endocrinologist.YandexNativeEmbeddings")
-    @patch("agents.cardiologist.FAISS")
-    @patch("agents.endocrinologist.FAISS")
+    @patch("agents.specialist.YandexNativeEmbeddings")
+    @patch("agents.specialist.FAISS")
     @patch("orchestrator.client")
-    def test_route_returns_endocrinologist(self, mock_client, mock_endo_faiss, mock_cardio_faiss, mock_endo_emb, mock_cardio_emb, tmp_path):
+    def test_route_returns_endocrinologist(self, mock_client, mock_faiss, mock_emb, tmp_path):
         from orchestrator import MedicalOrchestrator
 
         mock_client.chat.completions.create.return_value = MagicMock(
@@ -73,12 +67,10 @@ class TestRouting:
         result = orch.route("What is type 2 diabetes?")
         assert result == "endocrinologist"
 
-    @patch("agents.cardiologist.YandexNativeEmbeddings")
-    @patch("agents.endocrinologist.YandexNativeEmbeddings")
-    @patch("agents.cardiologist.FAISS")
-    @patch("agents.endocrinologist.FAISS")
+    @patch("agents.specialist.YandexNativeEmbeddings")
+    @patch("agents.specialist.FAISS")
     @patch("orchestrator.client")
-    def test_route_unknown_specialist(self, mock_client, mock_endo_faiss, mock_cardio_faiss, mock_endo_emb, mock_cardio_emb, tmp_path):
+    def test_route_unknown_specialist(self, mock_client, mock_faiss, mock_emb, tmp_path):
         from orchestrator import MedicalOrchestrator
 
         mock_client.chat.completions.create.return_value = MagicMock(
@@ -94,14 +86,12 @@ class TestRouting:
 
 class TestEndToEndAnswer:
 
-    @patch("agents.cardiologist.YandexNativeEmbeddings")
-    @patch("agents.endocrinologist.YandexNativeEmbeddings")
-    @patch("agents.cardiologist.FAISS")
-    @patch("agents.endocrinologist.FAISS")
-    @patch("agents.cardiologist.client")
+    @patch("agents.specialist.YandexNativeEmbeddings")
+    @patch("agents.specialist.FAISS")
+    @patch("agents.specialist.client")
     @patch("orchestrator.client")
     def test_cardiologist_answer(
-        self, mock_orch_client, mock_agent_client, mock_endo_faiss, mock_cardio_faiss, mock_endo_emb, mock_cardio_emb, tmp_path
+        self, mock_orch_client, mock_agent_client, mock_faiss, mock_emb, tmp_path
     ):
         from orchestrator import MedicalOrchestrator
 
@@ -117,25 +107,26 @@ class TestEndToEndAnswer:
         mock_doc.page_content = "AFib is a common arrhythmia."
         mock_vs_instance = MagicMock()
         mock_vs_instance.similarity_search_with_score.return_value = [(mock_doc, 0.5)]
-        mock_cardio_faiss.load_local.return_value = mock_vs_instance
-        mock_cardio_faiss.from_documents.return_value = mock_vs_instance
-        mock_endo_faiss.load_local.return_value = mock_vs_instance
+        mock_faiss.load_local.return_value = mock_vs_instance
+        mock_faiss.from_documents.return_value = mock_vs_instance
 
         kb = _create_sample_data(tmp_path)
         orch = MedicalOrchestrator(knowledge_base_dir=str(kb))
+
+        # Disable the refusal gate so the mocked retrieval drives the response.
+        for agent in orch.agents.values():
+            agent._refusal_gate = type("NoOpGate", (), {"refuse": lambda self, q: False})()
 
         _specialist, response, _evidence = orch.answer("What is atrial fibrillation?")
         assert len(response) > 0
         assert "atrial fibrillation" in response.lower()
 
-    @patch("agents.cardiologist.YandexNativeEmbeddings")
-    @patch("agents.endocrinologist.YandexNativeEmbeddings")
-    @patch("agents.cardiologist.FAISS")
-    @patch("agents.endocrinologist.FAISS")
-    @patch("agents.cardiologist.client")
+    @patch("agents.specialist.YandexNativeEmbeddings")
+    @patch("agents.specialist.FAISS")
+    @patch("agents.specialist.client")
     @patch("orchestrator.client")
     def test_empty_domain_edge_case(
-        self, mock_orch_client, mock_agent_client, mock_endo_faiss, mock_cardio_faiss, mock_endo_emb, mock_cardio_emb, tmp_path
+        self, mock_orch_client, mock_agent_client, mock_faiss, mock_emb, tmp_path
     ):
         from orchestrator import MedicalOrchestrator
 
@@ -152,12 +143,15 @@ class TestEndToEndAnswer:
         mock_vs_instance = MagicMock()
         # L2 distance 1.8 > 1.2 threshold → chunk gets filtered out
         mock_vs_instance.similarity_search_with_score.return_value = [(mock_doc, 1.8)]
-        mock_cardio_faiss.load_local.return_value = mock_vs_instance
-        mock_cardio_faiss.from_documents.return_value = mock_vs_instance
-        mock_endo_faiss.load_local.return_value = mock_vs_instance
+        mock_faiss.load_local.return_value = mock_vs_instance
+        mock_faiss.from_documents.return_value = mock_vs_instance
 
         kb = _create_sample_data(tmp_path)
         orch = MedicalOrchestrator(knowledge_base_dir=str(kb))
+
+        # Disable the refusal gate so the LLM fallback drives the response.
+        for agent in orch.agents.values():
+            agent._refusal_gate = type("NoOpGate", (), {"refuse": lambda self, q: False})()
 
         _specialist, response, _evidence = orch.answer("How to bake a cake?")
         assert "insufficient evidence" in response.lower()

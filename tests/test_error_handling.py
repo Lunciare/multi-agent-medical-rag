@@ -7,10 +7,8 @@ import openai
 @pytest.fixture(autouse=True)
 def _mock_agent_deps():
     targets = [
-        "agents.cardiologist.YandexNativeEmbeddings",
-        "agents.cardiologist.FAISS",
-        "agents.endocrinologist.YandexNativeEmbeddings",
-        "agents.endocrinologist.FAISS",
+        "agents.specialist.YandexNativeEmbeddings",
+        "agents.specialist.FAISS",
     ]
     with contextlib.ExitStack() as stack:
         for target in targets:
@@ -78,15 +76,25 @@ class TestAPIFailureHandling:
 class TestDataDirectoryErrors:
 
     def test_missing_directory_raises(self):
-        from agents.cardiologist import CardiologistAgent
+        from agents import SpecialistAgent
 
         with pytest.raises(FileNotFoundError):
-            CardiologistAgent(folder_path="/nonexistent/path")
+            SpecialistAgent(
+                name="Cardiologist",
+                folder_path="/nonexistent/path",
+                role_prompt="test",
+                domain_scope="test",
+            )
 
     def test_empty_directory_raises(self, tmp_path):
-        from agents.cardiologist import CardiologistAgent
+        from agents import SpecialistAgent
 
         empty_dir = tmp_path / "empty_kb"
         empty_dir.mkdir()
         with pytest.raises(ValueError, match="No documents found"):
-            CardiologistAgent(folder_path=str(empty_dir))
+            SpecialistAgent(
+                name="Cardiologist",
+                folder_path=str(empty_dir),
+                role_prompt="test",
+                domain_scope="test",
+            )

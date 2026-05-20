@@ -6,10 +6,8 @@ from unittest.mock import patch
 @pytest.fixture(autouse=True)
 def _mock_agent_deps():
     targets = [
-        "agents.cardiologist.YandexNativeEmbeddings",
-        "agents.cardiologist.FAISS",
-        "agents.endocrinologist.YandexNativeEmbeddings",
-        "agents.endocrinologist.FAISS",
+        "agents.specialist.YandexNativeEmbeddings",
+        "agents.specialist.FAISS",
     ]
     with contextlib.ExitStack() as stack:
         for target in targets:
