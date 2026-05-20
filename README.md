@@ -26,7 +26,7 @@ Orchestrator (orchestrator.py)
     |-- LLM routing call: classifies query domain (cardiology / endocrinology)
     |
     v
-Specialist Agent (agents/cardiologist.py | agents/endocrinologist.py)
+Specialist Agent (agents/specialist.py, parameterised by agents/registry.py)
     |-- FAISS similarity search (K=5, L2 <= 1.2)
     |-- Keyword-stripped chunk retrieval
     |-- Yandex LLM generation (temperature=0.0)
@@ -80,9 +80,10 @@ Multi-Agent-NN-Medicine/
 │   └── endocrinology/             # 37,791 chunks + FAISS index
 ├── multi-agent_system/
 │   ├── agents/
+│   │   ├── __init__.py
 │   │   ├── base.py
-│   │   ├── cardiologist.py
-│   │   └── endocrinologist.py
+│   │   ├── registry.py
+│   │   └── specialist.py
 │   ├── tests/
 │   │   ├── evaluate_retrieval.py
 │   │   ├── evaluate_chunk_relevance.py
@@ -97,10 +98,12 @@ Multi-Agent-NN-Medicine/
 │   │       ├── ambiguous_cases.json
 │   │       ├── test_vectors.npy        # Pre-saved query embeddings
 │   │       └── test_vector_labels.json
-│   ├── build_cardio_faiss.py      # Build cardiology FAISS index from scratch
-│   ├── build_endo_faiss.py        # Build endocrinology FAISS index from scratch
+│   ├── build_index.py             # Build a FAISS index from AGENT_REGISTRY
+│   ├── build_bm25_index.py        # Build the BM25 baseline index
 │   ├── orchestrator.py
 │   ├── embeddings.py
+│   ├── judges.py                  # Multi-judge faithfulness evaluator
+│   ├── refusal_gate.py            # Out-of-scope refusal gate
 │   ├── settings.py                # Hyperparameters and API config
 │   └── main.py                    # Gradio interface
 ├── tests/                         # Pytest suite (safety, error handling, integration, playwright, retrieval regression)
@@ -141,8 +144,8 @@ Pre-built indices are committed. To rebuild from scratch (e.g., after changing c
 
 ```bash
 cd multi-agent_system
-python build_cardio_faiss.py   # ~40 min for 7,730 chunks
-python build_endo_faiss.py     # ~2.5 hours for 37,791 chunks
+python build_index.py --specialty cardiologist     # ~40 min for 7,730 chunks
+python build_index.py --specialty endocrinologist  # ~2.5 hours for 37,791 chunks
 ```
 
 Both scripts save progress every 500 chunks and resume after interruptions.
