@@ -1,0 +1,42 @@
+[
+  {
+    "query": "atrial fibrillation",
+    "domain": "cardiology"
+  },
+  {
+    "query": "hypertension management",
+    "domain": "cardiology"
+  },
+  {
+    "query": "chest pain differential",
+    "domain": "cardiology"
+  },
+  {
+    "query": "echocardiography",
+    "domain": "cardiology"
+  },
+  {
+    "query": "beta blocker",
+    "domain": "cardiology"
+  },
+  {
+    "query": "type 2 diabetes",
+    "domain": "endocrinology"
+  },
+  {
+    "query": "thyroid nodule",
+    "domain": "endocrinology"
+  },
+  {
+    "query": "insulin resistance",
+    "domain": "endocrinology"
+  },
+  {
+    "query": "HbA1c",
+    "domain": "endocrinology"
+  },
+  {
+    "query": "adrenal insufficiency",
+    "domain": "endocrinology"
+  }
+]
