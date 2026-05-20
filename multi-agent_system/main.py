@@ -6,8 +6,9 @@ try:
     print("Initializing orchestrator...")
     orchestrator = MedicalOrchestrator(DEFAULT_KNOWLEDGE_BASE_DIR)
     print("Orchestrator ready!")
-except Exception as e:
-    print(f"Error initializing orchestrator: {e}")
+except Exception:
+    import traceback; traceback.print_exc()
+    raise SystemExit("Orchestrator failed to initialise; aborting.")
 
 def process_query(query):
     specialist, response, evidence = orchestrator.answer(query)

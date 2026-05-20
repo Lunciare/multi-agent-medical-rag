@@ -1,7 +1,6 @@
 import re
 
 import openai
-from pydantic import BaseModel
 
 from agents import SpecialistAgent
 from agents.registry import AGENT_REGISTRY
@@ -39,10 +38,6 @@ TREATMENT_MESSAGE = (
     "For treatment decisions, please consult a licensed healthcare professional "
     "who can review your full medical history."
 )
-
-
-class RouteDecision(BaseModel):
-    specialist: str
 
 
 class MedicalOrchestrator:

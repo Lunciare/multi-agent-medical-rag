@@ -3,7 +3,7 @@ import json
 from pathlib import Path
 import shutil
 
-RAW_ROOT = Path("data/raw/Сardiology")
+RAW_ROOT = Path("data/raw/Cardiology")
 OUT_ROOT = Path("data/processed/cardiology")
 
 CATEGORIES = ["Articles", "Cases", "Guidelines", "Handbooks", "Textbooks"]
