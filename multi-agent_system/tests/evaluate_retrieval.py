@@ -282,15 +282,50 @@ def print_sources(case_id, top_k=20):
               f"{len(info['kw_hits']):>10}")
 
 
-def evaluate_retrieval(split="test"):
-    print(f"Initializing components for retrieval evaluation (split={split})...")
+def evaluate_retrieval(split="test", kb: str | None = None):
+    """If `kb` is set (e.g. "cardiology_400_keep"), evaluate only that
+    specialty's cardiology cases against an alternate FAISS directory under
+    `data/processed/{kb}/faiss_index/`. Used by the Stage 14 ablation.
+    Otherwise behaves exactly as before, loading both registry-configured
+    specialty indices.
+    """
+    print(f"Initializing components for retrieval evaluation (split={split}, "
+          f"kb={kb or 'production'})...")
     dataset = _load_split(split)
 
-    try:
-        orchestrator = MedicalOrchestrator(DEFAULT_KNOWLEDGE_BASE_DIR)
-    except Exception as e:
-        print(f"Error loading orchestrator (FAISS indices missing?): {e}")
-        return
+    if kb is not None:
+        # Ablation mode: cardiology only, alternate FAISS dir.
+        base = os.path.dirname(DEFAULT_KNOWLEDGE_BASE_DIR)  # .../data/processed
+        kb_folder = os.path.join(base, kb)
+        if not os.path.exists(os.path.join(kb_folder, "faiss_index")):
+            print(f"Error: FAISS index missing at {os.path.join(kb_folder, 'faiss_index')}. "
+                  f"Build it with `python build_index.py --specialty cardiologist "
+                  f"--chunk-size N [--keep-keywords]`.")
+            return
+
+        from agents import SpecialistAgent
+        cfg = AGENT_REGISTRY["cardiologist"].copy()
+        cfg["folder_path"] = kb_folder
+        cardio = SpecialistAgent(**cfg)
+
+        class _AblationOrchestrator:
+            def __init__(self, cardio):
+                self.cardiologist = cardio
+                self.endocrinologist = None
+                self.agents = {"cardiologist": cardio}
+
+        orchestrator = _AblationOrchestrator(cardio)
+        # Filter the split to cardiology only (the ablation is cardio-only per Stage 14 scope).
+        before_n = len(dataset)
+        dataset = [c for c in dataset if c["expected_specialist"] == "cardiologist"]
+        print(f"  Ablation kb={kb!r} — filtered dataset to {len(dataset)}/{before_n} "
+              f"cardiology cases")
+    else:
+        try:
+            orchestrator = MedicalOrchestrator(DEFAULT_KNOWLEDGE_BASE_DIR)
+        except Exception as e:
+            print(f"Error loading orchestrator (FAISS indices missing?): {e}")
+            return
 
     total_queries = len(dataset)
 
@@ -344,8 +379,10 @@ def evaluate_retrieval(split="test"):
     bm25_indices = _load_bm25_indices()
 
     domain_pool = {
-        "cardiologist": list(orchestrator.cardiologist.vectorstore.docstore._dict.values()),
-        "endocrinologist": list(orchestrator.endocrinologist.vectorstore.docstore._dict.values()),
+        "cardiologist": list(orchestrator.cardiologist.vectorstore.docstore._dict.values())
+                        if orchestrator.cardiologist else [],
+        "endocrinologist": list(orchestrator.endocrinologist.vectorstore.docstore._dict.values())
+                           if orchestrator.endocrinologist else [],
     }
     rng = random.Random(RANDOM_BASELINE_SEED)
 
@@ -694,10 +731,15 @@ if __name__ == "__main__":
                         help="With --case-id, dump retrieved sources (source_file, doc_name, kw hits).")
     parser.add_argument("--top-k", type=int, default=20,
                         help="Top-K to retrieve when --print-sources is set (default 20).")
+    parser.add_argument("--kb", default=None,
+                        help=("Stage 14 ablation: directory name under data/processed/ to use "
+                              "as the cardiology FAISS source. E.g. --kb cardiology_400_keep "
+                              "targets data/processed/cardiology_400_keep/faiss_index/. "
+                              "When set, the dataset is filtered to cardiology cases only."))
     args = parser.parse_args()
     if args.smoke_test:
         run_smoke_test()
     elif args.case_id and args.print_sources:
         print_sources(args.case_id, top_k=args.top_k)
     else:
-        evaluate_retrieval(split=args.split)
+        evaluate_retrieval(split=args.split, kb=args.kb)

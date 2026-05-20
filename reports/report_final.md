@@ -189,9 +189,24 @@ Key observations from the grid:
 
 **Hypothesis:** Raw chunk files contain a `KEYWORDS:` header line (produced by TF-IDF extraction). We hypothesized that including these dense, non-natural language keyword lists directly within the text chunk distorts the semantic vector produced by the embedding model, thereby degrading retrieval performance. The hypothesis follows from how dense retrievers like DPR \cite{karpukhin2020dpr} are trained — on natural-language passage / question pairs — so non-natural tokens occupy unusual regions of the embedding space and pull the chunk's vector toward those regions.
 **Experiment:** We evaluated retrieval performance on the cardiology index before and after implementing a strict keyword-stripping pre-processing step (removing the `KEYWORDS:` line from `page_content` before embedding, while preserving it in document metadata). 
-**Result:** Removing metadata pollution produced a measurable and significant improvement in retrieval quality, increasing the Hit Rate on the cardiology index from 93.3% to 96.7%. This empirical finding demonstrates that embedding models trained on natural language are highly sensitive to dense, non-semantic token lists, and strict separation of raw text from metadata is critical for optimal vector representation.
+**Result (original, confounded):** Removing metadata pollution was originally reported to increase the cardiology Hit Rate from 93.3% to 96.7% (Stage 2 §3.1, single-case improvement on `cardio_12`). However, that comparison switched chunk size from 200→400 words at the same time, so the +3.4 pp cannot be attributed to keyword stripping in isolation.
 
-**Confounding caveat.** The reported 93.3% → 96.7% Hit Rate improvement was observed when keyword stripping was applied simultaneously with the chunk-size change from 200 to 400 words. No experiment isolates the two factors on the full corpus. The +3.4 pp effect cannot be cleanly attributed to keyword stripping alone.
+**Result (Stage 14 ablation, unconfounded):** A 2×2 ablation on the cardiology corpus rebuilt three of the four cells with the existing 400-word chunks reconstructed back into raw text and re-chunked at the target size (raw cardiology documents are no longer on disk locally, so reconstruction proceeds from the native 400-word chunks; methodological caveat documented in Stage 14 report §2). Evaluated on the 30-case `golden_dev.json` cardiology slice (15 cases; 14 contributing to Recall@K). Cells:
+
+| Cell | Chunk size | Keywords | KeywordHitRate | Recall@5 | MRR@5 | n |
+|---|---|---|---|---|---|---|
+| A (historical) | 200 | keep | 93.3% on cardio_1..30 (Stage 2 §3.1, different case set + older code path; not directly comparable) | — | — | — |
+| **B** | 200 | strip | **100.0%** (15/15) | **59.5%** | 0.893 | 14 |
+| **C** | 400 | keep | **93.3%** (14/15) | **69.0%** | 0.881 | 14 |
+| **D** (current production) | 400 | strip | **93.3%** (14/15) | **69.0%** | 0.875 | 14 |
+
+**Decomposition (on the comparable B/C/D cells):**
+
+- **Main effect of keyword stripping (at chunk_size = 400, i.e. D − C):** 0.0 pp on KeywordHitRate, 0.0 pp on Recall@5. The two cells are identical on every grouped metric. Keyword stripping on its own contributes **nothing measurable** at 400-word chunk size on the dev cardiology slice.
+- **Main effect of chunk size (at strip = True, i.e. D − B):** −6.7 pp on KeywordHitRate (200 wins: 100.0% vs 93.3%), +9.5 pp on Recall@5 (400 wins: 69.0% vs 59.5%). The two metrics point opposite directions because 200-word chunks fragment each document into ~2× more pieces — more chunks means more chances for any expected keyword to appear in the top-5 (boosting KeywordHitRate), but top-5 then covers fewer unique source documents (depressing the doc-level Recall@5).
+- **Interaction (D − C) − (B − A):** with A unmeasured on the current dev split (raw 200-word chunks not on disk, A's historical 93.3% was on the old `cardio_1..30` 30-case set), the interaction term cannot be computed strictly. Imputing A ≈ B = 100% (since the strip effect at 400 is 0, the strip effect at 200 is expected to be near 0 too): interaction ≈ (93.3 − 93.3) − (100 − 100) = **0.0 pp**.
+
+**Corrected claim.** The +3.4 pp originally attributed to keyword stripping (Stage 2 §3.1 → "Hit Rate improved from 93.3% to 96.7%") is **0.0 pp from keyword stripping**, plus a sample-size-dependent chunk-size effect that flips sign depending on which metric is read. The original Stage 2 narrative confused a one-case (cardio_12) improvement, which on n=30 was +3.3 pp, with a real effect of stripping — but on the current dev split with chunk size held constant the strip toggle produces a 0-case difference. With Wilson 95% CIs on the dev split's small n (15 cardio cases), a 1-case swing is ±7 pp noise; the historical +3.3 pp is well inside that noise band. The chunk-size effect is also small in absolute terms (≤ 1 case on Recall@5 differences) and metric-dependent. **Neither factor is a strong driver of cardiology retrieval quality on this corpus.** What does matter, on a much larger scale, is choice of retriever (dense vs sparse vs hybrid) — see §4.3.2 for the BM25 ablation, which shows FAISS beating BM25 by 26 pp end-to-end, much larger than any chunk-size / strip effect documented here.
 
 ---
 
