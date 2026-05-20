@@ -158,13 +158,24 @@ Coverage:
 - `test_error_handling.py` — input validation, OpenAI exception mapping, missing-corpus errors.
 - `test_integration.py` — orchestrator construction, routing, end-to-end answer flow (all LLM calls mocked).
 - `test_playwright.py` — headless Chromium smoke test (requires `playwright install chromium`).
-- `test_retrieval_regression.py` — offline FAISS regression. Reads `multi-agent_system/tests/data/test_vectors.npy` and asserts every pre-saved query returns ≥1 chunk within `MAX_L2_DISTANCE`. Skips cleanly if the `.npy` is missing.
+- `test_retrieval_regression.py` — offline FAISS regression. For each of 10 canonical queries (5 cardiology + 5 endocrinology) it reads the pre-saved query embedding from `multi-agent_system/tests/data/test_vectors.npy`, runs it through the correct FAISS index, and diffs the live top-K=5 against `test_retrieval_snapshot.json`. Two assertions per query: (a) the *set* of retrieved `source_file`s must equal the snapshot's set, and (b) per-rank L2 drift must be < 0.1. Both fail with verbose diffs (added / removed source files, per-rank distance deltas). The earlier "≥1 chunk within `MAX_L2_DISTANCE`" sanity check is kept as a second test. Skips cleanly if either the `.npy` or the snapshot is missing.
 
-To (re)generate `test_vectors.npy` (one-time, requires `YANDEX_API_KEY`):
+### Regression testing
+
+The retrieval regression test pins three things at once: the query embedder, the chunkification, and the FAISS index parameters (K, L2 threshold, ordering). After **any** change that can shift retrieval — re-chunking, re-embedding, swapping the embedder, changing `MAX_L2_DISTANCE`, etc. — the snapshot must be regenerated:
 
 ```bash
 cd multi-agent_system
-python tests/save_test_vectors.py
+python tests/save_test_vectors.py --update-snapshot
+```
+
+This re-embeds the 10 canonical queries, runs each through the correct FAISS index, and overwrites `tests/data/test_retrieval_snapshot.json`. Commit the new snapshot together with the change that caused it. Without `--update-snapshot` the script preserves the existing snapshot file (it still refreshes `.npy` and `.json` if missing) so accidentally running the script never silently masks a regression.
+
+To (re)generate `test_vectors.npy` for the first time (one-time, requires `YANDEX_API_KEY`):
+
+```bash
+cd multi-agent_system
+python tests/save_test_vectors.py --update-snapshot
 ```
 
 The resulting `.npy` and `.json` are committed to the repo so subsequent test runs are offline.
