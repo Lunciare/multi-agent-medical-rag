@@ -23,7 +23,7 @@ cardio_36,2,cardiologist,False,FAITHFUL,FAITHFUL
 cardio_37,1,cardiologist,False,FAITHFUL,FAITHFUL
 cardio_38,1,cardiologist,False,FAITHFUL,FAITHFUL
 cardio_39,2,cardiologist,False,FAITHFUL,FAITHFUL
-cardio_40,2,cardiologist,False,FAITHFUL,FAITHFUL
+cardio_40,2,cardiologist,False,FAITHFUL,HALLUCINATION
 cardio_41,1,cardiologist,False,FAITHFUL,FAITHFUL
 cardio_42,1,cardiologist,False,FAITHFUL,FAITHFUL
 cardio_43,2,cardiologist,False,FAITHFUL,FAITHFUL

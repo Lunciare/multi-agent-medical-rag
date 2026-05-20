@@ -1,5 +1,6 @@
 import argparse
 import csv
+import math
 import os
 import sys
 import json
@@ -310,13 +311,20 @@ def _write_outputs(judges, per_case_rows, stats_by_judge, split,
         "| Pair | n (both non-None) | Agreements | Cohen's κ | Landis & Koch |",
         "|---|---|---|---|---|",
     ]
+    label_counts = {j.name: {True: 0, False: 0} for j in judges}
+    for row in judged_rows:
+        for j in judges:
+            v = _judge_label_to_bool(row[j.name])
+            if v is not None:
+                label_counts[j.name][v] += 1
     for pk in pair_kappas:
-        if pk["kappa"] is None:
-            kappa_str = "n/a"
-            lk = "n/a"
-        else:
-            kappa_str = f"{pk['kappa']:.3f}"
-            lk = _landis_koch(pk["kappa"])
+        kappa_str = "n/a" if pk["kappa"] is None else f"{pk['kappa']:.3f}"
+        lk = _landis_koch(
+            pk["kappa"],
+            both_labels_seen_a=sum(1 for v, c in label_counts[pk["a"]].items() if c > 0),
+            both_labels_seen_b=sum(1 for v, c in label_counts[pk["b"]].items() if c > 0),
+            n=pk["n"], agreements=pk["agreements"],
+        )
         lines.append(
             f"| ({pk['a']}, {pk['b']}) | {pk['n']} | {pk['agreements']} | {kappa_str} | {lk} |"
         )
@@ -368,7 +376,12 @@ def _write_outputs(judges, per_case_rows, stats_by_judge, split,
           f"total judge calls: {total_judge_calls}")
 
 
-def _landis_koch(kappa: float) -> str:
+def _landis_koch(kappa: float, *, both_labels_seen_a: int, both_labels_seen_b: int,
+                 n: int, agreements: int) -> str:
+    if both_labels_seen_a < 2 or both_labels_seen_b < 2:
+        return f"degenerate (one marginal = 0; observed agreement = {agreements}/{n})"
+    if kappa is None or math.isnan(kappa):
+        return "degenerate (κ undefined)"
     if kappa < 0.0:
         return "less than chance"
     if kappa < 0.4:

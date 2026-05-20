@@ -1,7 +1,7 @@
 # Multi-Judge Faithfulness Evaluation (test split, n=70)
 
-**Date:** 2026-05-20 11:06:59  
-**Elapsed:** 373.9s (6.2 min)  
+**Date:** 2026-05-20 20:53:17  
+**Elapsed:** 358.8s (6.0 min)  
 **Total judge calls:** 116  
 **Raw per-case CSV:** [`faithfulness_multijudge_raw_2026-05-20.csv`](faithfulness_multijudge_raw_2026-05-20.csv)
 
@@ -17,25 +17,26 @@
 | Judge | Faithful | Total Judged | None | Rate | Wilson 95% CI |
 |---|---|---|---|---|---|
 | yandex_primary | 58 | 58 | 0 | 100.0% | [93.8%–100.0%] |
-| secondary | 58 | 58 | 0 | 100.0% | [93.8%–100.0%] |
+| secondary | 57 | 58 | 0 | 98.3% | [90.9%–99.7%] |
 
 ## Minimum-Judge Faithfulness (all judges = FAITHFUL)
 
 Cases where every available judge returned a non-None label: 58 / 58 (excluded 0 due to None from at least one judge).  
-All judges agreed FAITHFUL on **58 / 58** cases = **100.0% [Wilson 95% CI 93.8%–100.0%]**.
+All judges agreed FAITHFUL on **57 / 58** cases = **98.3% [Wilson 95% CI 90.9%–99.7%]**.
 
 ## Pairwise Cohen's κ
 
 | Pair | n (both non-None) | Agreements | Cohen's κ | Landis & Koch |
 |---|---|---|---|---|
-| (yandex_primary, secondary) | 58 | 58 | nan | almost perfect |
+| (yandex_primary, secondary) | 58 | 57 | 0.000 | degenerate (one marginal = 0; observed agreement = 57/58) |
 
 ## Disagreement Cases
 
-0 case(s) where the configured judges did not all agree on a non-None label (excluding fallbacks).
+1 case(s) where the configured judges did not all agree on a non-None label (excluding fallbacks).
 
 | Case | Tier | Domain | yandex_primary | secondary |
 |---|---|---|---|---|
+| cardio_40 | 2 | cardiologist | FAITHFUL | HALLUCINATION |
 
 ## Tier 3 Fallback
 
