@@ -45,6 +45,8 @@ You are a medical orchestrator. Determine which specialist should handle the req
 
 The `'cardiologist', 'endocrinologist'` substring is generated from `self.allowed_specialists` via `", ".join(repr(s) for s in ...)` — so the prompt auto-expands when a new `agents/registry.py` entry is added.
 
+> **Update (Stage 24, 2026-05-20):** The Stage 19 prompt above has since been extended to inline each specialist's `domain_scope` description, completing the deferred work flagged in §6 of [`report_stage_8.md`](report_stage_8.md). The current routing prompt is documented in full in [`report_stage_24.md`](report_stage_24.md) §2; pre/post dev routing accuracy was 30/30 → 30/30 with zero per-case flips.
+
 ## 4. Pre / Post Routing Accuracy (Wilson 95% CI)
 
 ### Dev split (n=30; `cardio_1..15` + `endo_1..15`)

@@ -59,21 +59,19 @@ class MedicalOrchestrator:
         return None
 
     def _routing_system_prompt(self) -> str:
-        """JSON-structured routing prompt (Stage 19).
-
-        Specialist names come from `self.allowed_specialists`, so the prompt
-        auto-expands when a new entry is added to `agents/registry.py`. The
-        prompt explicitly forbids non-JSON output; the response is then parsed
-        and validated against `allowed_specialists` with no alias coercion
-        (see `route()` below).
-        """
+        scopes = []
+        for key in self.allowed_specialists:
+            agent = self.agents[key]
+            scopes.append(f"  - {key!r}: {agent.domain_scope}")
+        scope_block = "\n".join(scopes)
         allowed = ", ".join(repr(s) for s in self.allowed_specialists)
         return (
-            "You are a medical orchestrator. "
-            "Determine which specialist should handle the request. "
+            "You are a medical orchestrator. Determine which specialist should "
+            "handle the request. The available specialists and their domain "
+            "scopes are:\n"
+            f"{scope_block}\n\n"
             "Output a single JSON object with key `specialist` whose value is "
-            f"one of: {allowed}. "
-            "Do not output any other text. "
+            f"one of: {allowed}. Do not output any other text. "
             'Example: {"specialist": "cardiologist"}.'
         )
 
