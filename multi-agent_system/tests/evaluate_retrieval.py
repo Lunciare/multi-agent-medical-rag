@@ -10,6 +10,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from orchestrator import MedicalOrchestrator
 from settings import DEFAULT_KNOWLEDGE_BASE_DIR, SIMILARITY_TOP_K, MAX_L2_DISTANCE
+from tests._stats import fmt as _fmt
 
 RANDOM_BASELINE_SEED = 42
 
@@ -374,43 +375,44 @@ def evaluate_retrieval(split="test"):
     overall_precision = total_precision / total_queries if total_queries > 0 else 0
     overall_precision_rand = total_precision_rand / total_queries if total_queries > 0 else 0
 
-    print(f"\n{'=' * 80}")
-    print(f"  Retrieval Evaluation Results (FAISS vs. Random Baseline, K={SIMILARITY_TOP_K})")
-    print(f"{'=' * 80}")
-    print(f"  {'Domain':<18} {'FAISS Hit':>11} {'FAISS P@K':>11} {'Rand Hit':>11} {'Rand P@K':>11}")
-    print(f"  {'-'*18} {'-'*11} {'-'*11} {'-'*11} {'-'*11}")
+    print(f"\n{'=' * 110}")
+    print(f"  Retrieval Evaluation Results (FAISS vs. Random Baseline, K={SIMILARITY_TOP_K}, Wilson 95% CI on FAISS Hit Rate)")
+    print(f"{'=' * 110}")
+    print(f"  {'Domain':<18} {'FAISS Hit [Wilson 95% CI]':<32} {'FAISS P@K':>10} "
+          f"{'Rand Hit [Wilson 95% CI]':<32} {'Rand P@K':>10}")
+    print(f"  {'-'*18} {'-'*32} {'-'*10} {'-'*32} {'-'*10}")
 
     for domain in ("cardiologist", "endocrinologist"):
         t = domain_total[domain]
-        hit_rate = domain_hits[domain] / t if t > 0 else 0
         p_at_k = domain_precision_sum[domain] / t if t > 0 else 0
-        hit_rate_rand = domain_hits_rand[domain] / t if t > 0 else 0
         p_at_k_rand = domain_precision_rand_sum[domain] / t if t > 0 else 0
-        print(f"  {domain:<18} {hit_rate:>10.1%} {p_at_k:>10.1%} {hit_rate_rand:>10.1%} {p_at_k_rand:>10.1%}")
+        print(f"  {domain:<18} {_fmt(domain_hits[domain], t):<32} {p_at_k:>9.1%}  "
+              f"{_fmt(domain_hits_rand[domain], t):<32} {p_at_k_rand:>9.1%}")
 
-    print(f"  {'-'*18} {'-'*11} {'-'*11} {'-'*11} {'-'*11}")
-    print(f"  {'OVERALL':<18} {overall_rate:>10.1%} {overall_precision:>10.1%} "
-          f"{overall_rate_rand:>10.1%} {overall_precision_rand:>10.1%}")
-    print(f"{'=' * 80}")
+    print(f"  {'-'*18} {'-'*32} {'-'*10} {'-'*32} {'-'*10}")
+    print(f"  {'OVERALL':<18} {_fmt(total_hits, total_queries):<32} {overall_precision:>9.1%}  "
+          f"{_fmt(total_hits_rand, total_queries):<32} {overall_precision_rand:>9.1%}")
+    print(f"{'=' * 110}")
+    print(f"  (P@K columns are continuous means over per-case precision values, "
+          f"reported as point estimates — see Stage 11 report.)")
 
-    print(f"\n{'=' * 95}")
-    print(f"  Retrieval Metrics — By Tier (FAISS vs. Random)")
-    print(f"{'=' * 95}")
+    print(f"\n{'=' * 110}")
+    print(f"  Retrieval Metrics — By Tier (FAISS vs. Random, Wilson 95% CI on Hit Rate)")
+    print(f"{'=' * 110}")
     print(f"  {'Domain':<18} {'Tier':<5} {'Label':<13} "
-          f"{'FAISS Hit':>11} {'FAISS P@K':>11} {'Rand Hit':>11} {'Rand P@K':>11}")
-    print(f"  {'-'*18} {'-'*5} {'-'*13} {'-'*11} {'-'*11} {'-'*11} {'-'*11}")
+          f"{'FAISS Hit [Wilson 95% CI]':<32} {'FAISS P@K':>10} "
+          f"{'Rand Hit [Wilson 95% CI]':<32}")
+    print(f"  {'-'*18} {'-'*5} {'-'*13} {'-'*32} {'-'*10} {'-'*32}")
 
     for domain in ("cardiologist", "endocrinologist"):
         for t in [1, 2, 3]:
             tot = tier_totals[(domain, t)]
             if tot > 0:
-                hr = tier_hits[(domain, t)] / tot
                 pk = tier_precision_sum[(domain, t)] / tot
-                hr_r = tier_hits_rand[(domain, t)] / tot
-                pk_r = tier_precision_rand_sum[(domain, t)] / tot
                 print(f"  {domain:<18} {t:<5} {tier_labels.get(t, 'unknown'):<13} "
-                      f"{hr:>10.1%} {pk:>10.1%} {hr_r:>10.1%} {pk_r:>10.1%}")
-    print(f"{'=' * 95}")
+                      f"{_fmt(tier_hits[(domain, t)], tot):<32} {pk:>9.1%}  "
+                      f"{_fmt(tier_hits_rand[(domain, t)], tot):<32}")
+    print(f"{'=' * 110}")
 
     if tier3_results:
         print(f"\n{'=' * 60}")
@@ -476,14 +478,14 @@ def evaluate_retrieval(split="test"):
     print(f"{'=' * 95}")
 
     # RefusalGate (Stage 7) — separate from the legacy zero-chunk metric.
-    print(f"\n{'=' * 80}")
-    print(f"  RefusalGate Verdicts  (Stage 7 numeric gate, signal=A, L2_REJECT_MIN tuned)")
+    print(f"\n{'=' * 95}")
+    print(f"  RefusalGate Verdicts  (Stage 7 numeric gate; Wilson 95% CI on refusal rate)")
     print(f"  Positive class = Tier 3 (target ≥80% recall on test).")
     print(f"  Negative class = Tier 1/2 (target ≤5% false-positive rate on test).")
-    print(f"{'=' * 80}")
-    print(f"  {'Domain':<18} {'Tier':<5} {'Label':<13} {'Refused':>8} {'Total':>6} "
-          f"{'Refusal Rate':>13}")
-    print(f"  {'-'*18} {'-'*5} {'-'*13} {'-'*8} {'-'*6} {'-'*13}")
+    print(f"{'=' * 95}")
+    print(f"  {'Domain':<18} {'Tier':<5} {'Label':<13} {'Refused':>8} {'Total':>6}  "
+          f"{'Refusal Rate [Wilson 95% CI]':<30}")
+    print(f"  {'-'*18} {'-'*5} {'-'*13} {'-'*8} {'-'*6}  {'-'*30}")
     gate_t3_refused = 0
     gate_t3_total  = 0
     gate_t12_refused = 0
@@ -494,29 +496,26 @@ def evaluate_retrieval(split="test"):
             if tot == 0:
                 continue
             ref = gate_refusals[(domain, t)]
-            rate = ref / tot
             label = tier_labels.get(t, "?")
-            print(f"  {domain:<18} {t:<5} {label:<13} {ref:>8} {tot:>6} {rate:>12.1%}")
+            print(f"  {domain:<18} {t:<5} {label:<13} {ref:>8} {tot:>6}  {_fmt(ref, tot):<30}")
             if t == 3:
                 gate_t3_refused += ref
                 gate_t3_total  += tot
             else:
                 gate_t12_refused += ref
                 gate_t12_total  += tot
-    print(f"  {'-'*18} {'-'*5} {'-'*13} {'-'*8} {'-'*6} {'-'*13}")
-    rec = gate_t3_refused / gate_t3_total if gate_t3_total else 0
-    fpr = gate_t12_refused / gate_t12_total if gate_t12_total else 0
+    print(f"  {'-'*18} {'-'*5} {'-'*13} {'-'*8} {'-'*6}  {'-'*30}")
     print(f"  {'TIER 3 RECALL':<18} {'':<5} {'':<13} "
-          f"{gate_t3_refused:>8} {gate_t3_total:>6} {rec:>12.1%}")
+          f"{gate_t3_refused:>8} {gate_t3_total:>6}  {_fmt(gate_t3_refused, gate_t3_total):<30}")
     print(f"  {'TIER 1/2 FP RATE':<18} {'':<5} {'':<13} "
-          f"{gate_t12_refused:>8} {gate_t12_total:>6} {fpr:>12.1%}")
-    print(f"{'=' * 80}")
+          f"{gate_t12_refused:>8} {gate_t12_total:>6}  {_fmt(gate_t12_refused, gate_t12_total):<30}")
+    print(f"{'=' * 95}")
 
-    print(f"\n{'=' * 60}")
-    print(f"  Tier 3 Refusal Rate  (legacy: zero-chunk retrieval fraction)")
-    print(f"{'=' * 60}")
-    print(f"  {'Domain':<18} {'Refusals':>10} {'T3 Total':>10} {'Refusal Rate':>14}")
-    print(f"  {'-'*18} {'-'*10} {'-'*10} {'-'*14}")
+    print(f"\n{'=' * 80}")
+    print(f"  Tier 3 Refusal Rate  (legacy: zero-chunk retrieval fraction; Wilson 95% CI)")
+    print(f"{'=' * 80}")
+    print(f"  {'Domain':<18} {'Refusals':>10} {'T3 Total':>10}  {'Refusal Rate [Wilson 95% CI]':<30}")
+    print(f"  {'-'*18} {'-'*10} {'-'*10}  {'-'*30}")
     refusals_total = 0
     t3_total = 0
     for domain in ("cardiologist", "endocrinologist"):
@@ -524,12 +523,10 @@ def evaluate_retrieval(split="test"):
         tot = tier3_count[domain]
         refusals_total += r
         t3_total       += tot
-        rate = r / tot if tot > 0 else 0
-        print(f"  {domain:<18} {r:>10} {tot:>10} {rate:>13.1%}")
-    overall_refusal_rate = (refusals_total / t3_total) if t3_total else 0
-    print(f"  {'-'*18} {'-'*10} {'-'*10} {'-'*14}")
-    print(f"  {'OVERALL':<18} {refusals_total:>10} {t3_total:>10} {overall_refusal_rate:>13.1%}")
-    print(f"{'=' * 60}")
+        print(f"  {domain:<18} {r:>10} {tot:>10}  {_fmt(r, tot):<30}")
+    print(f"  {'-'*18} {'-'*10} {'-'*10}  {'-'*30}")
+    print(f"  {'OVERALL':<18} {refusals_total:>10} {t3_total:>10}  {_fmt(refusals_total, t3_total):<30}")
+    print(f"{'=' * 80}")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()

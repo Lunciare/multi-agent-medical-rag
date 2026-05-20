@@ -7,6 +7,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from orchestrator import MedicalOrchestrator
 from settings import DEFAULT_KNOWLEDGE_BASE_DIR, client, AGENT_MODEL, YANDEX_PROJECT_ID, SIMILARITY_TOP_K, MAX_L2_DISTANCE
+from tests._stats import fmt as _fmt
 
 SPLIT_TO_FILENAME = {
     "dev": "golden_dev.json",
@@ -107,38 +108,38 @@ def evaluate_relevance(split="test"):
             print("INSUFFICIENT Context Retrieved (Needs optimization)")
 
     total_sufficient = sum(domain_sufficient.values())
-    overall_rate = total_sufficient / total_queries if total_queries > 0 else 0
 
-    print(f"\n{'=' * 60}")
-    print(f"  Chunk Relevancy Evaluation Results")
-    print(f"{'=' * 60}")
-    print(f"  {'Domain':<20} {'Sufficient':>10} {'Total':>6} {'Relevancy':>10}")
-    print(f"  {'-'*20} {'-'*10} {'-'*6} {'-'*10}")
+    print(f"\n{'=' * 80}")
+    print(f"  Chunk Relevancy Evaluation Results (Wilson 95% CI)")
+    print(f"{'=' * 80}")
+    print(f"  {'Domain':<20} {'Sufficient':>10} {'Total':>6}  {'Relevancy [Wilson 95% CI]':<30}")
+    print(f"  {'-'*20} {'-'*10} {'-'*6}  {'-'*30}")
 
     for domain in ("cardiologist", "endocrinologist"):
         s = domain_sufficient[domain]
         t = domain_total[domain]
-        rate = s / t if t > 0 else 0
-        print(f"  {domain:<20} {s:>10} {t:>6} {rate:>9.1%}")
+        print(f"  {domain:<20} {s:>10} {t:>6}  {_fmt(s, t):<30}")
 
-    print(f"  {'-'*20} {'-'*10} {'-'*6} {'-'*10}")
-    print(f"  {'OVERALL':<20} {total_sufficient:>10} {total_queries:>6} {overall_rate:>9.1%}")
-    print(f"{'=' * 60}")
+    print(f"  {'-'*20} {'-'*10} {'-'*6}  {'-'*30}")
+    print(f"  {'OVERALL':<20} {total_sufficient:>10} {total_queries:>6}  "
+          f"{_fmt(total_sufficient, total_queries):<30}")
+    print(f"{'=' * 80}")
 
-    print(f"\n{'=' * 60}")
-    print(f"  Chunk Relevancy — By Tier")
-    print(f"{'=' * 60}")
-    print(f"  {'Domain':<20} {'Tier':<6} {'Label':<13} {'Sufficient':>10} {'Total':>6}  {'Relevancy':>10}")
-    print(f"  {'-'*20} {'-'*6} {'-'*13} {'-'*10} {'-'*6}  {'-'*10}")
+    print(f"\n{'=' * 90}")
+    print(f"  Chunk Relevancy — By Tier (Wilson 95% CI)")
+    print(f"{'=' * 90}")
+    print(f"  {'Domain':<20} {'Tier':<6} {'Label':<13} {'Sufficient':>10} {'Total':>6}  "
+          f"{'Relevancy [Wilson 95% CI]':<30}")
+    print(f"  {'-'*20} {'-'*6} {'-'*13} {'-'*10} {'-'*6}  {'-'*30}")
 
     for domain in ("cardiologist", "endocrinologist"):
         for t in [1, 2, 3]:
             if tier_totals[(domain, t)] > 0:
                 s = tier_sufficient[(domain, t)]
                 tot = tier_totals[(domain, t)]
-                rate = s / tot
-                print(f"  {domain:<20} {t:<6} {tier_labels.get(t, 'unknown'):<13} {s:>10} {tot:>6}  {rate:>9.1%}")
-    print(f"{'=' * 60}")
+                print(f"  {domain:<20} {t:<6} {tier_labels.get(t, 'unknown'):<13} "
+                      f"{s:>10} {tot:>6}  {_fmt(s, tot):<30}")
+    print(f"{'=' * 90}")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()

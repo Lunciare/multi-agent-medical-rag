@@ -10,6 +10,7 @@ from collections import defaultdict
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from settings import client, ROUTING_MODEL, YANDEX_PROJECT_ID
+from tests._stats import fmt as _fmt
 
 SPLIT_TO_FILENAME = {
     "dev": "golden_dev.json",
@@ -113,35 +114,34 @@ def evaluate_routing(split="test"):
 
     overall_acc = overall_correct / total if total > 0 else 0
 
-    print(f"\n{'=' * 60}")
-    print(f"  Routing Evaluation — Golden Dataset")
-    print(f"{'=' * 60}")
-    print(f"  {'Domain':<20} {'Correct':>8} {'Total':>8} {'Accuracy':>10}")
-    print(f"  {'-'*20} {'-'*8} {'-'*8} {'-'*10}")
+    print(f"\n{'=' * 70}")
+    print(f"  Routing Evaluation — Golden Dataset (Wilson 95% CI)")
+    print(f"{'=' * 70}")
+    print(f"  {'Domain':<20} {'Correct':>8} {'Total':>8}  {'Accuracy [Wilson 95% CI]':<28}")
+    print(f"  {'-'*20} {'-'*8} {'-'*8}  {'-'*28}")
 
     for domain in sorted(domain_stats.keys()):
         s = domain_stats[domain]
-        acc = s["correct"] / s["total"] if s["total"] > 0 else 0
-        print(f"  {domain:<20} {s['correct']:>8} {s['total']:>8} {acc:>9.1%}")
+        print(f"  {domain:<20} {s['correct']:>8} {s['total']:>8}  {_fmt(s['correct'], s['total']):<28}")
 
-    print(f"  {'-'*20} {'-'*8} {'-'*8} {'-'*10}")
-    print(f"  {'OVERALL':<20} {overall_correct:>8} {total:>8} {overall_acc:>9.1%}")
-    print(f"{'=' * 60}\n")
+    print(f"  {'-'*20} {'-'*8} {'-'*8}  {'-'*28}")
+    print(f"  {'OVERALL':<20} {overall_correct:>8} {total:>8}  {_fmt(overall_correct, total):<28}")
+    print(f"{'=' * 70}\n")
 
-    print(f"{'=' * 60}")
-    print(f"  Routing Accuracy — By Tier")
-    print(f"{'=' * 60}")
-    print(f"  {'Domain':<20} {'Tier':<6} {'Label':<13} {'Correct':>7} {'Total':>7}  {'Accuracy':>10}")
-    print(f"  {'-'*20} {'-'*6} {'-'*13} {'-'*7} {'-'*7}  {'-'*10}")
+    print(f"{'=' * 80}")
+    print(f"  Routing Accuracy — By Tier (Wilson 95% CI)")
+    print(f"{'=' * 80}")
+    print(f"  {'Domain':<20} {'Tier':<6} {'Label':<13} {'Correct':>7} {'Total':>7}  {'Accuracy [Wilson 95% CI]':<28}")
+    print(f"  {'-'*20} {'-'*6} {'-'*13} {'-'*7} {'-'*7}  {'-'*28}")
 
     for domain in ("cardiologist", "endocrinologist"):
         for t in [1, 2, 3]:
             if tier_stats[(domain, t)]["total"] > 0:
                 c = tier_stats[(domain, t)]["correct"]
                 tot = tier_stats[(domain, t)]["total"]
-                acc = c / tot
-                print(f"  {domain:<20} {t:<6} {tier_labels.get(t, 'unknown'):<13} {c:>7} {tot:>7}  {acc:>9.1%}")
-    print(f"{'=' * 60}\n")
+                print(f"  {domain:<20} {t:<6} {tier_labels.get(t, 'unknown'):<13} "
+                      f"{c:>7} {tot:>7}  {_fmt(c, tot):<28}")
+    print(f"{'=' * 80}\n")
 
     ambiguous_details = []
     if ambiguous_cases:
@@ -187,22 +187,21 @@ def evaluate_routing(split="test"):
         "",
         f"**Date:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
         "",
-        "## Golden Dataset — Accuracy",
+        "## Golden Dataset — Accuracy (Wilson 95% CI)",
         "",
-        "| Domain | Correct | Total | Accuracy |",
+        "| Domain | Correct | Total | Accuracy [Wilson 95% CI] |",
         "|---|---|---|---|",
     ]
     for domain in sorted(domain_stats.keys()):
         s = domain_stats[domain]
-        acc = s["correct"] / s["total"] if s["total"] > 0 else 0
-        lines.append(f"| {domain} | {s['correct']} | {s['total']} | {acc:.1%} |")
-    lines.append(f"| **Overall** | **{overall_correct}** | **{total}** | **{overall_acc:.1%}** |")
+        lines.append(f"| {domain} | {s['correct']} | {s['total']} | {_fmt(s['correct'], s['total'])} |")
+    lines.append(f"| **Overall** | **{overall_correct}** | **{total}** | **{_fmt(overall_correct, total)}** |")
 
     lines += [
         "",
-        "## Golden Dataset — Routing Accuracy By Tier",
+        "## Golden Dataset — Routing Accuracy By Tier (Wilson 95% CI)",
         "",
-        "| Domain | Tier | Label | Correct | Total | Accuracy |",
+        "| Domain | Tier | Label | Correct | Total | Accuracy [Wilson 95% CI] |",
         "|---|---|---|---|---|---|",
     ]
     for domain in ("cardiologist", "endocrinologist"):
@@ -210,8 +209,7 @@ def evaluate_routing(split="test"):
             if tier_stats[(domain, t)]["total"] > 0:
                 c = tier_stats[(domain, t)]["correct"]
                 tot = tier_stats[(domain, t)]["total"]
-                acc = c / tot
-                lines.append(f"| {domain} | {t} | {tier_labels.get(t, 'unknown')} | {c} | {tot} | {acc:.1%} |")
+                lines.append(f"| {domain} | {t} | {tier_labels.get(t, 'unknown')} | {c} | {tot} | {_fmt(c, tot)} |")
 
     lines += [
         "",

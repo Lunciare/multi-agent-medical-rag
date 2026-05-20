@@ -23,6 +23,7 @@ from settings import (
     client,
 )
 from judges import JUDGE_SYSTEM_PROMPT, JudgeConfig, JudgeStats, judge_faithfulness
+from tests._stats import fmt as _fmt, wilson_ci
 
 SPLIT_TO_FILENAME = {
     "dev": "golden_dev.json",
@@ -451,23 +452,23 @@ def _evaluate_yandex_only(split: str):
 
     total_faithful = sum(domain_faithful.values())
     total_eval = sum(domain_total.values())
-    overall_rate = total_faithful / total_eval if total_eval > 0 else 0
-    print(f"\n{'='*60}")
-    print(f"  Generation Evaluation Results (Faithfulness, yandex_only)")
-    print(f"{'='*60}")
-    print(f"  {'Domain':<20} {'Faithful':>8} {'Total':>6} {'Score':>10}")
-    print(f"  {'-'*20} {'-'*8} {'-'*6} {'-'*10}")
+    print(f"\n{'='*80}")
+    print(f"  Generation Evaluation Results (Faithfulness, yandex_only; Wilson 95% CI)")
+    print(f"{'='*80}")
+    print(f"  {'Domain':<20} {'Faithful':>8} {'Total':>6}  {'Score [Wilson 95% CI]':<30}")
+    print(f"  {'-'*20} {'-'*8} {'-'*6}  {'-'*30}")
     for domain in ("cardiologist", "endocrinologist"):
         f = domain_faithful[domain]
         t = domain_total[domain]
-        rate = f / t if t > 0 else 0
-        print(f"  {domain:<20} {f:>8} {t:>6} {rate:>9.1%}")
-    print(f"  {'-'*20} {'-'*8} {'-'*6} {'-'*10}")
-    print(f"  {'OVERALL':<20} {total_faithful:>8} {total_eval:>6} {overall_rate:>9.1%}")
-    print(f"{'='*60}")
+        print(f"  {domain:<20} {f:>8} {t:>6}  {_fmt(f, t):<30}")
+    print(f"  {'-'*20} {'-'*8} {'-'*6}  {'-'*30}")
+    print(f"  {'OVERALL':<20} {total_faithful:>8} {total_eval:>6}  "
+          f"{_fmt(total_faithful, total_eval):<30}")
+    print(f"{'='*80}")
     if tier3_total > 0:
         print(f"\n  {tier3_fallbacks} / {tier3_total} Tier 3 cases returned "
-              f"'Insufficient evidence' fallback.")
+              f"'Insufficient evidence' fallback "
+              f"({_fmt(tier3_fallbacks, tier3_total)}).")
 
 
 def evaluate_generation(split="test", mode="multi_judge"):
