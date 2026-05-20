@@ -11,10 +11,29 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import pickle
 import re
 
+import numpy as np
+
 from orchestrator import MedicalOrchestrator
 from agents.registry import AGENT_REGISTRY
 from settings import DEFAULT_KNOWLEDGE_BASE_DIR, SIMILARITY_TOP_K, MAX_L2_DISTANCE
 from tests._stats import fmt as _fmt
+
+
+BOOTSTRAP_B = 10000
+BOOTSTRAP_SEED = 12345
+
+
+def _bootstrap_mean_ci(values, B=BOOTSTRAP_B, seed=BOOTSTRAP_SEED, alpha=0.05):
+    """Percentile-method bootstrap CI for the mean of `values`.
+    Returns (mean, lo, hi). Returns (0.0, 0.0, 0.0) if values is empty."""
+    if not values:
+        return 0.0, 0.0, 0.0
+    arr = np.asarray(values, dtype=float)
+    rng = np.random.default_rng(seed)
+    n = len(arr)
+    means = rng.choice(arr, size=(B, n), replace=True).mean(axis=1)
+    lo, hi = np.percentile(means, [100 * alpha / 2, 100 * (1 - alpha / 2)])
+    return float(arr.mean()), float(lo), float(hi)
 
 _BM25_TOKEN_RE = re.compile(r"[a-zA-Z0-9]+")
 
@@ -348,10 +367,13 @@ def evaluate_retrieval(split="test", kb: str | None = None):
     domain_recall_sum = {"cardiologist": 0.0, "endocrinologist": 0.0}
     domain_mrr_sum    = {"cardiologist": 0.0, "endocrinologist": 0.0}
     domain_recall_n   = {"cardiologist": 0,   "endocrinologist": 0}
+    # Per-case reciprocal-rank lists for bootstrap CIs (Stage 27).
+    domain_mrr_per_case = {"cardiologist": [], "endocrinologist": []}
     # tier-level (only T1/T2 contribute)
     tier_recall_sum = defaultdict(float)
     tier_mrr_sum    = defaultdict(float)
     tier_recall_n   = defaultdict(int)
+    tier_mrr_per_case = defaultdict(list)
     # Tier 3 refusal — fraction of T3 cases where zero chunks were retrieved.
     tier3_refusals = defaultdict(int)
     tier3_count    = defaultdict(int)
@@ -374,6 +396,9 @@ def evaluate_retrieval(split="test", kb: str | None = None):
     mrr_n = {(domain, tier): 0
              for domain in ("cardiologist", "endocrinologist")
              for tier in (1, 2)}
+    mrr_per_case = {(domain, tier, m): []
+                    for domain in ("cardiologist", "endocrinologist")
+                    for tier in (1, 2) for m in METHODS}
 
     print("\nLoading BM25 indices…")
     bm25_indices = _load_bm25_indices()
@@ -439,9 +464,11 @@ def evaluate_retrieval(split="test", kb: str | None = None):
                 domain_recall_sum[expected_agent] += recall
                 domain_mrr_sum[expected_agent]    += mrr
                 domain_recall_n[expected_agent]   += 1
+                domain_mrr_per_case[expected_agent].append(mrr)
                 tier_recall_sum[(expected_agent, tier)] += recall
                 tier_mrr_sum[(expected_agent, tier)]    += mrr
                 tier_recall_n[(expected_agent, tier)]   += 1
+                tier_mrr_per_case[(expected_agent, tier)].append(mrr)
 
             # Stage 13 — FAISS / BM25 / Random / Oracle pooled comparison.
             gold_keys = _doc_keys_from_gold(gold_sources)
@@ -484,6 +511,10 @@ def evaluate_retrieval(split="test", kb: str | None = None):
                 mrr_sum[(expected_agent, tier, "bm25")]   += bm25_mrr
                 mrr_sum[(expected_agent, tier, "random")] += random_mrr
                 mrr_sum[(expected_agent, tier, "oracle")] += oracle_mrr
+                mrr_per_case[(expected_agent, tier, "faiss")].append(faiss_mrr)
+                mrr_per_case[(expected_agent, tier, "bm25")].append(bm25_mrr)
+                mrr_per_case[(expected_agent, tier, "random")].append(random_mrr)
+                mrr_per_case[(expected_agent, tier, "oracle")].append(oracle_mrr)
 
         retrieved_text = " ".join(doc.page_content.lower() for doc in retrieved_docs)
 
@@ -588,31 +619,32 @@ def evaluate_retrieval(split="test", kb: str | None = None):
     print(f"  KeywordHitRate (legacy) — kept for cross-stage comparison; "
           f"see report §4.3 note.")
     print(f"{'=' * 95}")
-    print(f"  {'Domain':<18} {'Recall@K':>10} {'MRR@K':>10} {'n':>6} "
+    print(f"  {'Domain':<18} {'Recall@K':>10} {'MRR@K [95% CI]':>30} {'n':>6} "
           f"{'KW Hit (legacy)':>18}")
-    print(f"  {'-'*18} {'-'*10} {'-'*10} {'-'*6} {'-'*18}")
+    print(f"  {'-'*18} {'-'*10} {'-'*30} {'-'*6} {'-'*18}")
     overall_recall_num = 0.0
-    overall_mrr_num    = 0.0
     overall_recall_n   = 0
+    overall_mrr_vals: list[float] = []
     for domain in ("cardiologist", "endocrinologist"):
         n = domain_recall_n[domain]
         recall = domain_recall_sum[domain] / n if n > 0 else 0
-        mrr    = domain_mrr_sum[domain]    / n if n > 0 else 0
+        m_mrr, lo, hi = _bootstrap_mean_ci(domain_mrr_per_case[domain])
+        mrr_str = f"{m_mrr:.3f} [{lo:.3f}–{hi:.3f}]"
         legacy_hit = (domain_hits[domain] / domain_total[domain]
                       if domain_total[domain] > 0 else 0)
-        print(f"  {domain:<18} {recall:>9.1%} {mrr:>10.3f} {n:>6} {legacy_hit:>17.1%}")
+        print(f"  {domain:<18} {recall:>9.1%} {mrr_str:>30} {n:>6} {legacy_hit:>17.1%}")
         overall_recall_num += domain_recall_sum[domain]
-        overall_mrr_num    += domain_mrr_sum[domain]
         overall_recall_n   += n
+        overall_mrr_vals.extend(domain_mrr_per_case[domain])
     if overall_recall_n > 0:
         overall_recall = overall_recall_num / overall_recall_n
-        overall_mrr    = overall_mrr_num    / overall_recall_n
     else:
         overall_recall = 0
-        overall_mrr    = 0
+    om_mean, om_lo, om_hi = _bootstrap_mean_ci(overall_mrr_vals)
+    overall_mrr_str = f"{om_mean:.3f} [{om_lo:.3f}–{om_hi:.3f}]"
     overall_legacy_hit = total_hits / total_queries if total_queries else 0
-    print(f"  {'-'*18} {'-'*10} {'-'*10} {'-'*6} {'-'*18}")
-    print(f"  {'OVERALL (T1+T2)':<18} {overall_recall:>9.1%} {overall_mrr:>10.3f} "
+    print(f"  {'-'*18} {'-'*10} {'-'*30} {'-'*6} {'-'*18}")
+    print(f"  {'OVERALL (T1+T2)':<18} {overall_recall:>9.1%} {overall_mrr_str:>30} "
           f"{overall_recall_n:>6} {overall_legacy_hit:>17.1%}")
     print(f"{'=' * 95}")
 
@@ -620,19 +652,20 @@ def evaluate_retrieval(split="test", kb: str | None = None):
     print(f"  Grounded Retrieval Metrics — By Tier  (T1+T2 only; T3 reports refusal rate)")
     print(f"{'=' * 95}")
     print(f"  {'Domain':<18} {'Tier':<5} {'Label':<13} "
-          f"{'Recall@K':>10} {'MRR@K':>10} {'n':>6} {'KW Hit (legacy)':>18}")
-    print(f"  {'-'*18} {'-'*5} {'-'*13} {'-'*10} {'-'*10} {'-'*6} {'-'*18}")
+          f"{'Recall@K':>10} {'MRR@K [95% CI]':>30} {'n':>6} {'KW Hit (legacy)':>18}")
+    print(f"  {'-'*18} {'-'*5} {'-'*13} {'-'*10} {'-'*30} {'-'*6} {'-'*18}")
     for domain in ("cardiologist", "endocrinologist"):
         for t in [1, 2]:
             n = tier_recall_n[(domain, t)]
             if n == 0:
                 continue
             recall = tier_recall_sum[(domain, t)] / n
-            mrr    = tier_mrr_sum[(domain, t)]    / n
+            m_mrr, lo, hi = _bootstrap_mean_ci(tier_mrr_per_case[(domain, t)])
+            mrr_str = f"{m_mrr:.3f} [{lo:.3f}–{hi:.3f}]"
             tier_legacy = (tier_hits[(domain, t)] / tier_totals[(domain, t)]
                            if tier_totals[(domain, t)] else 0)
             print(f"  {domain:<18} {t:<5} {tier_labels.get(t, '?'):<13} "
-                  f"{recall:>9.1%} {mrr:>10.3f} {n:>6} {tier_legacy:>17.1%}")
+                  f"{recall:>9.1%} {mrr_str:>30} {n:>6} {tier_legacy:>17.1%}")
     print(f"{'=' * 95}")
 
     # RefusalGate (Stage 7) — separate from the legacy zero-chunk metric.
@@ -676,12 +709,11 @@ def evaluate_retrieval(split="test", kb: str | None = None):
           f"Random (seed={RANDOM_BASELINE_SEED}), Oracle (always retrieves all gold docs)")
     print(f"{'=' * 110}")
     print(f"  {'Domain':<18} {'Tier':<5} {'Method':<8} {'Hits':>5} {'GoldN':>6}  "
-          f"{'Recall@5 [Wilson 95% CI]':<30} {'MRR@5':>8}")
-    print(f"  {'-'*18} {'-'*5} {'-'*8} {'-'*5} {'-'*6}  {'-'*30} {'-'*8}")
+          f"{'Recall@5 [Wilson 95% CI]':<30} {'MRR@5 [95% CI]':<30}")
+    print(f"  {'-'*18} {'-'*5} {'-'*8} {'-'*5} {'-'*6}  {'-'*30} {'-'*30}")
     overall_pool = {m: 0 for m in METHODS}
     overall_pool_gold = 0
-    overall_mrr_sum = {m: 0.0 for m in METHODS}
-    overall_mrr_n = 0
+    overall_method_mrr_vals: dict[str, list[float]] = {m: [] for m in METHODS}
     for domain in ("cardiologist", "endocrinologist"):
         for t in (1, 2):
             gold = pooled_gold[(domain, t)]
@@ -689,19 +721,21 @@ def evaluate_retrieval(split="test", kb: str | None = None):
                 continue
             for m in METHODS:
                 hits = pooled_hits[(domain, t, m)]
-                mrr = mrr_sum[(domain, t, m)] / mrr_n[(domain, t)] if mrr_n[(domain, t)] else 0.0
                 ci = _fmt(hits, gold)
-                print(f"  {domain:<18} {t:<5} {m:<8} {hits:>5} {gold:>6}  {ci:<30} {mrr:>8.3f}")
+                m_mrr, lo, hi = _bootstrap_mean_ci(mrr_per_case[(domain, t, m)])
+                mrr_str = f"{m_mrr:.3f} [{lo:.3f}–{hi:.3f}]"
+                print(f"  {domain:<18} {t:<5} {m:<8} {hits:>5} {gold:>6}  "
+                      f"{ci:<30} {mrr_str:<30}")
                 overall_pool[m] += hits
-                overall_mrr_sum[m] += mrr_sum[(domain, t, m)]
+                overall_method_mrr_vals[m].extend(mrr_per_case[(domain, t, m)])
             overall_pool_gold += gold
-            overall_mrr_n += mrr_n[(domain, t)]
-    print(f"  {'-'*18} {'-'*5} {'-'*8} {'-'*5} {'-'*6}  {'-'*30} {'-'*8}")
+    print(f"  {'-'*18} {'-'*5} {'-'*8} {'-'*5} {'-'*6}  {'-'*30} {'-'*30}")
     for m in METHODS:
         ci = _fmt(overall_pool[m], overall_pool_gold)
-        mrr = overall_mrr_sum[m] / overall_mrr_n if overall_mrr_n else 0.0
+        om_mean, om_lo, om_hi = _bootstrap_mean_ci(overall_method_mrr_vals[m])
+        mrr_str = f"{om_mean:.3f} [{om_lo:.3f}–{om_hi:.3f}]"
         print(f"  {'OVERALL':<18} {'T1+T2':<5} {m:<8} {overall_pool[m]:>5} {overall_pool_gold:>6}  "
-              f"{ci:<30} {mrr:>8.3f}")
+              f"{ci:<30} {mrr_str:<30}")
     print(f"{'=' * 110}")
 
     print(f"\n{'=' * 80}")

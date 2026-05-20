@@ -275,13 +275,13 @@ Sections 4.1–4.7 report metrics computed on the full 100-case golden set. The 
 
 Each query is sent to the correct specialist agent (bypassing the router). The agent retrieves K=5 chunks with L2 ≤ 1.2. **Recall@K** is the primary grounded metric: every Tier 1/2 case carries a `gold_sources` annotation listing 1–3 source documents that contain the correct answer (see §3.6); Recall@K is the fraction of those gold documents that appear among the K=5 retrieved chunks (pooled across cases — every gold-doc slot is one Bernoulli trial). **MRR@K** is the reciprocal rank of the first retrieved gold document, averaged across annotated cases. **Refusal Rate (T3)** is the fraction of Tier 3 cases where the retrieval pipeline returned zero chunks — making the safety-fallback failure (currently 0/16) numerically explicit. **KeywordHitRate** is the original keyword-co-occurrence metric kept here as a loose secondary signal for cross-stage comparison.
 
-| Domain | Recall@K | MRR@K | KeywordHitRate (legacy) | Refusal Rate (T3) |
+| Domain | Recall@K | MRR@K [95% CI] | KeywordHitRate (legacy) | Refusal Rate (T3) |
 |---|---|---|---|---|
-| Cardiology | 61.0% (72/118) [52.0%–69.3%] | 0.730 | 86.0% (43/50) [73.8%–93.0%] | 0.0% (0/9) [0.0%–29.9%] |
-| Endocrinology | 57.4% (70/122) [48.5%–65.8%] | 0.757 | 96.0% (48/50) [86.5%–98.9%] | 0.0% (0/7) [0.0%–35.4%] |
-| **Overall** | **59.2% (142/240) [52.9%–65.2%]** | **0.744** | **91.0% (91/100) [83.8%–95.2%]** | **0.0% (0/16) [0.0%–19.4%]** |
+| Cardiology | 61.0% (72/118) [52.0%–69.3%] | 0.730 [0.618–0.833] | 86.0% (43/50) [73.8%–93.0%] | 0.0% (0/9) [0.0%–29.9%] |
+| Endocrinology | 57.4% (70/122) [48.5%–65.8%] | 0.757 [0.645–0.861] | 96.0% (48/50) [86.5%–98.9%] | 0.0% (0/7) [0.0%–35.4%] |
+| **Overall** | **59.2% (142/240) [52.9%–65.2%]** | **0.744 [0.663–0.821]** | **91.0% (91/100) [83.8%–95.2%]** | **0.0% (0/16) [0.0%–19.4%]** |
 
-*(Wilson 95% CIs on the pooled gold-doc Bernoulli. MRR@K is reported without a strict CI — it is a mean of [0, 1] reciprocal-rank values per case, not a Bernoulli proportion; see Stage 6 report for bootstrap-style sanity checks. `# Legacy: registers hits on keyword co-occurrence; see Recall@K for grounded metric`.)*
+*(Recall@K Wilson 95% CIs are on the pooled gold-doc Bernoulli. MRR@K 95% CIs are percentile-method bootstrap intervals over the per-case reciprocal-rank vector (B=10000 resamples, RNG seed=12345; helper `_bootstrap_mean_ci` in `tests/evaluate_retrieval.py`, added Stage 27) — appropriate because MRR is a mean of [0, 1] reciprocal-rank values per case rather than a Bernoulli proportion. `# Legacy: registers hits on keyword co-occurrence; see Recall@K for grounded metric`.)*
 
 > **Note on Recall@K denominators:** 82 of the 84 Tier 1/2 cases were annotated by the auto-annotator (`tests/annotate_gold_sources.py --auto`), which scans the top-20 retrieved chunks and picks up to 3 documents per case with ≥1 expected-keyword hit. These gold sources were auto-annotated by retrieving top-20 chunks from the same FAISS+embedding system being evaluated, then keyword-filtered; Recall@K therefore measures the system's ability to surface keyword-positive top-20 documents into the top-5 window, not ground-truth retrieval against an independently labelled corpus. The two unannotated cases — `cardio_35` (STEMI with complete heart block) and `endo_46` (hypoglycaemia unawareness) — are the same two cases where the top-20 retrieval registered zero keyword matches and are therefore the legitimate retrieval misses already discussed in §4.3.1; they do not contribute to Recall@K. The 16 Tier 3 cases have `gold_sources: []` by design and contribute only to the Refusal Rate column.
 
@@ -301,13 +301,13 @@ By design, Tier 2 (peripheral) queries stress-test the boundaries of the knowled
 
 To answer the missing sparse-vs-dense baseline question flagged in §1.5.2, a BM25 index (`rank-bm25==0.2.2`, lowercase / alphanumeric / ≥2-char tokens) was built over the **same chunks already indexed by FAISS** (loaded directly from the FAISS docstore so the corpora are identical; see `multi-agent_system/build_bm25_index.py`). The table below is on the held-out test split, pooled gold-doc Bernoulli with Wilson 95% CI on Recall@5; MRR@5 is the mean reciprocal rank of the first retrieved gold document.
 
-| Domain | Tier | FAISS Recall@5 | BM25 Recall@5 | Random Recall@5 | Oracle Recall@5 | FAISS MRR@5 | BM25 MRR@5 |
+| Domain | Tier | FAISS Recall@5 | BM25 Recall@5 | Random Recall@5 | Oracle Recall@5 | FAISS MRR@5 [95% CI] | BM25 MRR@5 [95% CI] |
 |---|---|---|---|---|---|---|---|
-| Cardiology | T1 (core) | 59.0% (23/39) [43.4%–72.9%] | 25.6% (10/39) [14.6%–41.1%] | 2.6% (1/39) [0.5%–13.2%] | 100% (39/39) [91.0%–100%] | 0.737 | 0.442 |
-| Cardiology | T2 (peripheral) | 54.1% (20/37) [38.4%–69.0%] | 43.2% (16/37) [28.7%–59.1%] | 13.5% (5/37) [5.9%–28.0%] | 100% (37/37) [90.6%–100%] | 0.567 | 0.562 |
-| Endocrinology | T1 (core) | 60.6% (20/33) [43.7%–75.3%] | 15.2% (5/33) [6.7%–30.9%] | 0.0% (0/33) [0.0%–10.4%] | 100% (33/33) [89.6%–100%] | 0.773 | 0.348 |
-| Endocrinology | T2 (peripheral) | 52.3% (23/44) [37.9%–66.2%] | 34.1% (15/44) [21.9%–48.9%] | 0.0% (0/44) [0.0%–8.0%] | 100% (44/44) [92.0%–100%] | 0.677 | 0.492 |
-| **Overall (T1+T2)** | — | **56.2% (86/153) [48.3%–63.8%]** | **30.1% (46/153) [23.4%–37.7%]** | **3.9% (6/153) [1.8%–8.3%]** | **100% (153/153) [97.6%–100%]** | **0.685** | **0.467** |
+| Cardiology | T1 (core) | 59.0% (23/39) [43.4%–72.9%] | 25.6% (10/39) [14.6%–41.1%] | 2.6% (1/39) [0.5%–13.2%] | 100% (39/39) [91.0%–100%] | 0.737 [0.577–0.885] | 0.442 [0.212–0.673] |
+| Cardiology | T2 (peripheral) | 54.1% (20/37) [38.4%–69.0%] | 43.2% (16/37) [28.7%–59.1%] | 13.5% (5/37) [5.9%–28.0%] | 100% (37/37) [90.6%–100%] | 0.567 [0.345–0.785] | 0.562 [0.338–0.785] |
+| Endocrinology | T1 (core) | 60.6% (20/33) [43.7%–75.3%] | 15.2% (5/33) [6.7%–30.9%] | 0.0% (0/33) [0.0%–10.4%] | 100% (33/33) [89.6%–100%] | 0.773 [0.591–0.939] | 0.348 [0.106–0.621] |
+| Endocrinology | T2 (peripheral) | 52.3% (23/44) [37.9%–66.2%] | 34.1% (15/44) [21.9%–48.9%] | 0.0% (0/44) [0.0%–8.0%] | 100% (44/44) [92.0%–100%] | 0.677 [0.458–0.875] | 0.492 [0.285–0.700] |
+| **Overall (T1+T2)** | — | **56.2% (86/153) [48.3%–63.8%]** | **30.1% (46/153) [23.4%–37.7%]** | **3.9% (6/153) [1.8%–8.3%]** | **100% (153/153) [97.6%–100%]** | **0.685 [0.582–0.787]** | **0.467 [0.353–0.584]** |
 
 **Dense FAISS retrieval outperforms BM25 by 26 percentage points on Recall@5 overall (56.2% vs 30.1%); the gap is *widest* on Tier 1 core conditions — Endocrinology T1 reaches 45.4 pp (60.6% vs 15.2%) and Cardiology T1 reaches 33.4 pp (59.0% vs 25.6%) — and *narrowest* on Tier 2 cardiology (10.9 pp, 54.1% vs 43.2%).** This is the opposite of the prior hypothesis that dense embeddings would mainly help on peripheral cases via clinical synonymy; instead, dense's lead is largest exactly where the corpus is densest with on-topic textbook content, and BM25 narrows the gap on peripheral cases where exact entity names (e.g. `dressler`, `colchicine`, `pericardiocentesis` — see §4.3.1) carry more discriminative information than embedding-space neighbourhoods. BM25 never overtakes FAISS on any tier. Random retrieval is ≤ 13.5% everywhere and serves only as a sanity floor.
 
