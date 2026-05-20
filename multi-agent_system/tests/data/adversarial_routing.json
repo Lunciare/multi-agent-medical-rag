@@ -1,0 +1,269 @@
+[
+  {
+    "id": "adv_miss_1",
+    "tier": 4,
+    "tier_label": "adversarial",
+    "category": "misspelled",
+    "query": "60-year-old man with new-onset atrail fibrlation, HR 145 bpm, mild sortness of breath. What initial work-up is recommended?",
+    "expected_specialist": "cardiologist"
+  },
+  {
+    "id": "adv_miss_2",
+    "tier": 4,
+    "tier_label": "adversarial",
+    "category": "misspelled",
+    "query": "45yo M with crushing chest pian radiating to left arm, diaphoresis, lasted 30 minutes. ECG please.",
+    "expected_specialist": "cardiologist"
+  },
+  {
+    "id": "adv_miss_3",
+    "tier": 4,
+    "tier_label": "adversarial",
+    "category": "misspelled",
+    "query": "Eldery woman with severe dypnea on exertion, raised JVP, lower limb oedmea, EF 25 percent on echo. Mangement?",
+    "expected_specialist": "cardiologist"
+  },
+  {
+    "id": "adv_miss_4",
+    "tier": 4,
+    "tier_label": "adversarial",
+    "category": "misspelled",
+    "query": "50yo with hypertesion uncontolled on three antihyprtensives, ECG shows LVH and lateral T-wave inverson. Next steps?",
+    "expected_specialist": "cardiologist"
+  },
+  {
+    "id": "adv_miss_5",
+    "tier": 4,
+    "tier_label": "adversarial",
+    "category": "misspelled",
+    "query": "Female 35yo with hyperthyroidsm, palpitations, 6kg weight loss, fine tremor. TSH undetctable, free T4 elevated.",
+    "expected_specialist": "endocrinologist"
+  },
+  {
+    "id": "adv_miss_6",
+    "tier": 4,
+    "tier_label": "adversarial",
+    "category": "misspelled",
+    "query": "Patient with diabtic ketoacidoss, glucose 510 mg/dL, anion gap 22, blood pH 7.10. Management priorities?",
+    "expected_specialist": "endocrinologist"
+  },
+  {
+    "id": "adv_miss_7",
+    "tier": 4,
+    "tier_label": "adversarial",
+    "category": "misspelled",
+    "query": "Young woman with suspected addsons disease, hyperkalemia (K+ 6.1), hyponatremia (Na 128), orthostatic hypotension. Replacment therapy?",
+    "expected_specialist": "endocrinologist"
+  },
+  {
+    "id": "adv_miss_8",
+    "tier": 4,
+    "tier_label": "adversarial",
+    "category": "misspelled",
+    "query": "Patient with cussings syndrome features: central obesity, moon facies, abdominal striae, secondary hypertension. Workup for the underlying cause?",
+    "expected_specialist": "endocrinologist"
+  },
+
+  {
+    "id": "adv_lang_1",
+    "tier": 4,
+    "tier_label": "adversarial",
+    "category": "non_english",
+    "query": "Пациент 70 лет с фибрилляцией предсердий и одышкой при нагрузке. ЭхоКГ: фракция выброса 30 процентов. Тактика ведения?",
+    "expected_specialist": "cardiologist"
+  },
+  {
+    "id": "adv_lang_2",
+    "tier": 4,
+    "tier_label": "adversarial",
+    "category": "non_english",
+    "query": "Homme de 55 ans avec angine instable et sus-décalage du segment ST en dérivations V1 à V4. Conduite à tenir en urgence?",
+    "expected_specialist": "cardiologist"
+  },
+  {
+    "id": "adv_lang_3",
+    "tier": 4,
+    "tier_label": "adversarial",
+    "category": "non_english",
+    "query": "Paciente con dolor torácico opresivo irradiado al brazo izquierdo, sudoración profusa. ECG: descenso del ST en V4-V6, troponina elevada.",
+    "expected_specialist": "cardiologist"
+  },
+  {
+    "id": "adv_lang_4",
+    "tier": 4,
+    "tier_label": "adversarial",
+    "category": "non_english",
+    "query": "Жалобы на давящую боль за грудиной при физической нагрузке, проходит в покое. АД 160 на 100. Какое обследование показано?",
+    "expected_specialist": "cardiologist"
+  },
+  {
+    "id": "adv_lang_5",
+    "tier": 4,
+    "tier_label": "adversarial",
+    "category": "non_english",
+    "query": "Женщина 45 лет с сахарным диабетом 2 типа, HbA1c 11.2 процента, микроальбуминурия. Какая тактика и медикаментозное лечение?",
+    "expected_specialist": "endocrinologist"
+  },
+  {
+    "id": "adv_lang_6",
+    "tier": 4,
+    "tier_label": "adversarial",
+    "category": "non_english",
+    "query": "Patient présentant une hyperglycémie sévère à 28 mmol/L avec acidocétose diabétique. Prise en charge urgente?",
+    "expected_specialist": "endocrinologist"
+  },
+  {
+    "id": "adv_lang_7",
+    "tier": 4,
+    "tier_label": "adversarial",
+    "category": "non_english",
+    "query": "Mujer con sospecha de síndrome de Cushing, hipertensión secundaria, debilidad muscular proximal y estrías violáceas. Estudios diagnósticos?",
+    "expected_specialist": "endocrinologist"
+  },
+  {
+    "id": "adv_lang_8",
+    "tier": 4,
+    "tier_label": "adversarial",
+    "category": "non_english",
+    "query": "Пациент с тиреотоксикозом, ТТГ 0.01, свободный Т4 65. Какое лечение и схема наблюдения после начала терапии?",
+    "expected_specialist": "endocrinologist"
+  },
+
+  {
+    "id": "adv_dom_1",
+    "tier": 4,
+    "tier_label": "adversarial",
+    "category": "dominant_pathology_mismatch",
+    "query": "50yo male with well-controlled type 2 diabetes (HbA1c 7.2%, on metformin and atorvastatin) presents with sudden crushing substernal chest pain, ST elevation in V2-V5, troponin 12 ng/L. Diabetes has been stable for years. What is the priority diagnosis and immediate management?",
+    "expected_specialist": "cardiologist"
+  },
+  {
+    "id": "adv_dom_2",
+    "tier": 4,
+    "tier_label": "adversarial",
+    "category": "dominant_pathology_mismatch",
+    "query": "65yo female with longstanding hypertension and known carotid atherosclerosis comes for a routine annual visit, fully asymptomatic. Routine labs unexpectedly show TSH 0.005 mIU/L and free T4 48 pmol/L. She denies tremor, palpitations, or weight change. What is the actionable finding and next step?",
+    "expected_specialist": "endocrinologist"
+  },
+  {
+    "id": "adv_dom_3",
+    "tier": 4,
+    "tier_label": "adversarial",
+    "category": "dominant_pathology_mismatch",
+    "query": "70yo male with known coronary artery disease post-CABG two years ago presents with new fatigue, 9 kg weight gain, cold intolerance, dry skin, and bradycardia of 46 bpm. TSH is 78 mIU/L. How should this be worked up?",
+    "expected_specialist": "endocrinologist"
+  },
+  {
+    "id": "adv_dom_4",
+    "tier": 4,
+    "tier_label": "adversarial",
+    "category": "dominant_pathology_mismatch",
+    "query": "55yo female brought to the ED with severe headaches and labile blood pressure swings (220/115 mmHg followed by 90/60 mmHg), profuse diaphoresis. Abdominal CT incidentally shows a 4 cm right adrenal mass. What is the most likely diagnosis and what workup is required before any intervention?",
+    "expected_specialist": "endocrinologist"
+  },
+  {
+    "id": "adv_dom_5",
+    "tier": 4,
+    "tier_label": "adversarial",
+    "category": "dominant_pathology_mismatch",
+    "query": "60yo male with metabolic syndrome (BMI 35, fasting glucose 130 mg/dL, triglycerides 280) presents with acute dyspnea, S3 gallop, JVD, bilateral basal crackles. Bedside echo shows EF 22%, BNP is 1800 pg/mL. What is the immediate priority?",
+    "expected_specialist": "cardiologist"
+  },
+  {
+    "id": "adv_dom_6",
+    "tier": 4,
+    "tier_label": "adversarial",
+    "category": "dominant_pathology_mismatch",
+    "query": "30yo female presents to outpatient clinic with 6 kg weight loss over 3 months, persistent anxiety, fine resting tremor, and heat intolerance. ECG shows sinus tachycardia at 132 bpm. TSH is suppressed and free T4 is elevated. What is the diagnosis driving the tachycardia?",
+    "expected_specialist": "endocrinologist"
+  },
+  {
+    "id": "adv_dom_7",
+    "tier": 4,
+    "tier_label": "adversarial",
+    "category": "dominant_pathology_mismatch",
+    "query": "75yo male with poorly-controlled diabetes mellitus presents with sudden severe back pain radiating to both flanks, hypotension 80/40 mmHg, and a pulsatile abdominal mass on exam. Bedside ultrasound suggests a ruptured abdominal aortic aneurysm. What is the priority intervention?",
+    "expected_specialist": "cardiologist"
+  },
+  {
+    "id": "adv_dom_8",
+    "tier": 4,
+    "tier_label": "adversarial",
+    "category": "dominant_pathology_mismatch",
+    "query": "40yo male with no significant past history presents with episodic palpitations, sweating, and severe paroxysmal headaches. BP is highly variable, swinging between 180/110 and 110/70 mmHg between episodes. 24-hour urinary metanephrines are markedly elevated. What is the underlying diagnosis and which specialty leads management?",
+    "expected_specialist": "endocrinologist"
+  },
+
+  {
+    "id": "adv_amb_1",
+    "tier": 4,
+    "tier_label": "adversarial",
+    "category": "symptom_only_ambiguous",
+    "query": "45yo presents with chronic fatigue, unintentional 4 kg weight loss over the past 3 months, and occasional palpitations at rest. No other findings on initial exam, vitals normal between episodes.",
+    "expected_specialist": "cardiologist",
+    "valid_domains": ["cardiologist", "endocrinologist"]
+  },
+  {
+    "id": "adv_amb_2",
+    "tier": 4,
+    "tier_label": "adversarial",
+    "category": "symptom_only_ambiguous",
+    "query": "60yo woman with episodic dizziness, transient sweating, and generalised weakness lasting 5-10 minutes at a time. No clear trigger or pattern. Vitals are stable between episodes.",
+    "expected_specialist": "cardiologist",
+    "valid_domains": ["cardiologist", "endocrinologist"]
+  },
+  {
+    "id": "adv_amb_3",
+    "tier": 4,
+    "tier_label": "adversarial",
+    "category": "symptom_only_ambiguous",
+    "query": "55yo male with persistent unexplained fatigue, slight weight gain of 3 kg, and reduced exercise tolerance over the past 6 months. No focal symptoms, no chest pain, no palpitations.",
+    "expected_specialist": "endocrinologist",
+    "valid_domains": ["cardiologist", "endocrinologist"]
+  },
+  {
+    "id": "adv_amb_4",
+    "tier": 4,
+    "tier_label": "adversarial",
+    "category": "symptom_only_ambiguous",
+    "query": "Young adult presents with intermittent palpitations, generalised anxiety, and mild fine tremor. No syncope, no chest pain, no exertional symptoms. Family history not yet obtained.",
+    "expected_specialist": "endocrinologist",
+    "valid_domains": ["cardiologist", "endocrinologist"]
+  },
+  {
+    "id": "adv_amb_5",
+    "tier": 4,
+    "tier_label": "adversarial",
+    "category": "symptom_only_ambiguous",
+    "query": "Middle-aged patient with intermittent dyspnea on moderate exertion, generalised fatigue, and vague chest tightness that comes and goes over the past several weeks. No clear triggers.",
+    "expected_specialist": "cardiologist",
+    "valid_domains": ["cardiologist", "endocrinologist"]
+  },
+  {
+    "id": "adv_amb_6",
+    "tier": 4,
+    "tier_label": "adversarial",
+    "category": "symptom_only_ambiguous",
+    "query": "70yo with progressive generalised weakness, weight loss of 5 kg, and reduced appetite over the past 3 months. No focal symptoms on history or exam.",
+    "expected_specialist": "endocrinologist",
+    "valid_domains": ["cardiologist", "endocrinologist"]
+  },
+  {
+    "id": "adv_amb_7",
+    "tier": 4,
+    "tier_label": "adversarial",
+    "category": "symptom_only_ambiguous",
+    "query": "32yo female with episodes of sweating, fine tremor, and palpitations triggered specifically by emotional stress; symptoms resolve fully with rest. No syncope, no chest pain.",
+    "expected_specialist": "endocrinologist",
+    "valid_domains": ["cardiologist", "endocrinologist"]
+  },
+  {
+    "id": "adv_amb_8",
+    "tier": 4,
+    "tier_label": "adversarial",
+    "category": "symptom_only_ambiguous",
+    "query": "50yo with bilateral lower-extremity oedema, generalised fatigue, and vague abdominal discomfort. No syncope, no focal weakness, no chest pain on exertion.",
+    "expected_specialist": "cardiologist",
+    "valid_domains": ["cardiologist", "endocrinologist"]
+  }
+]

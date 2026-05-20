@@ -249,6 +249,26 @@ Three different routing strategies produce three different splits across the 8 a
 
 The LLM and TF-IDF agree on 7/8 ambiguous cases, but for **different reasons**: TF-IDF routes by token-frequency in the dev training set, which happens to produce endo-leaning routings on these specific queries; the LLM routes by clinical reasoning about which findings are immediately actionable. The disagreement case (`ambig_7`, metabolic syndrome with exertional angina) is where the LLM picks the cardiac focus the TF-IDF model would mark as endocrine — and the cardiology routing is the defensible clinical choice (the exertional angina + positive stress test is the actionable finding, not the metabolic syndrome). The agreement on the other 7 ambiguous cases is incidental and would not be expected to hold on a different training distribution; the LLM's reasoning is the durable signal.
 
+#### 4.2.1 Adversarial Routing
+
+The §4.1 / §4.2 numbers above are computed on the 70-case held-out test split, whose queries are written in clean English with standard medical vocabulary. To stress-test the router's robustness on inputs that violate those assumptions, a dedicated 32-case adversarial test set (`tests/data/adversarial_routing.json`, tier=4 / `tier_label="adversarial"`) was constructed across four categories — each authored to probe a different failure mode that the clean-domain test set does not exercise. Per-category accuracy with Wilson 95% CIs from the LLM router (`tests/evaluate_routing.py --split adversarial`):
+
+| Category | n | Correct | Accuracy [Wilson 95% CI] |
+|---|---|---|---|
+| `misspelled` | 8 | 8 | 100.0% [67.6%–100.0%] |
+| `non_english` | 8 | 8 | 100.0% [67.6%–100.0%] |
+| `dominant_pathology_mismatch` | 8 | 8 | 100.0% [67.6%–100.0%] |
+| `symptom_only_ambiguous` | 8 | 8 | 100.0% [67.6%–100.0%] |
+| **Overall** | **32** | **32** | **100.0% [89.3%–100.0%]** |
+
+*(`symptom_only_ambiguous` cases carry a `valid_domains: ["cardiologist", "endocrinologist"]` field; either specialty is counted correct because the query names only symptoms. The other three categories use a single `expected_specialist` set by the test author. Wilson lower bounds are wide (67.6%) because of the small per-category n=8; doubling to n=16 per category would tighten the lower bound to roughly 80%.)*
+
+The adversarial set headline matches the clear-domain test set headline exactly — both are 100.0% by point estimate (70/70 = 100.0% [94.8%–100.0%] on clear-domain test; 32/32 = 100.0% [89.3%–100.0%] on adversarial). The narrower 94.8% lower bound on the clear-domain test reflects the larger n, not a tighter LLM performance — at the adversarial sample size the routing accuracy is consistent with anything from ~89% to 100%. Three notable observations:
+
+- The `dominant_pathology_mismatch` category was the hardest by design (surface vocabulary deliberately points to the opposite specialty from the actionable diagnosis) and was the category most likely to benefit from the Stage 24 routing prompt that inlines each agent's `domain_scope` (see [Stage 24 report](report_stage_24.md)). The 8/8 score on this category is consistent with the prompt change helping the LLM reason about *which findings drive management* rather than *which terms appear most often*; without a pre-Stage-24 baseline on adversarial cases we cannot quantify the contribution, but the result is at least consistent with that hypothesis.
+- The `non_english` category includes queries in Russian, French, and Spanish. YandexGPT is Russian-native and routed all four Russian cases correctly; it also handled the four French/Spanish queries correctly via shared cognate medical vocabulary (`angine`, `hyperglycémie`, `Cushing`, `tireotoxicosis`).
+- On `symptom_only_ambiguous` queries the router's split was 5 endocrinologist / 3 cardiologist — a more endo-leaning distribution than on the 8 `ambiguous_cases.json` queries (5 cardiologist / 3 endocrinologist; §4.2 table). This is consistent with the fact that the symptom-only queries strip away the disease-naming vocabulary that anchors the clear-domain ambiguous cases, leaving symptoms like fatigue / weight change / palpitations that map preferentially to endocrine differentials.
+
 Sections 4.1–4.7 report metrics computed on the full 100-case golden set. The 30-case development split (`golden_dev.json`) was used for hyperparameter tuning (K, L2 threshold, chunk size). Results restricted to the 70-case held-out test split are reported in §4.8.
 
 ### 4.3 Retrieval Hit Rate

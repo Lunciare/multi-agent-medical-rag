@@ -16,6 +16,7 @@ SPLIT_TO_FILENAME = {
     "dev": "golden_dev.json",
     "test": "golden_test.json",
     "all": "golden_dataset.json",
+    "adversarial": "adversarial_routing.json",
 }
 
 
@@ -107,6 +108,7 @@ def evaluate_routing(split="test"):
 
     domain_stats = defaultdict(lambda: {"correct": 0, "total": 0, "details": []})
     tier_stats = defaultdict(lambda: {"correct": 0, "total": 0})
+    category_stats = defaultdict(lambda: {"correct": 0, "total": 0, "details": []})
     tier_labels = {}
     overall_correct = 0
 
@@ -117,17 +119,32 @@ def evaluate_routing(split="test"):
         tier = case.get("tier", 1)
         tier_label = case.get("tier_label", "core")
         tier_labels[tier] = tier_label
+        category = case.get("category")
+        valid_domains = case.get("valid_domains")
 
         raw_response = route_query(query)
         predicted = normalise(raw_response)
 
-        is_correct = predicted == expected
+        if valid_domains:
+            is_correct = predicted in valid_domains
+        else:
+            is_correct = predicted == expected
         if is_correct:
             overall_correct += 1
             domain_stats[expected]["correct"] += 1
             tier_stats[(expected, tier)]["correct"] += 1
         domain_stats[expected]["total"] += 1
         tier_stats[(expected, tier)]["total"] += 1
+
+        if category:
+            category_stats[category]["total"] += 1
+            if is_correct:
+                category_stats[category]["correct"] += 1
+            category_stats[category]["details"].append({
+                "id": qid, "expected": expected, "predicted": predicted,
+                "raw": raw_response, "correct": is_correct,
+                "valid_domains": valid_domains,
+            })
 
         mark = "V" if is_correct else "X"
         extra = f"  (raw: {raw_response})" if predicted != raw_response.strip().lower() else ""
@@ -169,6 +186,18 @@ def evaluate_routing(split="test"):
                 print(f"  {domain:<20} {t:<6} {tier_labels.get(t, 'unknown'):<13} "
                       f"{c:>7} {tot:>7}  {_fmt(c, tot):<28}")
     print(f"{'=' * 80}\n")
+
+    if category_stats:
+        print(f"{'=' * 80}")
+        print(f"  Adversarial Routing — Per-Category Accuracy (Wilson 95% CI)")
+        print(f"{'=' * 80}")
+        print(f"  {'Category':<35} {'Correct':>7} {'Total':>7}  {'Accuracy [Wilson 95% CI]':<28}")
+        print(f"  {'-'*35} {'-'*7} {'-'*7}  {'-'*28}")
+        for cat in sorted(category_stats.keys()):
+            s = category_stats[cat]
+            print(f"  {cat:<35} {s['correct']:>7} {s['total']:>7}  "
+                  f"{_fmt(s['correct'], s['total']):<28}")
+        print(f"{'=' * 80}\n")
 
     ambiguous_details = []
     if ambiguous_cases:
@@ -253,6 +282,43 @@ def evaluate_routing(split="test"):
                 f"| {d['raw']} | {mark} |"
             )
 
+    if category_stats:
+        lines += [
+            "",
+            "## Adversarial Routing — Per-Category Accuracy",
+            "",
+            "Categories: `misspelled` (typos that obscure standard terms), "
+            "`non_english` (queries in Russian / French / Spanish), "
+            "`dominant_pathology_mismatch` (surface vocabulary points one way "
+            "but the actionable pathology is the other), "
+            "`symptom_only_ambiguous` (symptom-only queries — `valid_domains` "
+            "permits either specialty).",
+            "",
+            "| Category | Correct | Total | Accuracy [Wilson 95% CI] |",
+            "|---|---|---|---|",
+        ]
+        for cat in sorted(category_stats.keys()):
+            s = category_stats[cat]
+            lines.append(
+                f"| {cat} | {s['correct']} | {s['total']} | "
+                f"{_fmt(s['correct'], s['total'])} |"
+            )
+        lines += [
+            "",
+            "### Adversarial Routing — Per-Case Details",
+            "",
+            "| ID | Category | Expected | Predicted | Correct? |",
+            "|---|---|---|---|---|",
+        ]
+        for cat in sorted(category_stats.keys()):
+            for d in category_stats[cat]["details"]:
+                mark = "V" if d["correct"] else "X"
+                expected_str = (",".join(d["valid_domains"])
+                                if d["valid_domains"] else d["expected"])
+                lines.append(
+                    f"| {d['id']} | {cat} | {expected_str} | {d['predicted']} | {mark} |"
+                )
+
     if ambiguous_details:
         lines += [
             "",
@@ -280,6 +346,8 @@ def evaluate_routing(split="test"):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--split", choices=["dev", "test", "all"], default="test")
+    parser.add_argument("--split",
+                        choices=["dev", "test", "all", "adversarial"],
+                        default="test")
     args = parser.parse_args()
     evaluate_routing(split=args.split)
