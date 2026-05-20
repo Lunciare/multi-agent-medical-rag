@@ -8,9 +8,69 @@ from datetime import datetime
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+import pickle
+import re
+
 from orchestrator import MedicalOrchestrator
+from agents.registry import AGENT_REGISTRY
 from settings import DEFAULT_KNOWLEDGE_BASE_DIR, SIMILARITY_TOP_K, MAX_L2_DISTANCE
 from tests._stats import fmt as _fmt
+
+_BM25_TOKEN_RE = re.compile(r"[a-zA-Z0-9]+")
+
+
+def _bm25_tokenize(text: str) -> list[str]:
+    """Mirror of build_bm25_index.tokenize — must stay in sync."""
+    return [t for t in _BM25_TOKEN_RE.findall(text.lower()) if len(t) >= 2]
+
+
+def _load_bm25_indices() -> dict:
+    """Load per-specialty BM25 pickles. Returns {specialty_key: payload-dict}."""
+    out = {}
+    for key, cfg in AGENT_REGISTRY.items():
+        path = os.path.join(cfg["folder_path"], "bm25_index.pkl")
+        if not os.path.exists(path):
+            sys.stderr.write(
+                f"WARNING: BM25 pickle missing for {key} at {path}. "
+                f"Run `python build_bm25_index.py --specialty {key}` first. "
+                f"BM25 columns will be empty.\n"
+            )
+            continue
+        with open(path, "rb") as f:
+            out[key] = pickle.load(f)
+        print(f"  Loaded BM25 index for {key}: "
+              f"{out[key]['n_chunks']} chunks")
+    return out
+
+
+def _bm25_topk_doc_keys(bm25_state, query: str, k: int = SIMILARITY_TOP_K) -> list[str]:
+    """Top-K doc_name strings (with source_file fallback) from the BM25 index."""
+    import numpy as np
+    tokens = _bm25_tokenize(query)
+    scores = bm25_state["bm25"].get_scores(tokens)
+    top_idx = np.argsort(scores)[-k:][::-1]
+    out = []
+    for idx in top_idx:
+        md = bm25_state["metadatas"][int(idx)]
+        key = md.get("doc_name") or md.get("source_file") or "?"
+        out.append(key)
+    return out
+
+
+def _recall_mrr_from_keys(retrieved_keys: list[str], gold_keys: set[str]):
+    """Compute (Recall@K, MRR@K, hit_count) from doc-key lists, or None tuple if gold empty."""
+    if not gold_keys:
+        return None, None, 0
+    gold_set = set(gold_keys)
+    retrieved_set = set(retrieved_keys)
+    hits = len(gold_set & retrieved_set)
+    recall = hits / len(gold_set)
+    mrr = 0.0
+    for rank, k_ in enumerate(retrieved_keys, start=1):
+        if k_ in gold_set:
+            mrr = 1.0 / rank
+            break
+    return recall, mrr, hits
 
 RANDOM_BASELINE_SEED = 42
 
@@ -264,6 +324,25 @@ def evaluate_retrieval(split="test"):
     gate_refusals = defaultdict(int)
     gate_totals   = defaultdict(int)
 
+    # Stage 13 — FAISS / BM25 / Random / Oracle comparison.
+    # Pooled gold-doc Bernoulli (each gold doc is one trial); per-case MRR is averaged.
+    METHODS = ("faiss", "bm25", "random", "oracle")
+    pooled_hits = {(domain, tier, m): 0
+                   for domain in ("cardiologist", "endocrinologist")
+                   for tier in (1, 2) for m in METHODS}
+    pooled_gold = {(domain, tier): 0
+                   for domain in ("cardiologist", "endocrinologist")
+                   for tier in (1, 2)}
+    mrr_sum = {(domain, tier, m): 0.0
+               for domain in ("cardiologist", "endocrinologist")
+               for tier in (1, 2) for m in METHODS}
+    mrr_n = {(domain, tier): 0
+             for domain in ("cardiologist", "endocrinologist")
+             for tier in (1, 2)}
+
+    print("\nLoading BM25 indices…")
+    bm25_indices = _load_bm25_indices()
+
     domain_pool = {
         "cardiologist": list(orchestrator.cardiologist.vectorstore.docstore._dict.values()),
         "endocrinologist": list(orchestrator.endocrinologist.vectorstore.docstore._dict.values()),
@@ -326,6 +405,48 @@ def evaluate_retrieval(split="test"):
                 tier_recall_sum[(expected_agent, tier)] += recall
                 tier_mrr_sum[(expected_agent, tier)]    += mrr
                 tier_recall_n[(expected_agent, tier)]   += 1
+
+            # Stage 13 — FAISS / BM25 / Random / Oracle pooled comparison.
+            gold_keys = _doc_keys_from_gold(gold_sources)
+            if gold_keys:
+                # FAISS doc-keys (top-K is already filtered to L2 ≤ MAX_L2_DISTANCE; for
+                # apples-to-apples comparison we use the raw top-K from the FAISS index,
+                # i.e. `docs_and_scores` not `retrieved_docs`).
+                faiss_keys = [_doc_key_of(d) for d, _s in docs_and_scores[:SIMILARITY_TOP_K]]
+                _, _, faiss_hits = _recall_mrr_from_keys(faiss_keys, gold_keys)
+                faiss_recall, faiss_mrr, _ = _recall_mrr_from_keys(faiss_keys, gold_keys)
+
+                # BM25 doc-keys.
+                bm25_state = bm25_indices.get(expected_agent)
+                if bm25_state is None:
+                    bm25_keys = []
+                else:
+                    bm25_keys = _bm25_topk_doc_keys(bm25_state, query, k=SIMILARITY_TOP_K)
+                _, _, bm25_hits = _recall_mrr_from_keys(bm25_keys, gold_keys)
+                bm25_recall, bm25_mrr, _ = _recall_mrr_from_keys(bm25_keys, gold_keys)
+
+                # Random doc-keys — sample from the specialty's docstore.
+                pool = domain_pool[expected_agent]
+                random_docs_topk = rng.sample(pool, min(SIMILARITY_TOP_K, len(pool)))
+                random_keys = [_doc_key_of(d) for d in random_docs_topk]
+                _, _, random_hits = _recall_mrr_from_keys(random_keys, gold_keys)
+                random_recall, random_mrr, _ = _recall_mrr_from_keys(random_keys, gold_keys)
+
+                # Oracle — by construction every gold doc is retrieved at rank 1..len(gold).
+                oracle_hits = len(gold_keys)
+                oracle_mrr = 1.0
+
+                key2 = (expected_agent, tier)
+                pooled_gold[key2] += len(gold_keys)
+                pooled_hits[(expected_agent, tier, "faiss")]  += faiss_hits
+                pooled_hits[(expected_agent, tier, "bm25")]   += bm25_hits
+                pooled_hits[(expected_agent, tier, "random")] += random_hits
+                pooled_hits[(expected_agent, tier, "oracle")] += oracle_hits
+                mrr_n[key2] += 1
+                mrr_sum[(expected_agent, tier, "faiss")]  += faiss_mrr
+                mrr_sum[(expected_agent, tier, "bm25")]   += bm25_mrr
+                mrr_sum[(expected_agent, tier, "random")] += random_mrr
+                mrr_sum[(expected_agent, tier, "oracle")] += oracle_mrr
 
         retrieved_text = " ".join(doc.page_content.lower() for doc in retrieved_docs)
 
@@ -510,6 +631,41 @@ def evaluate_retrieval(split="test"):
     print(f"  {'TIER 1/2 FP RATE':<18} {'':<5} {'':<13} "
           f"{gate_t12_refused:>8} {gate_t12_total:>6}  {_fmt(gate_t12_refused, gate_t12_total):<30}")
     print(f"{'=' * 95}")
+
+    # === FAISS / BM25 / Random / Oracle comparison (Stage 13) ===
+    print(f"\n{'=' * 110}")
+    print(f"  Retriever Comparison — Recall@5 and MRR@5 (Wilson 95% CI on pooled gold-doc Recall)")
+    print(f"  Methods: FAISS dense (Yandex 256-d), BM25 (rank-bm25, tokens lc/alphanum/≥2 chars), "
+          f"Random (seed={RANDOM_BASELINE_SEED}), Oracle (always retrieves all gold docs)")
+    print(f"{'=' * 110}")
+    print(f"  {'Domain':<18} {'Tier':<5} {'Method':<8} {'Hits':>5} {'GoldN':>6}  "
+          f"{'Recall@5 [Wilson 95% CI]':<30} {'MRR@5':>8}")
+    print(f"  {'-'*18} {'-'*5} {'-'*8} {'-'*5} {'-'*6}  {'-'*30} {'-'*8}")
+    overall_pool = {m: 0 for m in METHODS}
+    overall_pool_gold = 0
+    overall_mrr_sum = {m: 0.0 for m in METHODS}
+    overall_mrr_n = 0
+    for domain in ("cardiologist", "endocrinologist"):
+        for t in (1, 2):
+            gold = pooled_gold[(domain, t)]
+            if gold == 0:
+                continue
+            for m in METHODS:
+                hits = pooled_hits[(domain, t, m)]
+                mrr = mrr_sum[(domain, t, m)] / mrr_n[(domain, t)] if mrr_n[(domain, t)] else 0.0
+                ci = _fmt(hits, gold)
+                print(f"  {domain:<18} {t:<5} {m:<8} {hits:>5} {gold:>6}  {ci:<30} {mrr:>8.3f}")
+                overall_pool[m] += hits
+                overall_mrr_sum[m] += mrr_sum[(domain, t, m)]
+            overall_pool_gold += gold
+            overall_mrr_n += mrr_n[(domain, t)]
+    print(f"  {'-'*18} {'-'*5} {'-'*8} {'-'*5} {'-'*6}  {'-'*30} {'-'*8}")
+    for m in METHODS:
+        ci = _fmt(overall_pool[m], overall_pool_gold)
+        mrr = overall_mrr_sum[m] / overall_mrr_n if overall_mrr_n else 0.0
+        print(f"  {'OVERALL':<18} {'T1+T2':<5} {m:<8} {overall_pool[m]:>5} {overall_pool_gold:>6}  "
+              f"{ci:<30} {mrr:>8.3f}")
+    print(f"{'=' * 110}")
 
     print(f"\n{'=' * 80}")
     print(f"  Tier 3 Refusal Rate  (legacy: zero-chunk retrieval fraction; Wilson 95% CI)")
