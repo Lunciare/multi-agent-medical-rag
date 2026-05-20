@@ -41,8 +41,9 @@ class TestRouting:
     def test_route_returns_cardiologist(self, mock_client, mock_faiss, mock_emb, tmp_path):
         from orchestrator import MedicalOrchestrator
 
+        # Stage 19: orchestrator.route() parses JSON-structured router output.
         mock_client.chat.completions.create.return_value = MagicMock(
-            choices=[MagicMock(message=MagicMock(content="cardiologist"))]
+            choices=[MagicMock(message=MagicMock(content='{"specialist": "cardiologist"}'))]
         )
 
         kb = _create_sample_data(tmp_path)
@@ -58,7 +59,7 @@ class TestRouting:
         from orchestrator import MedicalOrchestrator
 
         mock_client.chat.completions.create.return_value = MagicMock(
-            choices=[MagicMock(message=MagicMock(content="endocrinologist"))]
+            choices=[MagicMock(message=MagicMock(content='{"specialist": "endocrinologist"}'))]
         )
 
         kb = _create_sample_data(tmp_path)
@@ -73,15 +74,18 @@ class TestRouting:
     def test_route_unknown_specialist(self, mock_client, mock_faiss, mock_emb, tmp_path):
         from orchestrator import MedicalOrchestrator
 
+        # Stage 19: orchestrator rejects unknown specialty via strict allow-list.
         mock_client.chat.completions.create.return_value = MagicMock(
-            choices=[MagicMock(message=MagicMock(content="neurologist"))]
+            choices=[MagicMock(message=MagicMock(content='{"specialist": "neurologist"}'))]
         )
 
         kb = _create_sample_data(tmp_path)
         orch = MedicalOrchestrator(knowledge_base_dir=str(kb))
 
         _specialist, response, _evidence = orch.answer("What causes migraines?")
-        assert "could not determine" in response.lower()
+        # Stage 19 returns "__error__:validation" → user-visible "Routing failed:
+        # the LLM did not return a recognised specialist." (no alias coercion).
+        assert "routing failed" in response.lower() or "could not determine" in response.lower()
 
 
 class TestEndToEndAnswer:
@@ -96,7 +100,7 @@ class TestEndToEndAnswer:
         from orchestrator import MedicalOrchestrator
 
         mock_orch_client.chat.completions.create.return_value = MagicMock(
-            choices=[MagicMock(message=MagicMock(content="cardiologist"))]
+            choices=[MagicMock(message=MagicMock(content='{"specialist": "cardiologist"}'))]
         )
 
         mock_agent_client.chat.completions.create.return_value = MagicMock(
@@ -131,7 +135,7 @@ class TestEndToEndAnswer:
         from orchestrator import MedicalOrchestrator
 
         mock_orch_client.chat.completions.create.return_value = MagicMock(
-            choices=[MagicMock(message=MagicMock(content="cardiologist"))]
+            choices=[MagicMock(message=MagicMock(content='{"specialist": "cardiologist"}'))]
         )
 
         mock_agent_client.chat.completions.create.return_value = MagicMock(

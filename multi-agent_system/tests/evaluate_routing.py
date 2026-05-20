@@ -19,47 +19,74 @@ SPLIT_TO_FILENAME = {
 }
 
 
+import json as _json
+
 ROUTING_SYSTEM_PROMPT = (
     "You are a medical orchestrator. "
-    "Determine which specialist should handle the request: "
-    "cardiologist or endocrinologist. "
-    "Respond strictly in one word."
+    "Determine which specialist should handle the request. "
+    "Output a single JSON object with key `specialist` whose value is "
+    "one of: 'cardiologist', 'endocrinologist'. "
+    "Do not output any other text. "
+    'Example: {"specialist": "cardiologist"}.'
 )
+
+ALLOWED_SPECIALISTS = {"cardiologist", "endocrinologist"}
 
 
 def route_query(question: str) -> str:
+    """Stage 19: JSON-structured routing call.
+
+    Tries Yandex's `response_format={"type": "json_object"}` first (verified
+    supported on `gpt://{folder}/yandexgpt/latest` in Stage 19); falls back
+    to plain chat if the parameter is rejected. The raw response string is
+    returned as-is; `normalise()` validates it against `ALLOWED_SPECIALISTS`.
+    """
+    common = {
+        "model": ROUTING_MODEL,
+        "messages": [
+            {"role": "system", "content": ROUTING_SYSTEM_PROMPT},
+            {"role": "user", "content": question},
+        ],
+        "temperature": 0.0,
+        "max_tokens": 64,
+        "extra_headers": {"x-folder-id": YANDEX_PROJECT_ID},
+    }
     try:
-        response = client.chat.completions.create(
-            model=ROUTING_MODEL,
-            messages=[
-                {"role": "system", "content": ROUTING_SYSTEM_PROMPT},
-                {"role": "user", "content": question},
-            ],
-            temperature=0.0,
-            max_tokens=10,
-            extra_headers={"x-folder-id": YANDEX_PROJECT_ID},
-        )
-        return response.choices[0].message.content.strip()
+        try:
+            response = client.chat.completions.create(
+                response_format={"type": "json_object"}, **common
+            )
+        except Exception:
+            response = client.chat.completions.create(**common)
+        return (response.choices[0].message.content or "").strip()
     except Exception as e:
         return f"__error__:{e}"
 
 
-SPECIALIST_ALIASES = {
-    "cardiologist":     "cardiologist",
-    "cardiology":       "cardiologist",
-    "endocrinologist":  "endocrinologist",
-    "endocrinology":    "endocrinologist",
-}
-
-
 def normalise(raw: str) -> str:
-    raw_clean = raw.strip().lower().rstrip(".")
-    if raw_clean in SPECIALIST_ALIASES:
-        return SPECIALIST_ALIASES[raw_clean]
-    for key, canonical in SPECIALIST_ALIASES.items():
-        if key in raw_clean:
-            return canonical
-    return raw_clean
+    """Strict-equality normaliser (Stage 19).
+
+    Parses `raw` as JSON, returns the lower-cased `specialist` field if it's
+    in `ALLOWED_SPECIALISTS`; otherwise returns the raw string verbatim (so
+    the caller's `predicted == expected` test fails). Crucially: **no alias
+    coercion**. The previous Stage 11 `SPECIALIST_ALIASES` dict that mapped
+    `"cardiology"` → `"cardiologist"` is gone — the LLM must output the
+    canonical specialty name or the case is counted as wrong.
+    """
+    if not raw:
+        return ""
+    text = raw.strip()
+    try:
+        obj = _json.loads(text)
+        if isinstance(obj, dict):
+            spec = str(obj.get("specialist", "")).strip().lower()
+            if spec in ALLOWED_SPECIALISTS:
+                return spec
+    except (_json.JSONDecodeError, ValueError):
+        pass
+    # Not a valid {"specialist": <allowed>} JSON object — return verbatim so
+    # the per-case comparison in `evaluate_routing()` registers a miss.
+    return text.lower()
 
 
 def evaluate_routing(split="test"):
