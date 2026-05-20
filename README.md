@@ -13,6 +13,8 @@ Two specialists are implemented:
 - **Cardiologist** — 7,730 chunks (Guidelines, Textbooks, Case Reports, Handbooks, Articles)
 - **Endocrinologist** — 37,791 chunks across the same categories
 
+For prior work this project builds on and differs from, see [report §1.5 — Related Work](reports/report_final.md#15-related-work).
+
 ## Architecture
 
 ```
@@ -48,15 +50,24 @@ Validated against a golden dataset of 100 clinical cases across three tiers:
 | 2    | Peripheral   | 14         | 16            | 30    |
 | 3    | Out-of-scope | 9          | 7             | 16    |
 
-Tier 3 tests the "Insufficient evidence" safety fallback, not retrieval quality. Hit Rate and Faithfulness are reported for Tier 1 and Tier 2 only.
+Tier 3 tests the "Insufficient evidence" safety fallback, not retrieval quality. Recall@5 is reported for Tier 1 and Tier 2 only (Tier 3 cases have `gold_sources=[]` by design); for Tier 3, the headline metric is the refusal rate of the numeric out-of-scope gate.
 
-> **TODO — fill in current results from `reports/report_final.md`:**
+| Metric                  | T1 Cardiology              | T1 Endocrinology           | T2 Cardiology              | T2 Endocrinology           | Tier 3 (Out-of-Scope)        | Overall                              |
+|-------------------------|----------------------------|----------------------------|----------------------------|----------------------------|------------------------------|--------------------------------------|
+| Routing Accuracy        | 100.0% [77.2%–100%]        | 100.0% [75.8%–100%]        | 100.0% [78.5%–100%]        | 100.0% [80.6%–100%]        | 100.0% [79.6%–100%]          | **100.0% (70/70) [94.8%–100%]**       |
+| Recall@5                | 59.0% [43.4%–72.9%]        | 60.6% [43.7%–75.3%]        | 54.1% [38.4%–69.0%]        | 52.3% [37.9%–66.2%]        | *n/a (no gold docs)*         | **56.2% (86/153) [48.3%–63.8%]**      |
+| Faithfulness (min-judge) | 100.0% [77.2%–100%]       | 100.0% [75.8%–100%]        | 100.0% [78.5%–100%]        | 100.0% [80.6%–100%]        | 100.0% [79.6%–100%]          | **98.6% (69/70) [92.3%–99.7%]**       |
+| Tier 3 Refusal Rate     | —                          | —                          | —                          | —                          | **80.0% (12/15) [54.8%–93.0%]** | —                                  |
 
-| Metric             | T1 Cardiology | T1 Endocrinology | T2 Cardiology | T2 Endocrinology | Overall |
-|--------------------|---------------|------------------|---------------|------------------|---------|
-| Routing Accuracy   | TBD           | TBD              | TBD           | TBD              | TBD     |
-| Hit Rate           | TBD           | TBD              | TBD           | TBD              | TBD     |
-| Faithfulness       | TBD           | TBD              | TBD           | TBD              | TBD     |
+> **Footnote.** All numbers from the held-out test split (n=70; see [report §4.8](reports/report_final.md#48-held-out-test-set-results-n70)). For dev-set results used during hyperparameter tuning see [report §4.3–§4.7](reports/report_final.md#43-retrieval-hit-rate). Recall@5 denominators are pooled gold-doc Bernoulli (each Tier 1/2 case contributes 1–3 gold-doc trials). Faithfulness (min-judge) counts a case FAITHFUL only if both Yandex judges (`yandexgpt/latest` and `yandexgpt-lite/latest`) agree; the single disagreement is `cardio_40` (Tier 2 cardiology — see [report §5.3](reports/report_final.md#53-epistemic-bounds-of-same-family-evaluation)). Tier 3 Refusal Rate is the numeric out-of-scope gate from Stage 7 ([§4.5](reports/report_final.md#45-out-of-scope-refusal-gate)); at the chosen threshold `L2_REJECT_MIN = 0.92` the same gate falsely refuses 27/55 = 49.1% of Tier 1/2 queries — see the §4.5 trade-off discussion.
+
+### Limitations
+
+- **Small sample size.** n=70 test cases gives Wilson 95% CIs of ±5–25 pp depending on the tier; the per-tier point estimates carry substantial uncertainty. See [report §6 Limitation 1](reports/report_final.md#6-limitations).
+- **Cardiology corpus gaps surfaced by name.** Three Tier 2 cardiology cases (`cardio_23`, `cardio_25`, `cardio_35`) are confirmed retrieval failures with concrete missing-content categories (pericardiocentesis, Dressler / colchicine, temporary pacing). See [report §4.3.1](reports/report_final.md#431-tier-2-corpus-coverage-audit) and [§6 Limitation 2](reports/report_final.md#6-limitations).
+- **Same-vendor judge bias on faithfulness.** Both judges are Yandex models; the 98.6% min-judge rate is an upper bound under the methodology characterised by [Zheng et al. 2023](reports/report_final.md#8-references). A cross-vendor judge slot (`TERTIARY_JUDGE_PROVIDER`) is implemented but not configured here. See [report §5.3](reports/report_final.md#53-epistemic-bounds-of-same-family-evaluation) and [§6 Limitation 6](reports/report_final.md#6-limitations).
+- **Out-of-scope refusal trades FP for recall.** The Stage 7 numeric gate raises Tier 3 refusal from 0/16 to 12/16 but falsely refuses 49.1% of Tier 1/2 queries because min-L2 distributions overlap on this corpus. A two-stage gate (L2 pre-filter + LLM-as-classifier confirmer) is the natural next step. See [report §4.5](reports/report_final.md#45-out-of-scope-refusal-gate) and [§6 Limitation 8](reports/report_final.md#6-limitations).
+- **Two-agent scope.** Only cardiology and endocrinology have full pipelines; extending to additional specialties is a registry entry plus a corpus + FAISS build (Stage 8 / [§7 Conclusion](reports/report_final.md#7-conclusion)). See [report §6 Limitation 3](reports/report_final.md#6-limitations).
 
 Evaluation scripts: `multi-agent_system/tests/`.
 
