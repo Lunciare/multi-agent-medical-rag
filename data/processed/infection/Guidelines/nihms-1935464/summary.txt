@@ -1,0 +1,4 @@
+HHS Public Access
+KEYWORDS: drug, resistance, manuscript, author, author manuscript, antibiotic, model, strategy, time, therapy, manuscript author, combination, combination therapy, years, gonorrhoea
+
+Author manuscript Lancet Microbe. Author manuscript; available in PMC 2024 February 14. Published in final edited form as: Lancet Microbe. 2023 October ; 4(10): e781–e789. Resistance-minimising strategies for introducing a novel antibiotic for gonorrhoea treatment: a mathematical modelling study Emily Reichert, Boston, MA, USA Reza Yaesoubi, USA Minttu M Rönn, MA, USA Thomas L Gift, Division of STD Prevention, Centers for Disease Control and Prevention, Atlanta, GA, USA Joshua A Salomon, Yonatan H Grad Boston, MA, USA Summary Background—Gonorrhoea is a highly prevalent sexually transmitted infection and an urgent public health concern because of increasing antibiotic resistance in Neisseria gonorrhoeae. Only ceftriaxone remains as the recommended treatment in the USA.

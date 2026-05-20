@@ -1,0 +1,4 @@
+NLM Citation: LiverTox: Clinical and Research Information on Drug-
+KEYWORDS: agents, inhibitors, virus, drugs, hiv, antiviral, hepatitis, influenza, infection, active, protease inhibitors, protease, antiviral agents, hcv, pubmed
+
+Induced Liver Injury [Internet]. Bethesda (MD): National Institute of Diabetes and Digestive and Kidney Diseases; 2012-. [Updated 2022 Dec 2]. Bookshelf URL: Antiviral Agents Updated: December 2, 2022. OVERVIEW The antivirals are a large and diverse group of agents that are typically classified by the virus infections for which they are used, their chemical structure and their mode of action. Most antiviral agents have been developed in the last 20 to 25 years, many as a result of the major research efforts to develop therapies and means of prevention of human immunodeficiency virus (HIV) infection and the acquired immunodeficiency syndrome (AIDS).

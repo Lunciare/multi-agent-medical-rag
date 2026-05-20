@@ -1,0 +1,5 @@
+NLM Citation: LiverTox: Clinical and Research Information on Drug-
+KEYWORDS: liver, pubmed pmid, pubmed, pmid, liver injury, injury, patients, induced, disopyramide, propafenone, induced liver, amiodarone, drugs, drug, antiarrhythmics
+
+
+W, Stolz A, Talwalkar J, Reddy KR, et al.; United States Drug Induced Liver Injury Network. Features and outcomes of 899 patients with drug-induced liver injury: Th e DILIN Prospective Study. Gastroenterology 2015; 148: 1340-52. PubMed PMID: 25754159. (Among 899 cases of drug induced liver injury enrolled in a US prospective study between 2004 and 2013, 7 were attributed to antiarrhythmic agents including 5 due to amiodarone and 2 to dronedarone).

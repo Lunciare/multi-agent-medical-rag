@@ -1,0 +1,4 @@
+NLM Citation: Hoofnagle JH. Amoxicillin. [Updated 2026 Jan 24]. In:
+KEYWORDS: liver, injury, amoxicillin, liver injury, pubmed, pubmed pmid, pmid, drug, cases, drug-induced, drug-induced liver, induced, acute, induced liver, drug induced
+
+LiverTox: Clinical and Research Information on Drug-Induced Liver Injury [Internet]. Bethesda (MD): National Institute of Diabetes and Digestive and Kidney Diseases; 2012-. Bookshelf URL: Amoxicillin Updated: January 24, 2026. OVERVIEW Amoxicillin is considered a third generation or aminopenicillin and is one of the most commonly prescribed antibiotics. Amoxicillin and other aminopenicillins have been linked with idiosyncratic liver injury, but only rarely and in isolated case reports. Background Amoxicillin (a mox' i sil' in) is an orally available aminopenicillin antibiotic that has been available in the United States since 1980, for which currently more than 20 million prescriptions are filled yearly.

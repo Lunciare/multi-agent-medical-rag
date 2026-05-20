@@ -1,0 +1,5 @@
+NLM Citation: LiverTox: Clinical and Research Information on Drug-
+KEYWORDS: liver, cancer, prostate, flutamide, prostate cancer, pubmed, pmid, pubmed pmid, cyproterone, alt, hepatotoxicity, injury, liver injury, antiandrogens, induced
+
+
+and 1 from Colombia). PubMed PMID: 24552865. Ryan CJ, Smith MR, Fizazi K, Saad F, Mulders PF, Sternberg CN, Miller K, et al.; COU-AA-302 Investigators. Abiraterone acetate plus prednisone versus placebo plus prednisone in chemotherapy-naive men with metastatic castration-resistant prostate cancer (COU-AA-302): final overall survival analysis of a randomised, double-blind, placebo-controlled phase 3 study. Lancet Oncol 2015; 16: 152-60. PubMed PMID: 25601341. (Among 1088 patients with metastatic, castration-resistant prostate cancer treated with abiraterone and prednisone vs prednisone alone, side effects included mild ALT elevations [13% vs 5%] that were rarely greater than 5 times ULN [0.7% vs 0%] and there were no instances of clinically apparent liver injury or liver related deaths).

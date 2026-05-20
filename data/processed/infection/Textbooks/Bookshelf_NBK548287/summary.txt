@@ -1,0 +1,4 @@
+NLM Citation: Hoofnagle JH. Anticholinergic Agents. [Updated 2026
+KEYWORDS: liver, pubmed pmid, pmid, pubmed, injury, liver injury, review, safety, patients, anticholinergics, effects, efficacy, anticholinergic, bladder, overactive
+
+In: LiverTox: Clinical and Research Information on Drug- Induced Liver Injury [Internet]. Bethesda (MD): National Institute of Diabetes and Digestive and Kidney Diseases; 2012-. Bookshelf URL: Anticholinergic Agents Updated: February 18, 2026. OVERVIEW Anticholinergics are agents that decrease or block the actions of acetylcholine on its parasympathetic nervous system receptors on smooth muscle cells, glands and the central nervous system. Cholinergic receptors are usually categorized as nicotinic or muscarinic. Anticholinergics often demonstrate differential antagonism for different conditions.

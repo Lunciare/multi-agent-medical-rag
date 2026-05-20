@@ -1,0 +1,4 @@
+NLM Citation: LiverTox: Clinical and Research Information on Drug-
+KEYWORDS: apixaban, liver, patients, injury, liver injury, fibrillation, atrial, atrial fibrillation, pubmed, pmid, pubmed pmid, anticoagulants, alt, oral, warfarin
+
+Induced Liver Injury [Internet]. Bethesda (MD): National Institute of Diabetes and Digestive and Kidney Diseases; 2012-. [Updated 2023 Feb 16]. Bookshelf URL: Apixaban Updated: February 16, 2023. OVERVIEW Introduction Apixaban is an oral anticoagulant and direct inhibitor of factor Xa which is used to decrease the risk of venous thromboses, systemic embolization and stroke in patients with atrial fibrillation, and lower the risk of deep vein thrombosis and pulmonary embolus after knee or hip replacement surgery. Apixaban has been linked to a low rate of serum aminotransferase elevations during therapy and to rare instances of clinically apparent liver injury.

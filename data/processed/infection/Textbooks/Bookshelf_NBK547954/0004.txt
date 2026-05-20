@@ -1,0 +1,5 @@
+NLM Citation: LiverTox: Clinical and Research Information on Drug-
+KEYWORDS: amantadine, influenza, liver, antiviral, agents, antiviral agents, drug, disease, pmid, injury, review, pubmed, pubmed pmid, drugs, treatment
+
+
+B). Antiviral drugs for influenza. Med Lett Drugs Ther. 2020;62(1589):1–4. PubMed PMID: 31999661. (Concise review of the drug therapy of influenza mentions that there is no evidence that one neuraminidase inhibitor or baloxavir is more effective than any other in treating uncomplicated influenza infections, but that oseltamivir is preferred for treatment of pregnant women, hospitalized patients and those with severe, complicated or progressive illness; mentions that rimantadine and amantadine are no longer recommended for treatment of influenza because of high rates of resistance in circulating strains of influenza A and they are ineffective against influenza B).

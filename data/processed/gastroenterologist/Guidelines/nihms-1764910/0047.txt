@@ -1,0 +1,5 @@
+HHS Public Access
+KEYWORDS: gerd, patients, symptoms, ppi, reflux, author, manuscript, author manuscript, ppis, manuscript author, therapy, testing, studies, study, gerd symptoms
+
+
+example, is available commercially but is not developed sufficiently to warrant discussion in this guideline. Esophageal function testing is addressed in detail in another guideline, while other extensive reviews focus on valuable additions to our clinical armamentarium such as magnetic sphincter augmentation and TIF. Potassium-competitive acid blockers (PCABs) are exciting potential new agents for pharmacologic treatment of GERD. One, currently available in Japan, presently is undergoing Phase 3 trials in the US as we complete this document, and may well be approved for clinical use soon after this review is published! Future research with advanced endoscopic techniques, data on long-term efficacy of surgical intervention, and advances in artificial intelligence and basic science will almost certainly change the way we manage GERD going forward.

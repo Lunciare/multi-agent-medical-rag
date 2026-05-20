@@ -1,0 +1,4 @@
+NLM Citation: LiverTox: Clinical and Research Information on Drug-
+KEYWORDS: amphotericin, liver, days, pubmed, patients, pmid, pubmed pmid, injury, hepatotoxicity, elevations, bilirubin, therapy, alt, liver injury, antifungal
+
+Induced Liver Injury [Internet]. Bethesda (MD): National Institute of Diabetes and Digestive and Kidney Diseases; 2012-. [Updated 2016 Apr 8]. Bookshelf URL: Amphotericin B Updated: April 8, 2016. OVERVIEW Introduction Amphotericin B is an antifungal agent with a broad spectrum of activity against many fungal species. Amphotericin B commonly causes mild to moderate serum aminotransferase elevations and can cause hyperbilirubinemia, but acute, clinically apparent drug induced liver injury from amphotericin B therapy is exceedingly rare.
