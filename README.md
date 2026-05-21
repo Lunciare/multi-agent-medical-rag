@@ -9,7 +9,7 @@ A Clinical Decision Support Assistant powered by a multi-agent Retrieval-Augment
 | Contributor | GitHub | Contribution |
 |---|---|---|
 | Suvorova A. | [@Lunciare](https://github.com/Lunciare) | Core system architecture, RAG pipeline, evaluation infrastructure, report |
-| Angry-Jupiter | [@Angry-Jupiter](https://github.com/Angry-Jupiter) | Gastroenterology and infectiology knowledge base, specialist registry entries |
+| Murzova S. | [@Angry-Jupiter](https://github.com/Angry-Jupiter) | Gastroenterology and infectiology knowledge base, specialist registry entries |
 
 ## Overview
 
