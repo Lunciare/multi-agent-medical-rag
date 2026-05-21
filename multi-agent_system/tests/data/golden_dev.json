@@ -797,5 +797,762 @@
         "doc_name": "NCBI_Endocrinology_Clean - Adult Diabetic Ketoacidosis"
       }
     ]
+  },
+  {
+    "id": "gastro_1",
+    "tier": 1,
+    "tier_label": "core",
+    "query": "A 48-year-old male presents with a 6-month history of postprandial retrosternal burning, regurgitation of sour fluid, and nocturnal cough. He drinks alcohol on weekends and is overweight (BMI 31). Empiric therapy has not been tried. What is the first-line diagnostic and management approach?",
+    "expected_specialist": "gastroenterologist",
+    "expected_keywords": [
+      "GERD",
+      "proton pump inhibitor",
+      "lifestyle modification",
+      "endoscopy",
+      "reflux"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0011.txt",
+        "doc_name": "nihms-1828871"
+      },
+      {
+        "source_file": "0002.txt",
+        "doc_name": "main (1)"
+      },
+      {
+        "source_file": "0029.txt",
+        "doc_name": "nihms-1764910"
+      }
+    ]
+  },
+  {
+    "id": "gastro_2",
+    "tier": 1,
+    "tier_label": "core",
+    "query": "A 55-year-old male with longstanding NSAID use for osteoarthritis presents with epigastric pain that improves with food and a positive stool antigen test for Helicobacter pylori. Upper endoscopy shows a clean-based 1 cm gastric ulcer. What is the recommended eradication and follow-up strategy?",
+    "expected_specialist": "gastroenterologist",
+    "expected_keywords": [
+      "peptic ulcer",
+      "Helicobacter pylori",
+      "triple therapy",
+      "PPI",
+      "NSAID"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0009.txt",
+        "doc_name": "Bookshelf_NBK448002 - Bookshelf_NBK448002"
+      },
+      {
+        "source_file": "0012.txt",
+        "doc_name": "wjg-31-27-107138"
+      },
+      {
+        "source_file": "0007.txt",
+        "doc_name": "535_2021_Article_1769"
+      }
+    ]
+  },
+  {
+    "id": "gastro_3",
+    "tier": 1,
+    "tier_label": "core",
+    "query": "A 32-year-old female with a 4-year history of ulcerative colitis on mesalamine presents with worsening bloody diarrhoea (8 stools/day), urgency, and abdominal cramps over 5 days. Stool studies are negative for C. difficile. CRP is 65. What is the next step in management?",
+    "expected_specialist": "gastroenterologist",
+    "expected_keywords": [
+      "ulcerative colitis",
+      "flare",
+      "corticosteroids",
+      "bloody diarrhoea",
+      "biologic"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0004.txt",
+        "doc_name": "Bookshelf_NBK247597"
+      },
+      {
+        "source_file": "0009.txt",
+        "doc_name": "J+pediatr+gastroenterol+nutr+-+2018+-+Turner+-+Management+of+Paediatric+Ulcerative+Colitis+Part+1"
+      },
+      {
+        "source_file": "0009.txt",
+        "doc_name": "JPN3-81-765"
+      }
+    ]
+  },
+  {
+    "id": "gastro_4",
+    "tier": 1,
+    "tier_label": "core",
+    "query": "A 28-year-old male presents with 6 months of intermittent right lower quadrant pain, non-bloody diarrhoea, weight loss of 7 kg, and aphthous oral ulcers. Colonoscopy shows skip lesions in the terminal ileum with cobblestoning. What is the diagnosis and initial management?",
+    "expected_specialist": "gastroenterologist",
+    "expected_keywords": [
+      "Crohn's disease",
+      "terminal ileum",
+      "skip lesions",
+      "induction therapy",
+      "ileal"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0002.txt",
+        "doc_name": "WJG-20-7075"
+      }
+    ]
+  },
+  {
+    "id": "gastro_5",
+    "tier": 1,
+    "tier_label": "core",
+    "query": "A 26-year-old female reports a 2-year history of crampy lower abdominal pain relieved by defecation, alternating bowel habit with predominant loose stools, and bloating. There are no alarm features. Routine labs and coeliac serology are normal. What diagnosis and management apply?",
+    "expected_specialist": "gastroenterologist",
+    "expected_keywords": [
+      "irritable bowel syndrome",
+      "IBS-D",
+      "Rome criteria",
+      "dietary",
+      "low-FODMAP"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0037.txt",
+        "doc_name": "gutjnl-2017-315909"
+      },
+      {
+        "source_file": "0021.txt",
+        "doc_name": "Bookshelf_NBK550725 - Bookshelf_NBK550725"
+      }
+    ]
+  },
+  {
+    "id": "gastro_6",
+    "tier": 1,
+    "tier_label": "core",
+    "query": "A 45-year-old male with chronic hepatitis B (HBsAg positive for 8 years) has HBV DNA of 25,000 IU/mL, ALT 96 U/L, normal bilirubin and platelets, and a Fibroscan of 9.2 kPa. He is HBeAg negative. What is the indication for and choice of antiviral therapy?",
+    "expected_specialist": "gastroenterologist",
+    "expected_keywords": [
+      "chronic hepatitis B",
+      "entecavir",
+      "tenofovir",
+      "HBV DNA",
+      "antiviral therapy"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0018.txt",
+        "doc_name": "nihms957253"
+      },
+      {
+        "source_file": "0034.txt",
+        "doc_name": "rr6701a1"
+      },
+      {
+        "source_file": "0004.txt",
+        "doc_name": "main (3)"
+      }
+    ]
+  },
+  {
+    "id": "gastro_7",
+    "tier": 1,
+    "tier_label": "core",
+    "query": "A 50-year-old man with chronic hepatitis C genotype 1a, treatment naive, F2 fibrosis on biopsy, and no cirrhosis presents for treatment counselling. He has no decompensation and a normal renal function. What direct-acting antiviral regimen and monitoring are appropriate?",
+    "expected_specialist": "gastroenterologist",
+    "expected_keywords": [
+      "hepatitis C",
+      "direct-acting antiviral",
+      "sofosbuvir",
+      "sustained virologic response",
+      "HCV"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0016.txt",
+        "doc_name": "nihms-1841827"
+      },
+      {
+        "source_file": "0025.txt",
+        "doc_name": "kjhep-18-1"
+      },
+      {
+        "source_file": "0018.txt",
+        "doc_name": "nihms957253"
+      }
+    ]
+  },
+  {
+    "id": "gastro_8",
+    "tier": 1,
+    "tier_label": "core",
+    "query": "A 62-year-old male with known alcohol-related cirrhosis (Child-Pugh B) presents with new ascites, leg oedema and fatigue. Diagnostic paracentesis shows a SAAG of 1.6 g/dL with 80 PMNs/mm3 and no growth. INR is 1.7. What is the diagnosis and initial management?",
+    "expected_specialist": "gastroenterologist",
+    "expected_keywords": [
+      "decompensated cirrhosis",
+      "ascites",
+      "SAAG",
+      "diuretics",
+      "sodium restriction"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0014.txt",
+        "doc_name": "nihms-1025481"
+      },
+      {
+        "source_file": "0005.txt",
+        "doc_name": "cmh-2019-0010n"
+      },
+      {
+        "source_file": "0020.txt",
+        "doc_name": "kjhep-18-1"
+      }
+    ]
+  },
+  {
+    "id": "gastro_9",
+    "tier": 1,
+    "tier_label": "core",
+    "query": "A 42-year-old female presents with a 3-month history of postprandial right upper quadrant pain after fatty meals, lasting 30–90 minutes, with no fever or jaundice. Ultrasound shows multiple mobile gallstones and a 3 mm common bile duct. What is the diagnosis and recommended treatment?",
+    "expected_specialist": "gastroenterologist",
+    "expected_keywords": [
+      "cholelithiasis",
+      "biliary colic",
+      "cholecystectomy",
+      "gallstones",
+      "ultrasound"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0089.txt",
+        "doc_name": "Bookshelf_NBK258747"
+      },
+      {
+        "source_file": "0025.txt",
+        "doc_name": "gutjnl-2022-327737"
+      },
+      {
+        "source_file": "0012.txt",
+        "doc_name": "534_2006_Article_1152"
+      }
+    ]
+  },
+  {
+    "id": "gastro_10",
+    "tier": 3,
+    "tier_label": "out_of_scope",
+    "query": "A 78-year-old female with severe aortic stenosis (peak gradient 75 mmHg) presents with recurrent occult GI bleeding, iron-deficiency anaemia, and a negative upper and lower endoscopy. Small-bowel angiodysplasia is suspected. What is the proposed pathophysiology and definitive treatment?",
+    "expected_specialist": "gastroenterologist",
+    "expected_keywords": [
+      "Heyde syndrome",
+      "angiodysplasia",
+      "von Willebrand",
+      "aortic stenosis",
+      "occult bleeding"
+    ],
+    "gold_sources": []
+  },
+  {
+    "id": "gastro_11",
+    "tier": 1,
+    "tier_label": "core",
+    "query": "A 60-year-old male presents with epigastric pain radiating to the back, vomiting, lipase 8x ULN, and an ultrasound showing gallstones with a normal CBD. He is haemodynamically stable. What is the diagnosis, severity grading approach, and initial supportive management?",
+    "expected_specialist": "gastroenterologist",
+    "expected_keywords": [
+      "acute pancreatitis",
+      "gallstone pancreatitis",
+      "lipase",
+      "fluid resuscitation",
+      "BISAP"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0007.txt",
+        "doc_name": "WJG-16-3219"
+      }
+    ]
+  },
+  {
+    "id": "gastro_12",
+    "tier": 1,
+    "tier_label": "core",
+    "query": "A 35-year-old female presents with chronic diarrhoea, iron-deficiency anaemia, and a 6 kg weight loss. Tissue transglutaminase IgA is markedly elevated and total IgA is normal. Duodenal biopsy shows villous atrophy and crypt hyperplasia (Marsh 3b). What is the diagnosis and management?",
+    "expected_specialist": "gastroenterologist",
+    "expected_keywords": [
+      "coeliac disease",
+      "celiac disease",
+      "gluten-free diet",
+      "tissue transglutaminase",
+      "villous atrophy"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0011.txt",
+        "doc_name": "1471-2172-9-6"
+      },
+      {
+        "source_file": "0008.txt",
+        "doc_name": "Bookshelf_NBK321517"
+      },
+      {
+        "source_file": "0006.txt",
+        "doc_name": "nihms15392"
+      }
+    ]
+  },
+  {
+    "id": "gastro_13",
+    "tier": 1,
+    "tier_label": "core",
+    "query": "A 52-year-old asymptomatic male with no family history attends his annual exam and asks about colorectal cancer screening. He has no comorbidities and a life expectancy of >20 years. What screening modalities are appropriate and what is the recommended interval?",
+    "expected_specialist": "gastroenterologist",
+    "expected_keywords": [
+      "colorectal cancer screening",
+      "colonoscopy",
+      "FIT test",
+      "polyp",
+      "adenoma"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0007.txt",
+        "doc_name": "gutjnl-2019-319915"
+      },
+      {
+        "source_file": "0044.txt",
+        "doc_name": "nihms-737785"
+      },
+      {
+        "source_file": "0008.txt",
+        "doc_name": "gutjnl-74-10"
+      }
+    ]
+  },
+  {
+    "id": "gastro_14",
+    "tier": 1,
+    "tier_label": "core",
+    "query": "A 65-year-old male presents with 3 days of left lower quadrant pain, low-grade fever (38.1°C), nausea, and constipation. CT shows pericolic fat stranding and a thickened sigmoid colon with multiple diverticula and no abscess. WCC is 13.5. What is the diagnosis and management?",
+    "expected_specialist": "gastroenterologist",
+    "expected_keywords": [
+      "acute diverticulitis",
+      "sigmoid",
+      "CT abdomen",
+      "antibiotics",
+      "uncomplicated"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0003.txt",
+        "doc_name": "bcr-2022-249547"
+      },
+      {
+        "source_file": "0001.txt",
+        "doc_name": "crg-2024-0018-0001-538970"
+      },
+      {
+        "source_file": "0002.txt",
+        "doc_name": "WJG-20-7075"
+      }
+    ]
+  },
+  {
+    "id": "gastro_15",
+    "tier": 1,
+    "tier_label": "core",
+    "query": "A 58-year-old man with cirrhosis develops tense ascites refractory to maximal diuretic therapy and a 6 kg weight gain over 3 weeks. Serum creatinine is normal. He is scheduled for large-volume paracentesis. What is the indication for albumin replacement and the long-term management plan?",
+    "expected_specialist": "gastroenterologist",
+    "expected_keywords": [
+      "refractory ascites",
+      "large-volume paracentesis",
+      "albumin",
+      "TIPS",
+      "diuretic"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0028.txt",
+        "doc_name": "gutjnl-2020-321790"
+      },
+      {
+        "source_file": "0016.txt",
+        "doc_name": "kjhep-18-1"
+      },
+      {
+        "source_file": "0015.txt",
+        "doc_name": "main (2)"
+      }
+    ]
+  },
+  {
+    "id": "infect_1",
+    "tier": 1,
+    "tier_label": "core",
+    "query": "A 68-year-old male presents with 4 days of fever, productive cough with rust-coloured sputum, pleuritic chest pain and SpO2 92% on room air. Chest X-ray shows right lower lobe consolidation. He has no recent hospitalisation. CRB-65 score is 1. What is the diagnosis, severity assessment and empirical therapy?",
+    "expected_specialist": "infectionist",
+    "expected_keywords": [
+      "community-acquired pneumonia",
+      "CRB-65",
+      "empirical antibiotics",
+      "amoxicillin",
+      "Streptococcus pneumoniae"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0003.txt",
+        "doc_name": "12879_2023_Article_8795"
+      },
+      {
+        "source_file": "0003.txt",
+        "doc_name": "main (2)"
+      }
+    ]
+  },
+  {
+    "id": "infect_2",
+    "tier": 1,
+    "tier_label": "core",
+    "query": "A 28-year-old non-pregnant female presents with 2 days of dysuria, urinary frequency and suprapubic pain without fever or flank pain. Urinalysis shows positive leucocyte esterase and nitrites. What is the diagnosis and first-line treatment in an area with low E. coli resistance?",
+    "expected_specialist": "infectionist",
+    "expected_keywords": [
+      "uncomplicated urinary tract infection",
+      "cystitis",
+      "nitrofurantoin",
+      "trimethoprim",
+      "E. coli"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0001.txt",
+        "doc_name": "bmj33200094"
+      },
+      {
+        "source_file": "0008.txt",
+        "doc_name": "ciae403"
+      },
+      {
+        "source_file": "0002.txt",
+        "doc_name": "pone.0336572"
+      }
+    ]
+  },
+  {
+    "id": "infect_3",
+    "tier": 1,
+    "tier_label": "core",
+    "query": "A 60-year-old male with fever 39.2°C, HR 115, RR 24, BP 88/52 mmHg, lactate 3.5 mmol/L and a suspected intra-abdominal source presents to the ED. What are the priorities of the sepsis 'hour-1' bundle and the empirical antibiotic considerations?",
+    "expected_specialist": "infectionist",
+    "expected_keywords": [
+      "sepsis",
+      "septic shock",
+      "lactate",
+      "broad-spectrum antibiotics",
+      "source control"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0003.txt",
+        "doc_name": "ciaf460"
+      },
+      {
+        "source_file": "0009.txt",
+        "doc_name": "ciae347"
+      },
+      {
+        "source_file": "0002.txt",
+        "doc_name": "10096_2024_Article_4949"
+      }
+    ]
+  },
+  {
+    "id": "infect_4",
+    "tier": 1,
+    "tier_label": "core",
+    "query": "A 45-year-old male presents with 3 days of unilateral lower-leg redness, warmth, swelling and tenderness following a minor abrasion. He is afebrile and systemically well; there is no purulence or abscess. What is the likely organism and the first-line oral antibiotic strategy?",
+    "expected_specialist": "infectionist",
+    "expected_keywords": [
+      "cellulitis",
+      "Streptococcus pyogenes",
+      "flucloxacillin",
+      "cephalexin",
+      "non-purulent skin infection"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0008.txt",
+        "doc_name": "Bookshelf_NBK11733"
+      },
+      {
+        "source_file": "0007.txt",
+        "doc_name": "10096_2024_Article_4949"
+      }
+    ]
+  },
+  {
+    "id": "infect_5",
+    "tier": 1,
+    "tier_label": "core",
+    "query": "A 55-year-old male with a bicuspid aortic valve presents with 3 weeks of fever, night sweats and weight loss. Three sets of blood cultures grow viridans group streptococci. TTE shows a 12 mm vegetation on the aortic valve with mild aortic regurgitation. What is the diagnosis and treatment plan?",
+    "expected_specialist": "infectionist",
+    "expected_keywords": [
+      "infective endocarditis",
+      "viridans streptococci",
+      "vegetation",
+      "duke criteria",
+      "intravenous penicillin"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0003.txt",
+        "doc_name": "12879_2019_Article_4532"
+      },
+      {
+        "source_file": "0001.txt",
+        "doc_name": "13256_2017_Article_1274"
+      },
+      {
+        "source_file": "0008.txt",
+        "doc_name": "12872_2026_Article_5687"
+      }
+    ]
+  },
+  {
+    "id": "infect_6",
+    "tier": 1,
+    "tier_label": "core",
+    "query": "A 32-year-old healthcare worker has a needle-stick exposure from a known HBsAg-positive patient. The worker received hepatitis B vaccination as a student and has an unknown anti-HBs titre. What is the recommended post-exposure prophylaxis and follow-up?",
+    "expected_specialist": "infectionist",
+    "expected_keywords": [
+      "hepatitis B post-exposure prophylaxis",
+      "HBIG",
+      "hepatitis B vaccine",
+      "anti-HBs",
+      "needle-stick"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0077.txt",
+        "doc_name": "Bookshelf_NBK379694"
+      }
+    ]
+  },
+  {
+    "id": "infect_7",
+    "tier": 1,
+    "tier_label": "core",
+    "query": "A 70-year-old male with hypertension and obesity presents with 6 days of fever, cough and progressive dyspnoea. SpO2 is 89% on room air. A nasopharyngeal SARS-CoV-2 PCR is positive. He has no contraindications to standard COVID-19 therapies. What is the appropriate inpatient management?",
+    "expected_specialist": "infectionist",
+    "expected_keywords": [
+      "COVID-19",
+      "SARS-CoV-2",
+      "dexamethasone",
+      "remdesivir",
+      "oxygen therapy"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0003.txt",
+        "doc_name": "main (2)"
+      },
+      {
+        "source_file": "0002.txt",
+        "doc_name": "tpmd200933"
+      },
+      {
+        "source_file": "0002.txt",
+        "doc_name": "IJCP-75-0"
+      }
+    ]
+  },
+  {
+    "id": "infect_8",
+    "tier": 1,
+    "tier_label": "core",
+    "query": "A 60-year-old female with COPD presents within 48 hours of symptom onset with fever, myalgia, cough and rhinorrhoea during the local influenza season. Rapid influenza A PCR is positive. What is the rationale for and choice of antiviral therapy, and what supportive measures apply?",
+    "expected_specialist": "infectionist",
+    "expected_keywords": [
+      "influenza A",
+      "neuraminidase inhibitor",
+      "oseltamivir",
+      "antiviral therapy",
+      "high-risk patient"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0004.txt",
+        "doc_name": "12879_2018_Article_3606"
+      },
+      {
+        "source_file": "0004.txt",
+        "doc_name": "Bookshelf_NBK11773"
+      },
+      {
+        "source_file": "0006.txt",
+        "doc_name": "yjbm_83_4_193"
+      }
+    ]
+  },
+  {
+    "id": "infect_9",
+    "tier": 1,
+    "tier_label": "core",
+    "query": "A 35-year-old immigrant presents with a 3-month history of productive cough, night sweats, weight loss and haemoptysis. Chest X-ray shows right upper lobe cavitation. Two sputum samples are smear-positive for acid-fast bacilli. What is the diagnosis, initial regimen, and public-health considerations?",
+    "expected_specialist": "infectionist",
+    "expected_keywords": [
+      "pulmonary tuberculosis",
+      "acid-fast bacilli",
+      "RIPE regimen",
+      "isoniazid",
+      "directly observed therapy"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0008.txt",
+        "doc_name": "bullwho00043-0098"
+      },
+      {
+        "source_file": "0001.txt",
+        "doc_name": "04-0523"
+      }
+    ]
+  },
+  {
+    "id": "infect_10",
+    "tier": 3,
+    "tier_label": "out_of_scope",
+    "query": "A 55-year-old male presents with several years of progressive arthralgia, weight loss, chronic diarrhoea and cognitive decline. Duodenal biopsy shows PAS-positive macrophages and PCR detects Tropheryma whipplei. What is the diagnosis, the recommended treatment and the rationale for prolonged therapy?",
+    "expected_specialist": "infectionist",
+    "expected_keywords": [
+      "Whipple's disease",
+      "Tropheryma whipplei",
+      "PAS-positive macrophages",
+      "ceftriaxone",
+      "trimethoprim-sulfamethoxazole"
+    ],
+    "gold_sources": []
+  },
+  {
+    "id": "infect_11",
+    "tier": 1,
+    "tier_label": "core",
+    "query": "A 28-year-old male presents for a new HIV diagnosis with a positive 4th-generation HIV antigen/antibody test and confirmatory differentiation assay. CD4 is 380, HIV RNA 85,000 copies/mL. He has no active opportunistic infection. What is the initial workup and antiretroviral treatment plan?",
+    "expected_specialist": "infectionist",
+    "expected_keywords": [
+      "HIV",
+      "antiretroviral therapy",
+      "CD4 count",
+      "viral load",
+      "integrase inhibitor"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0017.txt",
+        "doc_name": "ciae479"
+      },
+      {
+        "source_file": "0042.txt",
+        "doc_name": "Bookshelf_NBK374294"
+      },
+      {
+        "source_file": "0001.txt",
+        "doc_name": "nihms-2138197"
+      }
+    ]
+  },
+  {
+    "id": "infect_12",
+    "tier": 1,
+    "tier_label": "core",
+    "query": "A 22-year-old male presents with 12 hours of fever 39.5°C, severe headache, photophobia and neck stiffness. CSF shows 1800 WCC (90% neutrophils), protein 2.5 g/L, glucose 1.2 mmol/L (serum 6 mmol/L), and Gram stain reveals Gram-positive diplococci. What is the diagnosis and immediate management?",
+    "expected_specialist": "infectionist",
+    "expected_keywords": [
+      "bacterial meningitis",
+      "Streptococcus pneumoniae",
+      "ceftriaxone",
+      "dexamethasone",
+      "CSF analysis"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0003.txt",
+        "doc_name": "10.1177_03000605251363093"
+      },
+      {
+        "source_file": "0006.txt",
+        "doc_name": "nihms-1953898"
+      },
+      {
+        "source_file": "0001.txt",
+        "doc_name": "12879_2016_Article_2129"
+      }
+    ]
+  },
+  {
+    "id": "infect_13",
+    "tier": 1,
+    "tier_label": "core",
+    "query": "A 5-year-old child has had 4 days of profuse non-bloody watery diarrhoea, vomiting and low-grade fever following a daycare outbreak. He is moderately dehydrated. There is no recent travel or antibiotic exposure. What is the most likely cause and the management priorities?",
+    "expected_specialist": "infectionist",
+    "expected_keywords": [
+      "acute viral gastroenteritis",
+      "rotavirus",
+      "norovirus",
+      "oral rehydration solution",
+      "dehydration"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0004.txt",
+        "doc_name": "Bookshelf_NBK11764"
+      },
+      {
+        "source_file": "0014.txt",
+        "doc_name": "Bookshelf_NBK11790"
+      }
+    ]
+  },
+  {
+    "id": "infect_14",
+    "tier": 1,
+    "tier_label": "core",
+    "query": "A 70-year-old male develops watery diarrhoea (10 stools/day), abdominal cramps, and a fever 38.4°C, 10 days into a course of ceftriaxone for pneumonia. WCC is 18; stool toxin assay is positive for C. difficile. He is haemodynamically stable. What is the diagnosis and recommended antibiotic therapy?",
+    "expected_specialist": "infectionist",
+    "expected_keywords": [
+      "Clostridioides difficile",
+      "fidaxomicin",
+      "vancomycin oral",
+      "toxin",
+      "CDI"
+    ],
+    "gold_sources": []
+  },
+  {
+    "id": "infect_15",
+    "tier": 1,
+    "tier_label": "core",
+    "query": "A 32-year-old female athlete presents with a tender, fluctuant 4 cm abscess on the thigh with surrounding erythema. Incision and drainage are performed; Gram stain shows Gram-positive cocci in clusters and culture grows MRSA. She is afebrile and systemically well. What antibiotic therapy is appropriate?",
+    "expected_specialist": "infectionist",
+    "expected_keywords": [
+      "MRSA",
+      "skin and soft tissue infection",
+      "incision and drainage",
+      "trimethoprim-sulfamethoxazole",
+      "doxycycline"
+    ],
+    "gold_sources": [
+      {
+        "source_file": "0004.txt",
+        "doc_name": "12879_2019_Article_3686"
+      },
+      {
+        "source_file": "0002.txt",
+        "doc_name": "fcimb-13-1159891"
+      },
+      {
+        "source_file": "0003.txt",
+        "doc_name": "hkm0606p228"
+      }
+    ]
   }
 ]

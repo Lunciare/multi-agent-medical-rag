@@ -49,8 +49,16 @@ def _save(path, dataset):
 
 
 def _retrieve_top_k(orchestrator, case, top_k):
-    agent = (orchestrator.agents["cardiologist"] if case["expected_specialist"] == "cardiologist"
-             else orchestrator.agents["endocrinologist"])
+    # Pre-Stage-32 this function hardcoded {cardiologist, endocrinologist};
+    # the four-specialist registry (PR #1 + Stage 36 indices) means we can now
+    # resolve any registered specialty via `case["expected_specialist"]`.
+    sp = case["expected_specialist"]
+    if sp not in orchestrator.agents:
+        raise KeyError(
+            f"Case {case.get('id')!r} expects specialist {sp!r}, "
+            f"but the orchestrator has agents for {sorted(orchestrator.agents)}."
+        )
+    agent = orchestrator.agents[sp]
     return agent.vectorstore.similarity_search_with_score(case["query"], k=top_k)
 
 

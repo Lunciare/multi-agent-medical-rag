@@ -63,7 +63,6 @@
     "query": "Patient with cussings syndrome features: central obesity, moon facies, abdominal striae, secondary hypertension. Workup for the underlying cause?",
     "expected_specialist": "endocrinologist"
   },
-
   {
     "id": "adv_lang_1",
     "tier": 4,
@@ -128,7 +127,6 @@
     "query": "Пациент с тиреотоксикозом, ТТГ 0.01, свободный Т4 65. Какое лечение и схема наблюдения после начала терапии?",
     "expected_specialist": "endocrinologist"
   },
-
   {
     "id": "adv_dom_1",
     "tier": 4,
@@ -193,7 +191,6 @@
     "query": "40yo male with no significant past history presents with episodic palpitations, sweating, and severe paroxysmal headaches. BP is highly variable, swinging between 180/110 and 110/70 mmHg between episodes. 24-hour urinary metanephrines are markedly elevated. What is the underlying diagnosis and which specialty leads management?",
     "expected_specialist": "endocrinologist"
   },
-
   {
     "id": "adv_amb_1",
     "tier": 4,
@@ -201,7 +198,10 @@
     "category": "symptom_only_ambiguous",
     "query": "45yo presents with chronic fatigue, unintentional 4 kg weight loss over the past 3 months, and occasional palpitations at rest. No other findings on initial exam, vitals normal between episodes.",
     "expected_specialist": "cardiologist",
-    "valid_domains": ["cardiologist", "endocrinologist"]
+    "valid_domains": [
+      "cardiologist",
+      "endocrinologist"
+    ]
   },
   {
     "id": "adv_amb_2",
@@ -210,7 +210,10 @@
     "category": "symptom_only_ambiguous",
     "query": "60yo woman with episodic dizziness, transient sweating, and generalised weakness lasting 5-10 minutes at a time. No clear trigger or pattern. Vitals are stable between episodes.",
     "expected_specialist": "cardiologist",
-    "valid_domains": ["cardiologist", "endocrinologist"]
+    "valid_domains": [
+      "cardiologist",
+      "endocrinologist"
+    ]
   },
   {
     "id": "adv_amb_3",
@@ -219,7 +222,10 @@
     "category": "symptom_only_ambiguous",
     "query": "55yo male with persistent unexplained fatigue, slight weight gain of 3 kg, and reduced exercise tolerance over the past 6 months. No focal symptoms, no chest pain, no palpitations.",
     "expected_specialist": "endocrinologist",
-    "valid_domains": ["cardiologist", "endocrinologist"]
+    "valid_domains": [
+      "cardiologist",
+      "endocrinologist"
+    ]
   },
   {
     "id": "adv_amb_4",
@@ -228,7 +234,10 @@
     "category": "symptom_only_ambiguous",
     "query": "Young adult presents with intermittent palpitations, generalised anxiety, and mild fine tremor. No syncope, no chest pain, no exertional symptoms. Family history not yet obtained.",
     "expected_specialist": "endocrinologist",
-    "valid_domains": ["cardiologist", "endocrinologist"]
+    "valid_domains": [
+      "cardiologist",
+      "endocrinologist"
+    ]
   },
   {
     "id": "adv_amb_5",
@@ -237,7 +246,10 @@
     "category": "symptom_only_ambiguous",
     "query": "Middle-aged patient with intermittent dyspnea on moderate exertion, generalised fatigue, and vague chest tightness that comes and goes over the past several weeks. No clear triggers.",
     "expected_specialist": "cardiologist",
-    "valid_domains": ["cardiologist", "endocrinologist"]
+    "valid_domains": [
+      "cardiologist",
+      "endocrinologist"
+    ]
   },
   {
     "id": "adv_amb_6",
@@ -246,7 +258,10 @@
     "category": "symptom_only_ambiguous",
     "query": "70yo with progressive generalised weakness, weight loss of 5 kg, and reduced appetite over the past 3 months. No focal symptoms on history or exam.",
     "expected_specialist": "endocrinologist",
-    "valid_domains": ["cardiologist", "endocrinologist"]
+    "valid_domains": [
+      "cardiologist",
+      "endocrinologist"
+    ]
   },
   {
     "id": "adv_amb_7",
@@ -255,7 +270,10 @@
     "category": "symptom_only_ambiguous",
     "query": "32yo female with episodes of sweating, fine tremor, and palpitations triggered specifically by emotional stress; symptoms resolve fully with rest. No syncope, no chest pain.",
     "expected_specialist": "endocrinologist",
-    "valid_domains": ["cardiologist", "endocrinologist"]
+    "valid_domains": [
+      "cardiologist",
+      "endocrinologist"
+    ]
   },
   {
     "id": "adv_amb_8",
@@ -264,6 +282,297 @@
     "category": "symptom_only_ambiguous",
     "query": "50yo with bilateral lower-extremity oedema, generalised fatigue, and vague abdominal discomfort. No syncope, no focal weakness, no chest pain on exertion.",
     "expected_specialist": "cardiologist",
-    "valid_domains": ["cardiologist", "endocrinologist"]
+    "valid_domains": [
+      "cardiologist",
+      "endocrinologist"
+    ]
+  },
+  {
+    "id": "adv_miss_9",
+    "category": "misspelled",
+    "query": "32yo female with 4-month bloody diareha, urgemcy and aphthous oral ulsers. Colonoscopy: continuous mucosal inflamation of recctum and sigmoid. Diagnois and induction strategy?",
+    "expected_specialist": "gastroenterologist",
+    "tier": 4,
+    "tier_label": "adversarial"
+  },
+  {
+    "id": "adv_miss_10",
+    "category": "misspelled",
+    "query": "55-year-old man with sirosis develops worsenig ascits, leg swelling and dispnea. SAAG 1.7, PMNs 50/mm3. Manegement plan?",
+    "expected_specialist": "gastroenterologist",
+    "tier": 4,
+    "tier_label": "adversarial"
+  },
+  {
+    "id": "adv_miss_11",
+    "category": "misspelled",
+    "query": "60yo M with epigatric pain radiating to bak, vommiting, lypase 9x ULN. US shows galstones with normal CBD. Severtiy grading and initial flud therapy?",
+    "expected_specialist": "gastroenterologist",
+    "tier": 4,
+    "tier_label": "adversarial"
+  },
+  {
+    "id": "adv_miss_12",
+    "category": "misspelled",
+    "query": "70yo on aspren and apixiban presents with melena and Hb drop 13 → 8. BP 100/65, HR 95. Tming of endscopy and managment of antiocoagulation?",
+    "expected_specialist": "gastroenterologist",
+    "tier": 4,
+    "tier_label": "adversarial"
+  },
+  {
+    "id": "adv_miss_13",
+    "category": "misspelled",
+    "query": "68yo M with 4 days fever, prodctive cougn and pleurtic chest pain. CXR shows right lower lob consoliadation. CRB-65 = 1. Emperic abx for community aquired pneumonia?",
+    "expected_specialist": "infectionist",
+    "tier": 4,
+    "tier_label": "adversarial"
+  },
+  {
+    "id": "adv_miss_14",
+    "category": "misspelled",
+    "query": "35yo immigrant with 3-month productiv cough, weigt loss, nyght sweats and hemptysis. Smear-postiive for AFB. Initiating tubercolosis tretament — what RIPE regimen?",
+    "expected_specialist": "infectionist",
+    "tier": 4,
+    "tier_label": "adversarial"
+  },
+  {
+    "id": "adv_miss_15",
+    "category": "misspelled",
+    "query": "22yo M with photophhobia, neck stifness and feber 39.5. CSF: 1800 WCC neutrofilic, low gluose, gram-pos diplococi. Imediate manegement of bacterial menenjitis?",
+    "expected_specialist": "infectionist",
+    "tier": 4,
+    "tier_label": "adversarial"
+  },
+  {
+    "id": "adv_miss_16",
+    "category": "misspelled",
+    "query": "60yo M with bioprostetic valv and 3-week feber. Three sets of blood cultres growing viridans strepococci, 12mm vegitation on aortic valve on TTE. Antibiotc duration and surgical consideration?",
+    "expected_specialist": "infectionist",
+    "tier": 4,
+    "tier_label": "adversarial"
+  },
+  {
+    "id": "adv_lang_9",
+    "category": "non_english",
+    "query": "Пациент 28 лет с 6-месячной историей правосторонней подвздошной боли, диареей без крови и потерей веса 7 кг. Колоноскопия выявила прерывистые поражения подвздошной кишки. Какая тактика индукции ремиссии?",
+    "expected_specialist": "gastroenterologist",
+    "tier": 4,
+    "tier_label": "adversarial"
+  },
+  {
+    "id": "adv_lang_10",
+    "category": "non_english",
+    "query": "Femme de 54 ans, prurit chronique et fatigue. Phosphatase alcaline élevée à 4x N, anticorps anti-mitochondries positifs au 1/320. Diagnostic et traitement de première ligne ?",
+    "expected_specialist": "gastroenterologist",
+    "tier": 4,
+    "tier_label": "adversarial"
+  },
+  {
+    "id": "adv_lang_11",
+    "category": "non_english",
+    "query": "Varón de 45 años con hepatitis B crónica, HBeAg negativo, ADN-VHB 25.000 UI/ml, ALT 96, Fibroscan 9,2 kPa. ¿Indicación y elección del tratamiento antiviral?",
+    "expected_specialist": "gastroenterologist",
+    "tier": 4,
+    "tier_label": "adversarial"
+  },
+  {
+    "id": "adv_lang_12",
+    "category": "non_english",
+    "query": "Пациент 48 лет с 6-месячной изжогой после еды, регургитацией кислоты и ночным кашлем. Имеет ожирение. Первая линия диагностики и терапии?",
+    "expected_specialist": "gastroenterologist",
+    "tier": 4,
+    "tier_label": "adversarial"
+  },
+  {
+    "id": "adv_lang_13",
+    "category": "non_english",
+    "query": "Patient de 68 ans, fièvre 39 °C depuis 4 jours, toux productive, douleur thoracique pleurale et SpO2 92 %. Radiographie : condensation lobaire inférieure droite. CRB-65 = 1. Quelle antibiothérapie empirique ?",
+    "expected_specialist": "infectionist",
+    "tier": 4,
+    "tier_label": "adversarial"
+  },
+  {
+    "id": "adv_lang_14",
+    "category": "non_english",
+    "query": "Hombre de 60 años con fiebre 39,2 °C, FC 115, TA 88/52, lactato 3,5 mmol/L y foco intraabdominal sospechoso. ¿Qué medidas de la hora-1 y antibioterapia empírica iniciar?",
+    "expected_specialist": "infectionist",
+    "tier": 4,
+    "tier_label": "adversarial"
+  },
+  {
+    "id": "adv_lang_15",
+    "category": "non_english",
+    "query": "Пациент 35 лет вернулся из Нигерии. Лихорадка 5 дней, желтуха, олигурия, спутанность. Толстая капля: P. falciparum, паразитемия 8%. Тактика лечения тяжёлой малярии?",
+    "expected_specialist": "infectionist",
+    "tier": 4,
+    "tier_label": "adversarial"
+  },
+  {
+    "id": "adv_lang_16",
+    "category": "non_english",
+    "query": "Patient migrant de 35 ans, toux productive depuis 3 mois, perte de poids et sueurs nocturnes, hémoptysie. Frottis BAAR positif sur deux échantillons. Quel schéma thérapeutique pour la tuberculose pulmonaire ?",
+    "expected_specialist": "infectionist",
+    "tier": 4,
+    "tier_label": "adversarial"
+  },
+  {
+    "id": "adv_dom_9",
+    "category": "dominant_pathology_mismatch",
+    "query": "65-year-old male with well-controlled Child-Pugh A cirrhosis on lactulose and rifaximin, last paracentesis 8 weeks ago, presents to the ED with sudden crushing substernal chest pain at rest, ST elevation in leads II/III/aVF, troponin 18 ng/L. Liver function is stable. What is the priority diagnosis and immediate management?",
+    "expected_specialist": "cardiologist",
+    "tier": 4,
+    "tier_label": "adversarial"
+  },
+  {
+    "id": "adv_dom_10",
+    "category": "dominant_pathology_mismatch",
+    "query": "32-year-old female with Crohn's disease in clinical remission on infliximab and methotrexate for 2 years presents with 3 weeks of low-grade fever, drenching night sweats, productive cough and a new right upper-lobe cavitary lesion on chest CT. She had a negative pre-biologic TB screen. Stool calprotectin is normal. What is the priority diagnosis and immediate management?",
+    "expected_specialist": "infectionist",
+    "tier": 4,
+    "tier_label": "adversarial"
+  },
+  {
+    "id": "adv_dom_11",
+    "category": "dominant_pathology_mismatch",
+    "query": "55-year-old male with chronic hepatitis C completed direct-acting antiviral therapy with SVR12 confirmed 8 months ago, undetectable HCV RNA, normalised ALT, no fibrosis progression. Now presents with polyuria, polydipsia, weight loss, fasting glucose 12.8 mmol/L and HbA1c 9.6 %. What is the priority diagnosis and treatment?",
+    "expected_specialist": "endocrinologist",
+    "tier": 4,
+    "tier_label": "adversarial"
+  },
+  {
+    "id": "adv_dom_12",
+    "category": "dominant_pathology_mismatch",
+    "query": "70-year-old female on long-term pantoprazole 40 mg daily for GERD (10 years) and a stable diet presents with carpopedal spasm, tetany and a positive Trousseau sign. Calcium 1.65 mmol/L (corrected), magnesium 0.32 mmol/L. PPI is the only chronic medication. What is the priority diagnosis and management?",
+    "expected_specialist": "endocrinologist",
+    "tier": 4,
+    "tier_label": "adversarial"
+  },
+  {
+    "id": "adv_dom_13",
+    "category": "dominant_pathology_mismatch",
+    "query": "55-year-old male with well-controlled HIV on dolutegravir/abacavir/lamivudine for 7 years (CD4 720, viral load <40), no opportunistic infections, presents with new-onset effort angina, a positive treadmill test, and LDL 4.8 mmol/L. He has a 30-pack-year smoking history. What is the priority diagnosis and management approach?",
+    "expected_specialist": "cardiologist",
+    "tier": 4,
+    "tier_label": "adversarial"
+  },
+  {
+    "id": "adv_dom_14",
+    "category": "dominant_pathology_mismatch",
+    "query": "42-year-old male completed a full 6-month course of RIPE therapy for pulmonary tuberculosis 12 months ago, currently asymptomatic from a pulmonary standpoint with full radiographic resolution. He now presents with fatigue, weight loss, postural hypotension, hyperpigmentation, hyponatraemia and an inappropriately low morning cortisol. What is the priority diagnosis?",
+    "expected_specialist": "endocrinologist",
+    "tier": 4,
+    "tier_label": "adversarial"
+  },
+  {
+    "id": "adv_dom_15",
+    "category": "dominant_pathology_mismatch",
+    "query": "73-year-old female with recent community-acquired pneumonia completed a 5-day course of amoxicillin/clavulanate 4 weeks ago with full clinical and radiographic resolution. She now presents with 2 days of progressive exertional dyspnoea, leg swelling, raised JVP and a new S3 gallop. BNP 1800. What is the priority diagnosis and management?",
+    "expected_specialist": "cardiologist",
+    "tier": 4,
+    "tier_label": "adversarial"
+  },
+  {
+    "id": "adv_dom_16",
+    "category": "dominant_pathology_mismatch",
+    "query": "50-year-old female with 4 recurrent uncomplicated cystitis episodes over the past year, all cleared with short-course nitrofurantoin and currently asymptomatic, presents for routine follow-up. Random glucose is 16.2 mmol/L, HbA1c 9.1 %. She reports unintentional 6 kg weight loss and polyuria for 3 months. What is the priority diagnosis and management?",
+    "expected_specialist": "endocrinologist",
+    "tier": 4,
+    "tier_label": "adversarial"
+  },
+  {
+    "id": "adv_amb_9",
+    "category": "symptom_only_ambiguous",
+    "query": "A 38-year-old male presents with one week of fever (38.6°C), jaundice, mild nausea and right upper quadrant discomfort. He has no other localising symptoms and recently returned from a 3-week trip. No initial labs are available yet.",
+    "expected_specialist": "infectionist",
+    "tier": 4,
+    "tier_label": "adversarial",
+    "valid_domains": [
+      "gastroenterologist",
+      "infectionist"
+    ]
+  },
+  {
+    "id": "adv_amb_10",
+    "category": "symptom_only_ambiguous",
+    "query": "A 42-year-old female reports 4 months of intermittent watery diarrhoea, 5 kg weight loss and low-grade fever (37.6–38.0°C). There is no overt blood in the stool, no recent antibiotics and no foreign travel. No initial labs are available yet.",
+    "expected_specialist": "gastroenterologist",
+    "tier": 4,
+    "tier_label": "adversarial",
+    "valid_domains": [
+      "gastroenterologist",
+      "infectionist"
+    ]
+  },
+  {
+    "id": "adv_amb_11",
+    "category": "symptom_only_ambiguous",
+    "query": "A 65-year-old male presents with 5 days of fever (38.4°C), progressive dyspnoea on exertion and bilateral pleural effusions on chest X-ray. He has no productive cough or chest pain. No initial labs are available yet.",
+    "expected_specialist": "infectionist",
+    "tier": 4,
+    "tier_label": "adversarial",
+    "valid_domains": [
+      "cardiologist",
+      "infectionist"
+    ]
+  },
+  {
+    "id": "adv_amb_12",
+    "category": "symptom_only_ambiguous",
+    "query": "A 60-year-old male presents with 6 weeks of progressive abdominal distension, bilateral leg swelling and 4 kg weight gain. There is no orthopnoea or paroxysmal nocturnal dyspnoea and no fever. Initial examination shows ascites and pitting oedema.",
+    "expected_specialist": "gastroenterologist",
+    "tier": 4,
+    "tier_label": "adversarial",
+    "valid_domains": [
+      "cardiologist",
+      "gastroenterologist"
+    ]
+  },
+  {
+    "id": "adv_amb_13",
+    "category": "symptom_only_ambiguous",
+    "query": "A 50-year-old female presents with 3 months of fatigue, polyuria, 4 kg unintentional weight loss and intermittent itching over the chest and back. She has no abdominal pain, no jaundice and no recent travel. No initial labs are available yet.",
+    "expected_specialist": "endocrinologist",
+    "tier": 4,
+    "tier_label": "adversarial",
+    "valid_domains": [
+      "endocrinologist",
+      "gastroenterologist"
+    ]
+  },
+  {
+    "id": "adv_amb_14",
+    "category": "symptom_only_ambiguous",
+    "query": "A 38-year-old male presents with 6 months of recurrent oral candidiasis (4 distinct episodes), unintentional 8 kg weight loss and persistent fatigue. He has no fever, no specific exposures and no immunosuppressive medications. No initial labs are available yet.",
+    "expected_specialist": "infectionist",
+    "tier": 4,
+    "tier_label": "adversarial",
+    "valid_domains": [
+      "endocrinologist",
+      "infectionist"
+    ]
+  },
+  {
+    "id": "adv_amb_15",
+    "category": "symptom_only_ambiguous",
+    "query": "A 45-year-old female presents with 8 months of vague right upper quadrant discomfort, intermittent low-grade fever (37.5–37.9°C) and unintentional 3 kg weight loss. There is no jaundice, no diarrhoea and no overt infectious exposure. No initial labs are available yet.",
+    "expected_specialist": "gastroenterologist",
+    "tier": 4,
+    "tier_label": "adversarial",
+    "valid_domains": [
+      "gastroenterologist",
+      "infectionist"
+    ]
+  },
+  {
+    "id": "adv_amb_16",
+    "category": "symptom_only_ambiguous",
+    "query": "A 55-year-old female presents with 5 months of constipation (2–3 stools per week), cold intolerance, slow mentation and 4 kg weight gain. She is not on chronic medications and reports no abdominal pain. No initial labs are available yet.",
+    "expected_specialist": "endocrinologist",
+    "tier": 4,
+    "tier_label": "adversarial",
+    "valid_domains": [
+      "endocrinologist",
+      "gastroenterologist"
+    ]
   }
 ]
