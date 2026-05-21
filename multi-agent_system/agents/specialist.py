@@ -21,7 +21,6 @@ from embeddings import YandexNativeEmbeddings
 from refusal_gate import RefusalGate
 from settings import (
     AGENT_MODEL,
-    CORPUS_DIST_K,
     L2_REJECT_MIN,
     MAX_L2_DISTANCE,
     REFUSAL_GATE_SIGNAL,
@@ -163,7 +162,7 @@ class SpecialistAgent(BaseMedicalAgent):
                 specialty=specialty,
                 processed_dir=self.folder_path,
                 l2_reject_min=L2_REJECT_MIN,
-                corpus_dist_k=CORPUS_DIST_K,
+                corpus_dist_k=1.0,  # Signal B parameter; inert when REFUSAL_GATE_SIGNAL=='A'.
                 signal=REFUSAL_GATE_SIGNAL,
                 top_k=SIMILARITY_TOP_K,
             )

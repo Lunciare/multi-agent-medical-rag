@@ -40,7 +40,7 @@ def route_query(question: str) -> str:
     Tries Yandex's `response_format={"type": "json_object"}` first (verified
     supported on `gpt://{folder}/yandexgpt/latest` in Stage 19); falls back
     to plain chat if the parameter is rejected. The raw response string is
-    returned as-is; `normalise()` validates it against `ALLOWED_SPECIALISTS`.
+    returned as-is; `parse_or_fail()` validates it against `ALLOWED_SPECIALISTS`.
     """
     common = {
         "model": ROUTING_MODEL,
@@ -64,8 +64,8 @@ def route_query(question: str) -> str:
         return f"__error__:{e}"
 
 
-def normalise(raw: str) -> str:
-    """Strict-equality normaliser (Stage 19).
+def parse_or_fail(raw: str) -> str:
+    """Strict-equality parser (Stage 19) — renamed from `normalise` in Stage 32.
 
     Parses `raw` as JSON, returns the lower-cased `specialist` field if it's
     in `ALLOWED_SPECIALISTS`; otherwise returns the raw string verbatim (so
@@ -123,7 +123,7 @@ def evaluate_routing(split="test"):
         valid_domains = case.get("valid_domains")
 
         raw_response = route_query(query)
-        predicted = normalise(raw_response)
+        predicted = parse_or_fail(raw_response)
 
         if valid_domains:
             is_correct = predicted in valid_domains
@@ -212,7 +212,7 @@ def evaluate_routing(split="test"):
             label = case["label"]
 
             raw_response = route_query(query)
-            predicted = normalise(raw_response)
+            predicted = parse_or_fail(raw_response)
             in_expected = predicted in domains
 
             flag = "AMBIGUOUS"

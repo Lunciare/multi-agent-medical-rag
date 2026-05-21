@@ -3,7 +3,7 @@
 
 Outputs:
   - reports/refusal_gate_grid.csv      — full grid: (signal, threshold, T3 recall, T1/2 FP rate, F1).
-  - settings.py (updated)              — writes L2_REJECT_MIN (Signal A) and CORPUS_DIST_K (Signal B).
+  - settings.py (updated)              — writes REFUSAL_GATE_SIGNAL and L2_REJECT_MIN (Signal A). Signal B's chosen `corpus_dist_k` is reported on stdout but no longer persisted to settings (post-Stage-32 cleanup); pass it into `RefusalGate(corpus_dist_k=...)` at construction time.
   - stdout                             — precision/recall table and the chosen signal.
 
 Tunes against `golden_dev.json`, which by construction contains the 30 development
@@ -127,7 +127,7 @@ def _signal_b_reject(threshold):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--no-write-settings", action="store_true",
-                        help="Skip writing L2_REJECT_MIN and CORPUS_DIST_K back to settings.py")
+                        help="Skip writing REFUSAL_GATE_SIGNAL and L2_REJECT_MIN back to settings.py")
     args = parser.parse_args()
 
     print("Loading orchestrator + FAISS indices...")
@@ -313,26 +313,37 @@ def main():
     # ----- write back to settings.py -----
     if not args.no_write_settings:
         _update_settings(chosen_signal=chosen_signal,
-                         l2_reject_min=chosen_l2,
-                         corpus_dist_k=chosen_k)
+                         l2_reject_min=chosen_l2)
         print(f"\nUpdated {SETTINGS_PATH}:")
         print(f"  REFUSAL_GATE_SIGNAL    = {chosen_signal!r}")
         print(f"  L2_REJECT_MIN          = {chosen_l2}")
-        print(f"  CORPUS_DIST_K          = {chosen_k}")
+        if chosen_signal == 'B':
+            print(f"  (Signal B chosen with CORPUS_DIST_K={chosen_k:.3f}; "
+                  "this value is reported here but no longer persisted to "
+                  "settings.py — pass it into RefusalGate(corpus_dist_k=...) "
+                  "at construction time. See refusal_gate.py.)")
     else:
         print("\n(skipping settings.py write because --no-write-settings was passed)")
 
 
-def _update_settings(*, chosen_signal: str, l2_reject_min: float, corpus_dist_k: float):
-    """Append/replace REFUSAL_GATE_SIGNAL, L2_REJECT_MIN, CORPUS_DIST_K in settings.py."""
+def _update_settings(*, chosen_signal: str, l2_reject_min: float):
+    """Append/replace REFUSAL_GATE_SIGNAL and L2_REJECT_MIN in settings.py.
+
+    CORPUS_DIST_K is intentionally no longer written here — the Stage 32
+    cleanup removed it from settings.py because Signal A is the production
+    runtime path. If a future Signal-B re-tune chooses a non-default
+    `corpus_dist_k`, pass it into `RefusalGate(corpus_dist_k=...)` at
+    construction time rather than re-adding the settings constant.
+    """
     with open(SETTINGS_PATH, "r", encoding="utf-8") as f:
         text = f.read()
-    sentinel = "# --- refusal-gate constants (managed by tests/tune_refusal_gate.py) ---"
+    sentinel = "# --- refusal-gate threshold (managed by tests/tune_refusal_gate.py) ---"
     block = (
         f"\n{sentinel}\n"
+        f"# Signal A min-L2 threshold. See report_final.md §4.5 for the trade-off\n"
+        f"# against Tier 1/2 false-positive rate; full analysis in Stage 7 report.\n"
         f"REFUSAL_GATE_SIGNAL = {chosen_signal!r}\n"
         f"L2_REJECT_MIN = {float(l2_reject_min):.3f}\n"
-        f"CORPUS_DIST_K = {float(corpus_dist_k):.3f}\n"
     )
     if sentinel in text:
         head, _, _ = text.partition(sentinel)
