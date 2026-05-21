@@ -20,6 +20,7 @@ import time
 from dataclasses import dataclass
 from typing import Optional
 
+import openai
 import requests
 
 from settings import (
@@ -106,6 +107,11 @@ class JudgeStats:
         self.http_errors: int = 0
         self.exhausted: int = 0
         self.successes: int = 0
+        self.auth_errors: int = 0
+        self.rate_limit_errors: int = 0
+        self.connection_errors: int = 0
+        self.timeout_errors: int = 0
+        self.other_errors: int = 0
 
 
 def _user_prompt(query: str, context: str, generated_answer: str) -> str:
@@ -141,18 +147,46 @@ def _judge_yandex(cfg: JudgeConfig, query: str, context: str, answer: str,
                 max_tokens=64,
                 extra_headers={"x-folder-id": YANDEX_PROJECT_ID},
             )
-            verdict = _parse_judgement(response.choices[0].message.content or "")
-            if verdict is not None:
-                stats.successes += 1
-                return verdict
-            print(f"  [{cfg.name}] unparseable response for {case_id}: "
-                  f"{response.choices[0].message.content!r}")
-            return None
-        except Exception as e:
-            stats.http_errors += 1
-            print(f"  [{cfg.name}] error on {case_id} (attempt {attempt+1}/{MAX_RETRIES}): "
-                  f"{type(e).__name__}: {e}")
+        except openai.AuthenticationError as e:
+            stats.auth_errors += 1
+            print(f"  [{cfg.name}] auth error on {case_id}: {e}")
+            return None  # auth errors are not retryable
+        except openai.RateLimitError as e:
+            stats.rate_limit_errors += 1
+            print(f"  [{cfg.name}] rate limit on {case_id} (attempt {attempt+1}/{MAX_RETRIES})")
             time.sleep(min(2 ** attempt, 30))
+            continue
+        except openai.APIConnectionError as e:
+            stats.connection_errors += 1
+            print(f"  [{cfg.name}] connection error on {case_id} (attempt {attempt+1}/{MAX_RETRIES}): {e}")
+            time.sleep(min(2 ** attempt, 30))
+            continue
+        except openai.APITimeoutError as e:
+            stats.timeout_errors += 1
+            print(f"  [{cfg.name}] timeout on {case_id} (attempt {attempt+1}/{MAX_RETRIES})")
+            time.sleep(min(2 ** attempt, 30))
+            continue
+        except Exception as e:
+            # Unexpected exception — log and re-raise so the bug surfaces in CI.
+            stats.other_errors += 1
+            print(f"  [{cfg.name}] UNEXPECTED {type(e).__name__} on {case_id}: {e}")
+            raise
+
+        # Parse the response, separately:
+        try:
+            content = response.choices[0].message.content or ""
+            verdict = _parse_judgement(content)
+        except (IndexError, AttributeError, TypeError) as e:
+            stats.other_errors += 1
+            print(f"  [{cfg.name}] malformed response on {case_id}: {type(e).__name__}: {e}")
+            return None
+
+        if verdict is not None:
+            stats.successes += 1
+            return verdict
+        print(f"  [{cfg.name}] unparseable verdict on {case_id}: {content!r}")
+        return None
+
     stats.exhausted += 1
     print(f"  [{cfg.name}] EXHAUSTED retries on {case_id} — returning None")
     return None

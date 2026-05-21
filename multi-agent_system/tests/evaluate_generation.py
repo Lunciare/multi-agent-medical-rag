@@ -272,14 +272,15 @@ def _write_outputs(judges, per_case_rows, stats_by_judge, split,
         "",
         "## Configured Judges",
         "",
-        "| Role | Provider | Model URI | HTTP errors | Retries exhausted | Successful calls |",
-        "|---|---|---|---|---|---|",
+        "| Role | Provider | Model URI | Auth | Rate-limit | Conn | Timeout | Other | Successes |",
+        "|---|---|---|---|---|---|---|---|---|",
     ]
     for j in judges:
         s = stats_by_judge[j.name]
         lines.append(
-            f"| {j.name} | {j.provider} | `{j.model_id}` | {s.http_errors} | "
-            f"{s.exhausted} | {s.successes} |"
+            f"| {j.name} | {j.provider} | `{j.model_id}` | "
+            f"{s.auth_errors} | {s.rate_limit_errors} | {s.connection_errors} | "
+            f"{s.timeout_errors} | {s.other_errors} | {s.successes} |"
         )
 
     lines += [
