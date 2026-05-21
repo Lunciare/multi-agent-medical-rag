@@ -1,6 +1,6 @@
 # Multi-Agent Medical RAG System — Final Evaluation Report
 
-**Date:** 2026-05-19  
+**Date:** 2026-05-21  
 **Authors:** Suvorova A.  
 **Repository:** [Lunciare/Multi-Agent-NN-Medicine](https://github.com/Lunciare/Multi-Agent-NN-Medicine)
 
@@ -328,6 +328,8 @@ The single disagreement is `cardio_40` (Tier 2 cardiology — congenital long QT
 Run cost reference: 70 test-split cases × 2 judges = 140 judge calls; total wall-clock 13.9 min on the Yandex API. Raw per-case verdicts are in [`reports/faithfulness_multijudge_raw_2026-05-19.csv`](faithfulness_multijudge_raw_2026-05-19.csv) and the markdown summary in [`reports/faithfulness_multijudge_2026-05-19.md`](faithfulness_multijudge_2026-05-19.md).
 
 ### 4.5 Out-of-Scope Refusal Gate
+
+Architectural framing. FAISS always returns K nearest neighbours by construction — it cannot refuse. Two L2-distance thresholds operate on the same scalar in opposite directions and with conflicting objectives: `MAX_L2_DISTANCE = 1.2` is the retrieval quality filter, tuned on the dev split to maximise in-scope Recall@K; `L2_REJECT_MIN = 0.92` is the refusal gate, tuned on the same min-L2 distribution to maximise out-of-scope refusal. Because the in-scope T1/T2 min-L2 distribution (0.70–1.07) overlaps the out-of-scope T3 distribution (0.84–1.00) on this corpus and embedding model, no single scalar threshold separates them; any choice trades T3 recall against T1/T2 false-positive rate. The trade-off curve in Table X is therefore a property of the embedding model and corpus, not of the threshold-selection procedure. A two-stage gate (L2 pre-filter feeding an LLM-as-classifier confirmer) is the natural escape from this single-scalar trade-off and is listed as future work in §6 Limitation 8.
 
 **Chosen signal: A (minimum-L2 threshold).** **Chosen threshold: `L2_REJECT_MIN = 0.92`.** The refusal gate is `multi-agent_system/refusal_gate.py:RefusalGate` and is invoked from `agents/cardiologist.py:answer` / `endocrinologist.py:answer` *before* the LLM call. If `min(L2 distances over top-K=5 retrieved chunks) > L2_REJECT_MIN`, the agent short-circuits and returns the canned "Insufficient evidence in the current knowledge base to address this specific query." response without ever calling the generation model. This replaces the prompt-only CRITICAL_RULE fallback documented in §5.2, which the validation runs measured as a 0/16 failure (no Tier 3 case ever triggered the prompt-rule fallback).
 
