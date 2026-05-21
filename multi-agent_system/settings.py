@@ -35,8 +35,8 @@ EMBEDDING_QUERY_MODEL = "text-search-query/latest"
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DEFAULT_KNOWLEDGE_BASE_DIR = os.path.join(BASE_DIR, "data", "processed", "cardiology")
 ENDO_KNOWLEDGE_BASE_DIR = os.path.join(BASE_DIR, "data", "processed", "endocrinology")
-GASTRO_KNOWLEDGE_BASE_DIR = os.path.join(BASE_DIR, "data", "processed", "gastroenterology")
-INFECTIONIST_KNOWLEDGE_BASE_DIR = os.path.join(BASE_DIR, "data", "processed", "infectionist")
+GASTRO_KNOWLEDGE_BASE_DIR = os.path.join(BASE_DIR, "data", "processed", "gastroenterologist")
+INFECTIONIST_KNOWLEDGE_BASE_DIR = os.path.join(BASE_DIR, "data", "processed", "infection")
 
 SIMILARITY_TOP_K = 5
 MAX_L2_DISTANCE = 1.2

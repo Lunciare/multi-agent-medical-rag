@@ -3,7 +3,7 @@
 Generate summaries and keywords for endocrinology chunks.
 
 Mirrors make_summaries_and_keywords.py but for endocrinology.
-For each document folder in data/processed/gastroentologist/{Category}/{DocName}/:
+For each document folder in data/processed/gastroenterologist/{Category}/{DocName}/:
   - Reads all chunk .txt files (0001.txt, 0002.txt, ...)
   - Generates TF-IDF keywords
   - Creates extractive summary
