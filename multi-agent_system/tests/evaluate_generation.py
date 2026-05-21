@@ -11,6 +11,7 @@ from typing import Optional
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+from agents.registry import AGENT_REGISTRY
 from orchestrator import MedicalOrchestrator
 from settings import (
     AGENT_MODEL,
@@ -134,11 +135,8 @@ def _evaluate_multi_judge(split: str):
         expected_agent = case["expected_specialist"]
         tier = case.get("tier", 1)
 
-        if expected_agent == "cardiologist":
-            agent = orchestrator.agents["cardiologist"]
-        elif expected_agent == "endocrinologist":
-            agent = orchestrator.agents["endocrinologist"]
-        else:
+        agent = orchestrator.agents.get(expected_agent)
+        if agent is None:
             continue
 
         print(f"\nQuery [{case['id']}]: {query[:60]}...")
@@ -415,8 +413,8 @@ def _evaluate_yandex_only(split: str):
         return
 
     total_queries = len(dataset)
-    domain_faithful = {"cardiologist": 0, "endocrinologist": 0}
-    domain_total = {"cardiologist": 0, "endocrinologist": 0}
+    domain_faithful = {k: 0 for k in AGENT_REGISTRY}
+    domain_total = {k: 0 for k in AGENT_REGISTRY}
     tier_faithful = defaultdict(int)
     tier_totals = defaultdict(int)
     tier_labels = {}
@@ -431,12 +429,8 @@ def _evaluate_yandex_only(split: str):
         tier_label = case.get("tier_label", "core")
         tier_labels[tier] = tier_label
 
-        agent = None
-        if expected_agent == "cardiologist":
-            agent = orchestrator.agents["cardiologist"]
-        elif expected_agent == "endocrinologist":
-            agent = orchestrator.agents["endocrinologist"]
-        else:
+        agent = orchestrator.agents.get(expected_agent)
+        if agent is None:
             continue
 
         print(f"Query [{case['id']}]: {query[:60]}...")
@@ -471,7 +465,7 @@ def _evaluate_yandex_only(split: str):
     print(f"{'='*80}")
     print(f"  {'Domain':<20} {'Faithful':>8} {'Total':>6}  {'Score [Wilson 95% CI]':<30}")
     print(f"  {'-'*20} {'-'*8} {'-'*6}  {'-'*30}")
-    for domain in ("cardiologist", "endocrinologist"):
+    for domain in sorted(AGENT_REGISTRY.keys()):
         f = domain_faithful[domain]
         t = domain_total[domain]
         print(f"  {domain:<20} {f:>8} {t:>6}  {_fmt(f, t):<30}")

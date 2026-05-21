@@ -116,11 +116,25 @@ def run_smoke_test():
         print(f"Smoke Test Failed: Could not load dataset. {e}")
         sys.exit(1)
 
-    if len(dataset) != 100:
-        print(f"Smoke Test Failed: Expected 100 cases, got {len(dataset)}")
+    # Stage 39 / Prompt 2: dataset grew from 100 to 200 cases (4-specialist),
+    # 50 per specialty. Per-specialty tier counts:
+    #   cardiologist     : 27 T1 / 14 T2 / 9 T3   (original)
+    #   endocrinologist  : 27 T1 / 16 T2 / 7 T3   (original)
+    #   gastroenterologist: 27 T1 / 15 T2 / 8 T3  (new — Prompt 2)
+    #   infectionist     : 27 T1 / 15 T2 / 8 T3   (new — Prompt 2)
+    expected_total = 200
+    expected_per_specialty = 50
+    expected_tiers = {
+        "cardiologist":       {1: 27, 2: 14, 3: 9},
+        "endocrinologist":    {1: 27, 2: 16, 3: 7},
+        "gastroenterologist": {1: 27, 2: 15, 3: 8},
+        "infectionist":       {1: 27, 2: 15, 3: 8},
+    }
+    if len(dataset) != expected_total:
+        print(f"Smoke Test Failed: Expected {expected_total} cases, got {len(dataset)}")
         sys.exit(1)
 
-    domain_counts = {"cardiologist": 0, "endocrinologist": 0}
+    domain_counts = {k: 0 for k in AGENT_REGISTRY}
     ids = set()
     tier_counts = defaultdict(lambda: defaultdict(int))
 
@@ -157,22 +171,19 @@ def run_smoke_test():
         domain_counts[spec] += 1
         tier_counts[spec][tier] += 1
 
-    if domain_counts["cardiologist"] != 50 or domain_counts["endocrinologist"] != 50:
-        print(f"Smoke Test Failed: Expected 50/50 domain split, got {domain_counts}")
-        sys.exit(1)
+    for sp, n in domain_counts.items():
+        if n != expected_per_specialty:
+            print(f"Smoke Test Failed: Expected {expected_per_specialty} cases for {sp}, got {n}")
+            sys.exit(1)
 
-    expected_tiers = {
-        "cardiologist": {1: 27, 2: 14, 3: 9},
-        "endocrinologist": {1: 27, 2: 16, 3: 7}
-    }
-
-    for domain in expected_tiers:
+    for domain, expected in expected_tiers.items():
         for t in [1, 2, 3]:
-            if tier_counts[domain][t] != expected_tiers[domain][t]:
-                print(f"Smoke Test Failed: Expected {domain} Tier {t} count {expected_tiers[domain][t]}, got {tier_counts[domain][t]}")
+            if tier_counts[domain][t] != expected[t]:
+                print(f"Smoke Test Failed: Expected {domain} Tier {t} count {expected[t]}, got {tier_counts[domain][t]}")
                 sys.exit(1)
 
-    print("Smoke Test Passed! Dataset is valid and correctly formatted.")
+    print(f"Smoke Test Passed! Dataset valid ({expected_total} cases across "
+          f"{len(domain_counts)} specialists).")
     sys.exit(0)
 
 def _precision_at_k(docs, keywords):
@@ -262,8 +273,9 @@ def print_sources(case_id, top_k=20):
     """
     case = _load_case_by_id(case_id)
     orchestrator = MedicalOrchestrator(DEFAULT_KNOWLEDGE_BASE_DIR)
-    agent = (orchestrator.agents["cardiologist"] if case["expected_specialist"] == "cardiologist"
-             else orchestrator.agents["endocrinologist"])
+    agent = orchestrator.agents.get(case["expected_specialist"])
+    if agent is None:
+        raise SystemExit(f"No agent for specialty {case['expected_specialist']!r}")
     print(f"\n=== {case_id}  tier={case['tier']}/{case['tier_label']}  domain={case['expected_specialist']} ===")
     print(f"Query: {case['query']}")
     print(f"Expected keywords: {', '.join(case['expected_keywords'])}")
@@ -348,11 +360,14 @@ def evaluate_retrieval(split="test", kb: str | None = None):
 
     total_queries = len(dataset)
 
-    domain_hits = {"cardiologist": 0, "endocrinologist": 0}
-    domain_precision_sum = {"cardiologist": 0.0, "endocrinologist": 0.0}
-    domain_total = {"cardiologist": 0, "endocrinologist": 0}
-    domain_hits_rand = {"cardiologist": 0, "endocrinologist": 0}
-    domain_precision_rand_sum = {"cardiologist": 0.0, "endocrinologist": 0.0}
+    # Stage 39: all per-domain accumulators are now built from AGENT_REGISTRY
+    # so the eval scales to any number of specialists without code changes.
+    REG_DOMAINS = sorted(AGENT_REGISTRY.keys())
+    domain_hits = {k: 0 for k in REG_DOMAINS}
+    domain_precision_sum = {k: 0.0 for k in REG_DOMAINS}
+    domain_total = {k: 0 for k in REG_DOMAINS}
+    domain_hits_rand = {k: 0 for k in REG_DOMAINS}
+    domain_precision_rand_sum = {k: 0.0 for k in REG_DOMAINS}
 
     tier_hits = defaultdict(int)
     tier_precision_sum = defaultdict(float)
@@ -364,11 +379,11 @@ def evaluate_retrieval(split="test", kb: str | None = None):
 
     # New grounded metrics — gold_sources-based.
     # domain-level
-    domain_recall_sum = {"cardiologist": 0.0, "endocrinologist": 0.0}
-    domain_mrr_sum    = {"cardiologist": 0.0, "endocrinologist": 0.0}
-    domain_recall_n   = {"cardiologist": 0,   "endocrinologist": 0}
+    domain_recall_sum = {k: 0.0 for k in REG_DOMAINS}
+    domain_mrr_sum    = {k: 0.0 for k in REG_DOMAINS}
+    domain_recall_n   = {k: 0   for k in REG_DOMAINS}
     # Per-case reciprocal-rank lists for bootstrap CIs (Stage 27).
-    domain_mrr_per_case = {"cardiologist": [], "endocrinologist": []}
+    domain_mrr_per_case = {k: [] for k in REG_DOMAINS}
     # tier-level (only T1/T2 contribute)
     tier_recall_sum = defaultdict(float)
     tier_mrr_sum    = defaultdict(float)
@@ -381,34 +396,37 @@ def evaluate_retrieval(split="test", kb: str | None = None):
     gate_refusals = defaultdict(int)
     gate_totals   = defaultdict(int)
 
-    # Stage 13 — FAISS / BM25 / Random / Oracle comparison.
-    # Pooled gold-doc Bernoulli (each gold doc is one trial); per-case MRR is averaged.
+    # Stage 13 — FAISS / BM25 / Random / Oracle comparison. The (domain, tier)
+    # key grid is auto-expanded to every (registry_key, T1/T2) pair.
     METHODS = ("faiss", "bm25", "random", "oracle")
     pooled_hits = {(domain, tier, m): 0
-                   for domain in ("cardiologist", "endocrinologist")
+                   for domain in REG_DOMAINS
                    for tier in (1, 2) for m in METHODS}
     pooled_gold = {(domain, tier): 0
-                   for domain in ("cardiologist", "endocrinologist")
+                   for domain in REG_DOMAINS
                    for tier in (1, 2)}
     mrr_sum = {(domain, tier, m): 0.0
-               for domain in ("cardiologist", "endocrinologist")
+               for domain in REG_DOMAINS
                for tier in (1, 2) for m in METHODS}
     mrr_n = {(domain, tier): 0
-             for domain in ("cardiologist", "endocrinologist")
+             for domain in REG_DOMAINS
              for tier in (1, 2)}
     mrr_per_case = {(domain, tier, m): []
-                    for domain in ("cardiologist", "endocrinologist")
+                    for domain in REG_DOMAINS
                     for tier in (1, 2) for m in METHODS}
 
     print("\nLoading BM25 indices…")
     bm25_indices = _load_bm25_indices()
 
+    # Per-specialty document pool for the random baseline — built per registry key.
     domain_pool = {
-        "cardiologist": list(orchestrator.agents["cardiologist"].vectorstore.docstore._dict.values())
-                        if orchestrator.agents.get("cardiologist") else [],
-        "endocrinologist": list(orchestrator.agents["endocrinologist"].vectorstore.docstore._dict.values())
-                           if orchestrator.agents.get("endocrinologist") else [],
+        k: list(orchestrator.agents[k].vectorstore.docstore._dict.values())
+        for k in REG_DOMAINS
+        if orchestrator.agents.get(k) is not None
     }
+    # Specialties absent from the (ablation-mode) orchestrator get an empty pool.
+    for k in REG_DOMAINS:
+        domain_pool.setdefault(k, [])
     rng = random.Random(RANDOM_BASELINE_SEED)
 
     print(f"\nRunning retrieval evaluation on {total_queries} queries"
@@ -423,13 +441,9 @@ def evaluate_retrieval(split="test", kb: str | None = None):
 
         tier_labels[tier] = tier_label
 
-        agent = None
-        if expected_agent == "cardiologist":
-            agent = orchestrator.agents["cardiologist"]
-        elif expected_agent == "endocrinologist":
-            agent = orchestrator.agents["endocrinologist"]
-        else:
-            print(f"  [SKIP] Unknown expected agent: {expected_agent}")
+        agent = orchestrator.agents.get(expected_agent)
+        if agent is None:
+            print(f"  [SKIP] No agent loaded for specialty: {expected_agent}")
             continue
 
         domain_total[expected_agent] += 1
@@ -571,7 +585,7 @@ def evaluate_retrieval(split="test", kb: str | None = None):
           f"{'Rand Hit [Wilson 95% CI]':<32} {'Rand P@K':>10}")
     print(f"  {'-'*18} {'-'*32} {'-'*10} {'-'*32} {'-'*10}")
 
-    for domain in ("cardiologist", "endocrinologist"):
+    for domain in REG_DOMAINS:
         t = domain_total[domain]
         p_at_k = domain_precision_sum[domain] / t if t > 0 else 0
         p_at_k_rand = domain_precision_rand_sum[domain] / t if t > 0 else 0
@@ -593,7 +607,7 @@ def evaluate_retrieval(split="test", kb: str | None = None):
           f"{'Rand Hit [Wilson 95% CI]':<32}")
     print(f"  {'-'*18} {'-'*5} {'-'*13} {'-'*32} {'-'*10} {'-'*32}")
 
-    for domain in ("cardiologist", "endocrinologist"):
+    for domain in REG_DOMAINS:
         for t in [1, 2, 3]:
             tot = tier_totals[(domain, t)]
             if tot > 0:
@@ -625,7 +639,7 @@ def evaluate_retrieval(split="test", kb: str | None = None):
     overall_recall_num = 0.0
     overall_recall_n   = 0
     overall_mrr_vals: list[float] = []
-    for domain in ("cardiologist", "endocrinologist"):
+    for domain in REG_DOMAINS:
         n = domain_recall_n[domain]
         recall = domain_recall_sum[domain] / n if n > 0 else 0
         m_mrr, lo, hi = _bootstrap_mean_ci(domain_mrr_per_case[domain])
@@ -654,7 +668,7 @@ def evaluate_retrieval(split="test", kb: str | None = None):
     print(f"  {'Domain':<18} {'Tier':<5} {'Label':<13} "
           f"{'Recall@K':>10} {'MRR@K [95% CI]':>30} {'n':>6} {'KW Hit (legacy)':>18}")
     print(f"  {'-'*18} {'-'*5} {'-'*13} {'-'*10} {'-'*30} {'-'*6} {'-'*18}")
-    for domain in ("cardiologist", "endocrinologist"):
+    for domain in REG_DOMAINS:
         for t in [1, 2]:
             n = tier_recall_n[(domain, t)]
             if n == 0:
@@ -681,7 +695,7 @@ def evaluate_retrieval(split="test", kb: str | None = None):
     gate_t3_total  = 0
     gate_t12_refused = 0
     gate_t12_total  = 0
-    for domain in ("cardiologist", "endocrinologist"):
+    for domain in REG_DOMAINS:
         for t in [1, 2, 3]:
             tot = gate_totals[(domain, t)]
             if tot == 0:
@@ -714,7 +728,7 @@ def evaluate_retrieval(split="test", kb: str | None = None):
     overall_pool = {m: 0 for m in METHODS}
     overall_pool_gold = 0
     overall_method_mrr_vals: dict[str, list[float]] = {m: [] for m in METHODS}
-    for domain in ("cardiologist", "endocrinologist"):
+    for domain in REG_DOMAINS:
         for t in (1, 2):
             gold = pooled_gold[(domain, t)]
             if gold == 0:
@@ -745,7 +759,7 @@ def evaluate_retrieval(split="test", kb: str | None = None):
     print(f"  {'-'*18} {'-'*10} {'-'*10}  {'-'*30}")
     refusals_total = 0
     t3_total = 0
-    for domain in ("cardiologist", "endocrinologist"):
+    for domain in REG_DOMAINS:
         r = tier3_refusals[domain]
         tot = tier3_count[domain]
         refusals_total += r

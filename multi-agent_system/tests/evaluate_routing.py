@@ -9,6 +9,7 @@ from collections import defaultdict
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+from agents.registry import AGENT_REGISTRY
 from settings import client, ROUTING_MODEL, YANDEX_PROJECT_ID
 from tests._stats import fmt as _fmt
 
@@ -22,16 +23,36 @@ SPLIT_TO_FILENAME = {
 
 import json as _json
 
-ROUTING_SYSTEM_PROMPT = (
-    "You are a medical orchestrator. "
-    "Determine which specialist should handle the request. "
-    "Output a single JSON object with key `specialist` whose value is "
-    "one of: 'cardiologist', 'endocrinologist'. "
-    "Do not output any other text. "
-    'Example: {"specialist": "cardiologist"}.'
-)
 
-ALLOWED_SPECIALISTS = {"cardiologist", "endocrinologist"}
+def _build_routing_system_prompt() -> str:
+    """4-specialist routing prompt — mirrors orchestrator._routing_system_prompt.
+
+    Built from `AGENT_REGISTRY` so a new specialist's `domain_scope` becomes
+    visible to the evaluator with no further edits here. Was a hardcoded
+    2-specialty string pre-Stage-39.
+    """
+    keys = sorted(AGENT_REGISTRY.keys())
+    scope_block = "\n".join(
+        f"  - {k!r}: {AGENT_REGISTRY[k]['domain_scope']}" for k in keys
+    )
+    allowed = ", ".join(repr(s) for s in keys)
+    return (
+        "You are a medical orchestrator. Determine which specialist should "
+        "handle the request. The available specialists and their domain "
+        "scopes are:\n"
+        f"{scope_block}\n\n"
+        "Output a single JSON object with key `specialist` whose value is "
+        f"one of: {allowed}. Do not output any other text. "
+        'Example: {"specialist": "cardiologist"}.'
+    )
+
+
+ROUTING_SYSTEM_PROMPT = _build_routing_system_prompt()
+
+# Strict allow-list — `parse_or_fail()` accepts only canonical specialty
+# names from the registry. Adding a new specialist to AGENT_REGISTRY widens
+# the allow-list automatically.
+ALLOWED_SPECIALISTS = set(AGENT_REGISTRY.keys())
 
 
 def route_query(question: str) -> str:
@@ -178,7 +199,7 @@ def evaluate_routing(split="test"):
     print(f"  {'Domain':<20} {'Tier':<6} {'Label':<13} {'Correct':>7} {'Total':>7}  {'Accuracy [Wilson 95% CI]':<28}")
     print(f"  {'-'*20} {'-'*6} {'-'*13} {'-'*7} {'-'*7}  {'-'*28}")
 
-    for domain in ("cardiologist", "endocrinologist"):
+    for domain in sorted(AGENT_REGISTRY.keys()):
         for t in [1, 2, 3]:
             if tier_stats[(domain, t)]["total"] > 0:
                 c = tier_stats[(domain, t)]["correct"]
@@ -260,7 +281,7 @@ def evaluate_routing(split="test"):
         "| Domain | Tier | Label | Correct | Total | Accuracy [Wilson 95% CI] |",
         "|---|---|---|---|---|---|",
     ]
-    for domain in ("cardiologist", "endocrinologist"):
+    for domain in sorted(AGENT_REGISTRY.keys()):
         for t in [1, 2, 3]:
             if tier_stats[(domain, t)]["total"] > 0:
                 c = tier_stats[(domain, t)]["correct"]

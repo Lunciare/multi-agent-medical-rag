@@ -27,13 +27,17 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from tests._stats import fmt as _fmt
 
 
-# NOTE (4-specialist registry): this keyword baseline only covers cardiology
-# and endocrinology terms. The two new specialists (gastroenterologist,
-# infectionist) registered in agents/registry.py are NOT covered here, so the
-# keyword baseline accuracy figure reported in report_final.md §4.1 is for
-# the original two-agent system only. Extending the baseline to four
-# specialties requires adding GASTRO_KEYWORDS / INFECT_KEYWORDS sets and a
-# routing rule with explicit precedence between them; see Limitation 3.
+# Stage 39 four-specialist extension:
+#   The pre-Stage-39 baseline was a binary cardio-vs-rest rule. It now
+#   needs an explicit precedence between four specialty keyword sets.
+#   Precedence rule: count how many distinct keywords from each specialty's
+#   set appear in the query; pick the specialty with the highest count; on
+#   ties, fall back to the registry order (cardiologist, endocrinologist,
+#   gastroenterologist, infectionist). Endocrinology is the historical
+#   default if no specialty has any keyword hit (kept for backward
+#   compatibility with the Stage 1 baseline — the most common "default"
+#   case in the 2-specialty world was endocrine because cardiology had a
+#   richer keyword vocabulary).
 CARDIO_KEYWORDS = {
     'chest pain', 'palpitation', 'dyspnea', 'syncope', 'edema',
     'murmur', 'gallop', 'jugular', 'claudication', 'orthopnea',
@@ -47,6 +51,57 @@ CARDIO_KEYWORDS = {
     'heart', 'ventricle', 'atrial', 'atrium', 'pericardial',
     'ankle-brachial', 'peripheral artery',
 }
+ENDO_KEYWORDS = {
+    'diabetes', 'hba1c', 'insulin', 'glucose', 'hyperglycaemia', 'hypoglycaemia',
+    'thyroid', 'tsh', 'free t4', 'free t3', 'hypothyroidism', 'hyperthyroidism',
+    'goitre', 'graves', 'hashimoto', 'thyroiditis', 'thyroid nodule',
+    'adrenal', 'cortisol', 'cushing', 'addison', 'pheochromocytoma', 'hyperaldosteronism',
+    'pituitary', 'prolactin', 'acromegaly', 'growth hormone',
+    'parathyroid', 'pth', 'hypercalcaemia', 'hypocalcaemia',
+    'metabolic syndrome', 'obesity', 'pcos', 'osteoporosis', 'dexa',
+    'endocrine', 'gland', 'hormonal', 'hormone',
+}
+GASTRO_KEYWORDS = {
+    'gerd', 'reflux', 'heartburn', 'peptic ulcer', 'h. pylori', 'helicobacter',
+    'ulcerative colitis', "crohn's", 'crohn', 'ibd', 'inflammatory bowel',
+    'irritable bowel', 'ibs', 'coeliac', 'celiac', 'gluten',
+    'hepatitis b', 'hepatitis c', 'hbv', 'hcv', 'cirrhosis', 'ascites',
+    'varices', 'variceal', 'liver failure', 'hepatic encephalopathy',
+    'cholelithiasis', 'gallstones', 'gallbladder', 'cholangitis',
+    'pancreatitis', 'pancreatic',
+    'colon', 'colorectal', 'diverticul', 'haemorrhoid', 'hemorrhoid',
+    'diarrhoea', 'diarrhea', 'constipation', 'melaena', 'haematochezia',
+    'dysphagia', 'oesophag', 'esophag', 'achalasia', 'barrett',
+    'nafld', 'masld', 'fatty liver',
+    'paracentesis', 'endoscopy', 'colonoscopy',
+    'gastro', 'liver', 'biliary', 'stomach', 'bowel',
+}
+INFECT_KEYWORDS = {
+    'pneumonia', 'sepsis', 'septic shock', 'cellulitis', 'meningitis', 'encephalitis',
+    'tuberculosis', 'tb', 'hiv', 'aids', 'antiretroviral',
+    'urinary tract infection', 'uti', 'pyelonephritis',
+    'covid', 'sars-cov-2', 'influenza',
+    'malaria', 'plasmodium', 'dengue', 'typhoid', 'leptospirosis',
+    'clostridium difficile', 'c. difficile', 'cdi',
+    'mrsa', 'staphylococcus aureus', 'streptococcus',
+    'osteomyelitis', 'bacteraemia', 'bacteremia', 'fungaemia',
+    'aspergillosis', 'cryptococcal', 'histoplasm', 'candidiasis',
+    'antimicrobial', 'antibiotic', 'antiviral', 'antifungal', 'antiparasitic',
+    'vaccin', 'immunisation', 'immunization',
+    'parasite', 'helminth', 'protozoa',
+    'fever of unknown origin', 'febrile neutropenia',
+    'rifampicin', 'isoniazid', 'doxycycline', 'penicillin', 'ceftriaxone',
+    'infection', 'infectious',
+}
+
+# Order used for tie-break in keyword_route — matches AGENT_REGISTRY's iteration
+# order, which in turn matches the routing prompt's enumeration.
+_KEYWORD_SETS_IN_REGISTRY_ORDER = [
+    ('cardiologist', CARDIO_KEYWORDS),
+    ('endocrinologist', ENDO_KEYWORDS),
+    ('gastroenterologist', GASTRO_KEYWORDS),
+    ('infectionist', INFECT_KEYWORDS),
+]
 
 SPLIT_TO_FILENAME = {
     "dev": "golden_dev.json",
@@ -56,11 +111,25 @@ SPLIT_TO_FILENAME = {
 
 
 def keyword_route(query):
+    """Highest-keyword-count specialty wins; registry order breaks ties.
+
+    Empty hits across all four specialties → fall back to 'endocrinologist'
+    (preserves the Stage 1 baseline's tie-break behaviour). The 4-specialist
+    extension changes this from a binary cardio-vs-rest rule (Stage 1) to a
+    multi-class counter; tie-breaks now follow registry order — see comment
+    on _KEYWORD_SETS_IN_REGISTRY_ORDER above.
+    """
     q = query.lower()
-    for kw in CARDIO_KEYWORDS:
-        if kw in q:
-            return 'cardiologist'
-    return 'endocrinologist'
+    best_specialty = None
+    best_count = 0
+    for specialty, kws in _KEYWORD_SETS_IN_REGISTRY_ORDER:
+        count = sum(1 for kw in kws if kw in q)
+        if count > best_count:
+            best_count = count
+            best_specialty = specialty
+    if best_specialty is None:
+        return 'endocrinologist'  # Stage 1 default
+    return best_specialty
 
 
 _tfidf_pipeline = None
@@ -115,38 +184,44 @@ def _run_baseline(name, route_fn, cases):
     }
 
 
+_REGISTRY_DOMAINS = ("cardiologist", "endocrinologist", "gastroenterologist", "infectionist")
+
+
 def _print_method_table(results, *, header):
-    print(f"\n{'=' * 92}")
+    print(f"\n{'=' * 130}")
     print(f"  {header}")
-    print(f"{'=' * 92}")
-    print(f"  {'Method':<20} {'Cardiology [Wilson 95% CI]':<32} "
-          f"{'Endocrinology [Wilson 95% CI]':<32} {'Overall':<30}")
-    print(f"  {'-'*20} {'-'*32} {'-'*32} {'-'*30}")
+    print(f"{'=' * 130}")
+    cols = "  " + f"{'Method':<20}"
+    for d in _REGISTRY_DOMAINS:
+        cols += f" {d+' [95% CI]':<26}"
+    cols += f" {'Overall [95% CI]':<28}"
+    print(cols)
+    print("  " + "-"*20 + (" " + "-"*26) * len(_REGISTRY_DOMAINS) + f" {'-'*28}")
     for r in results:
-        c = r["per_domain"].get("cardiologist", {"correct": 0, "total": 0})
-        e = r["per_domain"].get("endocrinologist", {"correct": 0, "total": 0})
-        print(f"  {r['name']:<20} {_fmt(c['correct'], c['total']):<32} "
-              f"{_fmt(e['correct'], e['total']):<32} "
-              f"{_fmt(r['correct'], r['total']):<30}")
-    print(f"{'=' * 92}")
+        line = "  " + f"{r['name']:<20}"
+        for d in _REGISTRY_DOMAINS:
+            s = r["per_domain"].get(d, {"correct": 0, "total": 0})
+            line += " " + f"{_fmt(s['correct'], s['total']):<26}"
+        line += " " + f"{_fmt(r['correct'], r['total']):<28}"
+        print(line)
+    print(f"{'=' * 130}")
 
 
 def _print_tier_table(results):
     print(f"\n{'=' * 100}")
     print(f"  Per-Tier Accuracy (Wilson 95% CI)")
     print(f"{'=' * 100}")
-    domains = ("cardiologist", "endocrinologist")
     for r in results:
         print(f"\n  --- {r['name']} ---")
-        print(f"  {'Domain':<18} {'Tier':<4} {'Correct':>7} {'Total':>5}  "
+        print(f"  {'Domain':<22} {'Tier':<4} {'Correct':>7} {'Total':>5}  "
               f"{'Accuracy [Wilson 95% CI]':<32}")
-        print(f"  {'-'*18} {'-'*4} {'-'*7} {'-'*5}  {'-'*32}")
-        for dom in domains:
+        print(f"  {'-'*22} {'-'*4} {'-'*7} {'-'*5}  {'-'*32}")
+        for dom in _REGISTRY_DOMAINS:
             for t in (1, 2, 3):
                 key = (dom, t)
                 if key in r["per_tier"]:
                     stats = r["per_tier"][key]
-                    print(f"  {dom:<18} {t:<4} {stats['correct']:>7} {stats['total']:>5}  "
+                    print(f"  {dom:<22} {t:<4} {stats['correct']:>7} {stats['total']:>5}  "
                           f"{_fmt(stats['correct'], stats['total']):<32}")
     print(f"{'=' * 100}")
 

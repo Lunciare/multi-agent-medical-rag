@@ -24,6 +24,7 @@ from typing import Dict, List
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+from agents.registry import AGENT_REGISTRY
 from orchestrator import MedicalOrchestrator
 from refusal_gate import (
     CorpusDistStats,
@@ -34,7 +35,6 @@ from refusal_gate import (
 )
 from settings import (
     DEFAULT_KNOWLEDGE_BASE_DIR,
-    ENDO_KNOWLEDGE_BASE_DIR,
     MAX_L2_DISTANCE,
     SIMILARITY_TOP_K,
 )
@@ -66,11 +66,8 @@ def _collect_min_dists(dataset, orchestrator) -> List[dict]:
     """For each case, retrieve top-K and record min L2 distance + meta."""
     rows = []
     for case in dataset:
-        if case["expected_specialist"] == "cardiologist":
-            agent = orchestrator.agents["cardiologist"]
-        elif case["expected_specialist"] == "endocrinologist":
-            agent = orchestrator.agents["endocrinologist"]
-        else:
+        agent = orchestrator.agents.get(case["expected_specialist"])
+        if agent is None:
             continue
         ds = agent.vectorstore.similarity_search_with_score(case["query"], k=SIMILARITY_TOP_K)
         min_dist = min((s for _d, s in ds), default=None)
@@ -133,20 +130,21 @@ def main():
     print("Loading orchestrator + FAISS indices...")
     orchestrator = MedicalOrchestrator(DEFAULT_KNOWLEDGE_BASE_DIR)
 
+    # Stage 39 four-specialist update: build the per-specialty corpus-distance
+    # stats from AGENT_REGISTRY directly so the tuner auto-expands as
+    # specialties are added. Cache files live in each specialty's folder
+    # (matches the convention written by RefusalGate.from_vectorstore()).
     print("\nLoading corpus distance stats (per specialty)...")
-    cardio_stats = load_or_compute_corpus_dist_stats(
-        orchestrator.agents["cardiologist"].vectorstore,
-        cache_path=os.path.join(os.path.dirname(DEFAULT_KNOWLEDGE_BASE_DIR), "cardiology",
-                                "corpus_dist_stats.json"),
-        specialty="cardiology",
-    )
-    endo_stats = load_or_compute_corpus_dist_stats(
-        orchestrator.agents["endocrinologist"].vectorstore,
-        cache_path=os.path.join(ENDO_KNOWLEDGE_BASE_DIR, "corpus_dist_stats.json"),
-        specialty="endocrinology",
-    )
-    print(f"  cardiology     : μ={cardio_stats.mu:.4f}  σ={cardio_stats.sigma:.4f}")
-    print(f"  endocrinology  : μ={endo_stats.mu:.4f}  σ={endo_stats.sigma:.4f}")
+    corpus_stats = {}
+    for key, cfg in AGENT_REGISTRY.items():
+        cache_path = os.path.join(cfg["folder_path"], "corpus_dist_stats.json")
+        corpus_stats[key] = load_or_compute_corpus_dist_stats(
+            orchestrator.agents[key].vectorstore,
+            cache_path=cache_path,
+            specialty=key,
+        )
+        print(f"  {key:<22}: μ={corpus_stats[key].mu:.4f}  "
+              f"σ={corpus_stats[key].sigma:.4f}")
 
     print("\nCollecting min_dist per case (dev + test for confirmation)...")
     dev = _load(DEV_PATH)
@@ -204,16 +202,22 @@ def main():
           f"{'test FP rate':>12}")
     best_b = None
     for k in CORPUS_DIST_K_GRID:
-        thr_cardio = cardio_stats.mu - k * cardio_stats.sigma
-        thr_endo = endo_stats.mu - k * endo_stats.sigma
-        def reject_b(_md, _row=None, _kc=thr_cardio, _ke=thr_endo):
-            raise NotImplementedError
-        # We need per-domain thresholds; build a callable that consults the row's domain.
+        # Stage 39: per-specialty threshold built from AGENT_REGISTRY.
+        thr_by_domain = {
+            specialty: stats.mu - k * stats.sigma
+            for specialty, stats in corpus_stats.items()
+        }
+        # Pretty-print only the first two domain thresholds in the table header
+        # (the historical 2-column layout); the full per-specialty thresholds
+        # are reachable by reading `corpus_stats` / the per-specialty
+        # `corpus_dist_stats.json` files.
+        thr_cardio = thr_by_domain.get("cardiologist", float("nan"))
+        thr_endo = thr_by_domain.get("endocrinologist", float("nan"))
+
         def make_b_reject(thr_by_domain):
             def fn(row):
                 return row["min_dist"] is None or row["min_dist"] > thr_by_domain[row["domain"]]
             return fn
-        thr_by_domain = {"cardiologist": thr_cardio, "endocrinologist": thr_endo}
         rej_fn = make_b_reject(thr_by_domain)
 
         def _confusion_per_row(rows):

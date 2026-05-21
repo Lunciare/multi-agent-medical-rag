@@ -5,6 +5,7 @@ import json
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+from agents.registry import AGENT_REGISTRY
 from orchestrator import MedicalOrchestrator
 from settings import DEFAULT_KNOWLEDGE_BASE_DIR, client, AGENT_MODEL, YANDEX_PROJECT_ID, SIMILARITY_TOP_K, MAX_L2_DISTANCE
 from tests._stats import fmt as _fmt
@@ -63,8 +64,10 @@ def evaluate_relevance(split="test"):
 
     total_queries = len(dataset)
 
-    domain_sufficient = {"cardiologist": 0, "endocrinologist": 0}
-    domain_total = {"cardiologist": 0, "endocrinologist": 0}
+    # Stage 39: per-domain dicts now built from the registry so the eval
+    # scales to any number of specialists without code changes.
+    domain_sufficient = {k: 0 for k in AGENT_REGISTRY}
+    domain_total = {k: 0 for k in AGENT_REGISTRY}
 
     from collections import defaultdict
     tier_sufficient = defaultdict(int)
@@ -81,12 +84,9 @@ def evaluate_relevance(split="test"):
         tier_label = case.get("tier_label", "core")
         tier_labels[tier] = tier_label
 
-        agent = None
-        if expected_agent == "cardiologist":
-            agent = orchestrator.agents["cardiologist"]
-        elif expected_agent == "endocrinologist":
-            agent = orchestrator.agents["endocrinologist"]
-        else:
+        agent = orchestrator.agents.get(expected_agent)
+        if agent is None:
+            print(f"  [SKIP] Unknown expected agent: {expected_agent}")
             continue
 
         domain_total[expected_agent] += 1
@@ -115,7 +115,7 @@ def evaluate_relevance(split="test"):
     print(f"  {'Domain':<20} {'Sufficient':>10} {'Total':>6}  {'Relevancy [Wilson 95% CI]':<30}")
     print(f"  {'-'*20} {'-'*10} {'-'*6}  {'-'*30}")
 
-    for domain in ("cardiologist", "endocrinologist"):
+    for domain in sorted(AGENT_REGISTRY.keys()):
         s = domain_sufficient[domain]
         t = domain_total[domain]
         print(f"  {domain:<20} {s:>10} {t:>6}  {_fmt(s, t):<30}")
@@ -132,7 +132,7 @@ def evaluate_relevance(split="test"):
           f"{'Relevancy [Wilson 95% CI]':<30}")
     print(f"  {'-'*20} {'-'*6} {'-'*13} {'-'*10} {'-'*6}  {'-'*30}")
 
-    for domain in ("cardiologist", "endocrinologist"):
+    for domain in sorted(AGENT_REGISTRY.keys()):
         for t in [1, 2, 3]:
             if tier_totals[(domain, t)] > 0:
                 s = tier_sufficient[(domain, t)]
