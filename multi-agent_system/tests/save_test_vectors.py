@@ -50,6 +50,20 @@ ENDOCRINOLOGY_QUERIES = [
     "HbA1c",
     "adrenal insufficiency",
 ]
+GASTROENTEROLOGY_QUERIES = [
+    "ulcerative colitis",
+    "liver cirrhosis",
+    "GERD",
+    "irritable bowel syndrome",
+    "acute pancreatitis",
+]
+INFECTIOLOGY_QUERIES = [
+    "tuberculosis",
+    "HIV infection",
+    "malaria",
+    "community acquired pneumonia",
+    "antimicrobial resistance",
+]
 
 
 SIMILARITY_TOP_K = 5
@@ -57,8 +71,10 @@ SIMILARITY_TOP_K = 5
 
 def _faiss_paths(repo_root: Path) -> dict[str, Path]:
     return {
-        "cardiology":    repo_root / "data" / "processed" / "cardiology"    / "faiss_index",
-        "endocrinology": repo_root / "data" / "processed" / "endocrinology" / "faiss_index",
+        "cardiology":         repo_root / "data" / "processed" / "cardiology"         / "faiss_index",
+        "endocrinology":      repo_root / "data" / "processed" / "endocrinology"      / "faiss_index",
+        "gastroenterologist": repo_root / "data" / "processed" / "gastroenterologist" / "faiss_index",
+        "infection":          repo_root / "data" / "processed" / "infection"          / "faiss_index",
     }
 
 
@@ -109,8 +125,10 @@ def main() -> None:
 
     embedder = YandexNativeEmbeddings()
     pairs = (
-        [(q, "cardiology")    for q in CARDIOLOGY_QUERIES]
-        + [(q, "endocrinology") for q in ENDOCRINOLOGY_QUERIES]
+        [(q, "cardiology")         for q in CARDIOLOGY_QUERIES]
+        + [(q, "endocrinology")      for q in ENDOCRINOLOGY_QUERIES]
+        + [(q, "gastroenterologist") for q in GASTROENTEROLOGY_QUERIES]
+        + [(q, "infection")          for q in INFECTIOLOGY_QUERIES]
     )
 
     vectors = []

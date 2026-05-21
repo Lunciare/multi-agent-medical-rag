@@ -7,9 +7,17 @@ Replaces the previous per-specialty build scripts (`build_cardio_faiss.py`,
 requires the registry entry and a populated `data/processed/{specialty}/`
 folder — no new build script.
 
+The registry currently exposes four specialists — `cardiologist`,
+`endocrinologist`, `gastroenterologist`, `infectionist` — and any of
+them can be passed to `--specialty`. Cardiology and endocrinology
+indices are pre-built and committed; gastroenterology and infectiology
+indices are built on demand with this script.
+
 Usage:
-    python build_index.py --specialty cardiologist
-    python build_index.py --specialty endocrinologist
+    python build_index.py --specialty cardiologist        # ~40 min, 7,730 chunks
+    python build_index.py --specialty endocrinologist     # ~2.5 h,  37,791 chunks
+    python build_index.py --specialty gastroenterologist  # ~50 min, 9,024 chunks
+    python build_index.py --specialty infectionist        # ~45 min, 7,712 chunks
 """
 
 from __future__ import annotations
@@ -45,6 +53,18 @@ NATIVE_CHUNK_WORDS = 400
 NATIVE_OVERLAP_WORDS = 30
 
 
+# Mean characters-per-whitespace-token above which a chunk is treated as a
+# PDF-extraction artifact (inter-word spaces lost during PDF→text conversion,
+# so a single "word" is 100+ chars of concatenated text) and skipped before
+# embedding. Normal English text averages ~6-7 chars/word; the bloated gastro
+# and infection chunks (≈ 5-6 % of those corpora, concentrated in author-
+# affiliation blocks of multi-author papers) average 30-170 chars/word and
+# trip the Yandex embedder's token-input limit. Threshold = 15 is well above
+# normal English and below the artifact range; endocrinology's single 5,696-
+# char outlier sits at 14 chars/word and is preserved.
+_MAX_MEAN_WORD_LEN_CHARS = 15
+
+
 def _load_documents(folder_path: str, *, chunk_size: int = NATIVE_CHUNK_WORDS,
                     keep_keywords: bool = False) -> List[Document]:
     """Load chunks for the index build.
@@ -74,6 +94,8 @@ def _load_documents(folder_path: str, *, chunk_size: int = NATIVE_CHUNK_WORDS,
         raise ValueError(f"chunk_size must be > 0, got {chunk_size!r}")
     overlap = max(1, chunk_size // 13) if chunk_size != NATIVE_CHUNK_WORDS else NATIVE_OVERLAP_WORDS
 
+    skipped_pdf_artifact = 0  # see _MAX_MEAN_WORD_LEN_CHARS constant
+
     # First, group source files by (category, doc_name).
     groups: dict = {}
     for cat in CATEGORIES:
@@ -88,11 +110,13 @@ def _load_documents(folder_path: str, *, chunk_size: int = NATIVE_CHUNK_WORDS,
                 file_path = os.path.join(root, file)
 
                 if file.endswith(".json"):
-                    # JSON chunks (existing cardiology Articles) are kept as a single
-                    # virtual "document" — no re-chunking applied (would require text
-                    # structure we don't have). Honour keep_keywords for these too:
-                    # JSON entries do not carry a KEYWORDS header, so the flag is a
-                    # no-op here.
+                    # JSON chunks (cardiology Articles only — the other three
+                    # specialists, endocrinology / gastroenterology / infectiology,
+                    # use the conventional 0001.txt … layout for every category)
+                    # are kept as a single virtual "document" — no re-chunking
+                    # applied (would require text structure we don't have).
+                    # Honour keep_keywords for these too: JSON entries do not
+                    # carry a KEYWORDS header, so the flag is a no-op here.
                     with open(file_path, "r", encoding="utf-8") as f:
                         try:
                             data = json.load(f)
@@ -128,6 +152,13 @@ def _load_documents(folder_path: str, *, chunk_size: int = NATIVE_CHUNK_WORDS,
                             body_lines.append(line)
                     body = "\n".join(body_lines).strip()
                     keywords_meta = keyword_line.replace("KEYWORDS:", "", 1).strip()
+
+                    body_tokens = body.split()
+                    if body_tokens:
+                        mean_word_chars = sum(len(t) for t in body_tokens) / len(body_tokens)
+                        if mean_word_chars > _MAX_MEAN_WORD_LEN_CHARS:
+                            skipped_pdf_artifact += 1
+                            continue
 
                     parts = file_path.replace("\\", "/").split("/")
                     category = "unknown"
@@ -226,6 +257,12 @@ def _load_documents(folder_path: str, *, chunk_size: int = NATIVE_CHUNK_WORDS,
                     break
                 start += step
 
+    if skipped_pdf_artifact:
+        print(
+            f"   Skipped {skipped_pdf_artifact} chunk(s) with mean word length > "
+            f"{_MAX_MEAN_WORD_LEN_CHARS} chars (PDF-extraction artifacts, "
+            f"would exceed the embedder's token-input cap)"
+        )
     return documents
 
 
@@ -330,7 +367,9 @@ def main() -> None:
     parser.add_argument(
         "--specialty", required=True,
         choices=sorted(AGENT_REGISTRY.keys()),
-        help="Specialty key from AGENT_REGISTRY (e.g. cardiologist, endocrinologist).",
+        help=("Specialty key from AGENT_REGISTRY. The registry currently has "
+              "four entries: cardiologist, endocrinologist, gastroenterologist, "
+              "infectionist."),
     )
     parser.add_argument(
         "--chunk-size", type=int, default=NATIVE_CHUNK_WORDS,

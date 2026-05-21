@@ -44,8 +44,10 @@ LABELS_PATH = TEST_DATA_DIR / "test_vector_labels.json"
 SNAPSHOT_PATH = TEST_DATA_DIR / "test_retrieval_snapshot.json"
 
 FAISS_DIRS = {
-    "cardiology": REPO_ROOT / "data" / "processed" / "cardiology" / "faiss_index",
-    "endocrinology": REPO_ROOT / "data" / "processed" / "endocrinology" / "faiss_index",
+    "cardiology":         REPO_ROOT / "data" / "processed" / "cardiology"         / "faiss_index",
+    "endocrinology":      REPO_ROOT / "data" / "processed" / "endocrinology"      / "faiss_index",
+    "gastroenterologist": REPO_ROOT / "data" / "processed" / "gastroenterologist" / "faiss_index",
+    "infection":          REPO_ROOT / "data" / "processed" / "infection"          / "faiss_index",
 }
 
 

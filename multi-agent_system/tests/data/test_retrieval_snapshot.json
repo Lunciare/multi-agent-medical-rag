@@ -15,7 +15,7 @@
       0.9280446767807007
     ],
     "domain": "cardiology",
-    "snapshot_date": "2026-05-20"
+    "snapshot_date": "2026-05-21"
   },
   "hypertension management": {
     "top_k_source_files": [
@@ -33,7 +33,7 @@
       0.968194305896759
     ],
     "domain": "cardiology",
-    "snapshot_date": "2026-05-20"
+    "snapshot_date": "2026-05-21"
   },
   "chest pain differential": {
     "top_k_source_files": [
@@ -51,7 +51,7 @@
       0.8638749122619629
     ],
     "domain": "cardiology",
-    "snapshot_date": "2026-05-20"
+    "snapshot_date": "2026-05-21"
   },
   "echocardiography": {
     "top_k_source_files": [
@@ -69,7 +69,7 @@
       0.9414107799530029
     ],
     "domain": "cardiology",
-    "snapshot_date": "2026-05-20"
+    "snapshot_date": "2026-05-21"
   },
   "beta blocker": {
     "top_k_source_files": [
@@ -87,7 +87,7 @@
       1.0881483554840088
     ],
     "domain": "cardiology",
-    "snapshot_date": "2026-05-20"
+    "snapshot_date": "2026-05-21"
   },
   "type 2 diabetes": {
     "top_k_source_files": [
@@ -105,7 +105,7 @@
       0.8674769997596741
     ],
     "domain": "endocrinology",
-    "snapshot_date": "2026-05-20"
+    "snapshot_date": "2026-05-21"
   },
   "thyroid nodule": {
     "top_k_source_files": [
@@ -123,7 +123,7 @@
       0.8516635298728943
     ],
     "domain": "endocrinology",
-    "snapshot_date": "2026-05-20"
+    "snapshot_date": "2026-05-21"
   },
   "insulin resistance": {
     "top_k_source_files": [
@@ -141,7 +141,7 @@
       0.871100902557373
     ],
     "domain": "endocrinology",
-    "snapshot_date": "2026-05-20"
+    "snapshot_date": "2026-05-21"
   },
   "HbA1c": {
     "top_k_source_files": [
@@ -159,7 +159,7 @@
       0.8576618432998657
     ],
     "domain": "endocrinology",
-    "snapshot_date": "2026-05-20"
+    "snapshot_date": "2026-05-21"
   },
   "adrenal insufficiency": {
     "top_k_source_files": [
@@ -177,6 +177,186 @@
       0.8312700986862183
     ],
     "domain": "endocrinology",
-    "snapshot_date": "2026-05-20"
+    "snapshot_date": "2026-05-21"
+  },
+  "ulcerative colitis": {
+    "top_k_source_files": [
+      "0001.txt",
+      "0251.txt",
+      "0256.txt",
+      "0031.txt",
+      "0002.txt"
+    ],
+    "top_k_l2_distances": [
+      0.9620192050933838,
+      0.9823688268661499,
+      1.029585361480713,
+      1.040771722793579,
+      1.0524044036865234
+    ],
+    "domain": "gastroenterologist",
+    "snapshot_date": "2026-05-21"
+  },
+  "liver cirrhosis": {
+    "top_k_source_files": [
+      "0077.txt",
+      "0003.txt",
+      "0077.txt",
+      "0076.txt",
+      "0007.txt"
+    ],
+    "top_k_l2_distances": [
+      0.98117995262146,
+      0.993880033493042,
+      0.9954755902290344,
+      0.9966694116592407,
+      1.0020917654037476
+    ],
+    "domain": "gastroenterologist",
+    "snapshot_date": "2026-05-21"
+  },
+  "GERD": {
+    "top_k_source_files": [
+      "0009.txt",
+      "0003.txt",
+      "0001.txt",
+      "0064.txt",
+      "0009.txt"
+    ],
+    "top_k_l2_distances": [
+      1.076113224029541,
+      1.0910015106201172,
+      1.0910753011703491,
+      1.093815565109253,
+      1.1002254486083984
+    ],
+    "domain": "gastroenterologist",
+    "snapshot_date": "2026-05-21"
+  },
+  "irritable bowel syndrome": {
+    "top_k_source_files": [
+      "0018.txt",
+      "0016.txt",
+      "0023.txt",
+      "0024.txt",
+      "0020.txt"
+    ],
+    "top_k_l2_distances": [
+      0.9698955416679382,
+      1.030184030532837,
+      1.0350828170776367,
+      1.0412490367889404,
+      1.047348141670227
+    ],
+    "domain": "gastroenterologist",
+    "snapshot_date": "2026-05-21"
+  },
+  "acute pancreatitis": {
+    "top_k_source_files": [
+      "0004.txt",
+      "0012.txt",
+      "0003.txt",
+      "0005.txt",
+      "0001.txt"
+    ],
+    "top_k_l2_distances": [
+      0.8858022689819336,
+      0.8963943123817444,
+      0.9285099506378174,
+      0.9299777150154114,
+      0.9343584179878235
+    ],
+    "domain": "gastroenterologist",
+    "snapshot_date": "2026-05-21"
+  },
+  "tuberculosis": {
+    "top_k_source_files": [
+      "0004.txt",
+      "0008.txt",
+      "0002.txt",
+      "0003.txt",
+      "0028.txt"
+    ],
+    "top_k_l2_distances": [
+      0.9994386434555054,
+      1.0064798593521118,
+      1.0138005018234253,
+      1.0161718130111694,
+      1.023209810256958
+    ],
+    "domain": "infection",
+    "snapshot_date": "2026-05-21"
+  },
+  "HIV infection": {
+    "top_k_source_files": [
+      "0011.txt",
+      "0012.txt",
+      "0002.txt",
+      "0005.txt",
+      "0014.txt"
+    ],
+    "top_k_l2_distances": [
+      1.0021998882293701,
+      1.0318189859390259,
+      1.0469691753387451,
+      1.0574235916137695,
+      1.0583276748657227
+    ],
+    "domain": "infection",
+    "snapshot_date": "2026-05-21"
+  },
+  "malaria": {
+    "top_k_source_files": [
+      "0001.txt",
+      "0003.txt",
+      "0001.txt",
+      "0004.txt",
+      "0002.txt"
+    ],
+    "top_k_l2_distances": [
+      0.9621901512145996,
+      0.9870660901069641,
+      0.9873281717300415,
+      0.9900294542312622,
+      0.9946491122245789
+    ],
+    "domain": "infection",
+    "snapshot_date": "2026-05-21"
+  },
+  "community acquired pneumonia": {
+    "top_k_source_files": [
+      "0005.txt",
+      "0005.txt",
+      "0129.txt",
+      "0004.txt",
+      "0009.txt"
+    ],
+    "top_k_l2_distances": [
+      1.024829387664795,
+      1.035609245300293,
+      1.0672237873077393,
+      1.073534369468689,
+      1.0768837928771973
+    ],
+    "domain": "infection",
+    "snapshot_date": "2026-05-21"
+  },
+  "antimicrobial resistance": {
+    "top_k_source_files": [
+      "0001.txt",
+      "0023.txt",
+      "0025.txt",
+      "0029.txt",
+      "0005.txt"
+    ],
+    "top_k_l2_distances": [
+      0.8905104994773865,
+      0.9334430694580078,
+      0.9390497803688049,
+      0.9428325891494751,
+      0.9506105780601501
+    ],
+    "domain": "infection",
+    "snapshot_date": "2026-05-21"
   }
 }

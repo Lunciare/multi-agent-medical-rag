@@ -38,5 +38,45 @@
   {
     "query": "adrenal insufficiency",
     "domain": "endocrinology"
+  },
+  {
+    "query": "ulcerative colitis",
+    "domain": "gastroenterologist"
+  },
+  {
+    "query": "liver cirrhosis",
+    "domain": "gastroenterologist"
+  },
+  {
+    "query": "GERD",
+    "domain": "gastroenterologist"
+  },
+  {
+    "query": "irritable bowel syndrome",
+    "domain": "gastroenterologist"
+  },
+  {
+    "query": "acute pancreatitis",
+    "domain": "gastroenterologist"
+  },
+  {
+    "query": "tuberculosis",
+    "domain": "infection"
+  },
+  {
+    "query": "HIV infection",
+    "domain": "infection"
+  },
+  {
+    "query": "malaria",
+    "domain": "infection"
+  },
+  {
+    "query": "community acquired pneumonia",
+    "domain": "infection"
+  },
+  {
+    "query": "antimicrobial resistance",
+    "domain": "infection"
   }
 ]

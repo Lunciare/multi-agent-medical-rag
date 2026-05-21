@@ -15,12 +15,12 @@ A Clinical Decision Support Assistant powered by a multi-agent Retrieval-Augment
 
 The system accepts a natural-language clinical query, classifies its medical domain, and delegates it to a specialist agent. Each agent retrieves relevant chunks from its FAISS vector index and generates a response constrained to the retrieved evidence.
 
-Four specialists are registered (two fully evaluated; two new agents pending FAISS index builds — see Limitations):
+Four specialists are registered (two fully evaluated end-to-end; two new agents have FAISS + BM25 indices built but the evaluation pipeline has not yet been extended to them — see Limitations):
 
 - **Cardiologist** — 7,730 chunks (Guidelines, Textbooks, Case Reports, Handbooks, Articles)
 - **Endocrinologist** — 37,791 chunks across the same categories
-- **Gastroenterologist** — index pending (data committed, FAISS build required)
-- **Infectionist** — index pending (data committed, FAISS build required)
+- **Gastroenterologist** — 8,670 chunks (Articles, Cases, Guidelines, Handbooks, Textbooks); 354 PDF-extraction-artifact chunks skipped during indexing — see `reports/corpus_stats_2026-05-21.md`
+- **Infectionist** — 7,476 chunks across the same five categories; 236 PDF-extraction-artifact chunks skipped during indexing
 
 For prior work this project builds on and differs from, see [report §1.5 — Related Work](reports/report_final.md#15-related-work).
 
@@ -76,7 +76,7 @@ Tier 3 tests the "Insufficient evidence" safety fallback, not retrieval quality.
 - **Cardiology corpus gaps surfaced by name.** Three Tier 2 cardiology cases (`cardio_23`, `cardio_25`, `cardio_35`) are confirmed retrieval failures with concrete missing-content categories (pericardiocentesis, Dressler / colchicine, temporary pacing). See [report §4.3.1](reports/report_final.md#431-tier-2-corpus-coverage-audit) and [§6 Limitation 2](reports/report_final.md#6-limitations).
 - **Same-vendor judge bias on faithfulness.** Both judges are Yandex models; the 98.6% min-judge rate is an upper bound under the methodology characterised by [Zheng et al. 2023](reports/report_final.md#8-references). A cross-vendor judge slot (`TERTIARY_JUDGE_PROVIDER`) is implemented but not configured here. See [report §5.3](reports/report_final.md#53-epistemic-bounds-of-same-family-evaluation) and [§6 Limitation 6](reports/report_final.md#6-limitations). (See `reports/multijudge_reconciliation.md` for run-to-run variance documentation.)
 - **Out-of-scope refusal trades FP for recall.** The Stage 7 numeric gate raises Tier 3 refusal from 0/16 to 12/16 but falsely refuses 49.1% of Tier 1/2 queries because min-L2 distributions overlap on this corpus. A two-stage gate (L2 pre-filter + LLM-as-classifier confirmer) is the natural next step. See [report §4.5](reports/report_final.md#45-out-of-scope-refusal-gate) and [§6 Limitation 8](reports/report_final.md#6-limitations).
-- **Four specialists registered; two FAISS indices pending.** Four specialists are registered (cardiologist, endocrinologist, gastroenterologist, infectionist). The two new agents are pending FAISS index builds; once built, the full evaluation pipeline (`evaluate_retrieval.py`, `evaluate_generation.py`) runs without code changes. See [report §6 Limitation 3](reports/report_final.md#6-limitations).
+- **Four specialists registered; two new agents indexed but not yet evaluated end-to-end.** Four specialists are registered (cardiologist, endocrinologist, gastroenterologist, infectionist). FAISS + BM25 indices for all four are now on disk (8,670 gastro chunks and 7,476 infect chunks after dropping 354 / 236 PDF-extraction-artifact chunks at load time — see `reports/corpus_stats_2026-05-21.md` and `reports/report_stage_indices_built.md`). The evaluation pipeline (`evaluate_retrieval.py`, `evaluate_generation.py`, `evaluate_chunk_relevance.py`) and the golden dataset still iterate on cardiology + endocrinology only; extending them to the four-specialty registry is the next stage. See [report §6 Limitation 3](reports/report_final.md#6-limitations).
 
 Evaluation scripts: `multi-agent_system/tests/`.
 
@@ -85,10 +85,10 @@ Evaluation scripts: `multi-agent_system/tests/`.
 ```
 Multi-Agent-NN-Medicine/
 ├── data/processed/
-│   ├── cardiology/                # 7,730 chunks + FAISS index
-│   ├── endocrinology/             # 37,791 chunks + FAISS index
-│   ├── gastroenterologist/        # data committed; FAISS index pending
-│   └── infection/                 # data committed; FAISS index pending
+│   ├── cardiology/                # 7,730 chunks + FAISS + BM25 indices
+│   ├── endocrinology/             # 37,791 chunks + FAISS + BM25 indices
+│   ├── gastroenterologist/        # 8,670 chunks + FAISS + BM25 indices
+│   └── infection/                 # 7,476 chunks + FAISS + BM25 indices
 ├── multi-agent_system/
 │   ├── agents/
 │   │   ├── __init__.py
@@ -155,11 +155,13 @@ Pre-built indices are committed. To rebuild from scratch (e.g., after changing c
 
 ```bash
 cd multi-agent_system
-python build_index.py --specialty cardiologist     # ~40 min for 7,730 chunks
-python build_index.py --specialty endocrinologist  # ~2.5 hours for 37,791 chunks
+python build_index.py --specialty cardiologist        # ~40 min for 7,730 chunks
+python build_index.py --specialty endocrinologist     # ~2.5 hours for 37,791 chunks
+python build_index.py --specialty gastroenterologist  # ~50 min for 8,670 chunks
+python build_index.py --specialty infectionist        # ~45 min for 7,476 chunks
 ```
 
-Both scripts save progress every 500 chunks and resume after interruptions.
+All four save progress every 500 chunks and resume after interruptions. `build_index.py` also filters chunks whose mean word length exceeds 15 characters (PDF-extraction artifacts — concatenated text without inter-word spaces) before embedding; this drops ~5 % of the gastro / infect corpora and 0 % of cardio / endo.
 
 ### Running the system
 
