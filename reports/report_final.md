@@ -325,7 +325,7 @@ Pairwise Cohen's κ on the n=70 intersection: **κ(primary, secondary) = 0.000 �
 
 The single disagreement is `cardio_40` (Tier 2 cardiology — congenital long QT syndrome following a resuscitated out-of-hospital cardiac arrest). The primary judge marked FAITHFUL; the secondary judge marked HALLUCINATION. The full retrieval-context-answer diagnostic dump for this case is in [`reports/judge_disagreement_inspection_2026-05-19.md`](judge_disagreement_inspection_2026-05-19.md) and the inter-judge analysis is in §5.3. Under the minimum-judge rule, the test-split tier breakdown is 70/70 FAITHFUL on every tier except T2 cardiology, which becomes 13/14 = 92.9% [Wilson 95% CI 68.5%–98.7%].
 
-Run cost reference: 70 test-split cases × 2 judges = 140 judge calls; total wall-clock 13.9 min on the Yandex API. Raw per-case verdicts are in [`reports/faithfulness_multijudge_raw_2026-05-19.csv`](faithfulness_multijudge_raw_2026-05-19.csv) and the markdown summary in [`reports/faithfulness_multijudge_2026-05-19.md`](faithfulness_multijudge_2026-05-19.md).
+Run cost reference: 70 test-split cases × 2 judges = 140 judge calls; total wall-clock 13.9 min on the Yandex API. Raw per-case verdicts are in [`reports/faithfulness_multijudge_raw_2026-05-19.csv`](faithfulness_multijudge_raw_2026-05-19.csv) and the markdown summary in [`reports/faithfulness_multijudge_2026-05-19.md`](faithfulness_multijudge_2026-05-19.md). Source: `faithfulness_multijudge_2026-05-19.md` (canonical run; see `reports/multijudge_reconciliation.md` for the diff against the 2026-05-20 re-run and the documented non-determinism of `yandexgpt-lite/latest` at temperature=0).
 
 ### 4.5 Out-of-Scope Refusal Gate
 
