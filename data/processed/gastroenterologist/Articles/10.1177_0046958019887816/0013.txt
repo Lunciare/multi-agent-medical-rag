@@ -1,0 +1,5 @@
+Original Research
+KEYWORDS: patients, algorithm, algorithms, ibd, identified, disease, claims, study, data, database, health, patients identified, ibd patients, studies, patient
+
+
+study is the generalizability outside of the insured popu- lation, as elderly and low-income populations are underrep- The author(s) disclosed receipt of the following financial support resented, and its results may not be entirely applicable to for the research, authorship, and/or publication of this article: This study was supported by Takeda Pharmaceutical Company, Ltd for countries other than the United States. Also, we did not medical writing assistance. include all published IBD algorithms in our study, but we wanted to open a dialog for further similar studies where all ORCID iDs IBD algorithms can be compared and included. Our initial study is a first step in that direction. Finally, without confir- Yizhou Ye mation from EMR review, we were unable to compare the Dimitri Bennett validity of the 3 algorithms and identify one that best suits this database. However, we have demonstrated that algo-

@@ -1,0 +1,5 @@
+NLM Citation: LiverTox: Clinical and Research Information on Drug-
+KEYWORDS: anastrozole, liver, cancer, breast, breast cancer, aromatase, injury, women, pubmed, liver injury, pmid, pubmed pmid, inhibitors, postmenopausal, alt
+
+
+cancer developed abnormal liver tests 9 months after starting anastrazole [bilirubin 0.9 mg/dL, ALT 130 U/L, Alk P 95 U/L, ANA 1:1280] despite normal values before treatment, resolving once anastrozole was stopped, but also with prednisone and azathioprine therapy). Hong N, Yoon HG, Seo DH, Park S, Kim SI, Sohn JH, Rhee Y. Different patterns in the risk of newly developed fatty liver and lipid changes with tamoxifen versus aromatase inhibitors in postmenopausal women with early breast cancer: A propensity score-matched cohort study. Eur J Cancer 2017; 82: 103-14. PubMed PMID: 28651157. (In a retrospective cohort study of 328 Korean women with breast cancer receiving antiestrogen adjuvant therapy, fatty liver as detected by ultrasound arose in 13 per 100 patient years on tamoxifen versus 8 per 100 on aromatase inhibitors [anastrozole or letrozole], and those on tamoxifen were more likely to progress [42% vs 10%]).

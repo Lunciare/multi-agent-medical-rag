@@ -1,0 +1,5 @@
+NLM Citation: LiverTox: Clinical and Research Information on Drug-
+KEYWORDS: atropine, liver, anticholinergic, injury, liver injury, used, agents, clinically apparent, clinically, apparent, anticholinergic agents, acute, overview, potent, short
+
+
+only. Likelihood score: E (unlikely cause of clinically apparent liver injury). References on the safety and potential hepatotoxicity of anticholinergics are given together after the Overview section on the Anticholinergic Agents. Drug Class: Anticholinergic Agents 2 LiverTox PRODUCT INFORMATION REPRESENTATIVE TRADE NAMES Atropine – Generic Homatropine – Generic DRUG CLASS Anticholinergic Agents COMPLETE LABELING Product labeling at DailyMed, National Library of Medicine, NIH CHEMICAL FORMULAS AND STRUCTURES DRUG CAS REGISTRY NUMBER MOLECULAR FORMULA STRUCTURE Atropine 51-55-8 C17-H23-N-O3 Homatropine 87-00-3 C16-H21-N-O3

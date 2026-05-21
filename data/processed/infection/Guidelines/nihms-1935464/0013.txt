@@ -1,0 +1,5 @@
+HHS Public Access
+KEYWORDS: drug, resistance, manuscript, author, author manuscript, antibiotic, model, strategy, time, therapy, manuscript author, combination, combination therapy, years, gonorrhoea
+
+
+the National Institute of Allergy and Infectious Diseases (NIAID; grants R01AI132606 and R01AI153521), as well as consulting fees from GlaxoSmithKline outside the scope of the current work. MMR and JAS report funding support from the CDC and the National Center for HIV, Viral Hepatitis, STD, and TB Prevention Epidemiologic and Economic Modeling Agreement (5NU38PS004651RY) for the current work. MMR Harvard Data Science Exploratory Award all outside the scope of the current work. RY reports R01AI153351 grant funding from NIAID for the current work. TLG and ER declare no competing interests. Data sharing All code needed to simulate the data, run the model and analysis, and produce numeric output and figures are available at

@@ -1,0 +1,5 @@
+NLM Citation: LiverTox: Clinical and Research Information on Drug-
+KEYWORDS: amodiaquine, malaria, pmid, pubmed pmid, pubmed, liver, alt, injury, patients, children, year, days, hepatitis, cases, controlled
+
+
+Klose C, Kieser M, et al. Efficacy and safety of triple combination therapy with artesunate-amodiaquine-methylene blue for falciparum malaria in children: a randomized controlled trial in Burkina Faso. J Infect Dis 2015; 211: 689-97. PubMed PMID: 25267980. (Among 221 children with falciparum malaria treated with artesunate-amodiaquine with or without methylene blue for 3 days, serious adverse events were uncommon and none were liver related; no mention of ALT elevations or hepatotoxicity). Chalasani N, Bonkovsky HL, Fontana R, Lee W, Stolz A, Talwalkar J, Reddy KR, et al.; United States Drug Induced Liver Injury Network. Features and outcomes of 899 patients with drug-induced liver injury: Th e DILIN Prospective Study. Gastroenterology 2015; 148: 1340-52.e7. PubMed PMID: 25754159. (Among 899 cases of drug induced liver injury enrolled in a US prospective study between 2004 and 2013, no cases were attributed to an antimalarial drug).

@@ -1,0 +1,4 @@
+NLM Citation: LiverTox: Clinical and Research Information on Drug-
+KEYWORDS: apalutamide, cancer, prostate, prostate cancer, liver, injury, androgen, receptor, castration-resistant, castration-resistant prostate, agents, liver injury, hepatotoxicity, androgen receptor, survival
+
+Induced Liver Injury [Internet]. Bethesda (MD): National Institute of Diabetes and Digestive and Kidney Diseases; 2012-. [Updated 2023 Mar 15]. Bookshelf URL: Apalutamide Updated: March 15, 2023. OVERVIEW Introduction Apalutamide is a third generation, oral nonsteroidal antiandrogen used to treat nonmetastatic castration- resistant prostate cancer. Apalutamide is associated with a low rate of serum enzyme elevation during therapy but has not been linked to cases of clinically apparent liver injury with jaundice.

@@ -1,0 +1,5 @@
+NLM Citation: LiverTox: Clinical and Research Information on Drug-
+KEYWORDS: allopurinol, pmid, pubmed, pubmed pmid, liver, syndrome, rash, drug, patients, fever, cases, developed, year, hypersensitivity, injury
+
+
+2025;57:67-90.. PubMed PMID: 39811883. (Review of studies of molecular docking of drugs implicated in idiosyncratic drug reactions with the associated HLA alleles including the example of allopurinol and HLA-B*58:01). Rahnama-Moghadam S, Arora N, Vuppalanchi R, Li YJ, Gu J, Barnhart H, Phillips E, et al; Drug Induced Liver Injury Network. DRESS syndrome in patients with drug-induced liver injury: characteristics and HLA risk factors. Am J Gastroenterol. 2025 Jun 12. epub ahead of print.. PubMed PMID: 40504263. (Among 2121 patients enrolled between 2004 and 2023 in a US prospective study of drug-induced liver injury, 128 [6%] had DRESS syndrome, 7 of whom were due to allopurinol; DRESS cases being linked to HLA alleles A*32:01, B*53:01, and B*58:01, the latter two most closely being linked with allopurinol cases.

@@ -1,0 +1,5 @@
+NLM Citation: LiverTox: Clinical and Research Information on Drug-
+KEYWORDS: hepatitis, interferon, therapy, chronic, chronic hepatitis, patients, peginterferon, pubmed, pmid, pubmed pmid, liver, weeks, alt, autoimmune, interferon therapy
+
+
+study between 2004 and 2013, 12 were attributed to antiviral agents, but all were antiretroviral agents and no case was attributed to interferon not to the oral direct acting agents used to treat hepatitis B and C). Okajima A, Yamaguchi K, Taketani H, Hara T, Ishiba H, Seko Y, Nishimura T, et al. Drug-induced liver injury in a chronic hepatitis C patient treated by peginterferon, ribavirin and simeprevir. Hepatol Res 2015; 45: E156-60. PubMed PMID: 25581068. (56 year old man with chronic hepatitis C and multiple nonresponses to therapy had a rapid virologic response to the combination of simeprevir, peginterferon and ribavirin, followed by a flare of disease at week 6 [bilirubin 1.2 mg/dL, ALT 796 U/L, Alk P 233 U/L, INR 0.8], which resolved rapidly with stopping all 3 drugs, the injury attributed to simeprevir).

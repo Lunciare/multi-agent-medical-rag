@@ -1,0 +1,4 @@
+Diseases from North America: focus on tick-borne
+KEYWORDS: disease, lyme, treatment, lyme disease, early, diagnosis, patients, infection, infections, doxycycline, tests, clinical, tick-borne, testing, babesiosis
+
+infections Authors: Ruvandhi R NathavitharanaA and Jennifer A MittyB Tick-borne infections are seen throughout the United States, with varying geographical locations. Many of these infections are also increasingly seen in Europe. Certain ticks (eg Ixodes) can transmit more than one infection. Diagnosis, particularly in early infection, can be challenging and therefore knowledge of the distinguishing clinical features and epidemiology of these diseases is important. Testing for Lyme disease often causes confusion for patients and medical providers, as serological tests may be negative in early infection and conversely may be positive for years after infection. Newer tests, such as the C6 ELISA, may play a role in Lyme diagnosis.

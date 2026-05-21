@@ -1,0 +1,5 @@
+NLM Citation: LiverTox: Clinical and Research Information on Drug-
+KEYWORDS: disease, alzheimer, alzheimer disease, pubmed, pubmed pmid, pmid, patients, donepezil, alt, liver, safety, elevations, placebo, adverse, trial
+
+
+N, Sperling R, Aisen P, Raman R, Romano G. Preliminary results of a trial of atabecestat in preclinical Alzheimer's disease. N Engl J Med 2019; 380: 1483-5. PubMed PMID: 30970197. (Among 557 patients with “preclinical” Alzheimer disease treated with atabecestat [5 or 25 mg] or placebo once daily for up to 18 months, hepatic related adverse events led to an early discontinuation of the trial, although the details were not provided).

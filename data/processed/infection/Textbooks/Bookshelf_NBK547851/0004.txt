@@ -1,0 +1,5 @@
+NLM Citation: LiverTox: Clinical and Research Information on Drug-
+KEYWORDS: amifampridine, liver, myasthenic, injury, liver injury, myasthenia, syndrome, lambert-eaton, drug, therapy, study, pmid, pubmed pmid, pubmed, myasthenic syndrome
+
+
+kinase myasthenia gravis: a phase IIb, randomized, double- blind, placebo-controlled, double crossover study. SAGE Open Med. 2018;6:2050312118819013. PubMed PMID: 30574306. (Among 10 patients with muscle-specific kinase myasthenia gravis who were treated with amifampridine or placebo in a double-cross over study, myasthenia symptoms improved on amifampridine and deteriorated on placebo, and the only drug-specific adverse event was transient paresthesia; there were “no relevant differences between the two groups for…blood chemistries…over the duration of the study”).

@@ -1,0 +1,5 @@
+NLM Citation: LiverTox®: Clinical and Research Information on Drug-
+KEYWORDS: lansoprazole, liver, injury, pubmed, pmid, proton pump, proton, pubmed pmid, pump, liver injury, inhibitors, drug, omeprazole, pump inhibitors, acute
+
+
+PubMed PMID: 27639806. (Analysis of the Taiwan National Health Insurance database found a higher rate of proton pump inhibitor use among patients with cirrhosis who developed hepatic encephalopathy [38%: 445 of 1166] compared to a matched group with cirrhosis who did not [rate not provided]; the relative risk was raised for all agents except for rabeprazole). Weersink RA, Bouma M, Burger DM, Drenth JPH, Froukje Harkes-Idzinga S, Hunfeld NGM, Metselaar HJ, et al. Safe use of proton pump inhibitors in patients with cirrhosis. Br J Clin Pharmacol 2018 Apr 24. Epub ahead of print]. PubMed PMID: 29688583. (Systematic review of 69 publications in the literature suggested that doses of proton pump inhibitors should be reduced in patients with cirrhosis and only omeprazole should be used in those with Child Pugh Class C cirrhosis).

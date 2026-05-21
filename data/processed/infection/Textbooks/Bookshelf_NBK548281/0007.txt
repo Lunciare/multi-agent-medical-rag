@@ -1,0 +1,5 @@
+NLM Citation: LiverTox: Clinical and Research Information on Drug-
+KEYWORDS: apixaban, liver, patients, injury, liver injury, fibrillation, atrial, atrial fibrillation, pubmed, pmid, pubmed pmid, anticoagulants, alt, oral, warfarin
+
+
+11.2 mg/dL, ALT 1940 U/L, Alk P 360 U/L] but no hepatic encephalopathy, recovering rapidly upon switching to warfarin). Ma J, Chalasani NP, Schwantes-An L, Björnsson ES. Review article: the safety of anticoagulants and antiplatelet agents in patients with cirrhosis. Aliment Pharmacol Ther. 2023;57:52–71. PubMed PMID: 36373544. (Review of the safety of anticoagulant use in patients with cirrhosis mentions that drug induced liver injury is uncommon in patients with preexisting cirrhosis, at least in those with compensated [Child’s Class A] or mildly compensated [Child’s Class B] cirrhosis).
