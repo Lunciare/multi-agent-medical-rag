@@ -4,14 +4,23 @@ A Clinical Decision Support Assistant powered by a multi-agent Retrieval-Augment
 
 **Disclaimer:** Academic and informational use only. Does not provide clinical diagnoses, prescribe treatments, or replace the judgment of a licensed physician.
 
+## Contributors
+
+| Contributor | GitHub | Contribution |
+|---|---|---|
+| Suvorova A. | [@Lunciare](https://github.com/Lunciare) | Core system architecture, RAG pipeline, evaluation infrastructure, report |
+| Angry-Jupiter | [@Angry-Jupiter](https://github.com/Angry-Jupiter) | Gastroenterology and infectiology knowledge base, specialist registry entries |
+
 ## Overview
 
 The system accepts a natural-language clinical query, classifies its medical domain, and delegates it to a specialist agent. Each agent retrieves relevant chunks from its FAISS vector index and generates a response constrained to the retrieved evidence.
 
-Two specialists are implemented:
+Four specialists are registered (two fully evaluated; two new agents pending FAISS index builds — see Limitations):
 
 - **Cardiologist** — 7,730 chunks (Guidelines, Textbooks, Case Reports, Handbooks, Articles)
 - **Endocrinologist** — 37,791 chunks across the same categories
+- **Gastroenterologist** — index pending (data committed, FAISS build required)
+- **Infectionist** — index pending (data committed, FAISS build required)
 
 For prior work this project builds on and differs from, see [report §1.5 — Related Work](reports/report_final.md#15-related-work).
 
@@ -23,7 +32,7 @@ User Query
     v
 Orchestrator (orchestrator.py)
     |-- Safety gate (regex): intercepts emergency phrases, prescription requests
-    |-- LLM routing call: classifies query domain (cardiology / endocrinology)
+    |-- LLM routing call: classifies query domain (cardiology / endocrinology / gastroenterology / infectiology)
     |
     v
 Specialist Agent (agents/specialist.py, parameterised by agents/registry.py)
@@ -67,7 +76,7 @@ Tier 3 tests the "Insufficient evidence" safety fallback, not retrieval quality.
 - **Cardiology corpus gaps surfaced by name.** Three Tier 2 cardiology cases (`cardio_23`, `cardio_25`, `cardio_35`) are confirmed retrieval failures with concrete missing-content categories (pericardiocentesis, Dressler / colchicine, temporary pacing). See [report §4.3.1](reports/report_final.md#431-tier-2-corpus-coverage-audit) and [§6 Limitation 2](reports/report_final.md#6-limitations).
 - **Same-vendor judge bias on faithfulness.** Both judges are Yandex models; the 98.6% min-judge rate is an upper bound under the methodology characterised by [Zheng et al. 2023](reports/report_final.md#8-references). A cross-vendor judge slot (`TERTIARY_JUDGE_PROVIDER`) is implemented but not configured here. See [report §5.3](reports/report_final.md#53-epistemic-bounds-of-same-family-evaluation) and [§6 Limitation 6](reports/report_final.md#6-limitations). (See `reports/multijudge_reconciliation.md` for run-to-run variance documentation.)
 - **Out-of-scope refusal trades FP for recall.** The Stage 7 numeric gate raises Tier 3 refusal from 0/16 to 12/16 but falsely refuses 49.1% of Tier 1/2 queries because min-L2 distributions overlap on this corpus. A two-stage gate (L2 pre-filter + LLM-as-classifier confirmer) is the natural next step. See [report §4.5](reports/report_final.md#45-out-of-scope-refusal-gate) and [§6 Limitation 8](reports/report_final.md#6-limitations).
-- **Two-agent scope.** Only cardiology and endocrinology have full pipelines; extending to additional specialties is a registry entry plus a corpus + FAISS build (Stage 8 / [§7 Conclusion](reports/report_final.md#7-conclusion)). See [report §6 Limitation 3](reports/report_final.md#6-limitations).
+- **Four specialists registered; two FAISS indices pending.** Four specialists are registered (cardiologist, endocrinologist, gastroenterologist, infectionist). The two new agents are pending FAISS index builds; once built, the full evaluation pipeline (`evaluate_retrieval.py`, `evaluate_generation.py`) runs without code changes. See [report §6 Limitation 3](reports/report_final.md#6-limitations).
 
 Evaluation scripts: `multi-agent_system/tests/`.
 
@@ -77,7 +86,9 @@ Evaluation scripts: `multi-agent_system/tests/`.
 Multi-Agent-NN-Medicine/
 ├── data/processed/
 │   ├── cardiology/                # 7,730 chunks + FAISS index
-│   └── endocrinology/             # 37,791 chunks + FAISS index
+│   ├── endocrinology/             # 37,791 chunks + FAISS index
+│   ├── gastroenterologist/        # data committed; FAISS index pending
+│   └── infection/                 # data committed; FAISS index pending
 ├── multi-agent_system/
 │   ├── agents/
 │   │   ├── __init__.py

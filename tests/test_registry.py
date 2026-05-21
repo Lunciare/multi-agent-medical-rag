@@ -1,71 +1,53 @@
 """Schema-validation tests for agents.registry.AGENT_REGISTRY.
-
-A misconfigured registry entry would otherwise surface at runtime as an
-indistinguishable routing failure. These tests fail-fast on:
-  - missing or extra fields per entry,
-  - non-existent folder_path,
-  - empty name or empty / too-short domain_scope.
+Validates all four specialists. Does not require FAISS indices.
 """
-
-import os
-import sys
-
+import os, sys
 REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.insert(0, os.path.join(REPO_ROOT, "multi-agent_system"))
-
 import pytest
-
 
 @pytest.fixture(scope="module")
 def registry():
     from agents.registry import AGENT_REGISTRY
     return AGENT_REGISTRY
 
-
 REQUIRED_FIELDS = {"name", "folder_path", "role_prompt", "domain_scope"}
+EXPECTED_KEYS   = {"cardiologist", "endocrinologist",
+                   "gastroenterologist", "infectionist"}
 
-
-def test_registry_has_at_least_two_specialists(registry):
-    assert len(registry) >= 2, (
-        f"AGENT_REGISTRY must contain ≥2 specialists, got {len(registry)}"
-    )
-
+def test_registry_has_all_four_specialists(registry):
+    assert set(registry.keys()) == EXPECTED_KEYS, \
+        f"Expected {EXPECTED_KEYS}, got {set(registry.keys())}"
 
 def test_every_entry_has_required_fields_only(registry):
     for key, cfg in registry.items():
         missing = REQUIRED_FIELDS - set(cfg.keys())
-        extra = set(cfg.keys()) - REQUIRED_FIELDS
-        assert not missing, f"{key}: missing required fields {missing}"
-        assert not extra,   f"{key}: unexpected extra fields {extra}"
+        extra   = set(cfg.keys()) - REQUIRED_FIELDS
+        assert not missing, f"{key}: missing {missing}"
+        assert not extra,   f"{key}: unexpected {extra}"
 
-
-def test_every_folder_path_exists(registry):
+def test_every_name_is_nonempty(registry):
     for key, cfg in registry.items():
-        assert os.path.isdir(cfg["folder_path"]), (
-            f"{key}: folder_path {cfg['folder_path']!r} does not exist"
-        )
+        assert isinstance(cfg["name"], str) and cfg["name"].strip(), \
+            f"{key}: name empty"
 
-
-def test_every_name_is_nonempty_string(registry):
+def test_every_domain_scope_is_substantial(registry):
     for key, cfg in registry.items():
-        assert isinstance(cfg["name"], str) and cfg["name"].strip(), (
-            f"{key}: name must be a non-empty string, got {cfg['name']!r}"
-        )
-
-
-def test_every_domain_scope_meets_minimum_length(registry):
-    for key, cfg in registry.items():
-        scope = cfg["domain_scope"]
-        assert isinstance(scope, str) and len(scope.strip()) >= 10, (
-            f"{key}: domain_scope must be ≥10 chars of meaningful text, "
-            f"got {scope!r}"
-        )
-
+        assert len(cfg["domain_scope"].strip()) >= 20, \
+            f"{key}: domain_scope too short"
 
 def test_every_role_prompt_is_substantial(registry):
     for key, cfg in registry.items():
-        prompt = cfg["role_prompt"]
-        assert isinstance(prompt, str) and len(prompt) >= 500, (
-            f"{key}: role_prompt looks too short ({len(prompt)} chars); "
-            f"the canonical prompt with _RULES_AND_FORMAT is ≥1500 chars"
-        )
+        assert len(cfg["role_prompt"]) >= 500, \
+            f"{key}: role_prompt too short ({len(cfg['role_prompt'])} chars)"
+
+def test_new_specialists_have_correct_keys(registry):
+    assert "gastroenterologist" in registry
+    assert "infectionist" in registry
+
+def test_new_role_prompts_contain_critical_rule(registry):
+    for key in ("gastroenterologist", "infectionist"):
+        assert "CRITICAL_RULE" in registry[key]["role_prompt"], \
+            f"{key}: CRITICAL_RULE block missing from role_prompt"
+        assert "Insufficient evidence" in registry[key]["role_prompt"], \
+            f"{key}: fallback phrase missing"

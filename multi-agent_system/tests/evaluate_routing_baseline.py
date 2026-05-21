@@ -27,6 +27,13 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from tests._stats import fmt as _fmt
 
 
+# NOTE (4-specialist registry): this keyword baseline only covers cardiology
+# and endocrinology terms. The two new specialists (gastroenterologist,
+# infectionist) registered in agents/registry.py are NOT covered here, so the
+# keyword baseline accuracy figure reported in report_final.md §4.1 is for
+# the original two-agent system only. Extending the baseline to four
+# specialties requires adding GASTRO_KEYWORDS / INFECT_KEYWORDS sets and a
+# routing rule with explicit precedence between them; see Limitation 3.
 CARDIO_KEYWORDS = {
     'chest pain', 'palpitation', 'dyspnea', 'syncope', 'edema',
     'murmur', 'gallop', 'jugular', 'claudication', 'orthopnea',

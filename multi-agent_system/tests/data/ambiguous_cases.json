@@ -54,5 +54,47 @@
         "domains": ["cardiologist", "endocrinologist"],
         "label": "carcinoid heart disease",
         "notes": "Carcinoid syndrome is an endocrine tumor issue, but carcinoid heart disease (valvular lesions) requires cardiac evaluation."
+    },
+    {
+        "id": "ambig_9",
+        "label": "H. pylori peptic ulcer with iron deficiency",
+        "query": "A 45-year-old male with confirmed H. pylori peptic ulcer presents with iron deficiency anaemia and fatigue. Which specialist should manage the combined workup?",
+        "valid_domains": ["gastroenterologist", "endocrinologist"],
+        "domains": ["gastroenterologist", "endocrinologist"]
+    },
+    {
+        "id": "ambig_10",
+        "label": "sepsis with new-onset hyperglycaemia",
+        "query": "A patient in the ICU with gram-negative sepsis develops new hyperglycaemia with glucose 18 mmol/L and no prior diabetes history. Which specialist should guide management?",
+        "valid_domains": ["infectionist", "endocrinologist"],
+        "domains": ["infectionist", "endocrinologist"]
+    },
+    {
+        "id": "ambig_11",
+        "label": "HIV with cardiac complications",
+        "query": "A 38-year-old HIV-positive patient on antiretroviral therapy presents with dyspnea and echocardiographic findings of dilated cardiomyopathy. Routing decision?",
+        "valid_domains": ["infectionist", "cardiologist"],
+        "domains": ["infectionist", "cardiologist"]
+    },
+    {
+        "id": "ambig_12",
+        "label": "autoimmune hepatitis with thyroid disease",
+        "query": "A 34-year-old female with autoimmune hepatitis and elevated TSH is referred for joint management. Which specialist takes the lead?",
+        "valid_domains": ["gastroenterologist", "endocrinologist"],
+        "domains": ["gastroenterologist", "endocrinologist"]
+    },
+    {
+        "id": "ambig_13",
+        "label": "C. difficile colitis post-antibiotic",
+        "query": "A patient develops severe watery diarrhoea and abdominal cramps after a 10-day course of clindamycin. Stool toxin assay is positive. Which specialist manages this?",
+        "valid_domains": ["infectionist", "gastroenterologist"],
+        "domains": ["infectionist", "gastroenterologist"]
+    },
+    {
+        "id": "ambig_14",
+        "label": "liver cirrhosis with spontaneous bacterial peritonitis",
+        "query": "A 58-year-old male with decompensated liver cirrhosis develops fever, abdominal pain and ascitic fluid polymorphs of 350 cells/mm3. Which specialist should lead?",
+        "valid_domains": ["gastroenterologist", "infectionist"],
+        "domains": ["gastroenterologist", "infectionist"]
     }
 ]
