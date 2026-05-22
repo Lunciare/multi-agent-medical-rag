@@ -2,56 +2,56 @@
     {
         "id": "ambig_1",
         "query": "A 58-year-old male with poorly controlled type 2 diabetes and HbA1c of 9.2% presents with progressive exertional dyspnea and bilateral ankle edema. Echocardiogram shows an ejection fraction of 40% with diastolic dysfunction. What is the relationship between his diabetes and cardiac findings?",
-        "domains": ["cardiologist", "endocrinologist"],
+        "valid_domains": ["cardiologist", "endocrinologist"],
         "label": "diabetic cardiomyopathy",
         "notes": "Diabetic cardiomyopathy is managed jointly by cardiology (heart failure) and endocrinology (glycemic control)."
     },
     {
         "id": "ambig_2",
         "query": "A 45-year-old female with Graves' disease presents with new-onset atrial fibrillation, resting heart rate of 130 bpm, and palpitations. TSH is undetectable and free T4 is elevated. How should both the arrhythmia and the underlying thyroid disorder be managed?",
-        "domains": ["cardiologist", "endocrinologist"],
+        "valid_domains": ["cardiologist", "endocrinologist"],
         "label": "thyroid-induced atrial fibrillation",
         "notes": "Hyperthyroidism is the root cause (endocrinology) but the acute arrhythmia requires cardiac management."
     },
     {
         "id": "ambig_3",
         "query": "A 62-year-old male with a 15-year history of type 2 diabetes on metformin and empagliflozin presents with chest pain. ECG shows ST depression in leads V4-V6. His last HbA1c was 7.1%. What is the interplay between his diabetic medications and his acute coronary event?",
-        "domains": ["cardiologist", "endocrinologist"],
+        "valid_domains": ["cardiologist", "endocrinologist"],
         "label": "SGLT2 inhibitor cardioprotection in ACS",
         "notes": "SGLT2 inhibitors have proven cardiovascular benefits; the case requires both cardiac workup and diabetes medication review."
     },
     {
         "id": "ambig_4",
         "query": "A 50-year-old female with primary hyperaldosteronism (Conn's syndrome) presents with therapy-resistant hypertension despite three antihypertensive agents, hypokalemia (K+ 2.9 mEq/L), and ECG showing prominent U waves. How should the endocrine and cardiovascular aspects be addressed?",
-        "domains": ["cardiologist", "endocrinologist"],
+        "valid_domains": ["cardiologist", "endocrinologist"],
         "label": "hyperaldosteronism with cardiac complications",
         "notes": "Primary aldosteronism is endocrine in origin but causes hypertension, hypokalemia, and arrhythmia risk requiring cardiovascular management."
     },
     {
         "id": "ambig_5",
         "query": "A 35-year-old female with known pheochromocytoma presents to the ED with acute hypertensive crisis (BP 240/140 mmHg), severe headache, diaphoresis, and ECG showing ST changes consistent with stress cardiomyopathy (Takotsubo). What is the management priority?",
-        "domains": ["cardiologist", "endocrinologist"],
+        "valid_domains": ["cardiologist", "endocrinologist"],
         "label": "catecholamine-induced cardiomyopathy",
         "notes": "Pheochromocytoma (endocrine tumor) causes catecholamine surge leading to cardiac damage."
     },
     {
         "id": "ambig_6",
         "query": "A 70-year-old male on long-term amiodarone for recurrent ventricular tachycardia develops fatigue, weight gain, and a TSH of 45 mIU/L. Free T4 is low. What are the considerations for managing amiodarone-induced hypothyroidism without compromising arrhythmia control?",
-        "domains": ["cardiologist", "endocrinologist"],
+        "valid_domains": ["cardiologist", "endocrinologist"],
         "label": "amiodarone-induced thyroid dysfunction",
         "notes": "Amiodarone is essential for arrhythmia control but causes thyroid dysfunction; both specialists must coordinate."
     },
     {
         "id": "ambig_7",
         "query": "A 55-year-old obese female with metabolic syndrome (BMI 38, fasting glucose 130 mg/dL, triglycerides 280 mg/dL) presents with exertional angina and a positive stress test. She is being considered for bariatric surgery. How do the metabolic and cardiovascular risks interact?",
-        "domains": ["cardiologist", "endocrinologist"],
+        "valid_domains": ["cardiologist", "endocrinologist"],
         "label": "metabolic syndrome with coronary artery disease",
         "notes": "Metabolic syndrome drives both insulin resistance and atherosclerosis; treatment requires coordinated metabolic and cardiac care."
     },
     {
         "id": "ambig_8",
         "query": "A 25-year-old male presents with episodic flushing, diarrhea, and wheezing. 24-hour urine 5-HIAA is 68 mg/day (normal < 15). CT abdomen shows a 2 cm ileal mass with liver lesions. What syndrome has developed and what systemic complication requires cardiac evaluation?",
-        "domains": ["cardiologist", "endocrinologist", "gastroenterologist"],
+        "valid_domains": ["cardiologist", "endocrinologist", "gastroenterologist"],
         "label": "carcinoid heart disease",
         "notes": "Carcinoid syndrome is an endocrine tumor issue, but carcinoid heart disease (valvular lesions) requires cardiac evaluation."
     },
@@ -59,42 +59,36 @@
         "id": "ambig_9",
         "label": "H. pylori peptic ulcer with iron deficiency",
         "query": "A 45-year-old male with confirmed H. pylori peptic ulcer presents with iron deficiency anaemia and fatigue. Which specialist should manage the combined workup?",
-        "valid_domains": ["gastroenterologist", "endocrinologist"],
-        "domains": ["gastroenterologist", "endocrinologist"]
+        "valid_domains": ["gastroenterologist", "endocrinologist"]
     },
     {
         "id": "ambig_10",
         "label": "sepsis with new-onset hyperglycaemia",
         "query": "A patient in the ICU with gram-negative sepsis develops new hyperglycaemia with glucose 18 mmol/L and no prior diabetes history. Which specialist should guide management?",
-        "valid_domains": ["infectionist", "endocrinologist"],
-        "domains": ["infectionist", "endocrinologist"]
+        "valid_domains": ["infectionist", "endocrinologist"]
     },
     {
         "id": "ambig_11",
         "label": "HIV with cardiac complications",
         "query": "A 38-year-old HIV-positive patient on antiretroviral therapy presents with dyspnea and echocardiographic findings of dilated cardiomyopathy. Routing decision?",
-        "valid_domains": ["infectionist", "cardiologist"],
-        "domains": ["infectionist", "cardiologist"]
+        "valid_domains": ["infectionist", "cardiologist"]
     },
     {
         "id": "ambig_12",
         "label": "autoimmune hepatitis with thyroid disease",
         "query": "A 34-year-old female with autoimmune hepatitis and elevated TSH is referred for joint management. Which specialist takes the lead?",
-        "valid_domains": ["gastroenterologist", "endocrinologist"],
-        "domains": ["gastroenterologist", "endocrinologist"]
+        "valid_domains": ["gastroenterologist", "endocrinologist"]
     },
     {
         "id": "ambig_13",
         "label": "C. difficile colitis post-antibiotic",
         "query": "A patient develops severe watery diarrhoea and abdominal cramps after a 10-day course of clindamycin. Stool toxin assay is positive. Which specialist manages this?",
-        "valid_domains": ["infectionist", "gastroenterologist"],
-        "domains": ["infectionist", "gastroenterologist"]
+        "valid_domains": ["infectionist", "gastroenterologist"]
     },
     {
         "id": "ambig_14",
         "label": "liver cirrhosis with spontaneous bacterial peritonitis",
         "query": "A 58-year-old male with decompensated liver cirrhosis develops fever, abdominal pain and ascitic fluid polymorphs of 350 cells/mm3. Which specialist should lead?",
-        "valid_domains": ["gastroenterologist", "infectionist"],
-        "domains": ["gastroenterologist", "infectionist"]
+        "valid_domains": ["gastroenterologist", "infectionist"]
     }
 ]

@@ -229,21 +229,21 @@ def evaluate_routing(split="test"):
         for case in ambiguous_cases:
             qid = case["id"]
             query = case["query"]
-            domains = case["domains"]
+            valid_domains = case["valid_domains"]
             label = case["label"]
 
             raw_response = route_query(query)
             predicted = parse_or_fail(raw_response)
-            in_expected = predicted in domains
+            in_expected = predicted in valid_domains
 
             flag = "AMBIGUOUS"
             symbol = "<->" if in_expected else "?"
             print(f"  {symbol} [{qid}]  routed_to={predicted}  "
-                  f"valid_domains={domains}  ({flag}: {label})")
+                  f"valid_domains={valid_domains}  ({flag}: {label})")
 
             ambiguous_details.append({
                 "id": qid, "label": label, "predicted": predicted,
-                "raw": raw_response, "valid_domains": domains,
+                "raw": raw_response, "valid_domains": valid_domains,
                 "in_expected": in_expected,
             })
             time.sleep(0.3)
