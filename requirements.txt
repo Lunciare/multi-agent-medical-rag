@@ -1,15 +1,37 @@
-openai>=2.26
-langchain-core>=1.2
-langchain-community>=0.4
-langchain-openai>=1.1
-langchain-text-splitters>=1.1
-faiss-cpu>=1.13
-pydantic>=2.12
-python-dotenv>=1.2
-requests>=2.32
-numpy
-scikit-learn>=1.7
-pytest>=9.0
-pytest-asyncio>=0.23
-playwright>=1.40
-gradio
+# Canonical pinned dependencies for the multi-agent medical RAG system.
+# Pins captured from `pip freeze` against a working local install (2026-05-22).
+# Single source of truth — the older multi-agent_system/requirements.txt was
+# removed in favour of this file. For preprocessing/crawler-only deps see
+# scripts/data_processing/requirements.txt.
+
+# LLM client + LangChain stack
+openai==2.26.0
+langchain-core==1.2.17
+langchain-community==0.4.1
+langchain-openai==1.1.10
+langchain-text-splitters==1.1.1
+
+# Vector / sparse retrieval
+faiss-cpu==1.13.2
+rank-bm25==0.2.2
+
+# Runtime / config
+pydantic==2.12.5
+python-dotenv==1.2.2
+requests==2.32.5
+
+# Numerical / ML
+numpy==2.4.4
+scikit-learn==1.7.2
+statsmodels==0.14.6
+
+# Eval + datasets
+datasets==4.8.5
+
+# UI
+gradio==6.14.0
+
+# Test suite (pytest, playwright UI smoke test)
+pytest==9.0.2
+pytest-asyncio==1.3.0
+playwright==1.59.0
