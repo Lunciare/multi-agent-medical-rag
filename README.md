@@ -124,13 +124,19 @@ Multi-Agent-NN-Medicine/
 ├── tests/                         # Pytest suite (safety, error handling, integration, playwright, retrieval regression)
 ├── scripts/data_processing/       # One-time corpus preparation scripts
 ├── reports/
-│   ├── report_final.md
-│   ├── report_stage_2.md
-│   ├── report_stage_3.md
-│   ├── failure_analysis.md
-│   ├── hyperparameter_grid.csv
-│   ├── routing_evaluation_2026-05-11_16-06-10.md
-│   └── archive/                   # Earlier routing-evaluation snapshots
+│   ├── report_final.md                       # Canonical end-to-end evaluation
+│   ├── report_independent_audit.md           # External audit (drives Stage-40 work)
+│   ├── report_stage_indices_built.md         # Stage-38: gastro + infect FAISS+BM25 built
+│   ├── report_stage_dataset_extended.md      # Stage-38: 200-case golden dataset
+│   ├── report_stage_full_integration.md      # Stage-39: 4-spec eval pipeline
+│   ├── report_stage_new_agents.md            # Stage-39: registry + routing prompt
+│   ├── corpus_stats_2026-05-21.md            # Per-corpus chunk inventory
+│   ├── failure_analysis.md                   # Per-case failure breakdown
+│   ├── hyperparameter_grid.csv               # K × L2 grid search
+│   ├── refusal_gate_grid.csv                 # Stage-39 refusal-gate threshold sweep
+│   ├── faithfulness_multijudge_2026-05-21.{md,csv}  # Multi-judge test-split run
+│   ├── routing_evaluation_2026-05-21_*.md    # Latest LLM + adversarial routing runs
+│   └── archive/                              # Pre-Stage-39 per-stage reports & logs
 └── requirements.txt
 ```
 

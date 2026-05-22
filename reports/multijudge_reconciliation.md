@@ -2,9 +2,9 @@
 
 **Scope.** Compares the two persisted multi-judge faithfulness runs:
 
-- `reports/faithfulness_multijudge_2026-05-19.md` (+ raw CSV) — produced
+- `reports/archive/faithfulness_multijudge_2026-05-19.md` (+ raw CSV) — produced
   during Stage 5 and quoted by `report_final.md` §4.4 / §7.
-- `reports/faithfulness_multijudge_2026-05-20.md` (+ raw CSV) — produced
+- `reports/archive/faithfulness_multijudge_2026-05-20.md` (+ raw CSV) — produced
   during Stage 21's re-run of the multi-judge eval against the updated
   `_landis_koch` function. The 2026-05-20 file overwrote an earlier
   same-day run at 11:06:59 — see §4 below for the residual variance
@@ -113,7 +113,7 @@ this is not a guarantee — a third run executed earlier on 2026-05-20
 | Run timestamp | `cardio_40` secondary verdict | Min-judge total | Resulting κ | File status |
 |---|---|---|---|---|
 | 2026-05-19 23:04:28 | HALLUCINATION | 57 / 58 = 98.3% | 0.000 (one marginal = 0) | persisted (**canonical**) |
-| 2026-05-20 11:06:59 | FAITHFUL | 58 / 58 = 100.0% | NaN (both marginals = 0) | **overwritten** by the 20:53:17 re-run; documented in `report_stage_21.md` §1 + §5 |
+| 2026-05-20 11:06:59 | FAITHFUL | 58 / 58 = 100.0% | NaN (both marginals = 0) | **overwritten** by the 20:53:17 re-run; documented in `archive/report_stage_21.md` §1 + §5 |
 | 2026-05-20 20:53:17 | HALLUCINATION | 57 / 58 = 98.3% | 0.000 (one marginal = 0) | persisted (re-run produced after Stage 21 `_landis_koch` change) |
 
 So across three observed YandexGPT-Lite calls on the *same* `cardio_40`
@@ -136,7 +136,7 @@ deterministic for any given (k, n).
 
 ## 5. Canonical run
 
-**`reports/faithfulness_multijudge_2026-05-19.md` (raw:
+**`reports/archive/faithfulness_multijudge_2026-05-19.md` (raw:
 `faithfulness_multijudge_raw_2026-05-19.csv`) is the canonical run.**
 
 Reasons:
@@ -151,9 +151,11 @@ Reasons:
    re-anchoring to a later timestamp risks a future overwrite hiding the
    variance documented in §4 above.
 
-Both currently-persisted runs are kept on disk under their dated
-filenames for traceability. Future report citations should reference
-`faithfulness_multijudge_2026-05-19.md` as the canonical multi-judge
-result; the 2026-05-20 file is retained as a reproducibility witness
-and the residual `report_stage_21.md` §1 + §5 entries document the
+Both runs are kept on disk under `reports/archive/` for traceability
+(the canonical end-to-end multi-judge result post-Stage-39 is the n=140
+test-split run in `reports/faithfulness_multijudge_2026-05-21.{md,csv}`,
+documented in `report_final.md` §4.4). The 2026-05-19 run remained the
+canonical multi-judge result for §4.4 throughout Stage-21 → Stage-39;
+the 2026-05-20 file is retained as a reproducibility witness, and the
+residual `archive/report_stage_21.md` §1 + §5 entries document the
 otherwise-irrecoverable 11:06:59 outlier.
