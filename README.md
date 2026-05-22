@@ -151,19 +151,26 @@ cp multi-agent_system/.env.example multi-agent_system/.env
 playwright install chromium
 ```
 
-### Building the FAISS indices
+### Building the FAISS and BM25 indices
 
-Pre-built indices are committed. To rebuild from scratch (e.g., after changing chunk size or adding documents):
+The 64,823 chunked source `.txt` files under `data/processed/` are tracked in git, but the binary FAISS / BM25 index files are **not** — `.gitignore` excludes `data/processed/**/faiss_index/` and `*.pkl`. After cloning, you must build the indices locally before the system can answer queries. The full four-specialty build:
 
 ```bash
 cd multi-agent_system
+
+# 1. FAISS vector indices (one per specialty; hits the Yandex embedding API)
 python build_index.py --specialty cardiologist        # ~40 min for 7,730 chunks
 python build_index.py --specialty endocrinologist     # ~2.5 hours for 37,791 chunks
 python build_index.py --specialty gastroenterologist  # ~50 min for 8,670 chunks
 python build_index.py --specialty infectionist        # ~45 min for 7,476 chunks
+
+# 2. BM25 keyword indices (required for routing + hybrid retrieval; no API calls, <1 min total)
+python build_bm25_index.py --specialty all
 ```
 
-All four save progress every 500 chunks and resume after interruptions. `build_index.py` also filters chunks whose mean word length exceeds 15 characters (PDF-extraction artifacts — concatenated text without inter-word spaces) before embedding; this drops ~5 % of the gastro / infect corpora and 0 % of cardio / endo.
+All four FAISS builds save progress every 500 chunks and resume after interruptions. `build_index.py` also filters chunks whose mean word length exceeds 15 characters (PDF-extraction artifacts — concatenated text without inter-word spaces) before embedding; this drops ~5 % of the gastro / infect corpora and 0 % of cardio / endo.
+
+> **Follow-up for maintainers.** If clone-to-run matters more than repo size, consider committing the FAISS / BM25 index binaries via [git LFS](https://git-lfs.com/) so first-time users skip the ~5 h rebuild and avoid the embedding-API spend.
 
 ### Running the system
 
