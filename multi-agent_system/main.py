@@ -16,7 +16,7 @@ def process_query(query):
 
 with gr.Blocks() as demo:
     gr.Markdown("# 🏥 Multi-Agent Medical RAG System")
-    gr.Markdown("Clinical Decision Support Assistant for Cardiology & Endocrinology.")
+    gr.Markdown("Clinical Decision Support Assistant for Cardiology, Endocrinology, Gastroenterology, and Infectiology.")
 
     with gr.Row():
         with gr.Column(scale=2):
@@ -58,7 +58,11 @@ with gr.Blocks() as demo:
             ["A 55-year-old male with BMI 34, waist circumference 110 cm, fasting glucose 148 mg/dL, and HbA1c 7.8% is diagnosed with type 2 diabetes. He also has hypertension (BP 145/92) and dyslipidemia (triglycerides 280 mg/dL, HDL 32 mg/dL). What are the key components of initial assessment, and what evidence-based approach should be taken for glycemic and cardiovascular risk management?"],
             ["A 50-year-old female undergoes a CT scan for abdominal pain, which incidentally reveals a 2.5 cm left adrenal mass with Hounsfield units of 8. She has no symptoms of hormone excess. What is the recommended workup for an adrenal incidentaloma, what biochemical tests should be performed to rule out functional tumors, and what are the follow-up guidelines?"],
             ["A 62-year-old postmenopausal female is found to have a serum calcium of 11.2 mg/dL (reference 8.5–10.5) and an intact PTH of 98 pg/mL (reference 15–65). She reports fatigue, polyuria, and mild constipation. What is the differential diagnosis for PTH-dependent hypercalcemia, what additional investigations are indicated, and what are the criteria for surgical intervention?"],
-            ["A 38-year-old male undergoes an MRI for chronic headaches, which reveals a 12 mm pituitary macroadenoma. He reports no visual disturbances. What hormonal evaluation should be performed to assess for hypersecretion and hypopituitarism, and what are the indications for surgical versus medical management?"]
+            ["A 38-year-old male undergoes an MRI for chronic headaches, which reveals a 12 mm pituitary macroadenoma. He reports no visual disturbances. What hormonal evaluation should be performed to assess for hypersecretion and hypopituitarism, and what are the indications for surgical versus medical management?"],
+            ["A 26-year-old female reports a 2-year history of crampy lower abdominal pain relieved by defecation, alternating bowel habit with predominant loose stools, and bloating. There are no alarm features. Routine labs and coeliac serology are normal. What diagnosis and management apply?"],
+            ["A 47-year-old male with metabolic syndrome (BMI 33, type 2 diabetes, HbA1c 7.5%) is found incidentally on ultrasound to have hepatic steatosis. ALT is 75 U/L, AST 55. Fibroscan controlled attenuation parameter is 320 dB/m and liver stiffness 7.4 kPa. What is the diagnosis and management?"],
+            ["A 68-year-old male presents with 4 days of fever, productive cough with rust-coloured sputum, pleuritic chest pain and SpO2 92% on room air. Chest X-ray shows right lower lobe consolidation. He has no recent hospitalisation. CRB-65 score is 1. What is the diagnosis, severity assessment and empirical therapy?"],
+            ["A 75-year-old female on day 4 of a urinary catheter for postoperative urinary retention develops fever 38.6°C, suprapubic pain and confusion. Urine from the catheter shows pyuria with bacteriuria and Gram-negative rods. What is the diagnosis, management plan and prevention strategy?"]
         ],
         inputs=query_input,
         label="Select a test case to run:"
