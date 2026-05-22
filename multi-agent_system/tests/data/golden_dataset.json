@@ -3384,13 +3384,26 @@
     "query": "A 30-year-old male presents with sudden-onset watery non-bloody diarrhoea, vomiting and low-grade fever 18 hours after eating at a buffet. He is mildly dehydrated but haemodynamically stable. No recent antibiotics or travel. What is the most likely diagnosis and management?",
     "expected_specialist": "gastroenterologist",
     "expected_keywords": [
-      "acute viral gastroenteritis",
-      "oral rehydration",
-      "norovirus",
-      "self-limiting",
-      "supportive care"
+      "gastroenteritis",
+      "viral",
+      "dehydration",
+      "rotavirus",
+      "supportive"
     ],
-    "gold_sources": []
+    "gold_sources": [
+      {
+        "source_file": "0008.txt",
+        "doc_name": "WJG-16-3219"
+      },
+      {
+        "source_file": "0003.txt",
+        "doc_name": "cureus-0015-00000033558"
+      },
+      {
+        "source_file": "0002.txt",
+        "doc_name": "ejhpharm-2020-002575"
+      }
+    ]
   },
   {
     "id": "gastro_38",
@@ -4030,13 +4043,26 @@
     "query": "A 70-year-old male develops watery diarrhoea (10 stools/day), abdominal cramps, and a fever 38.4°C, 10 days into a course of ceftriaxone for pneumonia. WCC is 18; stool toxin assay is positive for C. difficile. He is haemodynamically stable. What is the diagnosis and recommended antibiotic therapy?",
     "expected_specialist": "infectionist",
     "expected_keywords": [
-      "Clostridioides difficile",
-      "fidaxomicin",
-      "vancomycin oral",
-      "toxin",
-      "CDI"
+      "Clostridium difficile",
+      "C. difficile",
+      "CDI",
+      "vancomycin",
+      "metronidazole"
     ],
-    "gold_sources": []
+    "gold_sources": [
+      {
+        "source_file": "0001.txt",
+        "doc_name": "hkm0606p228"
+      },
+      {
+        "source_file": "0002.txt",
+        "doc_name": "12879_2024_Article_9762"
+      },
+      {
+        "source_file": "0002.txt",
+        "doc_name": "10096_2024_Article_4949"
+      }
+    ]
   },
   {
     "id": "infect_15",

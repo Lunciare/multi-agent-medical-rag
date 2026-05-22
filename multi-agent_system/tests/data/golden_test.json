@@ -2204,7 +2204,20 @@
       "self-limiting",
       "supportive care"
     ],
-    "gold_sources": []
+    "gold_sources": [
+      {
+        "source_file": "0008.txt",
+        "doc_name": "WJG-16-3219"
+      },
+      {
+        "source_file": "0003.txt",
+        "doc_name": "cureus-0015-00000033558"
+      },
+      {
+        "source_file": "0002.txt",
+        "doc_name": "ejhpharm-2020-002575"
+      }
+    ]
   },
   {
     "id": "gastro_38",

@@ -1525,7 +1525,20 @@
       "toxin",
       "CDI"
     ],
-    "gold_sources": []
+    "gold_sources": [
+      {
+        "source_file": "0001.txt",
+        "doc_name": "hkm0606p228"
+      },
+      {
+        "source_file": "0002.txt",
+        "doc_name": "12879_2024_Article_9762"
+      },
+      {
+        "source_file": "0002.txt",
+        "doc_name": "10096_2024_Article_4949"
+      }
+    ]
   },
   {
     "id": "infect_15",
