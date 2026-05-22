@@ -10,7 +10,7 @@
 
 Clinical decision support systems require highly accurate, domain-specific evidence to function safely. While general-purpose Large Language Models (LLMs) can process complex medical queries, their parametric memory is prone to hallucinating critical medical facts such as dosages, diagnostic criteria, and clinical statistics — a failure mode quantified for clinical QA by Singhal et al. \cite{singhal2023medpalm} and for medical RAG specifically by Xiong et al. \cite{xiong2024medrag}. A multi-agent Retrieval-Augmented Generation (RAG) architecture offers a candidate solution by forcing the LLM to ground its reasoning exclusively in verified medical literature retrieved from specialist-specific vector indices. This report evaluates such a prototype, designed for academic investigation rather than immediate clinical use.
 
-This work empirically investigates three core architectural questions: (1) Does an LLM-based query router add measurable clinical value over a deterministic keyword-matching baseline? (2) How does vector retrieval quality degrade when moving from core textbook conditions to peripheral or out-of-scope clinical scenarios? (3) Can an LLM acting as a strict faithfulness judge reliably detect medical hallucinations in generated responses? On the held-out test split, the LLM router classifies 70/70 cases correctly (Wilson 95% CI: 94.9–100.0%); on the eight cross-domain ambiguous cases, it routes to the endocrinologist when the dominant pathology is endocrine and to the cardiologist when the dominant pathology is cardiac, where a keyword baseline routes 8/8 to the cardiologist. Tier-stratified retrieval reaches Recall@5 ≥ 96% on core conditions and drops to 78.6% on peripheral cases. Faithfulness as judged by a same-family LLM is 99.0%; this is an upper bound under the methodology of §4.4.
+This work empirically investigates three core architectural questions: (1) Does an LLM-based query router add measurable clinical value over a deterministic keyword-matching baseline? (2) How does vector retrieval quality degrade when moving from core textbook conditions to peripheral or out-of-scope clinical scenarios? (3) Can an LLM acting as a strict faithfulness judge reliably detect medical hallucinations in generated responses? On the held-out test split (n=140), the LLM router achieves **95.7% accuracy (134/140) [Wilson 95% CI 91.0%–98.0%]** across four specialties (cardiology, endocrinology, gastroenterology, infectiology); the 6 misses are all defensible cross-specialty cases (§4.1). FAISS dense retrieval reaches **Recall@5 of 56.2% (162/288 gold-doc trials) [50.5%–61.9%]** — 22.2 pp above the BM25 sparse baseline (34.0%) and 43.8 pp short of an oracle ceiling (§4.3, §4.3.2). Minimum-judge faithfulness across two same-vendor judges is **99.2% (131/132) [95.8%–99.9%]**; the single disagreement is `cardio_40` (Tier 2 cardiology — congenital long QT syndrome), unchanged from the 2-specialty Stage-31 baseline (§4.4). The numeric out-of-scope refusal gate, re-tuned at Stage 39 to `L2_REJECT_MIN = 1.020`, catches **20.7% (6/29) of Tier 3 cases at a 17.1% Tier 1/2 false-positive rate**; both targets are unmet, and a two-stage gate (numeric pre-filter + LLM confirmer) is the proposed remediation (§4.5, §6 L8).
 
 The system is designed as a prototype for academic evaluation and is **not** intended for clinical use.
 
@@ -112,11 +112,16 @@ User Query
 
 FAISS returns an L2 distance metric for each retrieved chunk (lower is better, max threshold = 1.2). To make this interpretable for end users, the L2 distance is converted into a percentage confidence score using the formula `sim = max(0, 1 - L2 / MAX_L2_DISTANCE)`. This score is now displayed alongside the retrieved evidence in the generated output.
 
-Across the 99 golden cases, the system returned 495 chunks (K=5 per query). The confidence scores demonstrate a consistent operational range:
-- **Cardiology (n=75 chunks):** Mean = 19.6%, Min = 11.9%, Max = 30.5%
-- **Endocrinology (n=75 chunks):** Mean = 22.0%, Min = 10.9%, Max = 32.8%
+Across the full 200-case golden dataset (50 cases per specialty × K=5 = **1,000 chunks**, all within `MAX_L2_DISTANCE = 1.2`), the confidence scores demonstrate a consistent operational range:
 
-While the absolute percentages appear mathematically low, they represent highly relevant semantic matches within the 256-dimensional embedding space (L2=0 is an exact string match, which never occurs for natural language Q&A). These score distributions provide an interpretable baseline for system monitoring and observability.
+| Specialty | n chunks | Mean | Min | Max |
+|---|---:|---:|---:|---:|
+| Cardiology         | 250 | 19.3% |  9.0% | 30.8% |
+| Endocrinology      | 250 | 22.5% | 10.9% | 33.6% |
+| Gastroenterology   | 250 | 17.0% |  8.9% | 27.2% |
+| Infectiology       | 250 | 12.9% |  2.6% | 20.8% |
+
+While the absolute percentages appear mathematically low, they represent highly relevant semantic matches within the 256-dimensional embedding space (L2=0 is an exact string match, which never occurs for natural-language Q&A). The lower infectiology range is consistent with that corpus's higher mean min-L2 (§4.5 reports μ=0.894 for infect vs 0.874 for cardio) — i.e. infect queries land further from their nearest neighbours on average, not that the retrieval is worse. These distributions provide an interpretable baseline for system monitoring and observability.
 
 ---
 
@@ -124,26 +129,29 @@ While the absolute percentages appear mathematically low, they represent highly 
 
 ### 3.1 Source Documents
 
-| Category | Cardiology | Endocrinology |
-|---|---|---|
-| Articles | 7 | 70 |
-| Cases | 59 | 74 |
-| Guidelines | 113 | 117 |
-| Handbooks | 190 | 0 |
-| Textbooks | 25 | 4 |
-| **Total documents** | **394** | **265** |
+| Category | Cardiology | Endocrinology | Gastroenterology | Infectiology |
+|---|---:|---:|---:|---:|
+| Articles            |   7 |    67 |   232 |    25 |
+| Cases               |  59 |    74 |   167 |    59 |
+| Guidelines          | 113 |   101 |   104 |   212 |
+| Handbooks           | 190 |     0 |     8 |     9 |
+| Textbooks           |  25 |   914 |    30 |   165 |
+| **Total documents** | **394** | **1,156** | **541** | **470** |
+
+**Total across all four specialties: 2,561 source documents.** Counts are confirmed against the pre-build inventory in [`reports/corpus_stats_2026-05-21.md`](corpus_stats_2026-05-21.md).
 
 ### 3.2 Processed Chunks (400 words, 30-word overlap)
 
-| Category | Cardiology | Endocrinology |
-|---|---|---|
-| Articles | 10 | 2,487 |
-| Cases | 105 | 1,046 |
-| Guidelines | 1,478 | 6,916 |
-| Handbooks | 972 | 0 |
-| Textbooks | 5,165 | 27,342 |
-| **Total chunks** | **7,730** | **37,791** |
-| **Total (both agents)** | | **45,521** |
+| Category | Cardiology | Endocrinology | Gastroenterology | Infectiology |
+|---|---:|---:|---:|---:|
+| Articles            |    10 |    2,487 | 2,817 |    303 |
+| Cases               |   105 |    1,046 | 1,073 |    390 |
+| Guidelines          | 1,478 |    6,916 | 4,391 |  3,116 |
+| Handbooks           |   972 |        0 |    53 |    434 |
+| Textbooks           | 5,165 |   27,342 |   690 |  3,469 |
+| **Total chunks (post-filter)** | **7,730** | **37,791** | **8,670** | **7,476** |
+
+**Total across all four FAISS indices: 61,667 chunks.** Pre-filter raw chunk counts (9,024 gastro / 7,712 infect) are reduced by `build_index.py`'s mean-word-length filter (Stage 36), which drops 354 gastro + 236 infect PDF-extraction-artifact chunks (concatenated text with no inter-word spaces) before embedding; cardio and endo are unaffected. See §6 L4 and [`reports/corpus_stats_2026-05-21.md`](corpus_stats_2026-05-21.md) for details.
 
 ### 3.3 Chunk Size Optimization
 
@@ -165,7 +173,9 @@ Note: the chunk-size grid was also run on the 30-case dev split using a ~20-docu
 
 ### 3.4 Retrieval Hyperparameter Grid Search
 
-A grid search over K ∈ {3,5,7,10,15} × L2 ∈ {0.8,1.0,1.2,1.4,1.6,2.0} was performed on the 30-case development split (`golden_dev.json` after Fix 1; previously the initial 30-case version of `golden_dataset.json`). The complete dev-set results are in [`reports/hyperparameter_grid.csv`](hyperparameter_grid.csv). Hyperparameter selection was therefore performed on a strict subset of the cases reported in §4; the §4.8 held-out test split (n=70) reports performance on cases never seen during tuning.
+A grid search over K ∈ {3,5,7,10,15} × L2 ∈ {0.8,1.0,1.2,1.4,1.6,2.0} was performed on the 30-case development split (`golden_dev.json` after Fix 1; previously the initial 30-case version of `golden_dataset.json`). The complete dev-set results are in [`reports/hyperparameter_grid.csv`](hyperparameter_grid.csv). Hyperparameter selection was therefore performed on a strict subset of the cases reported in §4; the §4.8 held-out test split (n=140) reports performance on cases never seen during tuning.
+
+> **Stage-39 follow-up.** The grid above was run on the pre-Stage-38 30-case cardio + endo dev split and **has not been re-run on the 60-case 4-specialty dev split** (`golden_dev.json` now includes 15 cases per specialty × 4 specialties). Whether `K=5, L2 ≤ 1.2` remains the dev-set optimum on the new gastro + infect corpora is an open question; flagged in §6 L11.
 
 | K | L2 ≤ 0.8 | L2 ≤ 1.0 | L2 ≤ 1.2 | L2 ≤ 1.4 | L2 ≤ 1.6 | L2 ≤ 2.0 |
 |---|---|---|---|---|---|---|
@@ -207,6 +217,8 @@ Key observations from the grid:
 - **Interaction (D − C) − (B − A):** with A unmeasured on the current dev split (raw 200-word chunks not on disk, A's historical 93.3% was on the old `cardio_1..30` 30-case set), the interaction term cannot be computed strictly. Imputing A ≈ B = 100% (since the strip effect at 400 is 0, the strip effect at 200 is expected to be near 0 too): interaction ≈ (93.3 − 93.3) − (100 − 100) = **0.0 pp**.
 
 **Corrected claim.** The +3.4 pp originally attributed to keyword stripping (Stage 2 §3.1 → "Hit Rate improved from 93.3% to 96.7%") is **0.0 pp from keyword stripping**, plus a sample-size-dependent chunk-size effect that flips sign depending on which metric is read. The original Stage 2 narrative confused a one-case (cardio_12) improvement, which on n=30 was +3.3 pp, with a real effect of stripping — but on the current dev split with chunk size held constant the strip toggle produces a 0-case difference. With Wilson 95% CIs on the dev split's small n (15 cardio cases), a 1-case swing is ±7 pp noise; the historical +3.3 pp is well inside that noise band. The chunk-size effect is also small in absolute terms (≤ 1 case on Recall@5 differences) and metric-dependent. **Neither factor is a strong driver of cardiology retrieval quality on this corpus.** What does matter, on a much larger scale, is choice of retriever (dense vs sparse vs hybrid) — see §4.3.2 for the BM25 ablation, which shows FAISS beating BM25 by 26 pp end-to-end, much larger than any chunk-size / strip effect documented here.
+
+> **Stage-39 follow-up.** The Stage-14 2×2 ablation above was run on the cardiology corpus only and **has not been repeated** for the new gastroenterology and infectiology corpora. The 0.0 pp on-cardio finding is expected to generalise (the `KEYWORDS:` header convention is identical across all four corpora — see `corpus_stats_2026-05-21.md`), but the generalisation is unverified.
 
 ---
 
@@ -526,7 +538,7 @@ The original prompt-only "Insufficient evidence" fallback failed completely on T
 ### 5.3 Epistemic Bounds of Same-Family Evaluation
 We now have concrete evidence about which kinds of borderline calls the primary YandexGPT judge accepts and the secondary YandexGPT-Lite judge rejects: the two judges disagree on exactly one test-split case, `cardio_40` (Tier 2 cardiology). The query asks for the likely diagnosis of a 30-year-old male with resuscitated out-of-hospital cardiac arrest, prolonged QTc of 510 ms, and a sister who had a similar event at age 25 — a presentation that strongly suggests congenital long QT syndrome. The retrieved context contains a tangentially related case (30-something woman with new-onset seizure activity and prolonged QTc 500–530 ms leading to Torsades de Pointes) which explicitly attributes the prolongation to herbal-remedy-induced *acquired* LQTS while noting that "normal QTc does not exclude congenital LQTS." The generated answer paraphrases this related case, then infers congenital LQTS for the new patient citing the family history. The primary judge accepts this as a faithful paraphrase plus logical inference allowed by the rules and returns `FAITHFUL`. The secondary judge rejects it as introducing a specific diagnosis (congenital LQTS) not directly named in the retrieved context and returns `HALLUCINATION`.
 
-The flagship YandexGPT primary judge accepts inferences from related-but-distinct context; the smaller YandexGPT-Lite secondary judge requires the specific diagnosis label to appear in the retrieved tokens before returning FAITHFUL. Neither verdict is unambiguously wrong, but the disagreement places a lower bound on faithfulness: under the stricter judge the test-split rate is 98.6% (69/70), not the primary judge's 100% (70/70). The minimum-judge rate of 98.6% [Wilson 95% CI 92.3%–99.7%] is the number quoted in §7. Both judges are from the same vendor, so failure modes shared by both Yandex families are still undetectable — the cross-vendor blind spot Zheng et al. \cite{zheng2023mtbench} characterise empirically. Faithfulness as measured by the same-family judge is therefore an upper bound; §4.4 reports the multi-judge result that should be used as the lower bound.
+The flagship YandexGPT primary judge accepts inferences from related-but-distinct context; the smaller YandexGPT-Lite secondary judge requires the specific diagnosis label to appear in the retrieved tokens before returning FAITHFUL. Neither verdict is unambiguously wrong, but the disagreement places a lower bound on faithfulness: under the stricter judge the test-split min-judge rate is 131/132 = 99.2% [Wilson 95% CI 95.8%–99.9%], with the single disagreement remaining on `cardio_40` — exactly as in Stage 31. The denominator grew from 70 to 132 (after excluding 7 Tier-3 fallback cases and 1 None-verdict case from the 140-case test split). This 99.2% min-judge rate is the number quoted in §4.4 and §7. Both judges are from the same vendor, so failure modes shared by both Yandex families are still undetectable — the cross-vendor blind spot Zheng et al. \cite{zheng2023mtbench} characterise empirically. Faithfulness as measured by the same-family judge is therefore an upper bound; §4.4 reports the multi-judge result that should be used as the lower bound.
 
 ---
 
@@ -546,7 +558,7 @@ The flagship YandexGPT primary judge accepts inferences from related-but-distinc
 
 7. **Auto-annotation circularity in Recall@K.** The 162 of 168 Tier 1/2 gold_sources annotations used as the Recall@K denominator were produced by `tests/annotate_gold_sources.py --auto`, which selected up to three documents per case from the top-20 retrieval output of the same FAISS+embedding system being evaluated. Recall@K therefore measures 'fraction of keyword-positive top-20 documents that surface in the top-5 window', not 'fraction of ground-truth answer documents retrieved'. An independent annotation pass (human-curated against the full corpus, or against a benchmark like PubMedQA — see §4.9) would break the circularity; this is the natural next step for any future work that intends to compare against external retrieval baselines.
 
-8. **Refusal gate — both targets unmet at 4-specialty scale.** The Stage-7 single-threshold numeric gate (`refusal_gate.RefusalGate`, Signal A, `L2_REJECT_MIN`) met the ≥80% T3-recall target at threshold 0.92 on the 2-specialty data at the cost of a 49% T1/T2 FP rate. The Stage-39 re-tune on 4-specialty data (§4.5) shows that the in-corpus / out-of-corpus min-L2 distributions overlap so heavily that NO single threshold meets both the recall and FP targets; the tuner's best-F1 fallback (`L2_REJECT_MIN = 1.020`) yields 20.7% T3 recall and 17.1% T1/T2 FP. The original two-stage-gate plan (numeric pre-filter feeding an LLM-as-classifier confirmer) is now urgent rather than optional. Proposed design: a small LLM call (e.g. yandexgpt-lite or a tiered prompt) for cases where the numeric gate is ambiguous (min-L2 in the overlap zone), which would let the strict numeric gate handle clear in-scope (L2 < ~0.85) and clear out-of-scope (L2 > ~1.10) without LLM cost.
+8. **Refusal gate.** The single-threshold numeric gate cannot simultaneously meet both targets (≥80% T3 recall, ≤5% T1/T2 FP) at 4-specialty scale (see §4.5 for the threshold sweep, overlap-zone characterisation, and chosen fallback). The proposed two-stage gate (per-specialty numeric pre-filter + LLM confirmer on the overlap zone) is the planned Stage-40 work — see [`reports/report_independent_audit.md`](report_independent_audit.md) §5 for the design spec and expected metrics.
 
 9. **Ambiguous-case schema (resolved 2026-05-22).** `tests/data/ambiguous_cases.json` previously mixed two annotation conventions (cases 1–8 used only `domains`; cases 9–14 used both `valid_domains` and `domains` with identical values). Unified on `valid_domains` on 2026-05-22 to match `adversarial_routing.json`; `evaluate_routing.py` now reads `case["valid_domains"]`. Retained here for historical traceability — no current follow-up.
 
