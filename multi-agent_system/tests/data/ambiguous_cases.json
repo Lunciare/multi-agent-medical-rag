@@ -51,7 +51,7 @@
     {
         "id": "ambig_8",
         "query": "A 25-year-old male presents with episodic flushing, diarrhea, and wheezing. 24-hour urine 5-HIAA is 68 mg/day (normal < 15). CT abdomen shows a 2 cm ileal mass with liver lesions. What syndrome has developed and what systemic complication requires cardiac evaluation?",
-        "domains": ["cardiologist", "endocrinologist"],
+        "domains": ["cardiologist", "endocrinologist", "gastroenterologist"],
         "label": "carcinoid heart disease",
         "notes": "Carcinoid syndrome is an endocrine tumor issue, but carcinoid heart disease (valvular lesions) requires cardiac evaluation."
     },
