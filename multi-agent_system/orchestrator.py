@@ -167,11 +167,11 @@ class MedicalOrchestrator:
         if specialist.startswith("__error__:"):
             error_type = specialist.split(":")[1]
             if error_type == "authentication":
-                return "Error", "API authentication failed. Please check your OPENAI_API_KEY.", "No evidence retrieved."
+                return "Error", "API authentication failed. Please check your YANDEX_API_KEY.", "No evidence retrieved."
             elif error_type == "rate_limit":
                 return "Error", "API rate limit reached. Please wait a moment and try again.", "No evidence retrieved."
             elif error_type == "connection":
-                return "Error", "Unable to connect to the OpenAI API.", "No evidence retrieved."
+                return "Error", "Unable to connect to the Yandex Foundation Models API.", "No evidence retrieved."
             elif error_type == "validation":
                 return "Error", "Routing failed: the LLM did not return a recognised specialist.", "No evidence retrieved."
             else:
