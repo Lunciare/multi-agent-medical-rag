@@ -113,11 +113,7 @@ def _confusion(rows, *, reject_fn) -> dict:
     }
 
 
-def _signal_a_reject(threshold):
-    return lambda md: md > threshold
-
-
-def _signal_b_reject(threshold):
+def _reject(threshold):
     return lambda md: md > threshold
 
 
@@ -166,7 +162,7 @@ def main():
           f"{'test FP rate':>12}")
     best_a = None
     for thr in L2_REJECT_MIN_GRID:
-        rej = _signal_a_reject(thr)
+        rej = _reject(thr)
         cm_dev = _confusion(dev_rows, reject_fn=rej)
         cm_test = _confusion(test_rows, reject_fn=rej)
         print(f"  {thr:>7.3f}  {cm_dev['tp']:>7}  {cm_dev['fn']:>7}  "

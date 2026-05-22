@@ -28,7 +28,6 @@ smoke test depends on).
 from __future__ import annotations
 
 import json
-import math
 import os
 import random
 from dataclasses import dataclass

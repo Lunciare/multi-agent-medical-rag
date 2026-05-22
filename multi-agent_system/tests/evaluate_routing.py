@@ -21,9 +21,6 @@ SPLIT_TO_FILENAME = {
 }
 
 
-import json as _json
-
-
 def _build_routing_system_prompt() -> str:
     """4-specialist routing prompt — mirrors orchestrator._routing_system_prompt.
 
@@ -99,12 +96,12 @@ def parse_or_fail(raw: str) -> str:
         return ""
     text = raw.strip()
     try:
-        obj = _json.loads(text)
+        obj = json.loads(text)
         if isinstance(obj, dict):
             spec = str(obj.get("specialist", "")).strip().lower()
             if spec in ALLOWED_SPECIALISTS:
                 return spec
-    except (_json.JSONDecodeError, ValueError):
+    except (json.JSONDecodeError, ValueError):
         pass
     # Not a valid {"specialist": <allowed>} JSON object — return verbatim so
     # the per-case comparison in `evaluate_routing()` registers a miss.

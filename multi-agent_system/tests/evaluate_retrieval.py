@@ -64,7 +64,6 @@ def _load_bm25_indices() -> dict:
 
 def _bm25_topk_doc_keys(bm25_state, query: str, k: int = SIMILARITY_TOP_K) -> list[str]:
     """Top-K doc_name strings (with source_file fallback) from the BM25 index."""
-    import numpy as np
     tokens = _bm25_tokenize(query)
     scores = bm25_state["bm25"].get_scores(tokens)
     top_idx = np.argsort(scores)[-k:][::-1]
@@ -491,8 +490,7 @@ def evaluate_retrieval(split="test", kb: str | None = None):
                 # apples-to-apples comparison we use the raw top-K from the FAISS index,
                 # i.e. `docs_and_scores` not `retrieved_docs`).
                 faiss_keys = [_doc_key_of(d) for d, _s in docs_and_scores[:SIMILARITY_TOP_K]]
-                _, _, faiss_hits = _recall_mrr_from_keys(faiss_keys, gold_keys)
-                faiss_recall, faiss_mrr, _ = _recall_mrr_from_keys(faiss_keys, gold_keys)
+                faiss_recall, faiss_mrr, faiss_hits = _recall_mrr_from_keys(faiss_keys, gold_keys)
 
                 # BM25 doc-keys.
                 bm25_state = bm25_indices.get(expected_agent)
@@ -500,15 +498,13 @@ def evaluate_retrieval(split="test", kb: str | None = None):
                     bm25_keys = []
                 else:
                     bm25_keys = _bm25_topk_doc_keys(bm25_state, query, k=SIMILARITY_TOP_K)
-                _, _, bm25_hits = _recall_mrr_from_keys(bm25_keys, gold_keys)
-                bm25_recall, bm25_mrr, _ = _recall_mrr_from_keys(bm25_keys, gold_keys)
+                bm25_recall, bm25_mrr, bm25_hits = _recall_mrr_from_keys(bm25_keys, gold_keys)
 
                 # Random doc-keys — sample from the specialty's docstore.
                 pool = domain_pool[expected_agent]
                 random_docs_topk = rng.sample(pool, min(SIMILARITY_TOP_K, len(pool)))
                 random_keys = [_doc_key_of(d) for d in random_docs_topk]
-                _, _, random_hits = _recall_mrr_from_keys(random_keys, gold_keys)
-                random_recall, random_mrr, _ = _recall_mrr_from_keys(random_keys, gold_keys)
+                random_recall, random_mrr, random_hits = _recall_mrr_from_keys(random_keys, gold_keys)
 
                 # Oracle — by construction every gold doc is retrieved at rank 1..len(gold).
                 oracle_hits = len(gold_keys)

@@ -58,7 +58,6 @@ class SpecialistAgent(BaseMedicalAgent):
     def __init__(self, *, name: str, folder_path: str, role_prompt: str,
                  domain_scope: str) -> None:
         self.name = name
-        self.SPECIALIST_NAME = name  # backward-compat with prior code paths
         self.folder_path = folder_path
         self.role_prompt = role_prompt
         self.domain_scope = domain_scope
