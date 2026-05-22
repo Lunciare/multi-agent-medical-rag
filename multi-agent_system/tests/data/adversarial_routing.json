@@ -260,7 +260,8 @@
     "expected_specialist": "endocrinologist",
     "valid_domains": [
       "cardiologist",
-      "endocrinologist"
+      "endocrinologist",
+      "gastroenterologist"
     ]
   },
   {
