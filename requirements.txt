@@ -31,7 +31,15 @@ datasets==4.8.5
 # UI
 gradio==6.14.0
 
-# Test suite (pytest, playwright UI smoke test)
+# Test suite (pytest, playwright UI smoke test, crawler-import smoke test)
 pytest==9.0.2
 pytest-asyncio==1.3.0
 playwright==1.59.0
+
+# Crawler-stack imports (kept in the main requirements so
+# tests/test_crawler_imports.py un-skips and asserts the
+# scripts/data_processing/rag_crawler.py module API. Full crawler
+# runtime deps — pdfplumber, python-docx, matplotlib, etc. — live in
+# scripts/data_processing/requirements.txt and are not needed here.)
+PyMuPDF==1.27.2.3
+beautifulsoup4==4.14.3
