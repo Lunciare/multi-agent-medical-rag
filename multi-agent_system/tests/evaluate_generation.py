@@ -244,11 +244,14 @@ def _write_outputs(judges, per_case_rows, stats_by_judge, split,
         if cohen_kappa_score is None or n == 0:
             kappa = None
             agree = 0
+            ac1 = float("nan") if n == 0 else _gwet_ac1(paired)
         else:
             kappa = cohen_kappa_score([a for a, _ in paired], [b for _, b in paired])
             agree = sum(1 for a, b in paired if a == b)
+            ac1 = _gwet_ac1(paired)
         pair_kappas.append({
-            "a": ja.name, "b": jb.name, "n": n, "agreements": agree, "kappa": kappa,
+            "a": ja.name, "b": jb.name, "n": n, "agreements": agree,
+            "kappa": kappa, "ac1": ac1,
         })
 
     min_eligible = [r for r in judged_rows
@@ -305,10 +308,18 @@ def _write_outputs(judges, per_case_rows, stats_by_judge, split,
         f"All judges agreed FAITHFUL on **{min_faithful} / {len(min_eligible)}** cases = "
         f"**{min_rate*100:.1f}% [Wilson 95% CI {min_lo*100:.1f}%–{min_hi*100:.1f}%]**.",
         "",
-        "## Pairwise Cohen's κ",
+        "## Pairwise Agreement (Cohen's κ and Gwet's AC1)",
         "",
-        "| Pair | n (both non-None) | Agreements | Cohen's κ | Landis & Koch |",
-        "|---|---|---|---|---|",
+        "Cohen's κ is degenerate when one rater's marginal class probability is 0 "
+        "(i.e. labels everything the same way), since chance agreement equals observed "
+        "agreement and the κ denominator vanishes. Gwet's AC1 stays well-defined in that "
+        "regime: it uses the empirical class prior (averaged across raters) to compute "
+        "chance agreement, which only vanishes when both raters tie on the same extreme. "
+        "Report both; AC1 is the better-behaved chance-corrected statistic when one "
+        "marginal collapses.",
+        "",
+        "| Pair | n (both non-None) | Agreements | Cohen's κ | Gwet's AC1 | Landis & Koch (on AC1) |",
+        "|---|---|---|---|---|---|",
     ]
     label_counts = {j.name: {True: 0, False: 0} for j in judges}
     for row in judged_rows:
@@ -318,14 +329,16 @@ def _write_outputs(judges, per_case_rows, stats_by_judge, split,
                 label_counts[j.name][v] += 1
     for pk in pair_kappas:
         kappa_str = "n/a" if pk["kappa"] is None else f"{pk['kappa']:.3f}"
+        ac1_str = "n/a" if pk["ac1"] is None or math.isnan(pk["ac1"]) else f"{pk['ac1']:.3f}"
         lk = _landis_koch(
             pk["kappa"],
             both_labels_seen_a=sum(1 for v, c in label_counts[pk["a"]].items() if c > 0),
             both_labels_seen_b=sum(1 for v, c in label_counts[pk["b"]].items() if c > 0),
             n=pk["n"], agreements=pk["agreements"],
+            ac1=pk["ac1"],
         )
         lines.append(
-            f"| ({pk['a']}, {pk['b']}) | {pk['n']} | {pk['agreements']} | {kappa_str} | {lk} |"
+            f"| ({pk['a']}, {pk['b']}) | {pk['n']} | {pk['agreements']} | {kappa_str} | {ac1_str} | {lk} |"
         )
 
     disagreements = _collect_disagreements(judges, judged_rows)
@@ -370,26 +383,77 @@ def _write_outputs(judges, per_case_rows, stats_by_judge, split,
           f"  (excluded {excluded_for_min} due to None)")
     for pk in pair_kappas:
         ks = "n/a" if pk["kappa"] is None else f"{pk['kappa']:.3f}"
-        print(f"  κ ({pk['a']},{pk['b']}): {ks}  n={pk['n']}")
+        a1 = "n/a" if pk["ac1"] is None or math.isnan(pk["ac1"]) else f"{pk['ac1']:.3f}"
+        print(f"  ({pk['a']},{pk['b']}): κ={ks}  Gwet AC1={a1}  n={pk['n']}")
     print(f"Elapsed: {elapsed_s:.1f}s ({elapsed_s/60:.1f} min); "
           f"total judge calls: {total_judge_calls}")
 
 
-def _landis_koch(kappa: float, *, both_labels_seen_a: int, both_labels_seen_b: int,
-                 n: int, agreements: int) -> str:
-    if both_labels_seen_a < 2 or both_labels_seen_b < 2:
-        return f"degenerate (one marginal = 0; observed agreement = {agreements}/{n})"
-    if kappa is None or math.isnan(kappa):
-        return "degenerate (κ undefined)"
-    if kappa < 0.0:
+def _gwet_ac1(pairs: list) -> float:
+    """Gwet's AC1 for two binary raters.
+
+    `pairs` is a list of `(label_a, label_b)` tuples (booleans in the
+    multi-judge pipeline: True = FAITHFUL, False = HALLUCINATION).
+    Returns Gwet's AC1, which is robust to the marginal-zero case
+    where Cohen's κ degenerates: it uses the empirical class prior
+    (averaged across raters) to compute chance agreement, which only
+    vanishes when both raters tie on the same extreme.
+
+    Binary, two-rater formula:
+        π = (# of "True" labels across both raters) / (2 · n)
+        p_e = 2 · π · (1 − π)
+        AC1 = (p_o − p_e) / (1 − p_e)
+    """
+    n = len(pairs)
+    if n == 0:
+        return float("nan")
+    agree = sum(1 for a, b in pairs if a == b)
+    p_o = agree / n
+    n_true = sum((1 if a else 0) + (1 if b else 0) for a, b in pairs)
+    pi_true = n_true / (2 * n)
+    p_e = 2 * pi_true * (1 - pi_true)
+    if 1 - p_e == 0:
+        return 1.0
+    return (p_o - p_e) / (1 - p_e)
+
+
+def _landis_koch_band(coeff: float) -> str:
+    """Map a chance-corrected agreement coefficient (κ or AC1) to the
+    Landis & Koch (1977) qualitative band. Used for both Cohen's κ and
+    Gwet's AC1 — the banding is conventionally defined on κ but
+    applies cleanly to any [-1, 1]-bounded chance-corrected statistic."""
+    if coeff is None or math.isnan(coeff):
+        return "undefined"
+    if coeff < 0.0:
         return "less than chance"
-    if kappa < 0.4:
+    if coeff < 0.4:
         return "poor"
-    if kappa < 0.6:
+    if coeff < 0.6:
         return "moderate"
-    if kappa < 0.8:
+    if coeff < 0.8:
         return "substantial"
     return "almost perfect"
+
+
+def _landis_koch(kappa: float, *, both_labels_seen_a: int, both_labels_seen_b: int,
+                 n: int, agreements: int, ac1: float = float("nan")) -> str:
+    """Qualitative agreement band for the multi-judge table.
+
+    When Cohen's κ is well-defined, return its Landis-Koch band.
+    When κ is degenerate (one rater's marginal class probability = 0),
+    fall back to Gwet's AC1 — which is well-defined in that regime —
+    and prefix the band with `via AC1` so the reader sees which
+    statistic drove the verdict.
+    """
+    if both_labels_seen_a < 2 or both_labels_seen_b < 2:
+        ac1_band = _landis_koch_band(ac1)
+        return (
+            f"degenerate κ (one marginal = 0; observed agreement = "
+            f"{agreements}/{n}); via AC1: {ac1_band}"
+        )
+    if kappa is None or math.isnan(kappa):
+        return "degenerate (κ undefined)"
+    return _landis_koch_band(kappa)
 
 
 def _collect_disagreements(judges, judged_rows):
