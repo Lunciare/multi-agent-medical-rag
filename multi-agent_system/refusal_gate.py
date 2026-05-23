@@ -28,12 +28,15 @@ smoke test depends on).
 from __future__ import annotations
 
 import json
+import logging
 import os
 import random
 from dataclasses import dataclass
 from typing import Optional
 
 import numpy as np
+
+logger = logging.getLogger(__name__)
 
 SIGNAL_A_MIN_L2 = "A"
 SIGNAL_B_CORPUS_K = "B"
@@ -99,9 +102,20 @@ def load_or_compute_corpus_dist_stats(vectorstore, *, cache_path: str,
                                       random_seed: int = 42) -> CorpusDistStats:
     """Cache-aware accessor for chunk-to-chunk distance stats.
 
-    Reads cache_path if present; otherwise computes once, writes to disk, and
-    returns. Used by RefusalGate.from_vectorstore so the gate construction is
-    O(1) on warm starts.
+    Reads cache_path if present; otherwise computes once, writes to disk
+    atomically, and returns. Used by RefusalGate.from_vectorstore so the gate
+    construction is O(1) on warm starts.
+
+    Cache I/O is best-effort:
+      * Read failures (`OSError` permission denied, `JSONDecodeError`,
+        `KeyError` on a malformed cache) fall through to a fresh compute.
+      * Write failures (`OSError` on a read-only filesystem, etc.) emit a
+        warning via the module logger and return the freshly-computed stats
+        anyway — the gate still works, only the cache is lost.
+      * The write is atomic: stats are first written to a per-process
+        `.tmp.<pid>` sibling and then `os.replace`d into `cache_path`. Two
+        concurrent callers will therefore each leave a valid JSON file on
+        disk (last replace wins; no partial-write / mid-write race).
     """
     if os.path.exists(cache_path):
         try:
@@ -109,15 +123,34 @@ def load_or_compute_corpus_dist_stats(vectorstore, *, cache_path: str,
                 stats = CorpusDistStats.from_dict(json.load(f))
             if stats.n >= sample_size // 2:
                 return stats
-        except (json.JSONDecodeError, KeyError):
-            pass
+        except (OSError, json.JSONDecodeError, KeyError) as exc:
+            logger.warning("Could not read corpus-dist cache at %s (%s: %s); "
+                           "recomputing.", cache_path, type(exc).__name__, exc)
 
     stats = compute_corpus_dist_stats(vectorstore, sample_size=sample_size,
                                       random_seed=random_seed)
     stats.specialty = specialty
-    os.makedirs(os.path.dirname(cache_path), exist_ok=True)
-    with open(cache_path, "w", encoding="utf-8") as f:
-        json.dump(stats.to_dict(), f, indent=2)
+
+    cache_dir = os.path.dirname(cache_path) or "."
+    try:
+        os.makedirs(cache_dir, exist_ok=True)
+        tmp_path = f"{cache_path}.tmp.{os.getpid()}"
+        with open(tmp_path, "w", encoding="utf-8") as f:
+            json.dump(stats.to_dict(), f, indent=2)
+        os.replace(tmp_path, cache_path)
+    except OSError as exc:
+        # Read-only filesystem, permission denied, disk full, etc.
+        # Best-effort cleanup of any leftover tmp file; never raise.
+        logger.warning("Could not persist corpus-dist cache at %s (%s: %s); "
+                       "returning in-memory stats only.", cache_path,
+                       type(exc).__name__, exc)
+        try:
+            tmp_path = f"{cache_path}.tmp.{os.getpid()}"
+            if os.path.exists(tmp_path):
+                os.remove(tmp_path)
+        except OSError:
+            pass
+
     return stats
 
 
@@ -217,7 +250,19 @@ class RefusalGate:
                          signal: str = SIGNAL_A_MIN_L2,
                          top_k: int = DEFAULT_TOP_K,
                          sample_size: int = DEFAULT_CORPUS_SAMPLE) -> "RefusalGate":
-        """Construct a gate with the corpus distance cache populated lazily."""
+        """Construct a gate with the corpus-distance cache populated lazily.
+
+        Side effect: on first call this writes
+        `{processed_dir}/corpus_dist_stats.json` so subsequent constructions
+        are O(1); subsequent calls reuse that cache. Read-only filesystems
+        are supported — if the write fails (`OSError`, e.g. `PermissionError`
+        on a `chmod 555` directory or `ENOSPC` on a full disk), a warning is
+        logged via `refusal_gate`'s module logger and an in-memory
+        `CorpusDistStats` is returned anyway. The gate constructed in that
+        case is fully functional; only the cross-process cache is lost. The
+        write is atomic (`tmp + os.replace`) so concurrent constructions
+        from parallel CI workers can't leave a half-written file behind.
+        """
         cache_path = os.path.join(processed_dir, "corpus_dist_stats.json")
         stats = load_or_compute_corpus_dist_stats(
             vectorstore, cache_path=cache_path, specialty=specialty,
