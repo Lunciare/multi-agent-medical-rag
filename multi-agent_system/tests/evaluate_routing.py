@@ -10,6 +10,7 @@ from collections import defaultdict
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from agents.registry import AGENT_REGISTRY
+from logging_config import configure_logging
 from settings import client, ROUTING_MODEL, YANDEX_PROJECT_ID
 from tests._stats import fmt as _fmt
 
@@ -363,6 +364,7 @@ def evaluate_routing(split="test"):
 
 
 if __name__ == "__main__":
+    configure_logging()
     parser = argparse.ArgumentParser()
     parser.add_argument("--split",
                         choices=["dev", "test", "all", "adversarial"],

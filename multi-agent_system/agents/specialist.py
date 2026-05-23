@@ -10,6 +10,7 @@ is then a 1-entry registry append, not a 200-line new class.
 from __future__ import annotations
 
 import json
+import logging
 import os
 from typing import List, Tuple
 
@@ -28,6 +29,8 @@ from settings import (
     YANDEX_PROJECT_ID,
     client,
 )
+
+logger = logging.getLogger(__name__)
 
 
 REFUSAL_RESPONSE = (
@@ -66,16 +69,16 @@ class SpecialistAgent(BaseMedicalAgent):
 
         faiss_save_path = os.path.join(folder_path, "faiss_index")
         if os.path.exists(faiss_save_path):
-            print(f"Loading cached FAISS index from {faiss_save_path}")
+            logger.info("Loading cached FAISS index from %s", faiss_save_path)
             self.vectorstore = FAISS.load_local(
                 faiss_save_path,
                 self.embeddings,
                 allow_dangerous_deserialization=True,
             )
-            print("FAISS vector store loaded successfully")
+            logger.info("FAISS vector store loaded successfully for %s", self.name)
             return
 
-        print("No cached FAISS index found. Reading documents...")
+        logger.info("No cached FAISS index found at %s. Reading documents...", faiss_save_path)
         documents = self._load_documents(folder_path)
         if not documents:
             raise ValueError(
@@ -83,11 +86,13 @@ class SpecialistAgent(BaseMedicalAgent):
                 "Ensure the directory contains .json or .txt chunk files."
             )
 
-        print(f"Building FAISS index for {len(documents)} document chunks...")
+        logger.info("Building FAISS index for %d document chunks (%s)...",
+                    len(documents), self.name)
         self.vectorstore = FAISS.from_documents(documents, self.embeddings)
-        print("FAISS vector store built successfully")
+        logger.info("FAISS vector store built successfully for %s", self.name)
 
-        print(f"Saving FAISS index to {faiss_save_path} for faster future startups...")
+        logger.info("Saving FAISS index to %s for faster future startups...",
+                    faiss_save_path)
         self.vectorstore.save_local(faiss_save_path)
 
     # ----- document loading (consolidated from cardio + endo) -----
@@ -181,27 +186,23 @@ class SpecialistAgent(BaseMedicalAgent):
 
     def answer(self, question: str) -> Tuple[str, str, str]:
         if self.refuse(question):
-            print(f"[RefusalGate] {self.name.lower()} refusing query (out-of-scope)")
+            logger.info("RefusalGate: %s refusing query (out-of-scope)", self.name.lower())
             return self.name, REFUSAL_RESPONSE, NO_EVIDENCE
 
         valid_docs_and_scores = self.retrieve(question)
 
-        print(f"\n{'='*60}")
-        print(f"Retrieved {len(valid_docs_and_scores)} chunks:")
-        print(f"{'='*60}")
+        logger.info("Retrieved %d chunks for %s", len(valid_docs_and_scores), self.name.lower())
         context_parts = []
         for i, (doc, l2_score) in enumerate(valid_docs_and_scores, 1):
             source = doc.metadata.get("source_file", "unknown")
             category = doc.metadata.get("category", "unknown")
             sim_score = max(0.0, 1.0 - (l2_score / MAX_L2_DISTANCE))
             preview = doc.page_content[:150].replace("\n", " ")
-            print(f"\n  [{i}] source={source}  |  category={category}  |  "
-                  f"confidence={sim_score:.1%}")
-            print(f"      {preview}...")
+            logger.debug("  [%d] source=%s | category=%s | confidence=%.1f%% | %s...",
+                         i, source, category, sim_score * 100, preview)
             context_parts.append(
                 f"[Source: {source}, Confidence: {sim_score:.1%}]\n{doc.page_content}"
             )
-        print(f"{'='*60}\n")
 
         context = "\n\n".join(context_parts)
         prompt_user = f"Evidence Context:\n{context}\n\nClinical Query:\n{question}"

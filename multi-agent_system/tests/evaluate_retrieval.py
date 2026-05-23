@@ -15,6 +15,7 @@ import numpy as np
 
 from orchestrator import MedicalOrchestrator
 from agents.registry import AGENT_REGISTRY
+from logging_config import configure_logging
 from settings import DEFAULT_KNOWLEDGE_BASE_DIR, SIMILARITY_TOP_K, MAX_L2_DISTANCE
 from tests._stats import fmt as _fmt
 
@@ -766,6 +767,7 @@ def evaluate_retrieval(split="test", kb: str | None = None):
     print(f"{'=' * 80}")
 
 if __name__ == "__main__":
+    configure_logging()
     parser = argparse.ArgumentParser()
     parser.add_argument("--smoke-test", action="store_true")
     parser.add_argument("--split", choices=["dev", "test", "all"], default="test")

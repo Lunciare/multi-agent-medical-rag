@@ -1,13 +1,20 @@
+import logging
+
 import gradio as gr
+
+from logging_config import configure_logging
 from orchestrator import MedicalOrchestrator
 from settings import DEFAULT_KNOWLEDGE_BASE_DIR
 
+configure_logging()
+logger = logging.getLogger(__name__)
+
 try:
-    print("Initializing orchestrator...")
+    logger.info("Initializing orchestrator...")
     orchestrator = MedicalOrchestrator(DEFAULT_KNOWLEDGE_BASE_DIR)
-    print("Orchestrator ready!")
+    logger.info("Orchestrator ready!")
 except Exception:
-    import traceback; traceback.print_exc()
+    logger.exception("Orchestrator failed to initialise; aborting.")
     raise SystemExit("Orchestrator failed to initialise; aborting.")
 
 def process_query(query):

@@ -1,4 +1,5 @@
 import json
+import logging
 import re
 
 import openai
@@ -6,6 +7,8 @@ import openai
 from agents import SpecialistAgent
 from agents.registry import AGENT_REGISTRY
 from settings import ROUTING_MODEL, YANDEX_PROJECT_ID, client
+
+logger = logging.getLogger(__name__)
 
 
 EMERGENCY_PATTERNS = re.compile(
@@ -177,7 +180,7 @@ class MedicalOrchestrator:
             else:
                 return "Error", "An unexpected error occurred while routing your query.", "No evidence retrieved."
 
-        print("specialist: ", specialist)
+        logger.info("Routed to specialist: %s", specialist)
         agent = self.agents.get(specialist)
         if agent is None:
             return "Error", "Could not determine the specialist.", "No evidence retrieved."

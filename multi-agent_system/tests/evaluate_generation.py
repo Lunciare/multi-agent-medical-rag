@@ -12,6 +12,7 @@ from typing import Optional
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from agents.registry import AGENT_REGISTRY
+from logging_config import configure_logging
 from orchestrator import MedicalOrchestrator
 from settings import (
     AGENT_MODEL,
@@ -553,6 +554,7 @@ def evaluate_generation(split="test", mode="multi_judge"):
 
 
 if __name__ == "__main__":
+    configure_logging()
     parser = argparse.ArgumentParser()
     parser.add_argument("--split", choices=["dev", "test", "all"], default="test")
     parser.add_argument("--mode", choices=["multi_judge", "yandex_only"],

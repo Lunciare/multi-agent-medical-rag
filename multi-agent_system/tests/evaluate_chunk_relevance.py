@@ -6,6 +6,7 @@ import json
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from agents.registry import AGENT_REGISTRY
+from logging_config import configure_logging
 from orchestrator import MedicalOrchestrator
 from settings import DEFAULT_KNOWLEDGE_BASE_DIR, client, AGENT_MODEL, YANDEX_PROJECT_ID, SIMILARITY_TOP_K, MAX_L2_DISTANCE
 from tests._stats import fmt as _fmt
@@ -142,6 +143,7 @@ def evaluate_relevance(split="test"):
     print(f"{'=' * 90}")
 
 if __name__ == "__main__":
+    configure_logging()
     parser = argparse.ArgumentParser()
     parser.add_argument("--split", choices=["dev", "test", "all"], default="test")
     args = parser.parse_args()

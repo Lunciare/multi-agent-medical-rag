@@ -24,6 +24,7 @@ import sys
 from collections import defaultdict
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from logging_config import configure_logging
 from tests._stats import fmt as _fmt
 
 
@@ -250,6 +251,7 @@ def _print_ambiguous(cases):
 
 
 def main():
+    configure_logging()
     parser = argparse.ArgumentParser()
     parser.add_argument("--split", choices=["dev", "test", "all"], default="test",
                         help="Which golden split to evaluate against (default: test).")
