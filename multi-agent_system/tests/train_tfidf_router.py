@@ -1,18 +1,19 @@
 #!/usr/bin/env python3
 """Train a TF-IDF + Logistic Regression router on `golden_dev.json`.
 
-Pipeline (per Stage 15 spec):
+Pipeline (per Stage 15 spec, extended at Stage 39 to 4 specialties):
   TfidfVectorizer(ngram_range=(1, 2), max_df=0.9, min_df=2)
-  → LogisticRegression(C=1.0)
+  → LogisticRegression(C=1.0, random_state=42)
 
 The trained pipeline is pickled to `tests/data/tfidf_router.pkl` and loaded by
 `evaluate_routing_baseline.py:tfidf_route(query)` at evaluation time.
 
-Training set: 30-case `golden_dev.json` (`cardio_1..15` + `endo_1..15` per
-Stage 4 Fix 1). The `query` field is the input text and `expected_specialist`
-is the binary label. No tuning is performed inside this script — `C=1.0` is the
+Training set: 60-case `golden_dev.json` (`{cardio,endo,gastro,infect}_1..15`).
+The `query` field is the input text and `expected_specialist` is the
+4-class label. No tuning is performed inside this script — `C=1.0` is the
 fixed Stage 15 setting; future stages can hyper-tune with `tune_*` style grids
-if needed.
+if needed. `random_state=42` is pinned for reproducibility (per the
+Stage-39 audit's reproducibility checklist).
 """
 
 from __future__ import annotations
@@ -48,7 +49,7 @@ def build_pipeline() -> Pipeline:
     """Construct the TF-IDF + LogisticRegression pipeline used in §4.1."""
     return Pipeline([
         ("vec", TfidfVectorizer(ngram_range=(1, 2), max_df=0.9, min_df=2)),
-        ("lr", LogisticRegression(C=1.0, max_iter=1000)),
+        ("lr", LogisticRegression(C=1.0, max_iter=1000, random_state=42)),
     ])
 
 
@@ -62,9 +63,10 @@ def main() -> None:
 
     queries, labels = _load_dev_xy()
     print(f"Loaded {len(queries)} dev cases from {DEV_PATH}")
-    n_cardio = sum(1 for y in labels if y == "cardiologist")
-    n_endo = sum(1 for y in labels if y == "endocrinologist")
-    print(f"  Class balance: cardiologist={n_cardio}, endocrinologist={n_endo}")
+    from collections import Counter
+    class_counts = Counter(labels)
+    balance = ", ".join(f"{spec}={class_counts[spec]}" for spec in sorted(class_counts))
+    print(f"  Class balance: {balance}")
 
     pipe = build_pipeline()
     pipe.fit(queries, labels)
