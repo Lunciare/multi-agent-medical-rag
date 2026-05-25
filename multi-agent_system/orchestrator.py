@@ -47,11 +47,7 @@ TREATMENT_MESSAGE = (
 class MedicalOrchestrator:
     def __init__(self, knowledge_base_dir: str):
         self.knowledge_base_dir = knowledge_base_dir
-        # `knowledge_base_dir` is kept for backward compatibility with the prior
-        # constructor signature; the per-specialty paths come from the registry.
         self.agents = {key: SpecialistAgent(**cfg) for key, cfg in AGENT_REGISTRY.items()}
-        # Strict allow-list for routing — `route()` accepts the LLM's output
-        # only if it canonicalises to one of these. No alias coercion.
         self.allowed_specialists = list(self.agents.keys())
 
     def safety_check(self, question: str) -> str | None:
@@ -79,17 +75,9 @@ class MedicalOrchestrator:
         )
 
     def _parse_router_output(self, raw: str) -> str | None:
-        """Parse the router's response and validate against the allow-list.
-
-        Returns the canonical specialty string if valid, `None` otherwise.
-        No silent aliasing — `"cardiology"`, `"surgeon"`, or any other
-        non-allowed string returns `None`.
-        """
         if raw is None:
             return None
         text = raw.strip()
-        # First try strict JSON parsing (the default path: prompt asks for JSON
-        # and Yandex's response_format=json_object enforces it server-side).
         try:
             obj = json.loads(text)
             if isinstance(obj, dict):
@@ -101,23 +89,6 @@ class MedicalOrchestrator:
         return None
 
     def route(self, question):
-        """LLM-based routing.
-
-        Uses Yandex's `response_format={"type": "json_object"}` (verified
-        supported on `gpt://{folder}/yandexgpt/latest` during Stage 19 probe).
-        Falls back to plain `chat.completions.create` if Yandex ever rejects
-        the parameter — in either case the response is parsed via
-        `_parse_router_output` and validated against `self.allowed_specialists`.
-
-        Returns:
-          - the canonical specialty string on success;
-          - `"__error__:validation"` if the LLM produced output that did not
-            parse into a valid `{"specialist": ...}` JSON object whose value
-            is in the allow-list — NOT silently re-mapped;
-          - `"__error__:authentication"` / `"__error__:rate_limit"` /
-            `"__error__:connection"` on the respective `openai` exceptions;
-          - `"__error__:unknown:..."` on any other exception.
-        """
         common_kwargs = {
             "model": ROUTING_MODEL,
             "messages": [
@@ -135,15 +106,10 @@ class MedicalOrchestrator:
                     **common_kwargs,
                 )
             except (openai.BadRequestError, TypeError):
-                # Yandex / OpenAI client doesn't accept response_format on this
-                # endpoint — fall back. The JSON prompt is still in place, so
-                # the model's output will still usually be a JSON object;
-                # `_parse_router_output` validates it either way.
                 response = client.chat.completions.create(**common_kwargs)
             raw = response.choices[0].message.content
             specialist = self._parse_router_output(raw)
             if specialist is None:
-                # Do NOT silently re-map. Surface the failure.
                 return "__error__:validation"
             return specialist
         except openai.AuthenticationError:

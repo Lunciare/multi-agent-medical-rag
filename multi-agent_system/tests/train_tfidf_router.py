@@ -1,20 +1,4 @@
 #!/usr/bin/env python3
-"""Train a TF-IDF + Logistic Regression router on `golden_dev.json`.
-
-Pipeline (per Stage 15 spec, extended at Stage 39 to 4 specialties):
-  TfidfVectorizer(ngram_range=(1, 2), max_df=0.9, min_df=2)
-  → LogisticRegression(C=1.0, random_state=42)
-
-The trained pipeline is pickled to `tests/data/tfidf_router.pkl` and loaded by
-`evaluate_routing_baseline.py:tfidf_route(query)` at evaluation time.
-
-Training set: 60-case `golden_dev.json` (`{cardio,endo,gastro,infect}_1..15`).
-The `query` field is the input text and `expected_specialist` is the
-4-class label. No tuning is performed inside this script — `C=1.0` is the
-fixed Stage 15 setting; future stages can hyper-tune with `tune_*` style grids
-if needed. `random_state=42` is pinned for reproducibility (per the
-Stage-39 audit's reproducibility checklist).
-"""
 
 from __future__ import annotations
 
@@ -34,7 +18,6 @@ PICKLE_PATH = os.path.join(DATA_DIR, "tfidf_router.pkl")
 
 
 def _load_dev_xy() -> tuple[list[str], list[str]]:
-    """Return (queries, labels) from golden_dev.json."""
     with open(DEV_PATH, "r", encoding="utf-8") as f:
         cases = json.load(f)
     queries: list[str] = []
@@ -46,7 +29,6 @@ def _load_dev_xy() -> tuple[list[str], list[str]]:
 
 
 def build_pipeline() -> Pipeline:
-    """Construct the TF-IDF + LogisticRegression pipeline used in §4.1."""
     return Pipeline([
         ("vec", TfidfVectorizer(ngram_range=(1, 2), max_df=0.9, min_df=2)),
         ("lr", LogisticRegression(C=1.0, max_iter=1000, random_state=42)),

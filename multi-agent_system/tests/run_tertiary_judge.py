@@ -1,33 +1,4 @@
 #!/usr/bin/env python3
-"""One-off resumable script: add a tertiary (cross-vendor) judge column to the
-existing Stage-39 multi-judge CSV without re-paying for the primary/secondary
-Yandex judge calls.
-
-Why this exists
----------------
-The original `evaluate_generation.py --mode multi_judge` writes its output
-CSV only at the very end of the per-case loop. On OpenRouter free-tier rate
-limits the run can stall for an hour with no salvageable state. This script
-solves both problems:
-
-  * **Resumable.** Output rows are flushed to disk per case (append mode);
-    interrupted runs lose at most one in-flight verdict, and re-launching
-    picks up where the previous run stopped (cases whose `id` is already in
-    the output CSV are skipped on warm start).
-  * **Tertiary-only.** Per-judge primary/secondary verdicts are looked up
-    from the existing 2-judge CSV instead of recomputed; we only fire the
-    OpenRouter judge.
-  * **Fast-fail.** OpenRouter retries are reduced from 5 → 1 so a saturated
-    free-tier model doesn't block the whole run; throttled cases write
-    `NONE` immediately and the next case proceeds.
-
-This script will be retired once `evaluate_generation.py` itself gets the
-per-case CSV checkpointing — see audit Part F §7.4 follow-up.
-
-Output schema (matches `evaluate_generation.py`'s CSV plus a `tertiary`
-column):
-    id, tier, domain, fallback, yandex_primary, secondary, tertiary
-"""
 
 from __future__ import annotations
 
@@ -73,7 +44,6 @@ CSV_COLUMNS = ["id", "tier", "domain", "fallback",
 
 
 def _load_existing_2judge(csv_path: str) -> dict[str, dict]:
-    """Map case_id → row from the 2-judge CSV (primary + secondary verdicts)."""
     rows: dict[str, dict] = {}
     if not os.path.exists(csv_path):
         raise FileNotFoundError(
@@ -88,7 +58,6 @@ def _load_existing_2judge(csv_path: str) -> dict[str, dict]:
 
 
 def _load_resume_state(output_csv_path: str) -> set[str]:
-    """Return the set of case_ids already present in the output CSV (resume hint)."""
     if not os.path.exists(output_csv_path):
         return set()
     done: set[str] = set()
@@ -99,9 +68,6 @@ def _load_resume_state(output_csv_path: str) -> set[str]:
 
 
 def _append_row(output_csv_path: str, row: dict) -> None:
-    """Append one row to the CSV, creating the file with a header if absent.
-    Flushes + fsyncs so an interrupted process loses at most one in-flight row.
-    """
     file_exists = os.path.exists(output_csv_path)
     with open(output_csv_path, "a", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=CSV_COLUMNS)
@@ -134,7 +100,6 @@ def main() -> None:
     logger.info("Tertiary judge: provider=%s, model=%s",
                 tertiary_cfg.provider, tertiary_cfg.model_id)
 
-    # Override the module-level retry budget for fast-fail.
     original_max_retries = _judges_module.MAX_RETRIES
     _judges_module.MAX_RETRIES = args.max_retries
     logger.info("OpenRouter MAX_RETRIES temporarily set to %d (was %d).",

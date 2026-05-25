@@ -1,29 +1,3 @@
-"""Numeric out-of-scope refusal gate.
-
-Replaces the prompt-only "Insufficient evidence" fallback (which `report_final.md`
-§5.2 documented as a 0/16 failure on Tier 3) with a deterministic numeric check
-in front of the LLM call.
-
-Two candidate signals are implemented; the active signal is selected by the
-`signal` argument and tuned offline against `golden_dev.json` by
-`tests/tune_refusal_gate.py`:
-
-  Signal A — minimum L2 distance:
-      reject if min(distances over top-K retrieved chunks) > L2_REJECT_MIN.
-      Simple, interpretable, single-parameter.
-
-  Signal B — corpus-distance k-sigma rule:
-      reject if min(distances) > μ_corpus − k · σ_corpus, where μ_corpus and
-      σ_corpus are the mean and std of nearest-neighbour L2 distances over a
-      random sample of 1000 in-corpus chunks (cached per specialty under
-      data/processed/{specialty}/corpus_dist_stats.json).
-      Intuition: in-distribution queries should fall *inside* the typical
-      near-neighbour distance scale of the corpus.
-
-If `corpus_dist_stats` is omitted Signal B falls back to never rejecting (so
-callers can pass only `l2_reject_min` and still get a usable gate, which the
-smoke test depends on).
-"""
 
 from __future__ import annotations
 
@@ -64,18 +38,6 @@ class CorpusDistStats:
 
 def compute_corpus_dist_stats(vectorstore, *, sample_size: int = DEFAULT_CORPUS_SAMPLE,
                               random_seed: int = 42) -> CorpusDistStats:
-    """Empirical L2 distribution of all-pairs chunk-to-chunk distances over a
-    random sample of `sample_size` in-corpus chunks. Returns mean and std.
-
-    Why all-pairs and not nearest-neighbour: in this 256-d, pre-normalised
-    Yandex embedding space, *nearest-neighbour* chunk distances are very small
-    (μ ≈ 0.37) because chunks from the same document cluster tightly. Query→doc
-    distances live in a different (larger) regime (typically 0.85–1.30), so a
-    nearest-neighbour μ would give an unreachably strict Signal B threshold.
-    The all-pairs distance distribution captures the *typical* inter-chunk L2
-    scale (μ ≈ 1.4 for randomly oriented 256-d unit vectors), which gives a
-    useful k-sigma threshold for query-time use. Documented in §4.5.
-    """
     rng = random.Random(random_seed)
     ntotal = vectorstore.index.ntotal
     if ntotal == 0:
@@ -84,8 +46,6 @@ def compute_corpus_dist_stats(vectorstore, *, sample_size: int = DEFAULT_CORPUS_
     indices = rng.sample(range(ntotal), sample_n)
 
     vecs = np.stack([vectorstore.index.reconstruct(int(i)) for i in indices]).astype("float32")
-    # All-pairs squared L2 via expanded dot products: ||a-b||^2 = ||a||^2 + ||b||^2 - 2 a·b.
-    # For our pre-normalised vectors ||a||^2 ≈ 1, so ||a-b||^2 ≈ 2 - 2 cos(a,b).
     sq_norms = np.sum(vecs * vecs, axis=1)
     G = vecs @ vecs.T
     pair_sq = sq_norms[:, None] + sq_norms[None, :] - 2.0 * G
@@ -100,23 +60,6 @@ def load_or_compute_corpus_dist_stats(vectorstore, *, cache_path: str,
                                       specialty: Optional[str] = None,
                                       sample_size: int = DEFAULT_CORPUS_SAMPLE,
                                       random_seed: int = 42) -> CorpusDistStats:
-    """Cache-aware accessor for chunk-to-chunk distance stats.
-
-    Reads cache_path if present; otherwise computes once, writes to disk
-    atomically, and returns. Used by RefusalGate.from_vectorstore so the gate
-    construction is O(1) on warm starts.
-
-    Cache I/O is best-effort:
-      * Read failures (`OSError` permission denied, `JSONDecodeError`,
-        `KeyError` on a malformed cache) fall through to a fresh compute.
-      * Write failures (`OSError` on a read-only filesystem, etc.) emit a
-        warning via the module logger and return the freshly-computed stats
-        anyway — the gate still works, only the cache is lost.
-      * The write is atomic: stats are first written to a per-process
-        `.tmp.<pid>` sibling and then `os.replace`d into `cache_path`. Two
-        concurrent callers will therefore each leave a valid JSON file on
-        disk (last replace wins; no partial-write / mid-write race).
-    """
     if os.path.exists(cache_path):
         try:
             with open(cache_path, "r", encoding="utf-8") as f:
@@ -139,8 +82,6 @@ def load_or_compute_corpus_dist_stats(vectorstore, *, cache_path: str,
             json.dump(stats.to_dict(), f, indent=2)
         os.replace(tmp_path, cache_path)
     except OSError as exc:
-        # Read-only filesystem, permission denied, disk full, etc.
-        # Best-effort cleanup of any leftover tmp file; never raise.
         logger.warning("Could not persist corpus-dist cache at %s (%s: %s); "
                        "returning in-memory stats only.", cache_path,
                        type(exc).__name__, exc)
@@ -155,22 +96,6 @@ def load_or_compute_corpus_dist_stats(vectorstore, *, cache_path: str,
 
 
 class RefusalGate:
-    """Numeric out-of-scope gate. Returns True from `refuse(query)` when the
-    query should be rejected before reaching the LLM.
-
-    Construction:
-      gate = RefusalGate(
-          vectorstore,
-          l2_reject_min=1.30,             # Signal A threshold (None disables it)
-          corpus_dist_stats={"mu": 1.2, "sigma": 0.15},   # Signal B μ, σ
-          corpus_dist_k=2.0,              # Signal B k (None disables it)
-          signal="A",                     # "A" or "B" — selects which test fires
-          top_k=5,
-      )
-
-    `refuse()` retrieves the top-K chunks for the query and applies the
-    selected signal's threshold to the minimum L2 distance.
-    """
 
     def __init__(self,
                  vectorstore,
@@ -190,7 +115,6 @@ class RefusalGate:
         self.signal = signal
         self.top_k = top_k
 
-    # ----- query-time API -----
 
     def _min_dist(self, query: str) -> Optional[float]:
         docs_and_scores = self.vectorstore.similarity_search_with_score(query, k=self.top_k)
@@ -212,22 +136,17 @@ class RefusalGate:
         return min_dist > threshold
 
     def refuse(self, query: str) -> bool:
-        """Return True if the query should be refused (out-of-scope)."""
         if not query or not query.strip():
             return True
         min_dist = self._min_dist(query)
         if min_dist is None:
-            return True  # nothing retrieved — refuse
+            return True
         if self.signal == SIGNAL_A_MIN_L2:
             return self.signal_a_rejects(min_dist)
         return self.signal_b_rejects(min_dist)
 
-    # ----- diagnostics -----
 
     def explain(self, query: str) -> dict:
-        """Return a dict with both signals' verdicts and the min distance.
-        Used by the tuner to grid-search thresholds without redoing retrieval.
-        """
         min_dist = self._min_dist(query)
         return {
             "min_dist": min_dist,
@@ -250,19 +169,6 @@ class RefusalGate:
                          signal: str = SIGNAL_A_MIN_L2,
                          top_k: int = DEFAULT_TOP_K,
                          sample_size: int = DEFAULT_CORPUS_SAMPLE) -> "RefusalGate":
-        """Construct a gate with the corpus-distance cache populated lazily.
-
-        Side effect: on first call this writes
-        `{processed_dir}/corpus_dist_stats.json` so subsequent constructions
-        are O(1); subsequent calls reuse that cache. Read-only filesystems
-        are supported — if the write fails (`OSError`, e.g. `PermissionError`
-        on a `chmod 555` directory or `ENOSPC` on a full disk), a warning is
-        logged via `refusal_gate`'s module logger and an in-memory
-        `CorpusDistStats` is returned anyway. The gate constructed in that
-        case is fully functional; only the cross-process cache is lost. The
-        write is atomic (`tmp + os.replace`) so concurrent constructions
-        from parallel CI workers can't leave a half-written file behind.
-        """
         cache_path = os.path.join(processed_dir, "corpus_dist_stats.json")
         stats = load_or_compute_corpus_dist_stats(
             vectorstore, cache_path=cache_path, specialty=specialty,

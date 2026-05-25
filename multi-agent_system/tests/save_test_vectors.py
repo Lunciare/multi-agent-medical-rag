@@ -1,26 +1,3 @@
-"""Regenerate the retrieval regression snapshot.
-
-Produces three on-disk artefacts under `multi-agent_system/tests/data/`:
-  - `test_vectors.npy`         — Yandex query embeddings for the 10 canonical
-                                  regression queries (5 cardiology + 5 endo).
-  - `test_vector_labels.json`  — parallel list of {query, domain}.
-  - `test_retrieval_snapshot.json` — for each canonical query: the top-K=5
-    `source_file`s returned by the corresponding FAISS index and the matching
-    L2 distances. Stage 16 regression test (`tests/test_retrieval_regression.py`)
-    diffs the live retrieval against this snapshot.
-
-Usage:
-    cd multi-agent_system
-    python tests/save_test_vectors.py                 # build .npy + .json only IF MISSING
-    python tests/save_test_vectors.py --update-snapshot  # also (re)write retrieval snapshot
-
-The `--update-snapshot` flag is intentional: it forces a rewrite of
-`test_retrieval_snapshot.json` after a legitimate index rebuild (chunking,
-embeddings, K, or L2-threshold change). Without the flag, the script refuses
-to overwrite an existing snapshot.
-
-Requires YANDEX_API_KEY / YANDEX_PROJECT_ID (loaded from `multi-agent_system/.env`).
-"""
 
 import argparse
 import json
@@ -79,20 +56,12 @@ def _faiss_paths(repo_root: Path) -> dict[str, Path]:
 
 
 def _load_faiss(domain: str, faiss_dir: Path):
-    """Load a LangChain FAISS vectorstore for `domain` from `faiss_dir`."""
     from langchain_community.vectorstores import FAISS
     embedder = YandexNativeEmbeddings()
     return FAISS.load_local(str(faiss_dir), embedder, allow_dangerous_deserialization=True)
 
 
 def _query_snapshot(vs, vec: np.ndarray, k: int = SIMILARITY_TOP_K) -> dict:
-    """Run a single embedded query against `vs` and return the top-K snapshot.
-
-    Uses the vectorstore's raw `similarity_search_with_score_by_vector` so the
-    snapshot reflects exactly what `Agent.answer` would see at runtime (same
-    L2 distance, same source_file ordering).
-    """
-    # `similarity_search_with_score_by_vector` returns [(Document, distance), ...].
     pairs = vs.similarity_search_with_score_by_vector(vec.tolist(), k=k)
     source_files = []
     l2_distances = []
@@ -144,7 +113,6 @@ def main() -> None:
     print(f"\nSaved {arr.shape} vectors → {vectors_path}")
     print(f"Saved {len(labels)} labels  → {labels_path}")
 
-    # ----- snapshot stage -----
     if snapshot_path.exists() and not args.update_snapshot:
         print(f"\nSnapshot already exists at {snapshot_path}; not overwriting. "
               f"Re-run with --update-snapshot to refresh it after a legitimate "
@@ -170,7 +138,6 @@ def main() -> None:
         entry = _query_snapshot(vectorstores[domain], vec, k=SIMILARITY_TOP_K)
         entry["domain"] = domain
         entry["snapshot_date"] = datetime.now().strftime("%Y-%m-%d")
-        # Keep insertion order: query → entry.
         snapshot[query] = entry
         files = entry["top_k_source_files"]
         dists = entry["top_k_l2_distances"]

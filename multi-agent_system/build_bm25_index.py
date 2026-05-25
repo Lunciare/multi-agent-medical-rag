@@ -1,18 +1,4 @@
 #!/usr/bin/env python3
-"""BM25 index builder — the sparse-retrieval companion to build_index.py.
-
-For each specialty, this script loads the chunks already embedded in the FAISS
-vectorstore (so the BM25 corpus is identical to what FAISS retrieves over —
-otherwise the FAISS-vs-BM25 comparison would be apples-to-oranges), tokenises
-each chunk with a lowercase / alphanumeric / drop-tokens-shorter-than-2-chars
-rule, builds a `BM25Okapi` index, and pickles it plus the chunk-id-to-metadata
-mapping to `data/processed/{specialty}/bm25_index.pkl`.
-
-Usage:
-    python build_bm25_index.py --specialty cardiologist
-    python build_bm25_index.py --specialty endocrinologist
-    python build_bm25_index.py --specialty all   # build both
-"""
 
 from __future__ import annotations
 
@@ -39,20 +25,10 @@ TOKEN_RE = re.compile(r"[a-zA-Z0-9]+")
 
 
 def tokenize(text: str) -> List[str]:
-    """Lowercase, alphanumeric, drop tokens shorter than 2 chars.
-
-    The 2-char minimum drops Roman numerals like "I"/"V" and unit fragments
-    like "g"/"L" that would otherwise dominate IDF; BM25's typical English
-    preprocessing in `rank_bm25`'s reference implementation matches this rule.
-    """
     return [t for t in TOKEN_RE.findall(text.lower()) if len(t) >= 2]
 
 
 def _load_chunks_from_faiss(faiss_index_path: str) -> Tuple[List[str], List[dict]]:
-    """Iterate over the cached FAISS docstore and return parallel lists of
-    chunk texts and chunk metadata dicts. The chunk ordering is preserved so
-    BM25 corpus index = docstore order = mapping index.
-    """
     embeddings = YandexNativeEmbeddings()
     print(f"  Loading FAISS docstore from {faiss_index_path}…")
     vs = FAISS.load_local(faiss_index_path, embeddings, allow_dangerous_deserialization=True)
@@ -101,9 +77,6 @@ def build_one(specialty_key: str) -> dict:
         "specialty": specialty_key,
         "n_chunks": len(texts),
         "bm25": bm25,
-        # `metas` carries the same dicts FAISS attaches to each chunk: source_file,
-        # doc_name, category, keywords. evaluate_retrieval.py uses doc_name (with
-        # source_file fallback) to compute Recall@K against gold_sources.
         "metadatas": metas,
     }
     t0 = time.time()

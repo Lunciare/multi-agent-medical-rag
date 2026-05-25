@@ -41,7 +41,6 @@ class TestRouting:
     def test_route_returns_cardiologist(self, mock_client, mock_faiss, mock_emb, tmp_path):
         from orchestrator import MedicalOrchestrator
 
-        # Stage 19: orchestrator.route() parses JSON-structured router output.
         mock_client.chat.completions.create.return_value = MagicMock(
             choices=[MagicMock(message=MagicMock(content='{"specialist": "cardiologist"}'))]
         )
@@ -74,7 +73,6 @@ class TestRouting:
     def test_route_unknown_specialist(self, mock_client, mock_faiss, mock_emb, tmp_path):
         from orchestrator import MedicalOrchestrator
 
-        # Stage 19: orchestrator rejects unknown specialty via strict allow-list.
         mock_client.chat.completions.create.return_value = MagicMock(
             choices=[MagicMock(message=MagicMock(content='{"specialist": "neurologist"}'))]
         )
@@ -83,8 +81,6 @@ class TestRouting:
         orch = MedicalOrchestrator(knowledge_base_dir=str(kb))
 
         _specialist, response, _evidence = orch.answer("What causes migraines?")
-        # Stage 19 returns "__error__:validation" → user-visible "Routing failed:
-        # the LLM did not return a recognised specialist." (no alias coercion).
         assert "routing failed" in response.lower() or "could not determine" in response.lower()
 
 
@@ -117,7 +113,6 @@ class TestEndToEndAnswer:
         kb = _create_sample_data(tmp_path)
         orch = MedicalOrchestrator(knowledge_base_dir=str(kb))
 
-        # Disable the refusal gate so the mocked retrieval drives the response.
         for agent in orch.agents.values():
             agent._refusal_gate = type("NoOpGate", (), {"refuse": lambda self, q: False})()
 
@@ -145,7 +140,6 @@ class TestEndToEndAnswer:
         mock_doc = MagicMock()
         mock_doc.page_content = "Unrelated cake recipe."
         mock_vs_instance = MagicMock()
-        # L2 distance 1.8 > 1.2 threshold → chunk gets filtered out
         mock_vs_instance.similarity_search_with_score.return_value = [(mock_doc, 1.8)]
         mock_faiss.load_local.return_value = mock_vs_instance
         mock_faiss.from_documents.return_value = mock_vs_instance
@@ -153,7 +147,6 @@ class TestEndToEndAnswer:
         kb = _create_sample_data(tmp_path)
         orch = MedicalOrchestrator(knowledge_base_dir=str(kb))
 
-        # Disable the refusal gate so the LLM fallback drives the response.
         for agent in orch.agents.values():
             agent._refusal_gate = type("NoOpGate", (), {"refuse": lambda self, q: False})()
 

@@ -23,12 +23,6 @@ SPLIT_TO_FILENAME = {
 
 
 def _build_routing_system_prompt() -> str:
-    """4-specialist routing prompt — mirrors orchestrator._routing_system_prompt.
-
-    Built from `AGENT_REGISTRY` so a new specialist's `domain_scope` becomes
-    visible to the evaluator with no further edits here. Was a hardcoded
-    2-specialty string pre-Stage-39.
-    """
     keys = sorted(AGENT_REGISTRY.keys())
     scope_block = "\n".join(
         f"  - {k!r}: {AGENT_REGISTRY[k]['domain_scope']}" for k in keys
@@ -47,20 +41,10 @@ def _build_routing_system_prompt() -> str:
 
 ROUTING_SYSTEM_PROMPT = _build_routing_system_prompt()
 
-# Strict allow-list — `parse_or_fail()` accepts only canonical specialty
-# names from the registry. Adding a new specialist to AGENT_REGISTRY widens
-# the allow-list automatically.
 ALLOWED_SPECIALISTS = set(AGENT_REGISTRY.keys())
 
 
 def route_query(question: str) -> str:
-    """Stage 19: JSON-structured routing call.
-
-    Tries Yandex's `response_format={"type": "json_object"}` first (verified
-    supported on `gpt://{folder}/yandexgpt/latest` in Stage 19); falls back
-    to plain chat if the parameter is rejected. The raw response string is
-    returned as-is; `parse_or_fail()` validates it against `ALLOWED_SPECIALISTS`.
-    """
     common = {
         "model": ROUTING_MODEL,
         "messages": [
@@ -84,15 +68,6 @@ def route_query(question: str) -> str:
 
 
 def parse_or_fail(raw: str) -> str:
-    """Strict-equality parser (Stage 19) — renamed from `normalise` in Stage 32.
-
-    Parses `raw` as JSON, returns the lower-cased `specialist` field if it's
-    in `ALLOWED_SPECIALISTS`; otherwise returns the raw string verbatim (so
-    the caller's `predicted == expected` test fails). Crucially: **no alias
-    coercion**. The previous Stage 11 `SPECIALIST_ALIASES` dict that mapped
-    `"cardiology"` → `"cardiologist"` is gone — the LLM must output the
-    canonical specialty name or the case is counted as wrong.
-    """
     if not raw:
         return ""
     text = raw.strip()
@@ -104,8 +79,6 @@ def parse_or_fail(raw: str) -> str:
                 return spec
     except (json.JSONDecodeError, ValueError):
         pass
-    # Not a valid {"specialist": <allowed>} JSON object — return verbatim so
-    # the per-case comparison in `evaluate_routing()` registers a miss.
     return text.lower()
 
 

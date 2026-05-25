@@ -1,18 +1,3 @@
-"""Multi-judge faithfulness evaluation clients.
-
-Supports three provider URI schemes:
-
-  "yandex:<model_uri>"        — Yandex Foundation Models via the existing client.
-  "openrouter:<model_slug>"   — OpenRouter via requests, uses OPENROUTER_API_KEY.
-  "http:<url>"                — Generic OpenAI-compatible POST, uses SECONDARY_JUDGE_API_KEY.
-
-The faithfulness system prompt is identical across all judges so that any rate
-difference is attributable to the judge model, not to prompt variation.
-
-Each judge call returns Optional[bool]: True for FAITHFUL, False for HALLUCINATION,
-None if the call failed after retries. The caller is responsible for excluding
-None results from rate computations and reporting the exclusion count.
-"""
 
 from __future__ import annotations
 
@@ -101,7 +86,6 @@ MAX_RETRIES = 5
 
 
 class JudgeStats:
-    """Tracks per-judge HTTP error counts for reporting in the markdown summary."""
 
     def __init__(self) -> None:
         self.http_errors: int = 0
@@ -150,7 +134,7 @@ def _judge_yandex(cfg: JudgeConfig, query: str, context: str, answer: str,
         except openai.AuthenticationError as e:
             stats.auth_errors += 1
             print(f"  [{cfg.name}] auth error on {case_id}: {e}")
-            return None  # auth errors are not retryable
+            return None
         except openai.RateLimitError as e:
             stats.rate_limit_errors += 1
             print(f"  [{cfg.name}] rate limit on {case_id} (attempt {attempt+1}/{MAX_RETRIES})")
@@ -167,12 +151,10 @@ def _judge_yandex(cfg: JudgeConfig, query: str, context: str, answer: str,
             time.sleep(min(2 ** attempt, 30))
             continue
         except Exception as e:
-            # Unexpected exception — log and re-raise so the bug surfaces in CI.
             stats.other_errors += 1
             print(f"  [{cfg.name}] UNEXPECTED {type(e).__name__} on {case_id}: {e}")
             raise
 
-        # Parse the response, separately:
         try:
             content = response.choices[0].message.content or ""
             verdict = _parse_judgement(content)
@@ -248,7 +230,6 @@ def _judge_openai_compatible(cfg: JudgeConfig, query: str, context: str, answer:
 def judge_faithfulness(query: str, context: str, generated_answer: str,
                        judge_config: JudgeConfig, case_id: str,
                        stats: JudgeStats) -> Optional[bool]:
-    """Return True FAITHFUL, False HALLUCINATION, None if the call failed after retries."""
     if judge_config.provider == "yandex":
         return _judge_yandex(judge_config, query, context, generated_answer, case_id, stats)
     if judge_config.provider in ("openrouter", "http"):

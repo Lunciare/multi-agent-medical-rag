@@ -1,5 +1,3 @@
-"""Functional UI test — launches a Gradio app with a mocked orchestrator
-and asserts an end-to-end query-response round trip through the browser."""
 
 import asyncio
 import threading
@@ -15,8 +13,6 @@ EXPECTED_TEXT = "Mocked clinical summary: atrial fibrillation is an arrhythmia."
 
 
 def _build_mocked_app():
-    """Return a Gradio Blocks app whose Submit button calls a mocked
-    orchestrator.answer() and renders the response."""
     mock_orch = MagicMock()
     mock_orch.answer.return_value = (
         "Cardiologist", EXPECTED_TEXT, "Source: mocked.txt",
@@ -35,7 +31,6 @@ def _build_mocked_app():
 @pytest.mark.asyncio
 async def test_gradio_ui_returns_response_for_query():
     demo = _build_mocked_app()
-    # Launch in a daemon thread on a fixed port.
     port = 7861
     thread = threading.Thread(
         target=lambda: demo.launch(server_port=port, prevent_thread_lock=False,
@@ -43,7 +38,6 @@ async def test_gradio_ui_returns_response_for_query():
         daemon=True,
     )
     thread.start()
-    # Give Gradio a moment to bind.
     time.sleep(2.0)
     try:
         async with async_playwright() as p:
@@ -53,7 +47,6 @@ async def test_gradio_ui_returns_response_for_query():
                 await page.goto(f"http://127.0.0.1:{port}", timeout=15000)
                 await page.fill("#query_input textarea", "What is AFib?")
                 await page.click("#submit_btn")
-                # Wait for the response to populate.
                 await page.wait_for_function(
                     f"document.querySelector('#response_output textarea')"
                     f".value.includes({EXPECTED_TEXT!r})",

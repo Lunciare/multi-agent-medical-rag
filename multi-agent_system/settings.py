@@ -51,8 +51,5 @@ TERTIARY_JUDGE_PROVIDER: str | None = os.getenv("TERTIARY_JUDGE_PROVIDER") or No
 OPENROUTER_API_KEY: str | None = os.getenv("OPENROUTER_API_KEY")
 OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1/chat/completions"
 SECONDARY_JUDGE_API_KEY: str | None = os.getenv("SECONDARY_JUDGE_API_KEY")
-# --- refusal-gate threshold (managed by tests/tune_refusal_gate.py) ---
-# Signal A min-L2 threshold. See report_final.md §4.5 for the trade-off
-# against Tier 1/2 false-positive rate; full analysis in Stage 7 report.
 REFUSAL_GATE_SIGNAL = 'A'
 L2_REJECT_MIN = 1.020

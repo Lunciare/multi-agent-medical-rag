@@ -65,8 +65,6 @@ def evaluate_relevance(split="test"):
 
     total_queries = len(dataset)
 
-    # Stage 39: per-domain dicts now built from the registry so the eval
-    # scales to any number of specialists without code changes.
     domain_sufficient = {k: 0 for k in AGENT_REGISTRY}
     domain_total = {k: 0 for k in AGENT_REGISTRY}
 

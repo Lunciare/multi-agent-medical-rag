@@ -1,12 +1,3 @@
-"""Specialist agent registry.
-
-The single source of truth for which specialists exist, the path to each
-specialty's knowledge base, the LLM system prompt for that role, and the
-one-line domain-scope description used by the orchestrator's routing prompt.
-
-Adding a new specialist is a single AGENT_REGISTRY entry — no new agent class,
-no new build script, no new orchestrator branch.
-"""
 
 from settings import (
     DEFAULT_KNOWLEDGE_BASE_DIR,

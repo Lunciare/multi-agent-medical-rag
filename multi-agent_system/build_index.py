@@ -1,24 +1,4 @@
 #!/usr/bin/env python3
-"""Unified FAISS index builder.
-
-Replaces the previous per-specialty build scripts (`build_cardio_faiss.py`,
-`build_endo_faiss.py`). The specialty and its source directory come from
-`agents.registry.AGENT_REGISTRY`, so adding a new specialty's index only
-requires the registry entry and a populated `data/processed/{specialty}/`
-folder — no new build script.
-
-The registry currently exposes four specialists — `cardiologist`,
-`endocrinologist`, `gastroenterologist`, `infectionist` — and any of
-them can be passed to `--specialty`. Cardiology and endocrinology
-indices are pre-built and committed; gastroenterology and infectiology
-indices are built on demand with this script.
-
-Usage:
-    python build_index.py --specialty cardiologist        # ~40 min, 7,730 chunks
-    python build_index.py --specialty endocrinologist     # ~2.5 h,  37,791 chunks
-    python build_index.py --specialty gastroenterologist  # ~50 min, 9,024 chunks
-    python build_index.py --specialty infectionist        # ~45 min, 7,712 chunks
-"""
 
 from __future__ import annotations
 
@@ -53,50 +33,17 @@ NATIVE_CHUNK_WORDS = 400
 NATIVE_OVERLAP_WORDS = 30
 
 
-# Mean characters-per-whitespace-token above which a chunk is treated as a
-# PDF-extraction artifact (inter-word spaces lost during PDF→text conversion,
-# so a single "word" is 100+ chars of concatenated text) and skipped before
-# embedding. Normal English text averages ~6-7 chars/word; the bloated gastro
-# and infection chunks (≈ 5-6 % of those corpora, concentrated in author-
-# affiliation blocks of multi-author papers) average 30-170 chars/word and
-# trip the Yandex embedder's token-input limit. Threshold = 15 is well above
-# normal English and below the artifact range; endocrinology's single 5,696-
-# char outlier sits at 14 chars/word and is preserved.
 _MAX_MEAN_WORD_LEN_CHARS = 15
 
 
 def _load_documents(folder_path: str, *, chunk_size: int = NATIVE_CHUNK_WORDS,
                     keep_keywords: bool = False) -> List[Document]:
-    """Load chunks for the index build.
-
-    Default behaviour (`chunk_size = NATIVE_CHUNK_WORDS = 400`, `keep_keywords = False`)
-    matches the pre-Stage-14 production builder: walk `folder_path` per category,
-    strip the `KEYWORDS:` header line from each chunk's text, store keywords in
-    metadata only.
-
-    Stage-14 ablation modes:
-
-    * `keep_keywords=True`  — leave the `KEYWORDS:` line *inside* `page_content`
-      so the embedder sees the dense token list (cells A and C).
-    * `chunk_size != NATIVE_CHUNK_WORDS` — reconstruct the original document text
-      by concatenating its native 400-word chunks (in `0001.txt`, `0002.txt`, …
-      order, with the 30-word overlap removed), then re-chunk at the requested
-      size with overlap `chunk_size // 13` (mirrors the canonical 400/30 ratio).
-      Note: raw documents are not on disk in this checkout, so reconstruction
-      goes from native chunks rather than the original raw text. Word boundaries
-      at the original chunk seams are preserved as-is — see Stage 14 report for
-      the methodological caveat.
-
-    Returns a list of `langchain_core.documents.Document` objects with metadata
-    {source_file, category, doc_name, keywords}.
-    """
     if chunk_size <= 0:
         raise ValueError(f"chunk_size must be > 0, got {chunk_size!r}")
     overlap = max(1, chunk_size // 13) if chunk_size != NATIVE_CHUNK_WORDS else NATIVE_OVERLAP_WORDS
 
-    skipped_pdf_artifact = 0  # see _MAX_MEAN_WORD_LEN_CHARS constant
+    skipped_pdf_artifact = 0
 
-    # First, group source files by (category, doc_name).
     groups: dict = {}
     for cat in CATEGORIES:
         cat_dir = os.path.join(folder_path, cat)
@@ -110,13 +57,6 @@ def _load_documents(folder_path: str, *, chunk_size: int = NATIVE_CHUNK_WORDS,
                 file_path = os.path.join(root, file)
 
                 if file.endswith(".json"):
-                    # JSON chunks (cardiology Articles only — the other three
-                    # specialists, endocrinology / gastroenterology / infectiology,
-                    # use the conventional 0001.txt … layout for every category)
-                    # are kept as a single virtual "document" — no re-chunking
-                    # applied (would require text structure we don't have).
-                    # Honour keep_keywords for these too: JSON entries do not
-                    # carry a KEYWORDS header, so the flag is a no-op here.
                     with open(file_path, "r", encoding="utf-8") as f:
                         try:
                             data = json.load(f)
@@ -147,7 +87,7 @@ def _load_documents(folder_path: str, *, chunk_size: int = NATIVE_CHUNK_WORDS,
                     keyword_line = ""
                     for line in lines:
                         if line.startswith("KEYWORDS:"):
-                            keyword_line = line  # full line, including the prefix
+                            keyword_line = line
                         else:
                             body_lines.append(line)
                     body = "\n".join(body_lines).strip()
@@ -182,12 +122,10 @@ def _load_documents(folder_path: str, *, chunk_size: int = NATIVE_CHUNK_WORDS,
                         "doc_name": doc_name,
                     })
 
-    # Now emit Documents: native chunk-size = native, otherwise re-chunk per doc.
     documents: List[Document] = []
     for key, items in groups.items():
         first = items[0]
         if first["kind"] == "json":
-            # JSON: pass through as-is.
             it = items[0]
             documents.append(Document(
                 page_content=it["text"],
@@ -201,7 +139,6 @@ def _load_documents(folder_path: str, *, chunk_size: int = NATIVE_CHUNK_WORDS,
             continue
 
         if chunk_size == NATIVE_CHUNK_WORDS:
-            # Native path: one Document per source .txt chunk.
             for it in items:
                 content = it["body"]
                 if keep_keywords and it["keyword_line"]:
@@ -218,7 +155,6 @@ def _load_documents(folder_path: str, *, chunk_size: int = NATIVE_CHUNK_WORDS,
                     },
                 ))
         else:
-            # Re-chunk path: reconstruct body, then re-chunk at the new size.
             sorted_items = sorted(items, key=lambda it: it["file"])
             reconstructed_words: list = []
             for i, it in enumerate(sorted_items):
@@ -226,10 +162,8 @@ def _load_documents(folder_path: str, *, chunk_size: int = NATIVE_CHUNK_WORDS,
                 if i == 0:
                     reconstructed_words.extend(w)
                 else:
-                    # Drop the first NATIVE_OVERLAP_WORDS to undo the 400-word sliding window.
                     reconstructed_words.extend(w[NATIVE_OVERLAP_WORDS:])
 
-            # Slide a (chunk_size, overlap) window across reconstructed_words.
             step = chunk_size - overlap
             n = len(reconstructed_words)
             chunk_idx = 0
@@ -279,10 +213,8 @@ def _build_index(specialty: str, *, chunk_size: int = NATIVE_CHUNK_WORDS,
     folder_path = cfg["folder_path"]
 
     if chunk_size == NATIVE_CHUNK_WORDS and not keep_keywords:
-        # Default cell: write to the registry-canonical folder.
         out_folder = folder_path
     else:
-        # Ablation cell: write to a sibling directory so the production index is preserved.
         suffix = f"_{chunk_size}_{'keep' if keep_keywords else 'strip'}"
         out_folder = os.path.join(os.path.dirname(folder_path),
                                   os.path.basename(folder_path) + suffix)

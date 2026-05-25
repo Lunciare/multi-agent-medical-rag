@@ -1,15 +1,4 @@
 #!/usr/bin/env python3
-"""Read-only diagnostic: print per-disagreement context for the multi-judge run.
-
-Given the raw CSV from evaluate_generation.py --mode multi_judge, this script
-re-derives each disagreement case, replays retrieval against the live FAISS
-index, regenerates the answer with the same agent prompt, and writes a markdown
-report that lists query / first-500-chars-of-context / answer / each judge's
-verdict for each disagreement.
-
-No new labels are produced — this is purely diagnostic output the author can
-reference when writing report_final.md §5.3.
-"""
 
 import argparse
 import csv

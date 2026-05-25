@@ -1,1 +1,1 @@
-from .specialist import SpecialistAgent  # noqa: F401
+from .specialist import SpecialistAgent

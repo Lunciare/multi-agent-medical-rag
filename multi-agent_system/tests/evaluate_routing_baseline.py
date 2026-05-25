@@ -1,20 +1,4 @@
 #!/usr/bin/env python3
-"""Evaluate non-LLM routing baselines against a golden split.
-
-Two baselines:
-  - keyword_route: hand-curated cardiology keyword dictionary (rules-based).
-  - tfidf_route:   TF-IDF (1-2 grams) + LogisticRegression trained on
-                   `golden_dev.json` via `train_tfidf_router.py` (Stage 15).
-
-Both are run on the chosen split (`--split dev|test|all`, default `test`) and
-the per-domain / per-tier / overall accuracies are printed alongside Wilson
-95% CIs computed via `tests._stats.fmt`.
-
-The script also runs both baselines on `ambiguous_cases.json` so the §4.2 table
-in `report_final.md` can be filled in with a TF-IDF column. The LLM Router's
-predictions on the same ambiguous cases live in `evaluate_routing.py`'s output;
-they are not re-derived here.
-"""
 
 import argparse
 import json
@@ -28,17 +12,6 @@ from logging_config import configure_logging
 from tests._stats import fmt as _fmt
 
 
-# Stage 39 four-specialist extension:
-#   The pre-Stage-39 baseline was a binary cardio-vs-rest rule. It now
-#   needs an explicit precedence between four specialty keyword sets.
-#   Precedence rule: count how many distinct keywords from each specialty's
-#   set appear in the query; pick the specialty with the highest count; on
-#   ties, fall back to the registry order (cardiologist, endocrinologist,
-#   gastroenterologist, infectionist). Endocrinology is the historical
-#   default if no specialty has any keyword hit (kept for backward
-#   compatibility with the Stage 1 baseline — the most common "default"
-#   case in the 2-specialty world was endocrine because cardiology had a
-#   richer keyword vocabulary).
 CARDIO_KEYWORDS = {
     'chest pain', 'palpitation', 'dyspnea', 'syncope', 'edema',
     'murmur', 'gallop', 'jugular', 'claudication', 'orthopnea',
@@ -95,8 +68,6 @@ INFECT_KEYWORDS = {
     'infection', 'infectious',
 }
 
-# Order used for tie-break in keyword_route — matches AGENT_REGISTRY's iteration
-# order, which in turn matches the routing prompt's enumeration.
 _KEYWORD_SETS_IN_REGISTRY_ORDER = [
     ('cardiologist', CARDIO_KEYWORDS),
     ('endocrinologist', ENDO_KEYWORDS),
@@ -112,14 +83,6 @@ SPLIT_TO_FILENAME = {
 
 
 def keyword_route(query):
-    """Highest-keyword-count specialty wins; registry order breaks ties.
-
-    Empty hits across all four specialties → fall back to 'endocrinologist'
-    (preserves the Stage 1 baseline's tie-break behaviour). The 4-specialist
-    extension changes this from a binary cardio-vs-rest rule (Stage 1) to a
-    multi-class counter; tie-breaks now follow registry order — see comment
-    on _KEYWORD_SETS_IN_REGISTRY_ORDER above.
-    """
     q = query.lower()
     best_specialty = None
     best_count = 0
@@ -129,7 +92,7 @@ def keyword_route(query):
             best_count = count
             best_specialty = specialty
     if best_specialty is None:
-        return 'endocrinologist'  # Stage 1 default
+        return 'endocrinologist'
     return best_specialty
 
 

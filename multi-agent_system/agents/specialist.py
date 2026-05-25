@@ -1,11 +1,3 @@
-"""Generic specialist RAG agent.
-
-Replaces the previous one-class-per-specialty pattern (`CardiologistAgent`,
-`EndocrinologistAgent`). All specialty-specific data — name, knowledge-base
-path, system prompt, domain scope description — comes from
-`agents.registry.AGENT_REGISTRY`. Adding a new specialist (e.g. dermatologist)
-is then a 1-entry registry append, not a 200-line new class.
-"""
 
 from __future__ import annotations
 
@@ -40,23 +32,6 @@ NO_EVIDENCE = "No evidence retrieved."
 
 
 class SpecialistAgent(BaseMedicalAgent):
-    """Single concrete RAG agent parameterised by specialty.
-
-    Constructor:
-        SpecialistAgent(
-            name="Cardiologist",
-            folder_path="data/processed/cardiology",
-            role_prompt="<full system prompt for cardiology>",
-            domain_scope="cardiovascular disorders, ...",
-        )
-
-    `name` is the display string returned as the first element of `answer()`.
-    `folder_path` is the data/processed/{specialty} directory holding the
-    FAISS index and (on cold start) the chunked source documents.
-    `role_prompt` is the verbatim system prompt sent to the LLM.
-    `domain_scope` is a one-line description consumed by the orchestrator's
-    routing prompt — see `orchestrator.MedicalOrchestrator.route`.
-    """
 
     def __init__(self, *, name: str, folder_path: str, role_prompt: str,
                  domain_scope: str) -> None:
@@ -95,7 +70,6 @@ class SpecialistAgent(BaseMedicalAgent):
                     faiss_save_path)
         self.vectorstore.save_local(faiss_save_path)
 
-    # ----- document loading (consolidated from cardio + endo) -----
 
     @staticmethod
     def _load_documents(folder_path: str) -> List[Document]:
@@ -155,7 +129,6 @@ class SpecialistAgent(BaseMedicalAgent):
                     )
         return documents
 
-    # ----- refusal gate -----
 
     @property
     def refusal_gate(self):
@@ -166,13 +139,12 @@ class SpecialistAgent(BaseMedicalAgent):
                 specialty=specialty,
                 processed_dir=self.folder_path,
                 l2_reject_min=L2_REJECT_MIN,
-                corpus_dist_k=1.0,  # Signal B parameter; inert when REFUSAL_GATE_SIGNAL=='A'.
+                corpus_dist_k=1.0,
                 signal=REFUSAL_GATE_SIGNAL,
                 top_k=SIMILARITY_TOP_K,
             )
         return self._refusal_gate
 
-    # ----- BaseMedicalAgent contract -----
 
     def embed_query(self, query: str) -> List[float]:
         return self.embeddings.embed_query(query)

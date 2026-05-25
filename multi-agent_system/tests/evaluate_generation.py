@@ -36,7 +36,6 @@ SPLIT_TO_FILENAME = {
 
 
 def _legacy_judge_faithfulness(query, context, generated_answer):
-    """Original single-judge implementation, preserved for --mode yandex_only."""
     judge_user_prompt = (
         f"--- CLINICAL QUERY ---\n{query}\n\n"
         f"--- RETRIEVED CONTEXT ---\n{context}\n\n"
@@ -230,7 +229,7 @@ def _write_outputs(judges, per_case_rows, stats_by_judge, split,
     try:
         from sklearn.metrics import cohen_kappa_score
     except ImportError:
-        cohen_kappa_score = None  # type: ignore[assignment]
+        cohen_kappa_score = None
 
     pairs = []
     for i in range(len(judges)):
@@ -391,20 +390,6 @@ def _write_outputs(judges, per_case_rows, stats_by_judge, split,
 
 
 def _gwet_ac1(pairs: list) -> float:
-    """Gwet's AC1 for two binary raters.
-
-    `pairs` is a list of `(label_a, label_b)` tuples (booleans in the
-    multi-judge pipeline: True = FAITHFUL, False = HALLUCINATION).
-    Returns Gwet's AC1, which is robust to the marginal-zero case
-    where Cohen's κ degenerates: it uses the empirical class prior
-    (averaged across raters) to compute chance agreement, which only
-    vanishes when both raters tie on the same extreme.
-
-    Binary, two-rater formula:
-        π = (# of "True" labels across both raters) / (2 · n)
-        p_e = 2 · π · (1 − π)
-        AC1 = (p_o − p_e) / (1 − p_e)
-    """
     n = len(pairs)
     if n == 0:
         return float("nan")
@@ -419,10 +404,6 @@ def _gwet_ac1(pairs: list) -> float:
 
 
 def _landis_koch_band(coeff: float) -> str:
-    """Map a chance-corrected agreement coefficient (κ or AC1) to the
-    Landis & Koch (1977) qualitative band. Used for both Cohen's κ and
-    Gwet's AC1 — the banding is conventionally defined on κ but
-    applies cleanly to any [-1, 1]-bounded chance-corrected statistic."""
     if coeff is None or math.isnan(coeff):
         return "undefined"
     if coeff < 0.0:
@@ -438,14 +419,6 @@ def _landis_koch_band(coeff: float) -> str:
 
 def _landis_koch(kappa: float, *, both_labels_seen_a: int, both_labels_seen_b: int,
                  n: int, agreements: int, ac1: float = float("nan")) -> str:
-    """Qualitative agreement band for the multi-judge table.
-
-    When Cohen's κ is well-defined, return its Landis-Koch band.
-    When κ is degenerate (one rater's marginal class probability = 0),
-    fall back to Gwet's AC1 — which is well-defined in that regime —
-    and prefix the band with `via AC1` so the reader sees which
-    statistic drove the verdict.
-    """
     if both_labels_seen_a < 2 or both_labels_seen_b < 2:
         ac1_band = _landis_koch_band(ac1)
         return (

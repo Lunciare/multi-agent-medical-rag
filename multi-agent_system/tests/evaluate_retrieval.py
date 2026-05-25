@@ -25,8 +25,6 @@ BOOTSTRAP_SEED = 12345
 
 
 def _bootstrap_mean_ci(values, B=BOOTSTRAP_B, seed=BOOTSTRAP_SEED, alpha=0.05):
-    """Percentile-method bootstrap CI for the mean of `values`.
-    Returns (mean, lo, hi). Returns (0.0, 0.0, 0.0) if values is empty."""
     if not values:
         return 0.0, 0.0, 0.0
     arr = np.asarray(values, dtype=float)
@@ -40,12 +38,10 @@ _BM25_TOKEN_RE = re.compile(r"[a-zA-Z0-9]+")
 
 
 def _bm25_tokenize(text: str) -> list[str]:
-    """Mirror of build_bm25_index.tokenize — must stay in sync."""
     return [t for t in _BM25_TOKEN_RE.findall(text.lower()) if len(t) >= 2]
 
 
 def _load_bm25_indices() -> dict:
-    """Load per-specialty BM25 pickles. Returns {specialty_key: payload-dict}."""
     out = {}
     for key, cfg in AGENT_REGISTRY.items():
         path = os.path.join(cfg["folder_path"], "bm25_index.pkl")
@@ -64,7 +60,6 @@ def _load_bm25_indices() -> dict:
 
 
 def _bm25_topk_doc_keys(bm25_state, query: str, k: int = SIMILARITY_TOP_K) -> list[str]:
-    """Top-K doc_name strings (with source_file fallback) from the BM25 index."""
     tokens = _bm25_tokenize(query)
     scores = bm25_state["bm25"].get_scores(tokens)
     top_idx = np.argsort(scores)[-k:][::-1]
@@ -77,7 +72,6 @@ def _bm25_topk_doc_keys(bm25_state, query: str, k: int = SIMILARITY_TOP_K) -> li
 
 
 def _recall_mrr_from_keys(retrieved_keys: list[str], gold_keys: set[str]):
-    """Compute (Recall@K, MRR@K, hit_count) from doc-key lists, or None tuple if gold empty."""
     if not gold_keys:
         return None, None, 0
     gold_set = set(gold_keys)
@@ -116,12 +110,6 @@ def run_smoke_test():
         print(f"Smoke Test Failed: Could not load dataset. {e}")
         sys.exit(1)
 
-    # Stage 39 / Prompt 2: dataset grew from 100 to 200 cases (4-specialist),
-    # 50 per specialty. Per-specialty tier counts:
-    #   cardiologist     : 27 T1 / 14 T2 / 9 T3   (original)
-    #   endocrinologist  : 27 T1 / 16 T2 / 7 T3   (original)
-    #   gastroenterologist: 27 T1 / 15 T2 / 8 T3  (new — Prompt 2)
-    #   infectionist     : 27 T1 / 15 T2 / 8 T3   (new — Prompt 2)
     expected_total = 200
     expected_per_specialty = 50
     expected_tiers = {
@@ -187,7 +175,6 @@ def run_smoke_test():
     sys.exit(0)
 
 def _precision_at_k(docs, keywords):
-    """Fraction of retrieved chunks that contain at least one expected keyword."""
     if not docs:
         return 0.0
     chunk_hits = sum(
@@ -198,11 +185,6 @@ def _precision_at_k(docs, keywords):
 
 
 def _doc_keys_from_gold(gold_sources):
-    """Convert a list of gold source dicts to a set of doc identifiers.
-
-    Matching is on doc_name when present (which is unique across the corpus);
-    otherwise on source_file as a fallback. Returns a frozenset of strings.
-    """
     keys = set()
     for g in gold_sources or []:
         if isinstance(g, dict):
@@ -215,17 +197,11 @@ def _doc_keys_from_gold(gold_sources):
 
 
 def _doc_key_of(doc):
-    """Doc-level identity for a retrieved chunk. Matches the gold annotation key."""
     md = getattr(doc, "metadata", {}) or {}
     return md.get("doc_name") or md.get("source_file")
 
 
 def _recall_at_k(retrieved_docs, gold_sources):
-    """Fraction of gold sources that appear at least once in retrieved_docs.
-
-    Returns None if gold_sources is empty (e.g., Tier 3 with no correct chunk,
-    or an unannotated Tier 1/2 case).
-    """
     gold_keys = _doc_keys_from_gold(gold_sources)
     if not gold_keys:
         return None
@@ -234,8 +210,6 @@ def _recall_at_k(retrieved_docs, gold_sources):
 
 
 def _mrr_at_k(retrieved_docs, gold_sources):
-    """Reciprocal rank of the first retrieved gold source. 0 if none of the gold
-    documents appear in the top-K. Returns None if gold_sources is empty."""
     gold_keys = _doc_keys_from_gold(gold_sources)
     if not gold_keys:
         return None
@@ -255,7 +229,6 @@ def _wilson_ci(successes, total):
 
 
 def _load_case_by_id(case_id):
-    """Find a case across any of the dev/test/all splits."""
     for split in ("all", "test", "dev"):
         for case in _load_split(split):
             if case["id"] == case_id:
@@ -264,13 +237,6 @@ def _load_case_by_id(case_id):
 
 
 def print_sources(case_id, top_k=20):
-    """Debug helper for the annotation workflow.
-
-    Retrieves the top-K chunks for the given case, ignores MAX_L2_DISTANCE
-    (so even barely-retrieved chunks are shown for context), and prints each
-    chunk's metadata + first 200 chars + keyword match count, so a human
-    annotator can decide which documents actually contain the answer.
-    """
     case = _load_case_by_id(case_id)
     orchestrator = MedicalOrchestrator(DEFAULT_KNOWLEDGE_BASE_DIR)
     agent = orchestrator.agents.get(case["expected_specialist"])
@@ -314,19 +280,12 @@ def print_sources(case_id, top_k=20):
 
 
 def evaluate_retrieval(split="test", kb: str | None = None):
-    """If `kb` is set (e.g. "cardiology_400_keep"), evaluate only that
-    specialty's cardiology cases against an alternate FAISS directory under
-    `data/processed/{kb}/faiss_index/`. Used by the Stage 14 ablation.
-    Otherwise behaves exactly as before, loading both registry-configured
-    specialty indices.
-    """
     print(f"Initializing components for retrieval evaluation (split={split}, "
           f"kb={kb or 'production'})...")
     dataset = _load_split(split)
 
     if kb is not None:
-        # Ablation mode: cardiology only, alternate FAISS dir.
-        base = os.path.dirname(DEFAULT_KNOWLEDGE_BASE_DIR)  # .../data/processed
+        base = os.path.dirname(DEFAULT_KNOWLEDGE_BASE_DIR)
         kb_folder = os.path.join(base, kb)
         if not os.path.exists(os.path.join(kb_folder, "faiss_index")):
             print(f"Error: FAISS index missing at {os.path.join(kb_folder, 'faiss_index')}. "
@@ -346,7 +305,6 @@ def evaluate_retrieval(split="test", kb: str | None = None):
                 self.agents = {"cardiologist": cardio}
 
         orchestrator = _AblationOrchestrator(cardio)
-        # Filter the split to cardiology only (the ablation is cardio-only per Stage 14 scope).
         before_n = len(dataset)
         dataset = [c for c in dataset if c["expected_specialist"] == "cardiologist"]
         print(f"  Ablation kb={kb!r} — filtered dataset to {len(dataset)}/{before_n} "
@@ -360,8 +318,6 @@ def evaluate_retrieval(split="test", kb: str | None = None):
 
     total_queries = len(dataset)
 
-    # Stage 39: all per-domain accumulators are now built from AGENT_REGISTRY
-    # so the eval scales to any number of specialists without code changes.
     REG_DOMAINS = sorted(AGENT_REGISTRY.keys())
     domain_hits = {k: 0 for k in REG_DOMAINS}
     domain_precision_sum = {k: 0.0 for k in REG_DOMAINS}
@@ -377,27 +333,19 @@ def evaluate_retrieval(split="test", kb: str | None = None):
     tier_labels = {}
     tier3_results = []
 
-    # New grounded metrics — gold_sources-based.
-    # domain-level
     domain_recall_sum = {k: 0.0 for k in REG_DOMAINS}
     domain_mrr_sum    = {k: 0.0 for k in REG_DOMAINS}
     domain_recall_n   = {k: 0   for k in REG_DOMAINS}
-    # Per-case reciprocal-rank lists for bootstrap CIs (Stage 27).
     domain_mrr_per_case = {k: [] for k in REG_DOMAINS}
-    # tier-level (only T1/T2 contribute)
     tier_recall_sum = defaultdict(float)
     tier_mrr_sum    = defaultdict(float)
     tier_recall_n   = defaultdict(int)
     tier_mrr_per_case = defaultdict(list)
-    # Tier 3 refusal — fraction of T3 cases where zero chunks were retrieved.
     tier3_refusals = defaultdict(int)
     tier3_count    = defaultdict(int)
-    # RefusalGate (Stage 7) — gate's refusal verdict counted per-tier/per-domain.
     gate_refusals = defaultdict(int)
     gate_totals   = defaultdict(int)
 
-    # Stage 13 — FAISS / BM25 / Random / Oracle comparison. The (domain, tier)
-    # key grid is auto-expanded to every (registry_key, T1/T2) pair.
     METHODS = ("faiss", "bm25", "random", "oracle")
     pooled_hits = {(domain, tier, m): 0
                    for domain in REG_DOMAINS
@@ -418,13 +366,11 @@ def evaluate_retrieval(split="test", kb: str | None = None):
     print("\nLoading BM25 indices…")
     bm25_indices = _load_bm25_indices()
 
-    # Per-specialty document pool for the random baseline — built per registry key.
     domain_pool = {
         k: list(orchestrator.agents[k].vectorstore.docstore._dict.values())
         for k in REG_DOMAINS
         if orchestrator.agents.get(k) is not None
     }
-    # Specialties absent from the (ablation-mode) orchestrator get an empty pool.
     for k in REG_DOMAINS:
         domain_pool.setdefault(k, [])
     rng = random.Random(RANDOM_BASELINE_SEED)
@@ -484,16 +430,11 @@ def evaluate_retrieval(split="test", kb: str | None = None):
                 tier_recall_n[(expected_agent, tier)]   += 1
                 tier_mrr_per_case[(expected_agent, tier)].append(mrr)
 
-            # Stage 13 — FAISS / BM25 / Random / Oracle pooled comparison.
             gold_keys = _doc_keys_from_gold(gold_sources)
             if gold_keys:
-                # FAISS doc-keys (top-K is already filtered to L2 ≤ MAX_L2_DISTANCE; for
-                # apples-to-apples comparison we use the raw top-K from the FAISS index,
-                # i.e. `docs_and_scores` not `retrieved_docs`).
                 faiss_keys = [_doc_key_of(d) for d, _s in docs_and_scores[:SIMILARITY_TOP_K]]
                 faiss_recall, faiss_mrr, faiss_hits = _recall_mrr_from_keys(faiss_keys, gold_keys)
 
-                # BM25 doc-keys.
                 bm25_state = bm25_indices.get(expected_agent)
                 if bm25_state is None:
                     bm25_keys = []
@@ -501,13 +442,11 @@ def evaluate_retrieval(split="test", kb: str | None = None):
                     bm25_keys = _bm25_topk_doc_keys(bm25_state, query, k=SIMILARITY_TOP_K)
                 bm25_recall, bm25_mrr, bm25_hits = _recall_mrr_from_keys(bm25_keys, gold_keys)
 
-                # Random doc-keys — sample from the specialty's docstore.
                 pool = domain_pool[expected_agent]
                 random_docs_topk = rng.sample(pool, min(SIMILARITY_TOP_K, len(pool)))
                 random_keys = [_doc_key_of(d) for d in random_docs_topk]
                 random_recall, random_mrr, random_hits = _recall_mrr_from_keys(random_keys, gold_keys)
 
-                # Oracle — by construction every gold doc is retrieved at rank 1..len(gold).
                 oracle_hits = len(gold_keys)
                 oracle_mrr = 1.0
 
@@ -622,7 +561,6 @@ def evaluate_retrieval(split="test", kb: str | None = None):
             print(f"  {case_id:<15} Chunks retrieved: {count:<2} {flag}")
         print(f"{'=' * 60}")
 
-    # === New grounded metrics (Recall@K, MRR@K) ===
     print(f"\n{'=' * 95}")
     print(f"  Grounded Retrieval Metrics  (K={SIMILARITY_TOP_K}, against gold_sources)")
     print(f"  Recall@K — fraction of gold documents that appear in the retrieved set.")
@@ -679,7 +617,6 @@ def evaluate_retrieval(split="test", kb: str | None = None):
                   f"{recall:>9.1%} {mrr_str:>30} {n:>6} {tier_legacy:>17.1%}")
     print(f"{'=' * 95}")
 
-    # RefusalGate (Stage 7) — separate from the legacy zero-chunk metric.
     print(f"\n{'=' * 95}")
     print(f"  RefusalGate Verdicts  (Stage 7 numeric gate; Wilson 95% CI on refusal rate)")
     print(f"  Positive class = Tier 3 (target ≥80% recall on test).")
@@ -713,7 +650,6 @@ def evaluate_retrieval(split="test", kb: str | None = None):
           f"{gate_t12_refused:>8} {gate_t12_total:>6}  {_fmt(gate_t12_refused, gate_t12_total):<30}")
     print(f"{'=' * 95}")
 
-    # === FAISS / BM25 / Random / Oracle comparison (Stage 13) ===
     print(f"\n{'=' * 110}")
     print(f"  Retriever Comparison — Recall@5 and MRR@5 (Wilson 95% CI on pooled gold-doc Recall)")
     print(f"  Methods: FAISS dense (Yandex 256-d), BM25 (rank-bm25, tokens lc/alphanum/≥2 chars), "

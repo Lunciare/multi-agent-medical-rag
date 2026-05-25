@@ -1,24 +1,4 @@
 #!/usr/bin/env python3
-"""Annotate `gold_sources` on golden_dataset.json.
-
-Two modes:
-
-  --interactive : for each Tier 1/2 case, prints the top-K retrieved sources and
-                  prompts [y/n/s/q] per document. Pick up to N gold docs per case.
-                  Marks every Tier 3 case as gold_sources=[].
-                  This is the workflow described in the Stage 6 task.
-
-  --auto        : non-interactive heuristic. For each Tier 1/2 case, retrieves
-                  the top-K chunks, aggregates by doc_name, ranks by (unique
-                  keyword hits desc, first appearance rank asc, chunk count desc),
-                  and writes the top documents that have ≥1 expected-keyword hit
-                  back as gold_sources. Tier 3 cases get [].
-                  Used as the initial pass so the metric is computable without
-                  manual labour; a student can refine via --interactive later.
-
-Both modes write back to multi-agent_system/tests/data/golden_dataset.json
-(and propagate the changes to golden_dev.json + golden_test.json).
-"""
 
 import argparse
 import json
@@ -49,9 +29,6 @@ def _save(path, dataset):
 
 
 def _retrieve_top_k(orchestrator, case, top_k):
-    # Pre-Stage-32 this function hardcoded {cardiologist, endocrinologist};
-    # the four-specialist registry (PR #1 + Stage 36 indices) means we can now
-    # resolve any registered specialty via `case["expected_specialist"]`.
     sp = case["expected_specialist"]
     if sp not in orchestrator.agents:
         raise KeyError(
@@ -63,9 +40,6 @@ def _retrieve_top_k(orchestrator, case, top_k):
 
 
 def _aggregate_docs(docs_and_scores, expected_keywords):
-    """Group retrieved chunks by doc_name. Returns a list of dicts ranked by
-    (unique_kw_hits desc, first_rank asc, chunks desc).
-    """
     kw_lower = [k.lower() for k in expected_keywords]
     by_doc = {}
     for rank, (doc, score) in enumerate(docs_and_scores, start=1):
