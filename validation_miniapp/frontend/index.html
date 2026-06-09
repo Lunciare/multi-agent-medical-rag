@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Оценка ответов</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <div id="app">
+    <!-- Screen: Welcome / consent -->
+    <section id="screen-welcome" class="screen">
+      <h1>Оценка ответов</h1>
+      <p class="lead">
+        Спасибо за участие. Вам будет показано несколько случаев. Для каждого вы увидите
+        <b>два ответа</b> и оцените, какой из них лучше, а затем ответите на короткий вопрос.
+      </p>
+      <ul class="notes">
+        <li>Правильного ответа здесь нет — оценивайте честно, по своему профессиональному мнению.</li>
+        <li>Участие анонимно. Сохраняются только ваши оценки, без личных данных.</li>
+        <li>Вы можете прерваться и вернуться позже — прогресс сохраняется.</li>
+      </ul>
+      <p id="welcome-status" class="muted"></p>
+    </section>
+
+    <!-- Screen: blind comparison -->
+    <section id="screen-compare" class="screen hidden">
+      <div class="progress" id="progress-bar">Случай <span id="case-i">–</span> из <span id="case-n">–</span></div>
+      <div class="case-block">
+        <h2>Случай</h2>
+        <p id="case-text" class="case-text"></p>
+      </div>
+
+      <div class="answers-toggle hidden" id="answers-toggle">
+        <button type="button" data-target="1" class="toggle-btn active">Ответ 1</button>
+        <button type="button" data-target="2" class="toggle-btn">Ответ 2</button>
+      </div>
+
+      <div class="answers" id="answers">
+        <div class="answer-col" id="col-1">
+          <h3>Ответ 1</h3>
+          <p class="answer-text" id="answer-1"></p>
+          <label class="safety">
+            <input type="checkbox" id="safety-1" />
+            Этот ответ содержит потенциально небезопасную рекомендацию
+          </label>
+        </div>
+        <div class="answer-col" id="col-2">
+          <h3>Ответ 2</h3>
+          <p class="answer-text" id="answer-2"></p>
+          <label class="safety">
+            <input type="checkbox" id="safety-2" />
+            Этот ответ содержит потенциально небезопасную рекомендацию
+          </label>
+        </div>
+      </div>
+
+      <fieldset class="pref">
+        <legend>Какой ответ лучше?</legend>
+        <label><input type="radio" name="preference" value="opt1_strong" /> Ответ 1 явно лучше</label>
+        <label><input type="radio" name="preference" value="opt1_weak" /> Ответ 1 немного лучше</label>
+        <label><input type="radio" name="preference" value="tie" /> Примерно одинаково</label>
+        <label><input type="radio" name="preference" value="opt2_weak" /> Ответ 2 немного лучше</label>
+        <label><input type="radio" name="preference" value="opt2_strong" /> Ответ 2 явно лучше</label>
+      </fieldset>
+    </section>
+
+    <!-- Screen: routing judgment (shown after comparison) -->
+    <section id="screen-routing" class="screen hidden">
+      <h2>Выбор специалиста</h2>
+      <p class="lead">
+        Система по своему устройству выбирает <b>ровно одного</b> специалиста для каждого случая.
+        Для этого случая был выбран:
+      </p>
+      <p class="routed"><span id="routed-specialty"></span></p>
+      <p class="muted">Доступные специалисты: <span id="available-specialties"></span></p>
+      <fieldset class="pref">
+        <legend>Насколько уместен этот выбор?</legend>
+        <label><input type="radio" name="routing" value="correct" /> Верный выбор</label>
+        <label><input type="radio" name="routing" value="acceptable_incomplete" /> Допустимо, но неполно</label>
+        <label><input type="radio" name="routing" value="incorrect" /> Неверный выбор</label>
+      </fieldset>
+    </section>
+
+    <!-- Screen: done -->
+    <section id="screen-done" class="screen hidden">
+      <h1>Готово</h1>
+      <p class="lead">Вы оценили все случаи. Спасибо за вашу работу!</p>
+    </section>
+
+    <!-- Screen: survey closed -->
+    <section id="screen-closed" class="screen hidden">
+      <h1>Опрос завершён</h1>
+      <p class="lead">Спасибо за участие!</p>
+    </section>
+
+    <p id="error" class="error hidden"></p>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

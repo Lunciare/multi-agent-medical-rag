@@ -31,8 +31,20 @@ data/processed/**/faiss_index/
 *.pkl
 *.faiss
 
-# HuggingFace datasets / hub local caches
 .cache/huggingface/
 huggingface/
 .huggingface/
 hf_cache/
+
+*.db
+*.sqlite3
+validation_miniapp/data/*.db
+validation_miniapp/exports/*.csv
+validation_miniapp/.env
+validation_miniapp/.venv/
+validation_miniapp/data/items.json
+miniapp-data/
+validation_miniapp/tools/items_raw*.json
+validation_miniapp/data/*.review.md
+validation_miniapp/results/
+validation_miniapp/tools/run_cases.config.json

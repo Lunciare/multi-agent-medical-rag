@@ -1,0 +1,38 @@
+[
+  {
+    "item_id": "dummy-001",
+    "case_ru": "[ЗАГЛУШКА — НЕ МЕДИЦИНСКИЙ ТЕКСT] Турист спрашивает, как добраться от вокзала до центральной площади: пешком вдоль реки или на трамвае номер 5.",
+    "gold_specialty": "cardiology",
+    "routed_specialty": "cardiology",
+    "available_specialties": ["cardiology", "endocrinology", "gastroenterology", "infectious_diseases"],
+    "answer_rag_ru": "[ЗАГЛУШКА: ОТВЕТ A] Пешком вдоль реки около 15 минут, есть указатели. Трамвай номер 5 идёт 6 минут, остановка прямо у площади. В дождь удобнее трамвай.",
+    "answer_vanilla_ru": "[ЗАГЛУШКА: ОТВЕТ B] Можно дойти пешком или доехать на трамвае. Оба варианта приведут вас к площади."
+  },
+  {
+    "item_id": "dummy-002",
+    "case_ru": "[ЗАГЛУШКА — НЕ МЕДИЦИНСКИЙ ТЕКСТ] Читатель спрашивает, как полить комнатное растение, которое стоит на солнечном подоконнике летом.",
+    "gold_specialty": "endocrinology",
+    "routed_specialty": "endocrinology",
+    "available_specialties": ["cardiology", "endocrinology", "gastroenterology", "infectious_diseases"],
+    "answer_rag_ru": "[ЗАГЛУШКА: ОТВЕТ A] Летом на солнце поливайте примерно раз в два-три дня, проверяя верхний слой почвы: если сухой на глубину фаланги пальца — пора поливать. Утром лучше, чем в полдень.",
+    "answer_vanilla_ru": "[ЗАГЛУШКА: ОТВЕТ B] Поливайте растение, когда почва подсохнет. Не заливайте слишком сильно."
+  },
+  {
+    "item_id": "dummy-003",
+    "case_ru": "[ЗАГЛУШКА — НЕ МЕДИЦИНСКИЙ ТЕКСТ] Пользователь спрашивает, как заварить чёрный чай, чтобы он не горчил.",
+    "gold_specialty": "gastroenterology",
+    "routed_specialty": "infectious_diseases",
+    "available_specialties": ["cardiology", "endocrinology", "gastroenterology", "infectious_diseases"],
+    "answer_rag_ru": "[ЗАГЛУШКА: ОТВЕТ A] Используйте воду около 90–95°C, не кипяток, и не держите заварку дольше 3–4 минут. Передержка и слишком горячая вода дают горечь.",
+    "answer_vanilla_ru": "[ЗАГЛУШКА: ОТВЕТ B] Залейте чай горячей водой и подождите. Можно добавить сахар, если горчит."
+  },
+  {
+    "item_id": "dummy-004",
+    "case_ru": "[ЗАГЛУШКА — НЕ МЕДИЦИНСКИЙ ТЕКСТ] Пользователь спрашивает, как почистить велосипедную цепь после дождливой поездки.",
+    "gold_specialty": "infectious_diseases",
+    "routed_specialty": "gastroenterology",
+    "available_specialties": ["cardiology", "endocrinology", "gastroenterology", "infectious_diseases"],
+    "answer_rag_ru": "[ЗАГЛУШКА: ОТВЕТ A] Протрите цепь сухой тряпкой, затем используйте обезжириватель и щётку, просушите и нанесите смазку по одной капле на звено. Лишнюю смазку уберите.",
+    "answer_vanilla_ru": "[ЗАГЛУШКА: ОТВЕТ B] Протрите цепь и смажьте её. Так она прослужит дольше."
+  }
+]

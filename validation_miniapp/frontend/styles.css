@@ -1,0 +1,139 @@
+/* Mobile-first. Colors pull from Telegram theme params (set as CSS vars by app.js),
+   with sane fallbacks so the app is usable in a plain browser too. */
+:root {
+  --bg: var(--tg-theme-bg-color, #ffffff);
+  --text: var(--tg-theme-text-color, #1a1a1a);
+  --hint: var(--tg-theme-hint-color, #707579);
+  --link: var(--tg-theme-link-color, #2a7bd6);
+  --button: var(--tg-theme-button-color, #2a7bd6);
+  --button-text: var(--tg-theme-button-text-color, #ffffff);
+  --secondary-bg: var(--tg-theme-secondary-bg-color, #f1f1f4);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, system-ui, "Segoe UI", Roboto, sans-serif;
+  font-size: 16px;
+  line-height: 1.45;
+}
+
+#app {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 16px 16px 96px;
+}
+
+h1 { font-size: 1.4rem; }
+h2 { font-size: 1.2rem; }
+h3 { font-size: 1rem; margin: 0 0 8px; }
+
+.lead { font-size: 1rem; }
+.muted, .notes { color: var(--hint); }
+.notes { padding-left: 18px; }
+.notes li { margin-bottom: 6px; }
+
+.hidden { display: none !important; }
+
+.progress {
+  font-size: 0.9rem;
+  color: var(--hint);
+  margin-bottom: 12px;
+}
+
+.case-block {
+  background: var(--secondary-bg);
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-bottom: 16px;
+}
+.case-block h2 { margin-top: 0; }
+.case-text { white-space: pre-wrap; }
+
+/* Two columns side-by-side on wide screens. */
+.answers {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.answer-col {
+  background: var(--secondary-bg);
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+.answer-text { white-space: pre-wrap; }
+
+.safety {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  margin-top: 12px;
+  font-size: 0.9rem;
+  color: var(--hint);
+  cursor: pointer;
+}
+.safety input { margin-top: 3px; }
+
+.answers-toggle {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.toggle-btn {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid var(--hint);
+  background: transparent;
+  color: var(--text);
+  border-radius: 10px;
+  font-size: 1rem;
+}
+.toggle-btn.active {
+  background: var(--button);
+  color: var(--button-text);
+  border-color: var(--button);
+}
+
+fieldset.pref {
+  border: none;
+  padding: 0;
+  margin: 0 0 16px;
+}
+fieldset.pref legend { font-weight: 600; margin-bottom: 8px; padding: 0; }
+fieldset.pref label {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+  background: var(--secondary-bg);
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.routed {
+  font-size: 1.2rem;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.error {
+  color: #c0392b;
+  background: #fdecea;
+  padding: 10px 12px;
+  border-radius: 10px;
+  margin-top: 16px;
+}
+
+/* Narrow screens: stack into one column and reveal the A/B toggle. */
+@media (max-width: 560px) {
+  .answers { grid-template-columns: 1fr; }
+  .answers.toggled #col-1,
+  .answers.toggled #col-2 { display: none; }
+  .answers.toggled #col-1.show,
+  .answers.toggled #col-2.show { display: block; }
+}

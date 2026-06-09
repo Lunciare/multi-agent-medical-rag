@@ -1,0 +1,37 @@
+# systemd unit for the validation Mini App.
+# Install:  sudo cp deploy/miniapp.service /etc/systemd/system/miniapp.service
+#           sudo systemctl daemon-reload && sudo systemctl enable --now miniapp
+# Logs:     journalctl -u miniapp -f
+#
+# Assumes the layout documented in docs/deploy_runbook_vps.md:
+#   repo at        /home/melodiz/miniapp
+#   venv at        /home/melodiz/miniapp/.venv   (created by deploy/setup_venv.sh)
+#   env file at    /home/melodiz/miniapp/.env    (chmod 600; holds BOT_TOKEN/ADMIN_TOKEN)
+#   DB + items via DB_PATH / ITEMS_PATH set in that .env (data lives outside the repo).
+
+[Unit]
+Description=Validation Mini App (FastAPI + SQLite, single worker)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=melodiz
+Group=melodiz
+WorkingDirectory=/home/melodiz/miniapp
+EnvironmentFile=/home/melodiz/miniapp/.env
+# Single Uvicorn worker: SQLite is single-writer and the per-rater blinding/order
+# assume one process owns the DB file. Bind to loopback; Caddy/nginx terminates TLS.
+ExecStart=/home/melodiz/miniapp/.venv/bin/uvicorn --factory backend.app:create_app --host 127.0.0.1 --port 8765 --workers 1
+Restart=on-failure
+RestartSec=3
+
+# Light hardening (optional but cheap). The app only needs to write the external
+# data dir; keep that path readable/writable.
+NoNewPrivileges=true
+ProtectSystem=full
+PrivateTmp=true
+ReadWritePaths=/home/melodiz/miniapp-data
+
+[Install]
+WantedBy=multi-user.target

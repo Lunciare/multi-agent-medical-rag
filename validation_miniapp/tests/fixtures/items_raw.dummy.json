@@ -1,0 +1,38 @@
+[
+  {
+    "item_id": "raw-001",
+    "gold_specialty": "cardiology",
+    "available_specialties": ["cardiology", "endocrinology", "gastroenterology", "infectious_diseases"],
+    "routed_specialty": "cardiology",
+    "case_ru": "[ЗАГЛУШКА — НЕ МЕДИЦИНСКИЙ ТЕКСТ] Как добраться от вокзала до площади? [1]",
+    "answer_rag_ru": "RAG_ARM_MARKER Идите вдоль реки около 15 минут [1]. Есть указатели.",
+    "answer_vanilla_ru": "VANILLA_ARM_MARKER Можно дойти пешком [1] или доехать на трамвае."
+  },
+  {
+    "item_id": "raw-002",
+    "gold_specialty": "endocrinology",
+    "available_specialties": ["cardiology", "endocrinology", "gastroenterology", "infectious_diseases"],
+    "routed_specialty": "endocrinology",
+    "case_ru": "[ЗАГЛУШКА] Как поливать растение на солнечном подоконнике летом?",
+    "answer_rag_ru": "RAG_ARM_MARKER Поливайте раз в два-три дня [1], проверяя верхний слой почвы.",
+    "answer_vanilla_ru": "VANILLA_ARM_MARKER Поливайте, когда почва подсохнет [1]. Не заливайте."
+  },
+  {
+    "item_id": "raw-003",
+    "gold_specialty": "gastroenterology",
+    "available_specialties": ["cardiology", "endocrinology", "gastroenterology", "infectious_diseases"],
+    "routed_specialty": "infectious_diseases",
+    "case_ru": "[ЗАГЛУШКА] Как заварить чёрный чай, чтобы он не горчил?",
+    "answer_rag_ru": "RAG_ARM_MARKER Вода около 90–95°C [1], не дольше 3–4 минут.",
+    "answer_vanilla_ru": "VANILLA_ARM_MARKER Залейте чай горячей водой [1] и подождите."
+  },
+  {
+    "item_id": "raw-004",
+    "gold_specialty": "infectious_diseases",
+    "available_specialties": ["cardiology", "endocrinology", "gastroenterology", "infectious_diseases"],
+    "routed_specialty": "gastroenterology",
+    "case_ru": "[ЗАГЛУШКА] Как почистить велосипедную цепь после дождя?",
+    "answer_rag_ru": "RAG_ARM_MARKER Обезжирьте и просушите цепь [1], затем смажьте по капле на звено.",
+    "answer_vanilla_ru": "VANILLA_ARM_MARKER Протрите цепь [1] и смажьте её."
+  }
+]

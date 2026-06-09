@@ -73,8 +73,8 @@ def draw_f1_k_l2_heatmap() -> Path:
     cbar = fig.colorbar(im, ax=ax, fraction=0.04, pad=0.02)
     cbar.set_label("Hit Rate (%)")
 
-    out = FIGURES_DIR / "F1_k_l2_heatmap.svg"
-    fig.savefig(out, format="svg", bbox_inches="tight", pad_inches=0.05)
+    out = FIGURES_DIR / "F1_k_l2_heatmap.png"
+    fig.savefig(out, format="png", bbox_inches="tight", pad_inches=0.05)
     plt.close(fig)
     return out
 
@@ -112,8 +112,8 @@ def draw_f2_refusal_sweep() -> Path:
     ax.legend(loc="upper right", framealpha=0.95)
     ax.grid(True, linestyle=":", alpha=0.4)
 
-    out = FIGURES_DIR / "F2_refusal_sweep.svg"
-    fig.savefig(out, format="svg", bbox_inches="tight", pad_inches=0.05)
+    out = FIGURES_DIR / "F2_refusal_sweep.png"
+    fig.savefig(out, format="png", bbox_inches="tight", pad_inches=0.05)
     plt.close(fig)
     return out
 
@@ -162,8 +162,8 @@ def draw_f3_retriever_bar() -> Path:
     ax.legend(loc="upper left", framealpha=0.95, ncol=4, fontsize=7)
     ax.grid(True, axis="y", linestyle=":", alpha=0.4)
 
-    out = FIGURES_DIR / "F3_retriever_bar.svg"
-    fig.savefig(out, format="svg", bbox_inches="tight", pad_inches=0.05)
+    out = FIGURES_DIR / "F3_retriever_bar.png"
+    fig.savefig(out, format="png", bbox_inches="tight", pad_inches=0.05)
     plt.close(fig)
     return out
 

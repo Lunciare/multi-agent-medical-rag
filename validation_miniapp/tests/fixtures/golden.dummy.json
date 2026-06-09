@@ -1,0 +1,21 @@
+[
+  {"id": "dummy_cardio_1", "tier": 1, "tier_label": "core", "expected_specialist": "cardiologist", "query": "[DUMMY] How do I get from the station to the central square?", "expected_keywords": ["walk"], "gold_sources": []},
+  {"id": "dummy_cardio_2", "tier": 1, "tier_label": "core", "expected_specialist": "cardiologist", "query": "[DUMMY] What tram line reaches the old town?", "expected_keywords": ["tram"], "gold_sources": []},
+  {"id": "dummy_cardio_3", "tier": 2, "tier_label": "peripheral", "expected_specialist": "cardiologist", "query": "[DUMMY] Where can I rent a bike near the river?", "expected_keywords": ["bike"], "gold_sources": []},
+  {"id": "dummy_cardio_4", "tier": 1, "tier_label": "core", "expected_specialist": "cardiologist", "query": "[DUMMY] How long does the ferry across the lake take?", "expected_keywords": ["ferry"], "gold_sources": []},
+
+  {"id": "dummy_endo_1", "tier": 1, "tier_label": "core", "expected_specialist": "endocrinologist", "query": "[DUMMY] How should I water a plant on a sunny windowsill in summer?", "expected_keywords": ["water"], "gold_sources": []},
+  {"id": "dummy_endo_2", "tier": 1, "tier_label": "core", "expected_specialist": "endocrinologist", "query": "[DUMMY] How often to repot a cactus? TRIGGER_VANILLA_FAILURE", "expected_keywords": ["repot"], "gold_sources": []},
+  {"id": "dummy_endo_3", "tier": 2, "tier_label": "peripheral", "expected_specialist": "endocrinologist", "query": "[DUMMY] Which fertiliser suits herbs on a balcony?", "expected_keywords": ["fertiliser"], "gold_sources": []},
+  {"id": "dummy_endo_4", "tier": 1, "tier_label": "core", "expected_specialist": "endocrinologist", "query": "[DUMMY] How much sunlight does basil need?", "expected_keywords": ["sun"], "gold_sources": []},
+
+  {"id": "dummy_gastro_1", "tier": 1, "tier_label": "core", "expected_specialist": "gastroenterologist", "query": "[DUMMY] How do I brew black tea so it does not taste bitter?", "expected_keywords": ["tea"], "gold_sources": []},
+  {"id": "dummy_gastro_2", "tier": 1, "tier_label": "core", "expected_specialist": "gastroenterologist", "query": "[DUMMY] What water temperature suits green tea?", "expected_keywords": ["temperature"], "gold_sources": []},
+  {"id": "dummy_gastro_3", "tier": 2, "tier_label": "peripheral", "expected_specialist": "gastroenterologist", "query": "[DUMMY] How long should coffee bloom before pouring?", "expected_keywords": ["coffee"], "gold_sources": []},
+  {"id": "dummy_gastro_4", "tier": 1, "tier_label": "core", "expected_specialist": "gastroenterologist", "query": "[DUMMY] How do I froth milk without a machine?", "expected_keywords": ["milk"], "gold_sources": []},
+
+  {"id": "dummy_infect_1", "tier": 1, "tier_label": "core", "expected_specialist": "infectionist", "query": "[DUMMY] How do I clean a bike chain after a rainy ride?", "expected_keywords": ["chain"], "gold_sources": []},
+  {"id": "dummy_infect_2", "tier": 1, "tier_label": "core", "expected_specialist": "infectionist", "query": "[DUMMY] What is the best way to remove rust from tools?", "expected_keywords": ["rust"], "gold_sources": []},
+  {"id": "dummy_infect_3", "tier": 2, "tier_label": "peripheral", "expected_specialist": "infectionist", "query": "[DUMMY] How do I oil a squeaky door hinge?", "expected_keywords": ["hinge"], "gold_sources": []},
+  {"id": "dummy_infect_4", "tier": 1, "tier_label": "core", "expected_specialist": "infectionist", "query": "[DUMMY] How should I store paint brushes overnight?", "expected_keywords": ["brush"], "gold_sources": []}
+]

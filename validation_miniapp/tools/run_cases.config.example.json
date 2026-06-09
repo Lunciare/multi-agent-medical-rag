@@ -1,0 +1,27 @@
+{
+  "_comment": "Config for tools/run_cases.py. Copy/edit; nothing is hardcoded in the runner. Run from the repo root so the relative golden_path resolves. The two arms differ ONLY in pipeline-vs-bare: same base model + decoding. The RAG arm's decoding is fixed inside the pipeline (specialist.py: temperature=0.0, max_tokens=1024); the vanilla 'decoding' below is set to MATCH it.",
+
+  "golden_path": "multi-agent_system/tests/data/golden_dataset.json",
+
+  "_comment_scope": "All FOUR specialists are in scope. expected_specialist (cardiologist/endocrinologist/gastroenterologist/infectionist) and the orchestrator's emitted routing label are both mapped to the canonical vocabulary (cardiology, endocrinology, gastroenterology, infectious_diseases) by backend/specialties.py. The RAW emitted routing label is kept in each per-case trace for audit.",
+
+  "_comment_selection": "The rater session is a balanced, reproducible sample: per_specialty cases per specialist x 4 specialists. Default 3 x 4 = 12. The seed is fixed BEFORE seeing any outputs so the same seed always yields the same ids. Set 'ids' to an explicit list to override the sample.",
+  "selection": {
+    "per_specialty": 3,
+    "seed": 20260531,
+    "ids": null
+  },
+
+  "_comment_vanilla": "Minimal, neutral system prompt for the bare base model. Explicit and reviewable. No routing, no retrieval, no persona/specialty, no formatting scaffolding that the RAG arm has.",
+  "vanilla_system_prompt": "You are a helpful medical assistant answering a clinical question for a medical professional. Provide your best, accurate clinical answer.",
+
+  "decoding": {
+    "temperature": 0.0,
+    "max_tokens": 1024,
+    "seed": null
+  },
+
+  "knowledge_base_dir": null,
+  "out_root": "validation_miniapp/results",
+  "retries": 0
+}

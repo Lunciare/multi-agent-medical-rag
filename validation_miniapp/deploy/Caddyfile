@@ -1,0 +1,15 @@
+# Caddy reverse proxy for the validation Mini App (PRIMARY option).
+# Caddy obtains and renews TLS automatically (Let's Encrypt) for the domain below,
+# as long as: (1) the DNS A record for <SUBDOMAIN> points at this server's public IP,
+# and (2) inbound TCP 80 AND 443 are open in the cloud firewall / security group.
+#
+# Install:
+#   sudo cp deploy/Caddyfile /etc/caddy/Caddyfile
+#   # edit /etc/caddy/Caddyfile and replace <SUBDOMAIN> with the real hostname
+#   sudo systemctl reload caddy        # or: sudo caddy reload --config /etc/caddy/Caddyfile
+# Logs:  journalctl -u caddy -f
+
+<SUBDOMAIN> {
+    encode zstd gzip
+    reverse_proxy 127.0.0.1:8765
+}
